@@ -2,13 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://ik0nw.github.io/googlec7c28db10ca27199.html</loc>
-    
-    <lastmod>2020-09-22</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://ik0nw.github.io/2020/09/21/HTB-fortress-Jet/</loc>
     
     <lastmod>2020-09-22</lastmod>
@@ -165,6 +158,13 @@
   </url>
   
   <url>
+    <loc>https://ik0nw.github.io/tags/forensic/</loc>
+    <lastmod>2020-09-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ik0nw.github.io/tags/reverse/</loc>
     <lastmod>2020-09-22</lastmod>
     <changefreq>daily</changefreq>
@@ -173,13 +173,6 @@
   
   <url>
     <loc>https://ik0nw.github.io/tags/mysql-exec-cmd/</loc>
-    <lastmod>2020-09-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ik0nw.github.io/tags/forensic/</loc>
     <lastmod>2020-09-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -258,14 +251,14 @@
   </url>
   
   <url>
-    <loc>https://ik0nw.github.io/categories/hackthebox/</loc>
+    <loc>https://ik0nw.github.io/categories/CTF/</loc>
     <lastmod>2020-09-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://ik0nw.github.io/categories/CTF/</loc>
+    <loc>https://ik0nw.github.io/categories/hackthebox/</loc>
     <lastmod>2020-09-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

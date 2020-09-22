@@ -186,6 +186,13 @@
   </url>
   
   <url>
+    <loc>https://ik0nw.github.io/tags/gitalk/</loc>
+    <lastmod>2020-09-22</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ik0nw.github.io/tags/fortress/</loc>
     <lastmod>2020-09-22</lastmod>
     <changefreq>daily</changefreq>
@@ -208,13 +215,6 @@
   
   <url>
     <loc>https://ik0nw.github.io/tags/scripting/</loc>
-    <lastmod>2020-09-22</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ik0nw.github.io/tags/gitalk/</loc>
     <lastmod>2020-09-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

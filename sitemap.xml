@@ -2,7 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://ik0nw.github.io/2020/09/05/git_talk/</loc>
+    <loc>https://ik0nw.github.io/2020/09/23/PHP::Preg_replace()-RCE/</loc>
+    
+    <lastmod>2020-09-23</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://ik0nw.github.io/todo/index.html</loc>
     
     <lastmod>2020-09-23</lastmod>
     
@@ -16,9 +23,9 @@
   </url>
   
   <url>
-    <loc>https://ik0nw.github.io/todo/index.html</loc>
+    <loc>https://ik0nw.github.io/2020/09/05/git_talk/</loc>
     
-    <lastmod>2020-09-22</lastmod>
+    <lastmod>2020-09-23</lastmod>
     
   </url>
   
@@ -235,6 +242,13 @@
   </url>
   
   <url>
+    <loc>https://ik0nw.github.io/tags/PHP/</loc>
+    <lastmod>2020-09-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ik0nw.github.io/tags/gitalk/</loc>
     <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
@@ -265,7 +279,7 @@
   </url>
   
   <url>
-    <loc>https://ik0nw.github.io/categories/hackthebox-challenge/misc/</loc>
+    <loc>https://ik0nw.github.io/categories/hackthebox-challenge/mobile/</loc>
     <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -279,7 +293,7 @@
   </url>
   
   <url>
-    <loc>https://ik0nw.github.io/categories/hackthebox-challenge/mobile/</loc>
+    <loc>https://ik0nw.github.io/categories/hackthebox-challenge/misc/</loc>
     <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -294,6 +308,13 @@
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox/fortress/</loc>
+    <lastmod>2020-09-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ik0nw.github.io/categories/php-audit/</loc>
     <lastmod>2020-09-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

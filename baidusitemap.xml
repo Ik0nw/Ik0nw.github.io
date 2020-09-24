@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://ik0nw.github.io/2020/01/13/HTB-wall/</loc>
+    <lastmod>2020-09-24</lastmod>
+  </url>
+  <url>
+    <loc>https://ik0nw.github.io/2020/09/06/HTB-Passage/</loc>
+    <lastmod>2020-09-24</lastmod>
+  </url>
+  <url>
+    <loc>https://ik0nw.github.io/2020/02/10/HTB-jeeves/</loc>
+    <lastmod>2020-09-24</lastmod>
+  </url>
+  <url>
+    <loc>https://ik0nw.github.io/2020/01/22/HTB-jarvis/</loc>
+    <lastmod>2020-09-24</lastmod>
+  </url>
+  <url>
+    <loc>https://ik0nw.github.io/2020/01/26/HTB-Heist/</loc>
+    <lastmod>2020-09-24</lastmod>
+  </url>
+  <url>
+    <loc>https://ik0nw.github.io/2020/01/10/HTB-bastion/</loc>
+    <lastmod>2020-09-24</lastmod>
+  </url>
+  <url>
+    <loc>https://ik0nw.github.io/2020/02/10/HTB-Active/</loc>
+    <lastmod>2020-09-24</lastmod>
+  </url>
+  <url>
     <loc>https://ik0nw.github.io/2020/09/23/PHP::Preg_replace()-RCE/</loc>
     <lastmod>2020-09-23</lastmod>
   </url>
@@ -14,10 +42,6 @@
   </url>
   <url>
     <loc>https://ik0nw.github.io/2020/09/19/HTB-fortress-akerva/</loc>
-    <lastmod>2020-09-20</lastmod>
-  </url>
-  <url>
-    <loc>https://ik0nw.github.io/2020/09/06/HTB-Passage/</loc>
     <lastmod>2020-09-20</lastmod>
   </url>
   <url>

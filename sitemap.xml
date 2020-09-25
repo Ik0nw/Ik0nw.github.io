@@ -2,14 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://ik0nw.github.io/2020/01/13/HTB-wall/</loc>
+    <loc>https://ik0nw.github.io/2020/09/25/PHP::in_array()-Type%20Juggling/</loc>
     
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/2020/09/23/PHP::Preg_replace()-RCE/</loc>
+    
+    <lastmod>2020-09-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://ik0nw.github.io/todo/index.html</loc>
+    
+    <lastmod>2020-09-25</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://ik0nw.github.io/2020/01/13/HTB-wall/</loc>
     
     <lastmod>2020-09-24</lastmod>
     
@@ -61,13 +75,6 @@
     <loc>https://ik0nw.github.io/2020/02/10/HTB-Active/</loc>
     
     <lastmod>2020-09-24</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://ik0nw.github.io/todo/index.html</loc>
-    
-    <lastmod>2020-09-23</lastmod>
     
   </url>
   
@@ -193,7 +200,7 @@
 
   <url>
     <loc>https://ik0nw.github.io/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -201,105 +208,112 @@
   
   <url>
     <loc>https://ik0nw.github.io/tags/hackthebox/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/forensic/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/smb/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/reverse/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/mysql-exec-cmd/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/hard/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/medium/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/fortress/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/enumeration/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/dns-enumeration/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/dig/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/cve/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/scripting/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://ik0nw.github.io/tags/PHP/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <loc>https://ik0nw.github.io/tags/PHP-preg-replace/</loc>
+    <lastmod>2020-09-25</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ik0nw.github.io/tags/PHP-in-array-type-juggling/</loc>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/gitalk/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -308,63 +322,63 @@
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox-challenge/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/CTF/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox-challenge/mobile/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/HackTheBox-Hard/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox-challenge/misc/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/HackTheBox-Medium/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox/fortress/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/php-audit/</loc>
-    <lastmod>2020-09-24</lastmod>
+    <lastmod>2020-09-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>

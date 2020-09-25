@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ik0nw.github.io/todo/index.html</loc>
+    
+    <lastmod>2020-09-25</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://ik0nw.github.io/2020/09/25/PHP::in_array()-Type%20Juggling/</loc>
     
     <lastmod>2020-09-25</lastmod>
@@ -10,13 +17,6 @@
   
   <url>
     <loc>https://ik0nw.github.io/2020/09/23/PHP::Preg_replace()-RCE/</loc>
-    
-    <lastmod>2020-09-25</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://ik0nw.github.io/todo/index.html</loc>
     
     <lastmod>2020-09-25</lastmod>
     

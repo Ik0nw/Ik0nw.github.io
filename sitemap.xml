@@ -235,14 +235,14 @@
   </url>
   
   <url>
-    <loc>https://ik0nw.github.io/tags/forensic/</loc>
+    <loc>https://ik0nw.github.io/tags/easy/</loc>
     <lastmod>2020-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://ik0nw.github.io/tags/easy/</loc>
+    <loc>https://ik0nw.github.io/tags/forensic/</loc>
     <lastmod>2020-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -298,20 +298,6 @@
   </url>
   
   <url>
-    <loc>https://ik0nw.github.io/tags/dns-enumeration/</loc>
-    <lastmod>2020-11-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ik0nw.github.io/tags/dig/</loc>
-    <lastmod>2020-11-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://ik0nw.github.io/tags/cve/</loc>
     <lastmod>2020-11-14</lastmod>
     <changefreq>daily</changefreq>
@@ -320,6 +306,20 @@
   
   <url>
     <loc>https://ik0nw.github.io/tags/scripting/</loc>
+    <lastmod>2020-11-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ik0nw.github.io/tags/dns-enumeration/</loc>
+    <lastmod>2020-11-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ik0nw.github.io/tags/dig/</loc>
     <lastmod>2020-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -356,14 +356,14 @@
   </url>
   
   <url>
-    <loc>https://ik0nw.github.io/categories/CTF/</loc>
+    <loc>https://ik0nw.github.io/categories/hackthebox/</loc>
     <lastmod>2020-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://ik0nw.github.io/categories/hackthebox/</loc>
+    <loc>https://ik0nw.github.io/categories/CTF/</loc>
     <lastmod>2020-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

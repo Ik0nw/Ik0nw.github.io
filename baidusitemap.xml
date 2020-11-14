@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://ik0nw.github.io/2020/10/06/HTB-Doctor/</loc>
+    <lastmod>2020-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://ik0nw.github.io/2020/09/06/HTB-Passage/</loc>
+    <lastmod>2020-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://ik0nw.github.io/2020/09/19/HTB-fortress-akerva/</loc>
+    <lastmod>2020-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://ik0nw.github.io/2020/08/30/HTB-Feline/</loc>
+    <lastmod>2020-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://ik0nw.github.io/2020/09/17/HTB-Compromised/</loc>
+    <lastmod>2020-11-14</lastmod>
+  </url>
+  <url>
+    <loc>https://ik0nw.github.io/2020/11/13/HTB-Academy/</loc>
+    <lastmod>2020-11-14</lastmod>
+  </url>
+  <url>
     <loc>https://ik0nw.github.io/2020/11/07/HTB-Time/</loc>
     <lastmod>2020-11-07</lastmod>
   </url>
@@ -11,10 +35,6 @@
   <url>
     <loc>https://ik0nw.github.io/2020/05/12/HTB-cache/</loc>
     <lastmod>2020-10-16</lastmod>
-  </url>
-  <url>
-    <loc>https://ik0nw.github.io/2020/10/06/HTB-Doctor/</loc>
-    <lastmod>2020-10-10</lastmod>
   </url>
   <url>
     <loc>https://ik0nw.github.io/2020/06/10/HTB-BlackField/</loc>
@@ -34,10 +54,6 @@
   </url>
   <url>
     <loc>https://ik0nw.github.io/2020/09/05/git_talk/</loc>
-    <lastmod>2020-09-24</lastmod>
-  </url>
-  <url>
-    <loc>https://ik0nw.github.io/2020/09/06/HTB-Passage/</loc>
     <lastmod>2020-09-24</lastmod>
   </url>
   <url>
@@ -63,18 +79,6 @@
   <url>
     <loc>https://ik0nw.github.io/2020/09/21/HTB-fortress-Jet/</loc>
     <lastmod>2020-09-23</lastmod>
-  </url>
-  <url>
-    <loc>https://ik0nw.github.io/2020/09/19/HTB-fortress-akerva/</loc>
-    <lastmod>2020-09-20</lastmod>
-  </url>
-  <url>
-    <loc>https://ik0nw.github.io/2020/08/30/HTB-Feline/</loc>
-    <lastmod>2020-09-20</lastmod>
-  </url>
-  <url>
-    <loc>https://ik0nw.github.io/2020/09/17/HTB-Compromised/</loc>
-    <lastmod>2020-09-20</lastmod>
   </url>
   <url>
     <loc>https://ik0nw.github.io/2020/08/15/Challenge-G0ld/</loc>

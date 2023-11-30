@@ -84,7 +84,7 @@
 			
 			
 				<i class="iconfont icon-words"></i>
-				<span class="words">4272
+				<span class="words">4271
 				</span>
 			
 		</div>
@@ -149,7 +149,7 @@
 <td>stealth1agent</td>
 </tr>
 </tbody></table>
-<h1 id="三，拿到shell"><a href="#三，拿到shell" class="headerlink" title="三，拿到shell"></a>三，拿到shell</h1><p>尝试使用现有的账号和密码 来登陆网页，但提示需要用邮箱。利用了例子如 <strong><a href="mailto:&#97;&#100;&#x6d;&#x69;&#x6e;&#x40;&#x68;&#101;&#x69;&#x73;&#x74;&#46;&#104;&#116;&#x62;">&#97;&#100;&#x6d;&#x69;&#x6e;&#x40;&#x68;&#101;&#x69;&#x73;&#x74;&#46;&#104;&#116;&#x62;</a></strong><br>也没有进展。</p>
+<h1 id="三，拿到shell"><a href="#三，拿到shell" class="headerlink" title="三，拿到shell"></a>三，拿到shell</h1><p>尝试使用现有的账号和密码 来登陆网页，但提示需要用邮箱。利用了例子如 <strong><a href="mailto:&#x61;&#100;&#x6d;&#x69;&#110;&#64;&#104;&#101;&#105;&#115;&#116;&#46;&#x68;&#x74;&#98;">&#x61;&#100;&#x6d;&#x69;&#110;&#64;&#104;&#101;&#105;&#115;&#116;&#46;&#x68;&#x74;&#98;</a></strong><br>也没有进展。</p>
 <p>利用metasploit 的smblogin 来进行爆破。<br><img src="/images/old-machine-images/202001261158540.png" alt="在这里插入图片描述"><br>发现只有 <strong>Hazrd:stealth1agent</strong> 可以登陆<br>发现权限都是No Access和READ。</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@xing<span class="comment"># smbmap -H 10.10.10.149 -u hazard -p stealth1agent</span></span><br><span class="line">[+] Finding open SMB ports....</span><br><span class="line">[+] User SMB session establishd on 10.10.10.149...</span><br><span class="line">[+] IP: 10.10.10.149:445        Name: 10.10.10.149                                      </span><br><span class="line">        Disk                                                    Permissions</span><br><span class="line">        ----                                                    -----------</span><br><span class="line">        ADMIN$                                                  NO ACCESS</span><br><span class="line">        C$                                                      NO ACCESS</span><br><span class="line">        IPC$                                                    READ ONLY</span><br><span class="line">123456789</span><br></pre></td></tr></table></figure>
 

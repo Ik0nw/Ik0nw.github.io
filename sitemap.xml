@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.com/2023/11/30/HTB-Codify/</loc>
+    
+    <lastmod>2023-11-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://example.com/2020/11/13/HTB-Academy/</loc>
     
     <lastmod>2023-11-30</lastmod>
@@ -411,6 +420,13 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>http://example.com/tags/linux/</loc>
+    <lastmod>2023-11-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -435,14 +451,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/hackthebox-challenge/mobile/</loc>
+    <loc>http://example.com/categories/hackthebox-challenge/misc/</loc>
     <lastmod>2023-11-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/hackthebox-challenge/misc/</loc>
+    <loc>http://example.com/categories/hackthebox-challenge/mobile/</loc>
     <lastmod>2023-11-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

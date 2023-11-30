@@ -35,6 +35,7 @@ http://example.com/tags/easy/
 http://example.com/tags/smb/
 http://example.com/tags/command-injection/
 http://example.com/tags/hard/
+http://example.com/tags/linux/
 http://example.com/tags/reverse/
 http://example.com/tags/mysql-exec-cmd/
 http://example.com/tags/Joomla/
@@ -47,9 +48,8 @@ http://example.com/tags/cve/
 http://example.com/tags/scripting/
 http://example.com/tags/PHP-in-array-type-juggling/
 http://example.com/tags/PHP-preg-replace/
-http://example.com/tags/gitalk/
 http://example.com/tags/offsec/
-http://example.com/tags/linux/
+http://example.com/tags/gitalk/
 http://example.com/categories/hackthebox-challenge/
 http://example.com/categories/CTF/
 http://example.com/categories/hackthebox/

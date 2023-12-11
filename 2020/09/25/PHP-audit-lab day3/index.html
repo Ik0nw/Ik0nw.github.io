@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
+<!DOCTYPE html><html><head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   
   
   <title>  PHP::in_array() Type Juggling |   Ikonw </title>
@@ -24,7 +22,7 @@
   <nav class="inner">
     <div class="title">
       <a href="/">
-        <img class="logo" src="/images/logo.png" />
+        <img class="logo" src="/images/logo.png">
       </a>
     </div>
 
@@ -117,13 +115,13 @@
 		
 
 			
-					<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">__autoload</span>(<span class="params"><span class="variable">$className</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">include</span> <span class="variable">$className</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$controllerName</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line"><span class="variable">$data</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;d&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">class_exists</span>(<span class="variable">$controllerName</span>)) &#123;</span><br><span class="line">    <span class="variable">$controller</span> = <span class="keyword">new</span> <span class="variable">$controllerName</span>(<span class="variable">$data</span>);</span><br><span class="line">    <span class="variable">$controller</span>-&gt;<span class="title function_ invoke__">render</span>();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;There is no page with this name&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomeController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$data</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$data</span></span>) </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;data = <span class="variable">$data</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;data[<span class="string">&#x27;new&#x27;</span>]) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;controller rendering new response&#x27;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;controller rendering old response&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+					<figure class="highlight php"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">__autoload</span>(<span class="params"><span class="variable">$className</span></span>) </span>{</span><br><span class="line">    <span class="keyword">include</span> <span class="variable">$className</span>;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="variable">$controllerName</span> = <span class="variable">$_GET</span>[<span class="string">'c'</span>];</span><br><span class="line"><span class="variable">$data</span> = <span class="variable">$_GET</span>[<span class="string">'d'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">class_exists</span>(<span class="variable">$controllerName</span>)) {</span><br><span class="line">    <span class="variable">$controller</span> = <span class="keyword">new</span> <span class="variable">$controllerName</span>(<span class="variable">$data</span>);</span><br><span class="line">    <span class="variable">$controller</span>-&gt;<span class="title function_ invoke__">render</span>();</span><br><span class="line">} <span class="keyword">else</span> {</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">'There is no page with this name'</span>;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomeController</span> </span>{</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$data</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$data</span></span>) </span>{</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;data = <span class="variable">$data</span>;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params"></span>) </span>{</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;data[<span class="string">'new'</span>]) {</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'controller rendering new response'</span>;</span><br><span class="line">        } <span class="keyword">else</span> {</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">'controller rendering old response'</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></tbody></table></figure>
 
 <p>First vulnerability in line 9, according to PHP manual.</p>
 <p>#class_exists</p>
 <p><code>class_exists</code> - This function checks whether or not the given class has been definded</p>
 <blockquote>
-<p>class_exists ( string $class_name, bool $autoload &#x3D; true) : bool</p>
+<p>class_exists ( string $class_name, bool $autoload = true) : bool</p>
 </blockquote>
 <p>##Parameter</p>
 <p><code>class_name</code><br>   The class name. THe name is matched in a case-insensitive manner.</p>
@@ -157,25 +155,31 @@
         <li class="iconfont 
 		icon-share-weixin 
 		-mob-share-weixin 
-		item"
-		></li>		
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		item"></li>		
    	   			             
         <li class="iconfont 
 		icon-share-twitter 
 		-mob-share-twitter 
-		item"
-		></li>		
+		item"></li>		
    	   			             
         <li class="iconfont 
 		icon-share-google 
 		-mob-share-google 
-		item"
-		></li>		
+		item"></li>		
    	   
 </ul>	
 
-<script id="-mob-share" 
-src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
       
     </div>
   </div>
@@ -218,7 +222,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
 
     <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
 
-    <script src='//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js'></script>
+    <script src="//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js"></script>
 
     <script>
         new Valine({
@@ -244,10 +248,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
   
     <div class="none" id="search">
     <div class="header">
-        <input type="text" 
-        placeholder="Typing Something here." 
-        id="search-input" 
-        class="input" />
+        <input type="text" placeholder="Typing Something here." id="search-input" class="input">
         
         <i id="search-cancel" class="iconfont icon-cancel"></i>
     </div>
@@ -257,7 +258,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
      <div class="mobile-menu">      
 
       
-      <img class="mobile-menu-icon" src= "/images/favicon.png" >  
+      <img class="mobile-menu-icon" src="/images/favicon.png">  
       
 
          
@@ -304,14 +305,14 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
 <footer class="footer">
 	<div class="inner">
 		<div class="copyright">
-			&copy;
+			©
 			
-			2019 -
+			2020 -
 			
 			2023
 			Ikonw
 
-			<br/>
+			<br>
 			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
 		</div>
 	</div>
@@ -320,5 +321,5 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
     
 <script src="/nayo.bundle.js"></script>
            
-  </body>        
-</html>
+          
+</body></html>

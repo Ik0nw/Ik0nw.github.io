@@ -7,7 +7,7 @@
 
  
   
-    <link rel="icon" href="/images/favicon.png">
+    <link rel="icon" href="/images/avatar.jpg">
   
 
 
@@ -22,7 +22,7 @@
   <nav class="inner">
     <div class="title">
       <a href="/">
-        <img class="logo" src="/images/blackcat.jpg">
+        <img class="logo" src="/images/logo.png">
       </a>
     </div>
 
@@ -82,7 +82,7 @@
 			
 			
 				<i class="iconfont icon-words"></i>
-				<span class="words">6456
+				<span class="words">9303
 				</span>
 			
 		</div>
@@ -181,7 +181,32 @@
 <p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231211142411053.png" class="lazyload"></p>
 <p>Suspect it is a mapping of ports when expose to public IPs.</p>
 <p>Therefore have to change the payload to port 1337</p>
-<figure class="highlight ruby"><table><tbody><tr><td class="code"><pre><span class="line"><span class="symbol">http:</span>/<span class="regexp">/159.65.24.125:32436/</span><span class="string">?u</span>rl=<span class="variable">@0</span>.<span class="number">0.0</span>.<span class="number">0</span><span class="symbol">:</span><span class="number">1337</span>/debug/environment</span><br></pre></td></tr></tbody></table></figure>  	
+<figure class="highlight ruby"><table><tbody><tr><td class="code"><pre><span class="line"><span class="symbol">http:</span>/<span class="regexp">/159.65.24.125:32436/</span><span class="string">?u</span>rl=<span class="variable">@0</span>.<span class="number">0.0</span>.<span class="number">0</span><span class="symbol">:</span><span class="number">1337</span>/debug/environment</span><br></pre></td></tr></tbody></table></figure>
+
+
+<h1 id="RenderQuest-Easy"><a href="#RenderQuest-Easy" class="headerlink" title="RenderQuest  - Easy"></a>RenderQuest  - Easy</h1><blockquote>
+<p>You’ve found a website that lets you input remote templates for rendering. Your task is to exploit this system’s vulnerabilities to access and retrieve a hidden flag. Good luck!</p>
+</blockquote>
+<p>From the description it seems like a Server Side Template Injection.</p>
+<p>In function <code>getTpl</code></p>
+<p>It retrieve the page and render the page using html template.</p>
+<p><a target="_blank" rel="noopener" href="https://pkg.go.dev/html/template">https://pkg.go.dev/html/template</a></p>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p RequestData)</span></span> FetchServerInfo(command <span class="type">string</span>) <span class="type">string</span> {</span><br><span class="line">	out, err := exec.Command(<span class="string">"sh"</span>, <span class="string">"-c"</span>, command).Output()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> {</span><br><span class="line">		</span><br></pre></td></tr></tbody></table></figure>
+
+<p>This function is able to execute system information. Finding a way to trigger this function.</p>
+<p>It looks complicated, but we can always use chatGPT to spawn a sample html page with the go lang template.</p>
+<figure class="highlight handlebars"><table><tbody><tr><td class="code"><pre><span class="line"><span class="language-xml"><span class="comment">&lt;!-- File name: index.tpl --&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Sample Template<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Welcome!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>This is a sample GoLang HTML template page.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="comment">&lt;!-- Here, you can include Go template syntax to render dynamic content --&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Client IP: </span><span class="template-variable">{{<span class="name">.ClientIP</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>User Agent: </span><span class="template-variable">{{<span class="name">.ClientUA</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Server Hostname: </span><span class="template-variable">{{<span class="name">.ServerInfo.Hostname</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Server OS: </span><span class="template-variable">{{<span class="name">.ServerInfo.OS</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Server Kernel Version: </span><span class="template-variable">{{<span class="name">.ServerInfo.KernelVersion</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Server Memory: </span><span class="template-variable">{{<span class="name">.ServerInfo.Memory</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Location Information:<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>IP Version: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.IpVersion</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>IP Address: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.IpAddress</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Latitude: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.Latitude</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Longitude: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.Longitude</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Country Name: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.CountryName</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Country Code: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.CountryCode</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Time Zone: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.TimeZone</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Zip Code: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.ZipCode</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>City Name: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.CityName</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Region Name: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.RegionName</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Continent: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.Continent</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Continent Code: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.ContinentCode</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>Using web hook, paste the html template into the response.</p>
+<p>Great we can render the page.</p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231224212844990.png" class="lazyload"></p>
+<p>Next we can just edit to call the <code>FetchServerInfo</code> </p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231224223755102.png" class="lazyload"></p>
+<p>and we got the result</p>
+<figure class="highlight tap"><table><tbody><tr><td class="code"><pre><span class="line">total 10172</span><br><span class="line">drwxr-xr-x   <span class="number"> 1 </span>root     root         <span class="number"> 4096 </span>Dec<span class="number"> 17 </span>12:54 .</span><br><span class="line">drwxr-xr-x   <span class="number"> 1 </span>root     root         <span class="number"> 4096 </span>Dec<span class="number"> 17 </span>12:54 ..</span><br><span class="line">-rw-r--r--   <span class="number"> 1 </span>root     root         <span class="number"> 4786 </span>Sep<span class="number"> 11 </span>14:11 main.go</span><br><span class="line">-rwxr-xr-x   <span class="number"> 1 </span>root     root     <span class="number"> 10387927 </span>Dec<span class="number"> 17 </span>12:54 renderquest</span><br><span class="line">drwxr-xr-x   <span class="number"> 4 </span>root     root         <span class="number"> 4096 </span>Sep <span class="number"> 7 </span>23:12 static</span><br><span class="line">drwxr-xr-x   <span class="number"> 2 </span>root     root         <span class="number"> 4096 </span>Sep <span class="number"> 7 </span>23:12 templates</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231224224419354.png" class="lazyload"></p>
+  	
 					
 	  </div>     
 	  
@@ -260,7 +285,7 @@
         (function () {
             var d = document,
                 s = d.createElement('script');
-            s.src = 'https://' + 'disqus_7R82yfI2NK' + '.disqus.com/embed.js';
+            s.src = 'https://' + 'ik0nw-github-io' + '.disqus.com/embed.js';
             s.setAttribute('data-timestamp', +new Date());
             (d.head || d.body).appendChild(s);
         })();
@@ -289,7 +314,7 @@
      <div class="mobile-menu">      
 
       
-      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/favicon.png">  
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/avatar.jpg">  
       
 
          

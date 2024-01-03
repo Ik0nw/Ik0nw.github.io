@@ -1,5 +1,4 @@
 https://ik0nw.github.io/1998/01/01/HTB-Web-Challenge/
-https://ik0nw.github.io/2023/12/12/HTB-Surveillance/
 https://ik0nw.github.io/about/index.html
 https://ik0nw.github.io/tags/index.html
 https://ik0nw.github.io/2020/09/23/PHP^%^%Preg_replace()-RCE/
@@ -62,5 +61,5 @@ https://ik0nw.github.io/categories/hackthebox/Linux/
 https://ik0nw.github.io/categories/HackTheBox-Hard/
 https://ik0nw.github.io/categories/HackTheBox-Medium/
 https://ik0nw.github.io/categories/hackthebox/fortress/
-https://ik0nw.github.io/categories/hackthebox/Linux/Easy/
 https://ik0nw.github.io/categories/php-audit/
+https://ik0nw.github.io/categories/hackthebox/Linux/Easy/

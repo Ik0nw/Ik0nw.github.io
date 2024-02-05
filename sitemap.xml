@@ -2,9 +2,45 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ik0nw.github.io/2024/01/09/HTB-Bizness/</loc>
+    
+    <lastmod>2024-02-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ik0nw.github.io/2007/12/31/CTF%20-%20uoftctf/</loc>
+    
+    <lastmod>2024-02-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ik0nw.github.io/2024/02/05/Android%20Malware%20RE%20-%20ThaiCamera/</loc>
+    
+    <lastmod>2024-02-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ik0nw.github.io/1998/01/02/HTB-Mobile-Challenge/</loc>
+    
+    <lastmod>2024-02-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ik0nw.github.io/1998/01/01/HTB-Web-Challenge/</loc>
     
-    <lastmod>2024-01-02</lastmod>
+    <lastmod>2024-01-03</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -292,7 +328,7 @@
 
   <url>
     <loc>https://ik0nw.github.io/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -300,147 +336,147 @@
   
   <url>
     <loc>https://ik0nw.github.io/tags/hackthebox/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/forensic/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/easy/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/smb/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/command-injection/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/hard/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/linux/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/reverse/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/mysql-exec-cmd/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/Joomla/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/medium/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/fortress/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/enumeration/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/dns-enumeration/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/dig/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/cve/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/scripting/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/PHP-in-array-type-juggling/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/PHP-preg-replace/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/gitalk/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/tags/offsec/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -449,77 +485,77 @@
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox-challenge/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/CTF/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox-challenge/mobile/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox-challenge/misc/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox/Linux/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/HackTheBox-Hard/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/HackTheBox-Medium/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox/fortress/</loc>
-    <lastmod>2024-01-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://ik0nw.github.io/categories/php-audit/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://ik0nw.github.io/categories/hackthebox/Linux/Easy/</loc>
-    <lastmod>2024-01-03</lastmod>
+    <lastmod>2024-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://ik0nw.github.io/categories/php-audit/</loc>
+    <lastmod>2024-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

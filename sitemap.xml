@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://ik0nw.github.io/2023/10/15/HTB-Cozyhosting/</loc>
+    
+    <lastmod>2024-03-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://ik0nw.github.io/2023/10/15/HTB-Analytical/</loc>
+    
+    <lastmod>2024-03-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://ik0nw.github.io/2024/03/24/Sherlock%20-%20Recollection/</loc>
     
     <lastmod>2024-03-24</lastmod>
@@ -194,24 +212,6 @@
     <loc>https://ik0nw.github.io/2023/11/29/HTB-Devvortex/</loc>
     
     <lastmod>2023-11-29</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ik0nw.github.io/2023/10/15/HTB-Analytical/</loc>
-    
-    <lastmod>2023-10-15</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://ik0nw.github.io/2023/10/15/HTB-Cozyhosting/</loc>
-    
-    <lastmod>2023-10-15</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

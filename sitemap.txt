@@ -1,3 +1,5 @@
+https://ik0nw.github.io/2023/10/15/HTB-Cozyhosting/
+https://ik0nw.github.io/2023/10/15/HTB-Analytical/
 https://ik0nw.github.io/2024/03/24/Sherlock%20-%20Recollection/
 https://ik0nw.github.io/1998/01/01/HTB-Web-Challenge/
 https://ik0nw.github.io/2024/01/20/HTB-Mobile-Challenge/
@@ -20,8 +22,6 @@ https://ik0nw.github.io/2020/10/06/HTB-Doctor/
 https://ik0nw.github.io/2020/09/21/HTB-fortress-Jet/
 https://ik0nw.github.io/2020/01/26/HTB-Heist/
 https://ik0nw.github.io/2023/11/29/HTB-Devvortex/
-https://ik0nw.github.io/2023/10/15/HTB-Analytical/
-https://ik0nw.github.io/2023/10/15/HTB-Cozyhosting/
 https://ik0nw.github.io/2020/08/30/HTB-Feline/
 https://ik0nw.github.io/2020/09/06/HTB-Passage/
 https://ik0nw.github.io/2020/09/17/HTB-Compromised/
